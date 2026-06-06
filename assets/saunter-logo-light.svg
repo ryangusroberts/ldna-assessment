@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 380" role="img" aria-label="Saunter">
+  <title>Saunter</title>
+  <g fill="#FFFFFF" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-weight="900" letter-spacing="6">
+    <text x="500" y="190" font-size="180" text-anchor="middle">SAUNTER</text>
+  </g>
+  <path d="M 130 245
+           C 230 225, 320 215, 420 245
+           S 600 290, 720 245
+           S 870 215, 880 240
+           C 870 245, 740 305, 610 270
+           S 360 240, 230 270
+           S 145 260, 130 245 Z"
+        fill="#A8C3E5" opacity="0.95" />
+  <path d="M 100 285
+           C 220 260, 360 245, 500 275
+           S 760 330, 900 275
+           C 890 290, 770 340, 600 305
+           S 320 280, 180 305
+           S 110 300, 100 285 Z"
+        fill="#FFFFFF" />
+</svg>
