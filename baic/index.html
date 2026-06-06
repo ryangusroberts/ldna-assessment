@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0E1F3D" />
+<title>BAIC — Business Architecture &amp; Intelligence Cycle — The Saunter Group</title>
+<meta name="description" content="BAIC is a 30-day, founder-anchored diagnostic of your business as an interdependent system. Eight domains, an evidence-backed vulnerability register, and a 90-day execution blueprint." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF; --surface: #FFFFFF; --surface-2: #F4F6FA;
+    --ink: #0B1220; --ink-soft: #3E4860; --ink-mute: #7A8499;
+    --line: #DCE2EC; --primary: #0E1F3D; --primary-hover: #081530;
+    --primary-soft: #EEF2FB; --primary-line: #C6D2E6;
+    --accent: #A77A28; --accent-soft: #F5EFE0; --accent-line: #D9C28A;
+    --font-serif: 'Aptos Serif', 'Aptos', 'Source Serif 4', 'Source Serif Pro', 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
+    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body { font-family: var(--font-serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .topbar { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.94); backdrop-filter: saturate(140%) blur(8px); border-bottom: 1px solid var(--line); }
+  .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; gap: 24px; }
+  .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .brand-mark { width: 42px; height: 42px; border-radius: 7px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-serif); font-weight: 700; font-style: italic; font-size: 22px; box-shadow: 0 1px 0 var(--accent) inset; }
+  .brand-name { font-family: var(--font-serif); font-size: 20px; color: var(--ink); font-weight: 600; line-height: 1.1; letter-spacing: -0.005em; }
+  .brand-sub { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 3px; }
+  .nav-spacer { flex: 1; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 180ms; }
+  .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+  .nav-links a.active { font-weight: 600; }
+  .nav-cta { font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: #fff; background: var(--primary); padding: 9px 18px; border-radius: 999px; text-decoration: none; }
+  .nav-cta:hover { background: var(--primary-hover); }
+  .eyebrow { font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 18px; display: inline-flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); display: inline-block; }
+  h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 600; color: var(--ink); letter-spacing: -0.015em; }
+  h1 em, h2 em { font-style: italic; color: var(--accent); font-weight: 600; }
+  .btn { font-family: var(--font-ui); font-size: 15px; font-weight: 600; padding: 14px 24px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 180ms; cursor: pointer; border: 0; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+  .btn-secondary { background: transparent; color: var(--primary); border: 1px solid var(--primary-line); }
+  .btn-secondary:hover { border-color: var(--primary); background: var(--primary-soft); }
+
+  /* Hero */
+  section.hero { background: var(--primary); color: #fff; padding: 96px 32px 80px; }
+  .hero-inner { max-width: 1000px; margin: 0 auto; }
+  .hero .eyebrow { color: var(--accent); }
+  .hero .eyebrow::before { background: var(--accent); }
+  .hero h1 { color: #fff; font-size: clamp(40px, 6vw, 64px); line-height: 1.05; margin: 0 0 28px; max-width: 22ch; }
+  .hero h1 em { color: var(--accent); }
+  .hero .lede { font-size: 20px; color: rgba(255,255,255,0.82); line-height: 1.5; max-width: 60ch; margin: 0 0 36px; }
+  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+  .hero .btn-secondary { color: #fff; border-color: rgba(255,255,255,0.3); }
+  .hero .btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+
+  /* Generic section */
+  section.section { padding: 80px 32px; }
+  section.section.alt { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .section-inner { max-width: 1180px; margin: 0 auto; }
+  .section h2 { font-size: clamp(28px, 4vw, 40px); line-height: 1.15; margin: 0 0 14px; max-width: 24ch; }
+  .section .lede { font-size: 18px; color: var(--ink-soft); line-height: 1.5; max-width: 64ch; margin: 0 0 36px; }
+
+  /* Domain grid */
+  .domain-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  @media (max-width: 960px) { .domain-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .domain-grid { grid-template-columns: 1fr; } }
+  .domain { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 24px 22px; transition: border-color 200ms, transform 200ms; }
+  .domain:hover { border-color: var(--accent-line); transform: translateY(-2px); }
+  section.section.alt .domain { background: #fff; }
+  .domain .num { font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 10px; display: block; }
+  .domain h4 { font-size: 18px; margin: 0 0 6px; color: var(--ink); }
+  .domain p { font-family: var(--font-ui); font-size: 13px; color: var(--ink-soft); margin: 0; line-height: 1.55; }
+
+  /* Phases */
+  .phases { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 16px; }
+  @media (max-width: 960px) { .phases { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .phases { grid-template-columns: 1fr; } }
+  .phase { padding: 24px 22px; border-left: 3px solid var(--accent); background: #fff; border-radius: 0 12px 12px 0; }
+  section.section.alt .phase { background: #fff; }
+  .phase .when { font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 8px; display: block; }
+  .phase h4 { font-size: 17px; margin: 0 0 6px; }
+  .phase p { font-family: var(--font-ui); font-size: 13.5px; color: var(--ink-soft); margin: 0; line-height: 1.55; }
+
+  /* Deliverables */
+  .deliverables { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 720px) { .deliverables { grid-template-columns: 1fr; } }
+  .deliverable { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 28px 26px; display: flex; gap: 18px; align-items: flex-start; }
+  section.section.alt .deliverable { background: #fff; }
+  .deliverable .badge { flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; background: var(--primary); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; font-style: italic; font-size: 16px; }
+  .deliverable h4 { font-size: 18px; margin: 0 0 6px; color: var(--ink); }
+  .deliverable p { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.55; }
+
+  /* Who for */
+  .who-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  @media (max-width: 720px) { .who-grid { grid-template-columns: 1fr; } }
+  .who-block { padding: 28px; border-radius: 12px; border: 1px solid var(--line); background: #fff; }
+  section.section.alt .who-block { background: #fff; }
+  .who-block h3 { font-size: 22px; margin: 0 0 14px; }
+  .who-block ul { list-style: none; padding: 0; margin: 0; }
+  .who-block ul li { font-family: var(--font-ui); font-size: 14.5px; color: var(--ink); padding: 8px 0; display: flex; align-items: flex-start; gap: 12px; line-height: 1.55; }
+  .who-block.fit ul li::before { content: "✓"; color: var(--accent); font-weight: 700; flex-shrink: 0; width: 16px; }
+  .who-block.not-fit { background: #FBEAEC; border-color: #E8B5BC; }
+  .who-block.not-fit h3 { color: #7A1F2B; }
+  .who-block.not-fit ul li { color: #5A1620; }
+  .who-block.not-fit ul li::before { content: "✗"; color: #B23A4A; font-weight: 700; flex-shrink: 0; width: 16px; }
+
+  .cta-band { padding: 96px 32px; }
+  .cta-inner { max-width: 880px; margin: 0 auto; text-align: center; }
+  .cta-inner h2 { font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 0 0 16px; }
+  .cta-inner p { font-size: 18px; color: var(--ink-soft); margin: 0 0 30px; max-width: 56ch; margin-left: auto; margin-right: auto; line-height: 1.5; }
+  .ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 56px 32px 28px; }
+  .footer-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 24px; font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.06em; flex-wrap: wrap; }
+  .footer-inner a { color: rgba(255,255,255,0.78); text-decoration: none; }
+  .footer-inner a:hover { color: #fff; }
+
+  @media (max-width: 640px) {
+    .topbar-inner { padding: 14px 18px; gap: 12px; }
+    .nav-links { display: none; }
+    section.hero, section.section, .cta-band { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      <div>
+        <div class="brand-name">The Saunter Group</div>
+        <div class="brand-sub">Leadership &amp; Organizational Intelligence</div>
+      </div>
+    </a>
+    <div class="nav-spacer"></div>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="/method/">Method</a>
+      <a href="/baic/" class="active">BAIC</a>
+      <a href="/ldna/">LDNA</a>
+      <a href="/story/">Story</a>
+    </nav>
+    <a href="/start/" class="nav-cta">Run a Fit Assessment</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Organizational architecture</div>
+    <h1>BAIC. Diagnose the business as a <em>system</em>.</h1>
+    <p class="lede">
+      A 30-day, founder-anchored diagnostic that surfaces failure modes before they cascade, ranks them by impact,
+      and installs the architecture your next revenue tier actually requires. Built for the $300K–$1M/month complexity
+      zone, where structural debt stops being theoretical and starts costing money.
+    </p>
+    <div class="hero-ctas">
+      <a href="/start/" class="btn btn-primary">Run a Fit Assessment →</a>
+      <a href="#how" class="btn btn-secondary">How BAIC works</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT IT IS -->
+<section class="section">
+  <div class="section-inner">
+    <div class="eyebrow">What BAIC is</div>
+    <h2>An evidence-based diagnostic of the eight domains every scaling business depends on.</h2>
+    <p class="lede">
+      We score each domain against a defined rubric — document review, stakeholder interviews, operational data —
+      not opinion. Missing evidence defaults to the lowest score. Operational data outweighs self-report. Ties break
+      downward. The output is a ranked map of where the business will fail first as it grows.
+    </p>
+
+    <div class="eyebrow" style="margin-top: 40px;">The eight domains</div>
+    <div class="domain-grid">
+      <div class="domain"><span class="num">01</span><h4>Strategy</h4><p>The clarity, sequencing, and defensibility of where the business is going.</p></div>
+      <div class="domain"><span class="num">02</span><h4>Structure &amp; Accountability</h4><p>Org design, decision rights, ownership of outcomes.</p></div>
+      <div class="domain"><span class="num">03</span><h4>Systems &amp; Processes</h4><p>The repeatable mechanics that produce results without heroics.</p></div>
+      <div class="domain"><span class="num">04</span><h4>Financial Controls</h4><p>Cash discipline, reporting cadence, leading-indicator visibility.</p></div>
+      <div class="domain"><span class="num">05</span><h4>Revenue Engine</h4><p>How customers actually become customers, predictably.</p></div>
+      <div class="domain"><span class="num">06</span><h4>Data &amp; Dashboards</h4><p>What's measured, what's visible, what's still invisible.</p></div>
+      <div class="domain"><span class="num">07</span><h4>Risk &amp; Compliance</h4><p>What breaks loudly, and what breaks quietly until it doesn't.</p></div>
+      <div class="domain"><span class="num">08</span><h4>Leadership Capacity</h4><p>Whether the bench can carry the architecture you're about to build.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section alt" id="how">
+  <div class="section-inner">
+    <div class="eyebrow">How BAIC works</div>
+    <h2>Thirty days. Four phases. One coherent blueprint.</h2>
+    <p class="lede">Every BAIC engagement follows the same architecture-grade sequence. Evidence collected, vulnerabilities mapped, blueprint built, dashboard installed.</p>
+
+    <div class="phases">
+      <div class="phase">
+        <span class="when">Days −7 to 0</span>
+        <h4>Evidence collection</h4>
+        <p>Document review, stakeholder interviews, operational data pulls. Provisional architecture scoring.</p>
+      </div>
+      <div class="phase">
+        <span class="when">Days 1–7</span>
+        <h4>Vulnerability analysis</h4>
+        <p>Each weakness mapped by mechanism, outcome, and criticality. Cascade pathways traced.</p>
+      </div>
+      <div class="phase">
+        <span class="when">Days 8–14</span>
+        <h4>Blueprint &amp; roadmap</h4>
+        <p>Prioritized architecture upgrade path, 90-day execution plan, risk matrix with owner-level accountability.</p>
+      </div>
+      <div class="phase">
+        <span class="when">Days 15–30</span>
+        <h4>Install &amp; re-score</h4>
+        <p>Implementation sprints, SOPs, dashboard standup. Day-30 re-score to mark the baseline going forward.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERABLES -->
+<section class="section">
+  <div class="section-inner">
+    <div class="eyebrow">What you leave with</div>
+    <h2>A complete architectural read — and the plan to act on it.</h2>
+    <p class="lede">Not a slide deck. A live working system you can run the business from for the next 90 days and beyond.</p>
+
+    <div class="deliverables">
+      <div class="deliverable">
+        <span class="badge">A</span>
+        <div>
+          <h4>Architecture maturity report</h4>
+          <p>Spider chart across all eight domains, ranked diagnosis of each, and the sequence of high-leverage upgrades that produce the most stability per dollar spent.</p>
+        </div>
+      </div>
+      <div class="deliverable">
+        <span class="badge">B</span>
+        <div>
+          <h4>Vulnerability register</h4>
+          <p>A 40-item ranked list of failure modes. What breaks first under load, what breaks hardest, and what to deliberately defer. Each entry traceable to the evidence that surfaced it.</p>
+        </div>
+      </div>
+      <div class="deliverable">
+        <span class="badge">C</span>
+        <div>
+          <h4>90-day operating blueprint</h4>
+          <p>The execution plan — sequenced, owner-tagged, dependency-aware. This is not a wishlist. It's the installation order for the architecture the diagnosis prescribed.</p>
+        </div>
+      </div>
+      <div class="deliverable">
+        <span class="badge">D</span>
+        <div>
+          <h4>Hosted dashboard</h4>
+          <p>A live view of your architecture maturity and vulnerability posture as the upgrades land. Quarterly re-scoring keeps you honest about whether the work is sticking.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO -->
+<section class="section alt">
+  <div class="section-inner">
+    <div class="eyebrow">Honest fit</div>
+    <h2>Who BAIC is built for — and who it isn't.</h2>
+    <p class="lede">BAIC is a high-consequence engagement designed for founders operating with real financial and organizational exposure. It's not for every stage and not the right tool for every problem.</p>
+
+    <div class="who-grid">
+      <div class="who-block fit">
+        <h3>This is for you if…</h3>
+        <ul>
+          <li>You're between $300K and $5M/month and the architecture that got you here is breaking.</li>
+          <li>You've moved past product–market fit and the constraint is now structural, not commercial.</li>
+          <li>You want a ranked, evidence-backed answer to "what must we fix first?"</li>
+          <li>You're prepared to act on the diagnosis, not just receive a report.</li>
+          <li>The cost of a wrong next move is higher than the cost of the diagnostic.</li>
+        </ul>
+      </div>
+      <div class="who-block not-fit">
+        <h3>This is not for you if…</h3>
+        <ul>
+          <li>You're still searching for product–market fit or building toward your first $100K/month.</li>
+          <li>You want a tactical fix without rebuilding any structure.</li>
+          <li>You're looking for accountability without the willingness to change decisions.</li>
+          <li>You want a fast, opinion-led consult — not an evidence-led diagnostic.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE RECURRING LAYER -->
+<section class="section">
+  <div class="section-inner">
+    <div class="eyebrow">After the 30 days</div>
+    <h2>Architecture compounds — or it quietly decays.</h2>
+    <p class="lede" style="max-width: 60ch;">
+      The hardest part of architecture isn't the rebuild. It's keeping the architecture intact as complexity rises.
+      That's what the ongoing advisory layer governs.
+    </p>
+    <div class="deliverables">
+      <div class="deliverable">
+        <span class="badge">+</span>
+        <div>
+          <h4>Hosted dashboard, ongoing</h4>
+          <p>Your live architecture view stays online. You see what changed, what regressed, and what's at risk — without rebuilding the picture from scratch.</p>
+        </div>
+      </div>
+      <div class="deliverable">
+        <span class="badge">↻</span>
+        <div>
+          <h4>Quarterly re-score</h4>
+          <p>The same eight domains, scored against the same rubric, every quarter. You watch your architecture mature instead of guessing whether it has.</p>
+        </div>
+      </div>
+      <div class="deliverable">
+        <span class="badge">A</span>
+        <div>
+          <h4>Executive advisory cadence</h4>
+          <p>Monthly working sessions with the founder. New vulnerabilities surfaced, priority sequence recalibrated, decisions stress-tested against the architecture.</p>
+        </div>
+      </div>
+      <div class="deliverable">
+        <span class="badge">→</span>
+        <div>
+          <h4>When LDNA is warranted</h4>
+          <p>If the diagnosis surfaces leadership-capacity as a constraint, LDNA enters the engagement to diagnose the bench. The two instruments stack.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-inner">
+    <div class="eyebrow" style="display: inline-flex; margin: 0 auto 14px;">Start with evidence</div>
+    <h2>Run a Fit Assessment to see whether BAIC fits your stage.</h2>
+    <p>Eight questions. We confirm there's structural leverage worth pursuing — or we tell you BAIC is the wrong tool for now and what isn't.</p>
+    <div class="ctas">
+      <a href="/start/" class="btn btn-primary">Run a Fit Assessment →</a>
+      <a href="/method/" class="btn btn-secondary">See the full method</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 The Saunter Group, LLC · LDNA™ used under license from Vertical Consulting, LLC</span>
+    <span><a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="mailto:hello@thesauntergroup.com">Contact</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
