@@ -4,52 +4,34 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#0E1F3D" />
-<title>LDNA — Leadership Drivers &amp; Natural Aptitudes</title>
+<title>The Saunter Group — Guiding Your Business Forward</title>
+<meta name="description" content="The Saunter Group helps founders, executives, and HR leaders make better decisions about people. Home of the LDNA™ leadership behavioral assessment." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@500;600&display=swap" rel="stylesheet">
 <style>
-  /* ---------- Design tokens ---------- */
   :root {
     --bg: #FFFFFF;
     --surface: #FFFFFF;
-    --surface-2: #F4F6FA;        /* cool light gray */
-    --ink: #0B1220;              /* near-black with slight blue undertone */
+    --surface-2: #F4F6FA;
+    --ink: #0B1220;
     --ink-soft: #3E4860;
     --ink-mute: #7A8499;
-    --line: #DCE2EC;             /* cool hairline */
-    --primary: #0E1F3D;          /* deep midnight navy */
+    --line: #DCE2EC;
+    --primary: #0E1F3D;
     --primary-hover: #081530;
-    --primary-ink: #FFFFFF;
-    --primary-soft: #EEF2FB;     /* pale navy tint */
+    --primary-soft: #EEF2FB;
     --primary-line: #C6D2E6;
-    --accent: #A77A28;           /* warm brass */
-    --accent-soft: #F5EFE0;      /* pale brass tint */
+    --accent: #A77A28;
+    --accent-soft: #F5EFE0;
     --accent-line: #D9C28A;
-    --selected-bg: #0E1F3D;
-    --selected-ink: #FFFFFF;
-    --shadow-sm: 0 1px 2px rgba(14, 31, 61, 0.06);
-    --shadow-md: 0 10px 28px rgba(14, 31, 61, 0.10);
-    --radius: 14px;
-    --radius-sm: 10px;
-    --radius-chip: 999px;
-    --transition: 180ms cubic-bezier(.2,.7,.3,1);
-
     --font-serif: 'Aptos Serif', 'Aptos', 'Source Serif 4', 'Source Serif Pro', 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
     --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   }
-
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
-  body {
-    font-family: var(--font-serif);
-    font-size: 17px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+  body { font-family: var(--font-serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
-  /* ---------- Header ---------- */
   .topbar {
     position: sticky; top: 0; z-index: 20;
     background: rgba(255, 255, 255, 0.92);
@@ -57,440 +39,244 @@
     border-bottom: 1px solid var(--line);
   }
   .topbar-inner {
-    max-width: 980px; margin: 0 auto;
-    padding: 14px 28px;
-    display: flex; align-items: center; gap: 16px;
+    max-width: 1100px; margin: 0 auto;
+    padding: 18px 32px;
+    display: flex; align-items: center; gap: 24px;
   }
-  .brand {
-    display: flex; align-items: center; gap: 12px;
+  .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .brand-mark {
+    width: 42px; height: 42px;
+    border-radius: 7px;
+    background: var(--primary);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-style: italic;
+    font-size: 22px;
+    box-shadow: 0 1px 0 var(--accent) inset;
+  }
+  .brand-name {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    color: var(--ink);
+    font-weight: 600;
+    line-height: 1.1;
     letter-spacing: -0.005em;
   }
-  .brand-mark {
-    position: relative;
-    width: 54px; height: 54px;
-    border-radius: 9px;
-    background: var(--primary);
-    display: inline-block;
-    box-shadow: 0 1px 0 var(--accent) inset, var(--shadow-sm);
-    align-self: center;
-    overflow: hidden;
-  }
-  .brand-mark-L {
-    position: absolute;
-    left: 6px;
-    bottom: 0;
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 700;
-    font-size: 46px;
-    color: #FFFFFF;
-    line-height: 1;
-    letter-spacing: 0;
-  }
-  .brand-mark-dna {
-    position: absolute;
-    top: 14px;
-    right: 6px;
-    font-family: var(--font-serif);
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.6px;
-    color: #D9C28A; /* lighter brass — higher contrast on navy at small size */
+  .brand-sub {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    color: var(--ink-mute);
     text-transform: uppercase;
-    line-height: 1;
+    letter-spacing: 0.14em;
+    margin-top: 3px;
   }
-  .brand-name { font-family: var(--font-serif); font-size: 19px; color: var(--ink); font-weight: 600; line-height: 1.1; letter-spacing: -0.005em; }
-  .brand-sub  { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 3px; }
-  /* Trademark superscript — small, normal-weight, sits high */
-  .tm { font-size: 0.5em; vertical-align: super; line-height: 0; margin-left: 0.08em; font-weight: 500; font-style: normal; color: var(--ink-mute); }
-  h1 .tm { color: var(--accent); font-style: normal; }
-  .brand-name .tm { color: var(--ink-mute); }
-  .operator-byline { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); margin: -6px 0 18px; letter-spacing: 0.01em; }
-  .operator-byline strong { color: var(--ink-soft); font-weight: 600; }
-
-  .progress-wrap {
-    flex: 1;
-    display: flex; flex-direction: column; gap: 6px;
-    min-width: 0;
-    margin-left: 12px;
+  .nav-spacer { flex: 1; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    font-family: var(--font-ui);
+    font-size: 14px; font-weight: 500;
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color 180ms;
   }
-  .progress-meta { display: flex; justify-content: space-between; font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.1em; }
-  .progress-bar { height: 4px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
-  .progress-fill {
-    height: 100%; width: 0%;
-    background: linear-gradient(90deg, var(--primary) 0%, var(--primary) 60%, var(--accent) 100%);
-    border-radius: 999px;
-    transition: width 380ms cubic-bezier(.2,.7,.3,1);
-  }
+  .nav-links a:hover { color: var(--primary); }
 
-  /* ---------- Layout ---------- */
-  main { max-width: 980px; margin: 0 auto; padding: 40px 28px 120px; }
+  main { max-width: 1100px; margin: 0 auto; padding: 80px 32px 100px; }
 
-  .step { display: none; }
-  .step.active { display: block; animation: fadeUp 320ms cubic-bezier(.2,.7,.3,1); }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .step-eyebrow {
+  .eyebrow {
     font-family: var(--font-ui);
     text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px;
     color: var(--accent); font-weight: 600;
-    margin-bottom: 14px;
-    display: inline-flex; align-items: center; gap: 8px;
+    margin-bottom: 18px;
+    display: inline-flex; align-items: center; gap: 10px;
   }
-  .step-eyebrow::before {
-    content: ""; width: 18px; height: 1px; background: var(--accent); display: inline-block;
-  }
-  h1 {
+  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); display: inline-block; }
+
+  .hero h1 {
     font-family: var(--font-serif);
-    font-size: clamp(30px, 4.2vw, 44px);
-    line-height: 1.12; letter-spacing: -0.015em;
-    margin: 0 0 16px;
+    font-size: clamp(40px, 6vw, 64px);
+    line-height: 1.05; letter-spacing: -0.02em;
+    margin: 0 0 22px;
     color: var(--ink);
     font-weight: 600;
+    max-width: 18ch;
   }
-  h1 em { font-style: italic; color: var(--accent); font-weight: 600; }
-  h2 {
-    font-family: var(--font-serif);
-    font-size: clamp(22px, 3vw, 28px);
-    line-height: 1.2; letter-spacing: -0.01em;
-    margin: 0 0 8px;
-    font-weight: 600;
+  .hero h1 em { font-style: italic; color: var(--accent); font-weight: 600; }
+  .hero .lede {
+    font-size: 20px;
+    color: var(--ink-soft);
+    max-width: 56ch;
+    line-height: 1.55;
+    margin: 0 0 36px;
   }
-  .lede { color: var(--ink-soft); font-size: 18px; max-width: 64ch; margin: 0 0 28px; line-height: 1.55; }
+
+  .offerings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 80px;
+  }
+  @media (max-width: 720px) { .offerings { grid-template-columns: 1fr; } }
 
   .card {
-    background: var(--surface); border: 1px solid var(--line);
-    border-radius: var(--radius); padding: 28px;
-    box-shadow: var(--shadow-sm);
-  }
-
-  /* ---------- Fields ---------- */
-  .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-  .field label { font-family: var(--font-ui); font-weight: 600; font-size: 13px; color: var(--ink); letter-spacing: 0.01em; }
-  .field .help { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); }
-  .field .req { color: var(--accent); margin-left: 3px; font-weight: 700; }
-
-  input[type="text"], input[type="email"], select {
-    width: 100%;
-    padding: 13px 14px;
     border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 32px;
     background: var(--surface);
-    border-radius: var(--radius-sm);
-    font-family: var(--font-ui); font-size: 15px;
-    color: var(--ink);
-    transition: border-color var(--transition), box-shadow var(--transition);
+    transition: border-color 200ms, transform 200ms;
+    display: flex; flex-direction: column;
   }
-  input:focus, select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-soft);
-  }
-  input.invalid, select.invalid { border-color: #B23A4A; box-shadow: 0 0 0 3px rgba(178,58,74,0.12); }
+  .card.available { border-color: var(--primary-line); background: linear-gradient(180deg, var(--primary-soft) 0%, #fff 60%); }
+  .card.available:hover { transform: translateY(-2px); border-color: var(--primary); }
 
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
-
-  /* ---------- Word picker ---------- */
-  .picker-toolbar {
-    position: sticky; top: 65px; z-index: 10;
-    background: var(--bg);
-    padding: 14px 0 12px;
-    margin: 0 0 14px;
-    border-bottom: 1px solid var(--line);
-    display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center;
-  }
-  .search {
-    flex: 1; min-width: 240px;
-    position: relative;
-  }
-  .search input {
-    padding-left: 38px;
-  }
-  .search svg {
-    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
-    width: 18px; height: 18px; color: var(--ink-mute);
-  }
-  .toolbar-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-  .toggle-btn {
-    border: 1px solid var(--line);
-    background: var(--surface);
-    border-radius: var(--radius-sm);
-    padding: 9px 14px;
-    font-family: var(--font-ui); font-size: 13px; font-weight: 500;
-    color: var(--ink-soft); cursor: pointer;
-    display: inline-flex; align-items: center; gap: 8px;
-    transition: all var(--transition);
-  }
-  .toggle-btn:hover { color: var(--ink); border-color: var(--ink-mute); }
-  .toggle-btn.on {
-    background: var(--primary); color: var(--primary-ink); border-color: var(--primary);
-  }
-  .counter {
+  .card-tag {
     font-family: var(--font-ui);
-    font-size: 13px; color: var(--ink-soft);
-    background: var(--accent-soft);
-    padding: 7px 14px;
-    border-radius: 999px;
-    border: 1px solid var(--accent-line);
-    font-variant-numeric: tabular-nums;
-    font-weight: 500;
-  }
-  .counter strong { color: var(--accent); font-weight: 700; }
-
-  .chip-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 10px;
-  }
-  .chip {
-    appearance: none;
-    border: 1px solid var(--line);
-    background: var(--surface);
-    color: var(--ink);
-    border-radius: var(--radius-chip);
-    padding: 10px 14px;
-    font-family: var(--font-ui); font-size: 13.5px; font-weight: 500;
-    cursor: pointer;
-    text-align: center;
-    transition: all 140ms cubic-bezier(.2,.7,.3,1);
-    user-select: none;
-    line-height: 1.25;
-    letter-spacing: 0.005em;
-  }
-  .chip:hover {
-    border-color: var(--primary);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
-  }
-  .chip.selected {
-    background: var(--selected-bg);
-    color: var(--selected-ink);
-    border-color: var(--selected-bg);
-    box-shadow: 0 4px 12px rgba(14, 31, 61, 0.22);
-  }
-  .chip.selected:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
-  .chip[hidden] { display: none; }
-
-  .picker-empty {
-    text-align: center; padding: 30px; color: var(--ink-mute); font-size: 14px; font-family: var(--font-ui);
-  }
-
-  /* ---------- Carry-over banner ---------- */
-  .carry-banner {
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    background: var(--primary-soft);
-    border: 1px solid var(--primary-line);
-    border-radius: var(--radius-sm);
-    padding: 14px 18px;
-    margin-bottom: 18px;
-    font-family: var(--font-serif);
-    font-size: 15px;
-    color: var(--primary);
-  }
-  .carry-banner button {
-    background: var(--primary); color: #fff; border: 0;
-    padding: 9px 16px; border-radius: 999px;
-    font-family: var(--font-ui); font-size: 13px; font-weight: 600;
-    cursor: pointer; transition: background var(--transition);
-    letter-spacing: 0.01em;
-  }
-  .carry-banner button:hover { background: var(--primary-hover); }
-
-  /* ---------- Review ---------- */
-  .review-section { margin-bottom: 26px; }
-  .review-section h3 {
-    font-family: var(--font-ui);
-    font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em;
-    color: var(--accent); margin: 0 0 12px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .review-edit {
-    background: none; border: 0; color: var(--primary);
-    font-family: var(--font-ui); font-size: 12px; font-weight: 600;
-    cursor: pointer; padding: 0;
-    text-decoration: underline; text-underline-offset: 3px;
-    text-transform: none; letter-spacing: 0;
-  }
-  .review-list { display: flex; flex-wrap: wrap; gap: 8px; }
-  .review-chip {
-    background: var(--surface-2); border-radius: var(--radius-chip);
-    padding: 6px 12px; font-family: var(--font-ui); font-size: 13px; color: var(--ink);
-    border: 1px solid var(--line);
-  }
-  .review-field { font-size: 16px; color: var(--ink); margin-bottom: 4px; }
-  .review-field .k { font-family: var(--font-ui); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute); margin-right: 10px; }
-
-  /* ---------- Nav ---------- */
-  .nav {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 32px;
-  }
-  .btn {
-    appearance: none;
-    border: 0;
-    border-radius: 999px;
-    padding: 13px 24px;
-    font-family: var(--font-ui); font-size: 14px; font-weight: 600;
-    letter-spacing: 0.01em;
-    cursor: pointer;
-    transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
-  }
-  .btn-primary {
-    background: var(--primary); color: var(--primary-ink);
-    box-shadow: 0 6px 14px rgba(14, 31, 61, 0.22);
-  }
-  .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(14, 31, 61, 0.28); }
-  .btn-primary:disabled { background: var(--ink-mute); box-shadow: none; cursor: not-allowed; transform: none; }
-  .btn-ghost {
-    background: transparent; color: var(--ink-soft);
-  }
-  .btn-ghost:hover { color: var(--ink); }
-
-  /* ---------- Consent ---------- */
-  .consent-card { background: var(--surface); }
-  .consent-notice {
-    font-family: var(--font-serif);
-    font-size: 15px;
-    color: var(--ink-soft);
-    line-height: 1.55;
-    margin: 4px 0 20px;
-    max-width: 64ch;
-  }
-  .consent-row {
-    display: flex; align-items: flex-start; gap: 12px;
-    font-family: var(--font-ui);
-    font-size: 14px;
-    color: var(--ink);
-    padding: 9px 0;
-    cursor: pointer;
-    line-height: 1.45;
-  }
-  .consent-row input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 18px; height: 18px;
-    min-width: 18px;
-    border: 1.5px solid var(--line);
-    border-radius: 4px;
-    background: var(--surface);
-    margin: 2px 0 0;
-    cursor: pointer;
-    transition: all var(--transition);
-    position: relative;
-  }
-  .consent-row input[type="checkbox"]:hover { border-color: var(--primary); }
-  .consent-row input[type="checkbox"]:focus { outline: none; box-shadow: 0 0 0 3px var(--primary-soft); border-color: var(--primary); }
-  .consent-row input[type="checkbox"]:checked {
-    background: var(--primary);
-    border-color: var(--primary);
-  }
-  .consent-row input[type="checkbox"]:checked::after {
-    content: "";
-    position: absolute;
-    left: 5px; top: 1px;
-    width: 5px; height: 10px;
-    border: solid #fff;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-  }
-  .consent-row.invalid input[type="checkbox"] { border-color: #B23A4A; box-shadow: 0 0 0 3px rgba(178,58,74,0.12); }
-  .consent-required {
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 4px;
-  }
-  .req-tag {
-    display: inline-block;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    background: var(--accent-soft);
-    border: 1px solid var(--accent-line);
-    padding: 1px 7px;
-    border-radius: 999px;
-    margin-left: 6px;
-    vertical-align: 1px;
-    font-weight: 600;
-  }
-  .consent-optional { margin-top: 8px; }
-  .consent-sublabel {
-    font-family: var(--font-ui);
-    font-size: 12px;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--ink-mute);
-    margin: 4px 0 4px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    align-self: flex-start;
+    margin-bottom: 16px;
   }
-  .consent-fineprint {
+  .card-tag.live { background: var(--accent-soft); color: #5B4416; border: 1px solid var(--accent-line); }
+  .card-tag.soon { background: var(--surface-2); color: var(--ink-mute); border: 1px solid var(--line); }
+
+  .card h2 {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    line-height: 1.15;
+    margin: 0 0 8px;
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .card h2 .tm { font-size: 0.5em; vertical-align: super; line-height: 0; margin-left: 0.08em; font-weight: 500; color: var(--accent); }
+  .card .full-name {
     font-family: var(--font-ui);
     font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
     color: var(--ink-mute);
-    margin: 6px 0 0;
-    padding-left: 30px;
+    margin-bottom: 18px;
   }
-  .consent-links {
-    margin-top: 16px;
-    padding-top: 14px;
-    border-top: 1px solid var(--line);
+  .card p {
+    color: var(--ink-soft);
+    margin: 0 0 24px;
+    line-height: 1.55;
+    flex: 1;
+  }
+  .card .cta {
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: var(--primary);
+    color: #fff;
+    align-self: flex-start;
+    transition: background 180ms, transform 180ms;
+  }
+  .card .cta:hover { background: var(--primary-hover); transform: translateY(-1px); }
+  .card .cta-disabled {
     font-family: var(--font-ui);
     font-size: 13px;
     color: var(--ink-mute);
+    align-self: flex-start;
   }
-  .consent-links a {
-    color: var(--primary);
-    text-decoration: none;
-    border-bottom: 1px solid var(--primary-line);
-    transition: border-color var(--transition);
-  }
-  .consent-links a:hover { border-bottom-color: var(--primary); }
-  .consent-sep { margin: 0 10px; color: var(--ink-mute); }
 
-  /* ---------- Welcome ---------- */
-  .welcome-meta {
-    display: flex; gap: 28px; margin-top: 22px;
-    font-family: var(--font-ui); font-size: 13px; color: var(--ink-soft);
+  .about-band {
+    margin-top: 120px;
+    padding-top: 64px;
+    border-top: 1px solid var(--line);
+  }
+  .about-band h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(26px, 3.5vw, 36px);
+    line-height: 1.2; letter-spacing: -0.015em;
+    margin: 0 0 18px;
+    color: var(--ink);
+    font-weight: 600;
+    max-width: 22ch;
+  }
+  .about-band p {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 64ch;
+    line-height: 1.55;
+    margin: 0 0 14px;
+  }
+
+  .contact-strip {
+    margin-top: 80px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 36px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
     flex-wrap: wrap;
   }
-  .welcome-meta div { display: flex; align-items: center; gap: 9px; }
-  .welcome-meta svg { color: var(--primary); }
-
-  /* ---------- Done ---------- */
-  .done {
-    text-align: center; padding: 60px 20px;
+  .contact-strip h3 {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    margin: 0;
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: -0.005em;
   }
-  .done .check {
-    width: 72px; height: 72px; border-radius: 50%;
-    background: var(--primary-soft); color: var(--primary);
-    display: inline-flex; align-items: center; justify-content: center;
-    margin-bottom: 22px;
-    border: 1px solid var(--primary-line);
+  .contact-strip p {
+    margin: 6px 0 0;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    color: var(--ink-soft);
   }
-
-  .err-banner {
-    background: #FBEAEC; color: #7A1F2B; border: 1px solid #E8B5BC;
-    padding: 12px 14px; border-radius: var(--radius-sm); margin-bottom: 16px;
-    font-family: var(--font-ui); font-size: 14px;
+  .contact-strip a {
+    font-family: var(--font-ui);
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--primary);
+    text-decoration: none;
+    padding: 12px 22px;
+    border-radius: 999px;
+    transition: background 180ms;
   }
+  .contact-strip a:hover { background: var(--primary-hover); }
 
-  .footer-note {
-    text-align: center; color: var(--ink-mute);
-    font-family: var(--font-ui); font-size: 11px;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    padding: 36px 24px 60px;
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: 80px;
+    padding: 36px 32px 60px;
   }
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--ink-mute);
+    letter-spacing: 0.04em;
+  }
+  .footer-inner a { color: var(--ink-soft); text-decoration: none; }
+  .footer-inner a:hover { color: var(--primary); }
+  .footer-attribution { text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px; }
 
-  /* small screens */
   @media (max-width: 640px) {
-    .topbar-inner { padding: 12px 16px; gap: 10px; flex-wrap: wrap; }
-    .progress-wrap { order: 3; flex-basis: 100%; }
-    main { padding: 24px 16px 80px; }
-    .card { padding: 18px; }
-    .picker-toolbar { top: 110px; }
-    .chip-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+    .topbar-inner { padding: 14px 18px; gap: 14px; }
+    .nav-links { gap: 18px; }
+    main { padding: 48px 18px 60px; }
+    .card { padding: 24px; }
+    .contact-strip { padding: 28px 24px; flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
@@ -498,612 +284,98 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <div class="brand">
-      <span class="brand-mark" aria-label="LDNA">
-        <span class="brand-mark-L" aria-hidden="true">L</span>
-        <span class="brand-mark-dna" aria-hidden="true">DNA</span>
-      </span>
+    <a href="/" class="brand">
+      <span class="brand-mark" aria-hidden="true">S</span>
       <div>
-        <div class="brand-name">LDNA<span class="tm">™</span></div>
-        <div class="brand-sub">Leadership Drivers &amp; Natural Aptitudes</div>
+        <div class="brand-name">The Saunter Group</div>
+        <div class="brand-sub">Guiding Your Business Forward</div>
       </div>
-    </div>
-    <div class="progress-wrap" aria-hidden="true">
-      <div class="progress-meta">
-        <span id="stepLabel">Welcome</span>
-        <span id="stepIndex">Step 1 of 4</span>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    </div>
+    </a>
+    <div class="nav-spacer"></div>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="/ldna/">LDNA™</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </div>
 </header>
 
 <main>
 
-  <!-- STEP 1: Welcome + demographics -->
-  <section class="step active" data-step="0" aria-label="About you">
-    <div class="step-eyebrow">About you</div>
-    <h1>Welcome to your LDNA<span class="tm">™</span> assessment.</h1>
-    <p class="operator-byline">An assessment by <strong>The Saunter Group, LLC</strong></p>
+  <section class="hero">
+    <div class="eyebrow">Leadership behavior, measured</div>
+    <h1>Better people decisions, made <em>with evidence</em>.</h1>
     <p class="lede">
-      This is a two‑part word checklist that helps surface your natural work style and the
-      behaviors your current role asks of you. There are no right or wrong answers — pick
-      what genuinely fits. Your responses generate a confidential behavioral profile used
-      for role fit, coaching, and team alignment.
+      The Saunter Group helps founders, executives, and HR leaders understand the
+      behavioral signatures of high performance — and use that understanding to
+      build teams that win. We turn assessment into action.
     </p>
-    <div class="welcome-meta">
-      <div>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        About 10 minutes
-      </div>
-      <div>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Confidential
-      </div>
-      <div>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-        Your progress saves automatically
-      </div>
-    </div>
+  </section>
 
-    <div class="card" style="margin-top: 28px;">
-      <h2>Tell us a bit about yourself</h2>
-      <p class="help" style="margin-top: 4px; margin-bottom: 18px; color: var(--ink-mute); font-size: 14px;">
-        This context helps us tailor your profile.
+  <section class="offerings" aria-label="Assessments">
+    <article class="card available">
+      <span class="card-tag live">Available now</span>
+      <h2>LDNA<span class="tm">™</span></h2>
+      <div class="full-name">Leadership Drivers &amp; Natural Aptitudes</div>
+      <p>
+        A two-part behavioral assessment that surfaces a leader's natural work style
+        and the behaviors their current role demands. Used for role fit, executive
+        coaching, and team alignment. Takes about 10 minutes; results are
+        confidential.
       </p>
+      <a href="/ldna/" class="cta">Take the assessment →</a>
+    </article>
 
-      <div class="grid-2">
-        <div class="field">
-          <label for="fullName">Full name<span class="req">*</span></label>
-          <input id="fullName" type="text" autocomplete="name" placeholder="Jane Doe" />
-        </div>
-        <div class="field">
-          <label for="email">Email address<span class="req">*</span></label>
-          <input id="email" type="email" autocomplete="email" placeholder="jane@example.com" />
-        </div>
-        <div class="field">
-          <label for="role">Current role / title<span class="req">*</span></label>
-          <input id="role" type="text" autocomplete="organization-title" placeholder="e.g. Director of Operations" />
-        </div>
-        <div class="field">
-          <label for="experience">Years of experience<span class="req">*</span></label>
-          <select id="experience">
-            <option value="">Select…</option>
-            <option>0–2 years</option>
-            <option>3–5 years</option>
-            <option>6–10 years</option>
-            <option>11–15 years</option>
-            <option>16–20 years</option>
-            <option>20+ years</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="card consent-card" style="margin-top: 22px;">
-      <h2>Consent &amp; follow-up</h2>
-      <p class="consent-notice">
-        The Saunter Group, LLC is the data controller for your responses. We process your
-        name, email, role, and behavioral selections to generate your confidential LDNA
-        profile. We don't sell or share your data with third parties.
+    <article class="card">
+      <span class="card-tag soon">In development</span>
+      <h2>BAIC</h2>
+      <div class="full-name">Behavioral Alignment &amp; Influence Coaching</div>
+      <p>
+        A structured engagement that translates LDNA results into a tailored
+        development plan and coaching cadence. Builds on the LDNA profile to make
+        leadership growth specific, measurable, and accountable.
       </p>
-
-      <label class="consent-row consent-required">
-        <input type="checkbox" id="consentRequired" />
-        <span>
-          I consent to my responses being processed to generate my LDNA profile.
-          <span class="req-tag">Required</span>
-        </span>
-      </label>
-
-      <div class="consent-optional">
-        <p class="consent-sublabel">Optional — I'd also like to receive:</p>
-        <label class="consent-row">
-          <input type="checkbox" id="consentFeedback" />
-          <span>A brief feedback request about my LDNA experience</span>
-        </label>
-        <label class="consent-row">
-          <input type="checkbox" id="consentResearch" />
-          <span>Occasional research invitations on leadership behavior</span>
-        </label>
-        <label class="consent-row">
-          <input type="checkbox" id="consentUpdates" />
-          <span>Articles and resources on leadership development</span>
-        </label>
-        <p class="consent-fineprint">You can unsubscribe from any of these at any time.</p>
-      </div>
-
-      <div class="consent-links">
-        <a href="privacy.html" target="_blank" rel="noopener">View Privacy Policy</a>
-        <span class="consent-sep">·</span>
-        <a href="mailto:privacy@thesauntergroup.com?subject=LDNA%20data%20request">Contact us about your data</a>
-      </div>
-    </div>
-
-    <div class="nav">
-      <span></span>
-      <button class="btn btn-primary" id="next0">Begin assessment →</button>
-    </div>
+      <span class="cta-disabled">Coming soon — contact us to learn more</span>
+    </article>
   </section>
 
-  <!-- STEP 2: Part 1 -->
-  <section class="step" data-step="1" aria-label="Part 1: Natural self">
-    <div class="step-eyebrow">Part 1 of 2 · Natural self</div>
-    <h1>Which of these describe who you are most of the time?</h1>
-    <p class="lede">Select every word that genuinely fits — your natural style across work and life. Most people choose somewhere between 20 and 50 words.</p>
-
-    <div class="picker-toolbar" id="toolbar1">
-      <div class="search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
-        <input type="text" id="search1" placeholder="Filter words…" autocomplete="off" />
-      </div>
-      <div class="toolbar-actions">
-        <button class="toggle-btn" id="selOnly1" type="button" aria-pressed="false">Show selected only</button>
-        <div class="counter"><strong id="count1">0</strong> selected</div>
-      </div>
-    </div>
-
-    <div class="chip-grid" id="grid1" role="group" aria-label="Natural self words"></div>
-    <div class="picker-empty" id="empty1" hidden>No matching words. Clear the filter to see all.</div>
-
-    <div class="nav">
-      <button class="btn btn-ghost" data-back="1">← Back</button>
-      <button class="btn btn-primary" data-next="1">Continue to Part 2 →</button>
-    </div>
+  <section class="about-band" id="about">
+    <div class="eyebrow">About</div>
+    <h2>We're a small consultancy with a clear point of view.</h2>
+    <p>
+      The Saunter Group operates the LDNA<span style="font-family: var(--font-serif); font-size: 0.6em; vertical-align: super;">™</span> assessment under license from Vertical Consulting, LLC, the IP holder.
+      We work directly with founders and senior leaders to make the often-fuzzy
+      conversation around behavior, fit, and team dynamics concrete, evidence-led,
+      and useful.
+    </p>
+    <p>
+      A more complete site is on its way. In the meantime, the assessment is live
+      and you can reach us directly below.
+    </p>
   </section>
 
-  <!-- STEP 3: Part 2 -->
-  <section class="step" data-step="2" aria-label="Part 2: Role behavior">
-    <div class="step-eyebrow">Part 2 of 2 · Role behavior</div>
-    <h1>Which of these describe how you <em>must behave</em> to succeed in your current role?</h1>
-    <p class="lede">Same list, different lens. What does the role itself reward or require? It's normal for this set to overlap with — or differ from — your natural self.</p>
-
-    <div class="carry-banner" id="carryBanner" hidden>
-      <span>Want to start with your Part 1 selections and edit from there?</span>
-      <button id="carryBtn" type="button">Carry over selections</button>
+  <section class="contact-strip" id="contact">
+    <div>
+      <h3>Get in touch</h3>
+      <p>We respond within one business day.</p>
     </div>
-
-    <div class="picker-toolbar" id="toolbar2">
-      <div class="search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
-        <input type="text" id="search2" placeholder="Filter words…" autocomplete="off" />
-      </div>
-      <div class="toolbar-actions">
-        <button class="toggle-btn" id="selOnly2" type="button" aria-pressed="false">Show selected only</button>
-        <div class="counter"><strong id="count2">0</strong> selected</div>
-      </div>
-    </div>
-
-    <div class="chip-grid" id="grid2" role="group" aria-label="Role behavior words"></div>
-    <div class="picker-empty" id="empty2" hidden>No matching words. Clear the filter to see all.</div>
-
-    <div class="nav">
-      <button class="btn btn-ghost" data-back="2">← Back</button>
-      <button class="btn btn-primary" data-next="2">Review your responses →</button>
-    </div>
-  </section>
-
-  <!-- STEP 4: Review + submit -->
-  <section class="step" data-step="3" aria-label="Review">
-    <div class="step-eyebrow">Almost done</div>
-    <h1>Review your responses</h1>
-    <p class="lede">Take a moment to look this over. You can jump back to any section to make changes.</p>
-
-    <div class="card">
-      <div class="review-section">
-        <h3>About you <button class="review-edit" data-jump="0">Edit</button></h3>
-        <div class="review-field"><span class="k">Name:</span><span id="rName">—</span></div>
-        <div class="review-field"><span class="k">Email:</span><span id="rEmail">—</span></div>
-        <div class="review-field"><span class="k">Role:</span><span id="rRole">—</span></div>
-        <div class="review-field"><span class="k">Experience:</span><span id="rExp">—</span></div>
-      </div>
-
-      <div class="review-section">
-        <h3>Part 1 — Natural self (<span id="rCount1">0</span>) <button class="review-edit" data-jump="1">Edit</button></h3>
-        <div class="review-list" id="rList1"></div>
-      </div>
-
-      <div class="review-section">
-        <h3>Part 2 — Role behavior (<span id="rCount2">0</span>) <button class="review-edit" data-jump="2">Edit</button></h3>
-        <div class="review-list" id="rList2"></div>
-      </div>
-    </div>
-
-    <div id="submitErr" class="err-banner" hidden></div>
-
-    <div class="nav">
-      <button class="btn btn-ghost" data-back="3">← Back</button>
-      <button class="btn btn-primary" id="submitBtn">Submit assessment</button>
-    </div>
-  </section>
-
-  <!-- STEP 5: Done -->
-  <section class="step" data-step="4" aria-label="Submitted">
-    <div class="done">
-      <div class="check">
-        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <h1>Thank you.</h1>
-      <p class="lede" style="margin-left: auto; margin-right: auto;">Your responses have been recorded. You'll receive your behavioral profile shortly.</p>
-      <div style="margin-top: 18px;">
-        <button class="btn btn-ghost" id="downloadBtn">Download a copy of my responses</button>
-      </div>
-    </div>
+    <a href="mailto:hello@thesauntergroup.com?subject=LDNA%20inquiry">hello@thesauntergroup.com →</a>
   </section>
 
 </main>
 
-<div class="footer-note">
-  © 2026 The Saunter Group, LLC &nbsp;·&nbsp;
-  LDNA™ used under license from Vertical Consulting, LLC
-</div>
+<footer>
+  <div class="footer-inner">
+    <div>
+      <a href="/ldna/">LDNA™ Assessment</a>
+      &nbsp;·&nbsp; <a href="/ldna/privacy.html">Privacy</a>
+      &nbsp;·&nbsp; <a href="mailto:hello@thesauntergroup.com">Contact</a>
+    </div>
+    <div class="footer-attribution">
+      © 2026 The Saunter Group, LLC &nbsp;·&nbsp; LDNA™ used under license from Vertical Consulting, LLC
+    </div>
+  </div>
+</footer>
 
-<script>
-/* ============================================================
-   Adjective pool — refined 159-item list, ASCII hyphens.
-   Both sections use the identical pool so the natural-vs-adaptive
-   gap can be computed downstream.
-   ============================================================ */
-const WORDS = [
-  "Cooperative","Energetic","Innovative","Meticulous","Sensitive","Fast-paced","Persistent","Calm-paced",
-  "Experimental","Expressive","Critical-thinking","Structured","Laid-back with details","Thick-skinned",
-  "Charming","Strategic-thinking","Rule-conscious","Independent","Patient","Strong-willed","People-oriented",
-  "Original","Unhurried","Casual about rules","Results-driven","Friendly","Questioning","Methodical",
-  "Relentless","Intuitive-feeling","Practical-only","Determined","Talkative","Resourceful","Perfectionistic",
-  "Approachable","Big-picture","Cautious with change","Analytical","Resourceful-creative",
-  "Reserved with feelings","Tenacious","Sociable","Routine-oriented (tasks)","Numbers-oriented",
-  "Driven by deadlines","Entrepreneurial","Warm","Farsighted","Planner","Conscientious","Engaging",
-  "Abstract-minded","Relational","Unstructured","Energetic-all-day","Rational","Juggles-many-tasks",
-  "Competitive","Open","Insightful","Thorough","Careful","Compassionate","Vision-oriented",
-  "Spontaneous-casual","High stamina","Skeptical","Easily bored","Entertaining","Steady","Systematic",
-  "Disciplined","Sentimental","Conceptual","Encouraging","Even-tempered","Cautious-judging","Risk-taking",
-  "Cheerful","Dependable","Orderly","Emotional","Imaginative","Team-minded","Tolerant","Compliance-minded",
-  "Tireless","Pragmatic","Restless","Enthusiastic","Idea-driven","Quality-focused","Flexible with structure",
-  "Guided by heart","Inventive","Upbeat","Deliberate","Procedural","Easily drained","Logical",
-  "Change-seeking","Charismatic","Problem-solving","Pressured","Process-oriented","Cool-headed",
-  "Hard-driving","Chatty","Opportunistic-creative","Slow to anger","Diligent","Impartial","Strong-nerved",
-  "Self-directed","Persuasive","Lively","Precise","Empathetic","Anticipatory","Adaptable","Resilient",
-  "Self-reliant","Outgoing","Hates routine (repetition)","Detail-oriented","Burnout-prone","Objective",
-  "Easily stimulated","Personable","Active","Consistent","Sensitive to stress","Confident","Measured",
-  "Overwhelmed easily","Reserved","Firm","Hard-working","Welcoming","Curious","Easily distracted",
-  "Authoritative","Magnetic","Ingenious","Rigorous","Caring","Autonomous","Evidence-driven",
-  "Unconventional","Standards-driven","Composed","Assertive","Organized","Fast-paced (works quickly)",
-  "Holistic","Attuned","Novelty-seeking","Inquisitive"
-];
-
-/* ============================================================
-   Endpoint — paste your Google Apps Script Web App URL here
-   to send responses to your sheet. Leave as null to skip and
-   only do local JSON download.
-   ============================================================ */
-const SUBMIT_ENDPOINT = "https://script.google.com/macros/s/AKfycbx2If3UCmoe6HOB5s1jDnf0RN8Ps-IbJ15AwE0TpleGleMP7VMZ1JplGQhyMCeolILv/exec";
-
-/* ============================================================
-   State
-   ============================================================ */
-const STORAGE_KEY = "ldna.v1";
-const POLICY_VERSION = "2026-05-29";
-const state = {
-  step: 0,
-  demographics: { fullName: "", email: "", role: "", experience: "" },
-  consent: {
-    required: false,
-    feedback: false,
-    research: false,
-    updates: false,
-    timestamp: null,   // set when required consent is first ticked
-  },
-  part1: new Set(),
-  part2: new Set(),
-};
-
-const STEP_LABELS = ["About you", "Part 1 of 2", "Part 2 of 2", "Review", "Submitted"];
-const TOTAL_STEPS = 4; // not counting "submitted"
-
-/* ============================================================
-   Persistence
-   ============================================================ */
-function save() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      step: state.step,
-      demographics: state.demographics,
-      consent: state.consent,
-      part1: [...state.part1],
-      part2: [...state.part2],
-    }));
-  } catch (_) {}
-}
-function load() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return;
-    const d = JSON.parse(raw);
-    if (d.demographics) Object.assign(state.demographics, d.demographics);
-    if (d.consent) Object.assign(state.consent, d.consent);
-    if (Array.isArray(d.part1)) state.part1 = new Set(d.part1);
-    if (Array.isArray(d.part2)) state.part2 = new Set(d.part2);
-    if (typeof d.step === "number") state.step = Math.min(d.step, 3);
-  } catch (_) {}
-}
-
-/* ============================================================
-   Rendering
-   ============================================================ */
-function showStep(i) {
-  state.step = i;
-  document.querySelectorAll(".step").forEach(s => s.classList.toggle("active", Number(s.dataset.step) === i));
-  document.getElementById("stepLabel").textContent = STEP_LABELS[i] || "";
-  document.getElementById("stepIndex").textContent = i < TOTAL_STEPS ? `Step ${i + 1} of ${TOTAL_STEPS}` : "Complete";
-  const pct = i < TOTAL_STEPS ? ((i) / (TOTAL_STEPS - 1)) * 100 : 100;
-  document.getElementById("progressFill").style.width = pct + "%";
-  window.scrollTo({ top: 0, behavior: "smooth" });
-  if (i === 3) renderReview();
-  if (i === 2) {
-    document.getElementById("carryBanner").hidden = (state.part2.size > 0 || state.part1.size === 0);
-  }
-  save();
-}
-
-function buildGrid(gridId, set) {
-  const grid = document.getElementById(gridId);
-  grid.innerHTML = "";
-  WORDS.forEach(word => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "chip" + (set.has(word) ? " selected" : "");
-    btn.textContent = word;
-    btn.setAttribute("role", "checkbox");
-    btn.setAttribute("aria-checked", set.has(word) ? "true" : "false");
-    btn.dataset.word = word;
-    btn.addEventListener("click", () => toggleChip(btn, set, gridId));
-    grid.appendChild(btn);
-  });
-}
-
-function toggleChip(btn, set, gridId) {
-  const word = btn.dataset.word;
-  if (set.has(word)) { set.delete(word); btn.classList.remove("selected"); btn.setAttribute("aria-checked","false"); }
-  else { set.add(word); btn.classList.add("selected"); btn.setAttribute("aria-checked","true"); }
-  updateCounters();
-  save();
-  // re-apply current filter (in case "selected only" is on)
-  if (gridId === "grid1") applyFilter(1);
-  if (gridId === "grid2") applyFilter(2);
-}
-
-function updateCounters() {
-  document.getElementById("count1").textContent = state.part1.size;
-  document.getElementById("count2").textContent = state.part2.size;
-}
-
-/* ---------- Search + "selected only" ---------- */
-const filterState = { 1: { q: "", selOnly: false }, 2: { q: "", selOnly: false } };
-
-function applyFilter(n) {
-  const { q, selOnly } = filterState[n];
-  const set = n === 1 ? state.part1 : state.part2;
-  const grid = document.getElementById("grid" + n);
-  const empty = document.getElementById("empty" + n);
-  let visible = 0;
-  grid.querySelectorAll(".chip").forEach(chip => {
-    const word = chip.dataset.word.toLowerCase();
-    const matchesQ = !q || word.includes(q);
-    const matchesSel = !selOnly || set.has(chip.dataset.word);
-    const show = matchesQ && matchesSel;
-    chip.hidden = !show;
-    if (show) visible++;
-  });
-  empty.hidden = visible > 0;
-}
-
-function wireFilter(n) {
-  const searchEl = document.getElementById("search" + n);
-  const selBtn = document.getElementById("selOnly" + n);
-  searchEl.addEventListener("input", e => {
-    filterState[n].q = e.target.value.trim().toLowerCase();
-    applyFilter(n);
-  });
-  selBtn.addEventListener("click", () => {
-    filterState[n].selOnly = !filterState[n].selOnly;
-    selBtn.classList.toggle("on", filterState[n].selOnly);
-    selBtn.setAttribute("aria-pressed", String(filterState[n].selOnly));
-    applyFilter(n);
-  });
-}
-
-/* ---------- Carry over ---------- */
-document.getElementById("carryBtn").addEventListener("click", () => {
-  state.part1.forEach(w => state.part2.add(w));
-  buildGrid("grid2", state.part2);
-  updateCounters();
-  applyFilter(2);
-  document.getElementById("carryBanner").hidden = true;
-  save();
-});
-
-/* ---------- Demographics binding ---------- */
-function bindDemographics() {
-  const fields = ["fullName","email","role","experience"];
-  fields.forEach(id => {
-    const el = document.getElementById(id);
-    el.value = state.demographics[id] || "";
-    el.addEventListener("input", () => { state.demographics[id] = el.value; save(); });
-    el.addEventListener("change", () => { state.demographics[id] = el.value; save(); });
-  });
-}
-
-/* ---------- Consent binding ---------- */
-const CONSENT_FIELDS = {
-  consentRequired: "required",
-  consentFeedback: "feedback",
-  consentResearch: "research",
-  consentUpdates: "updates",
-};
-function bindConsent() {
-  Object.entries(CONSENT_FIELDS).forEach(([id, key]) => {
-    const el = document.getElementById(id);
-    el.checked = !!state.consent[key];
-    el.addEventListener("change", () => {
-      state.consent[key] = el.checked;
-      // Stamp the moment the user first grants required consent
-      if (key === "required" && el.checked && !state.consent.timestamp) {
-        state.consent.timestamp = new Date().toISOString();
-      }
-      // If they un-check required later, clear the stamp
-      if (key === "required" && !el.checked) {
-        state.consent.timestamp = null;
-      }
-      save();
-    });
-  });
-}
-
-function validateDemographics() {
-  const d = state.demographics;
-  let ok = true;
-  ["fullName","email","role","experience"].forEach(id => {
-    const el = document.getElementById(id);
-    const empty = !String(d[id] || "").trim();
-    el.classList.toggle("invalid", empty);
-    if (empty) ok = false;
-  });
-  const emailEl = document.getElementById("email");
-  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email);
-  if (d.email && !emailOk) { emailEl.classList.add("invalid"); ok = false; }
-
-  // Required consent must be ticked
-  const consentRow = document.getElementById("consentRequired").closest(".consent-row");
-  if (!state.consent.required) {
-    consentRow.classList.add("invalid");
-    ok = false;
-  } else {
-    consentRow.classList.remove("invalid");
-  }
-  return ok;
-}
-
-/* ---------- Review ---------- */
-function renderReview() {
-  document.getElementById("rName").textContent = state.demographics.fullName || "—";
-  document.getElementById("rEmail").textContent = state.demographics.email || "—";
-  document.getElementById("rRole").textContent = state.demographics.role || "—";
-  document.getElementById("rExp").textContent = state.demographics.experience || "—";
-
-  const render = (listId, countId, set) => {
-    const list = document.getElementById(listId);
-    list.innerHTML = "";
-    [...set].forEach(w => {
-      const span = document.createElement("span");
-      span.className = "review-chip";
-      span.textContent = w;
-      list.appendChild(span);
-    });
-    document.getElementById(countId).textContent = set.size;
-    if (set.size === 0) {
-      const span = document.createElement("span");
-      span.style.color = "var(--ink-mute)";
-      span.style.fontSize = "13px";
-      span.textContent = "No words selected.";
-      list.appendChild(span);
-    }
-  };
-  render("rList1", "rCount1", state.part1);
-  render("rList2", "rCount2", state.part2);
-}
-
-/* ---------- Navigation ---------- */
-document.getElementById("next0").addEventListener("click", () => {
-  if (!validateDemographics()) return;
-  showStep(1);
-});
-document.querySelectorAll("[data-next]").forEach(b => {
-  b.addEventListener("click", () => showStep(Number(b.dataset.next) + 1));
-});
-document.querySelectorAll("[data-back]").forEach(b => {
-  b.addEventListener("click", () => showStep(Number(b.dataset.back) - 1));
-});
-document.querySelectorAll("[data-jump]").forEach(b => {
-  b.addEventListener("click", () => showStep(Number(b.dataset.jump)));
-});
-
-/* ---------- Submit ---------- */
-function buildPayload() {
-  return {
-    submittedAt: new Date().toISOString(),
-    ...state.demographics,
-    naturalSelf: [...state.part1],
-    roleBehavior: [...state.part2],
-    naturalSelfCount: state.part1.size,
-    roleBehaviorCount: state.part2.size,
-    consentTimestamp: state.consent.timestamp || new Date().toISOString(),
-    policyVersion: POLICY_VERSION,
-    optInFeedback: !!state.consent.feedback,
-    optInResearch: !!state.consent.research,
-    optInUpdates: !!state.consent.updates,
-  };
-}
-
-async function submit() {
-  const submitBtn = document.getElementById("submitBtn");
-  const errBanner = document.getElementById("submitErr");
-  errBanner.hidden = true;
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Submitting…";
-  const payload = buildPayload();
-
-  if (SUBMIT_ENDPOINT) {
-    try {
-      const res = await fetch(SUBMIT_ENDPOINT, {
-        method: "POST",
-        // Apps Script web apps don't accept preflighted JSON; send as text/plain.
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error("Server returned " + res.status);
-    } catch (e) {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Submit assessment";
-      errBanner.hidden = false;
-      errBanner.textContent = "We couldn't submit just now (" + e.message + "). Your responses are saved locally — try again, or download them below.";
-      return;
-    }
-  } else {
-    // No endpoint — log to console and download.
-    console.log("LDNA payload:", payload);
-  }
-
-  // Stash for the download button
-  window.__lastPayload = payload;
-  // Clear local cache (assessment is complete)
-  try { localStorage.removeItem(STORAGE_KEY); } catch(_) {}
-  showStep(4);
-}
-document.getElementById("submitBtn").addEventListener("click", submit);
-
-/* ---------- Download ---------- */
-document.getElementById("downloadBtn").addEventListener("click", () => {
-  const payload = window.__lastPayload || buildPayload();
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  const safeName = (payload.fullName || "responses").replace(/[^a-z0-9-_]+/gi, "_");
-  a.download = `LDNA_${safeName}.json`;
-  document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(url);
-});
-
-/* ---------- Init ---------- */
-load();
-bindDemographics();
-bindConsent();
-buildGrid("grid1", state.part1);
-buildGrid("grid2", state.part2);
-wireFilter(1);
-wireFilter(2);
-updateCounters();
-showStep(state.step || 0);
-</script>
 </body>
 </html>
