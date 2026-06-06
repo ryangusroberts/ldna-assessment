@@ -28,6 +28,9 @@
   .brand-mark { width: 42px; height: 42px; border-radius: 7px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-serif); font-weight: 700; font-style: italic; font-size: 22px; box-shadow: 0 1px 0 var(--accent) inset; }
   .brand-name { font-family: var(--font-serif); font-size: 20px; color: var(--ink); font-weight: 600; line-height: 1.1; letter-spacing: -0.005em; }
   .brand-sub { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 3px; }
+  .brand-logo { height: 36px; width: auto; display: block; }
+  .brand-tag { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; padding-left: 16px; margin-left: 4px; border-left: 1px solid var(--line); display: none; }
+  @media (min-width: 880px) { .brand-tag { display: block; } }
   .nav-spacer { flex: 1; }
   .nav-links { display: flex; gap: 28px; }
   .nav-links a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 180ms; }
@@ -113,11 +116,8 @@
 <header class="topbar">
   <div class="topbar-inner">
     <a href="/" class="brand">
-      <span class="brand-mark" aria-hidden="true">S</span>
-      <div>
-        <div class="brand-name">The Saunter Group</div>
-        <div class="brand-sub">Leadership &amp; Organizational Intelligence</div>
-      </div>
+      <img src="/assets/saunter-logo.svg" alt="Saunter" class="brand-logo" />
+        <div class="brand-tag">Leadership &amp; Organizational Intelligence</div>
     </a>
     <div class="nav-spacer"></div>
     <nav class="nav-links" aria-label="Primary">
@@ -256,14 +256,14 @@
 
     <div class="eyebrow" style="margin-bottom: 14px;">The seven dimensions</div>
     <div class="grid-cards" style="margin-bottom: 48px;">
-      <div class="small-card"><h4>Drive</h4><p>How the leader pushes toward results.</p></div>
-      <div class="small-card"><h4>Connection</h4><p>How they engage and influence people.</p></div>
-      <div class="small-card"><h4>Stability</h4><p>How they hold steady under pressure.</p></div>
-      <div class="small-card"><h4>Structure</h4><p>How they impose order on complexity.</p></div>
-      <div class="small-card"><h4>Creativity</h4><p>How they generate and pursue ideas.</p></div>
-      <div class="small-card"><h4>Empathy</h4><p>How they read and respond to others.</p></div>
-      <div class="small-card"><h4>Velocity</h4><p>How they manage tempo and pace.</p></div>
-      <div class="small-card"><h4>Plus an AI-exposure read</h4><p>Where each leader's value holds as AI rises.</p></div>
+      <div class="small-card"><h4>Drive &amp; Independence</h4><p>Self-direction, ambition, and the will to push against resistance.</p></div>
+      <div class="small-card"><h4>Social Energy</h4><p>Warmth, affiliation, and the social pull that moves people forward.</p></div>
+      <div class="small-card"><h4>Pace &amp; Patience</h4><p>Composure under pressure and a steady, even-tempered tempo.</p></div>
+      <div class="small-card"><h4>Structure &amp; Order</h4><p>Method, organization, and follow-through on detail.</p></div>
+      <div class="small-card"><h4>Creative Battery</h4><p>Sustained mental energy for generating and chasing the new.</p></div>
+      <div class="small-card"><h4>Logic &amp; Analysis</h4><p>Engagement with reasoning, evidence, and abstract problem-solving.</p></div>
+      <div class="small-card"><h4>Vision &amp; Ideas</h4><p>Imagination, abstraction, and conceptual range.</p></div>
+      <div class="small-card"><h4>Plus an AI-exposure read</h4><p>Where each leader's value holds as AI reshapes the work.</p></div>
     </div>
 
     <div class="eyebrow" style="margin-bottom: 14px;">What you leave with</div>
@@ -329,7 +329,7 @@
 <footer>
   <div class="footer-inner">
     <span>© 2026 The Saunter Group, LLC · LDNA™ used under license from Vertical Consulting, LLC</span>
-    <span><a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="mailto:hello@thesauntergroup.com">Contact</a></span>
+    <span><a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="mailto:info@thesauntergroup.com">Contact</a></span>
   </div>
 </footer>
 
