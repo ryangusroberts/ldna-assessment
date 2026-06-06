@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0E1F3D" />
+<title>Story — The Saunter Group</title>
+<meta name="description" content="Ryan Roberts founded The Saunter Group after two decades as an Air Force fighter pilot and senior strategy officer modeling systems risk for the Department of Defense, then building and selling a defense contracting firm." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF; --surface: #FFFFFF; --surface-2: #F4F6FA;
+    --ink: #0B1220; --ink-soft: #3E4860; --ink-mute: #7A8499;
+    --line: #DCE2EC; --primary: #0E1F3D; --primary-hover: #081530;
+    --primary-soft: #EEF2FB; --primary-line: #C6D2E6;
+    --accent: #A77A28; --accent-soft: #F5EFE0; --accent-line: #D9C28A;
+    --font-serif: 'Aptos Serif', 'Aptos', 'Source Serif 4', 'Source Serif Pro', 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
+    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body { font-family: var(--font-serif); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  .topbar { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.94); backdrop-filter: saturate(140%) blur(8px); border-bottom: 1px solid var(--line); }
+  .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; gap: 24px; }
+  .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .brand-mark { width: 42px; height: 42px; border-radius: 7px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-serif); font-weight: 700; font-style: italic; font-size: 22px; box-shadow: 0 1px 0 var(--accent) inset; }
+  .brand-name { font-family: var(--font-serif); font-size: 20px; color: var(--ink); font-weight: 600; line-height: 1.1; letter-spacing: -0.005em; }
+  .brand-sub { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 3px; }
+  .nav-spacer { flex: 1; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; }
+  .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+  .nav-links a.active { font-weight: 600; }
+  .nav-cta { font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: #fff; background: var(--primary); padding: 9px 18px; border-radius: 999px; text-decoration: none; }
+  .nav-cta:hover { background: var(--primary-hover); }
+  .eyebrow { font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 18px; display: inline-flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); display: inline-block; }
+  h1, h2, h3 { font-family: var(--font-serif); font-weight: 600; color: var(--ink); letter-spacing: -0.015em; }
+  h1 em, h2 em { font-style: italic; color: var(--accent); font-weight: 600; }
+  .btn { font-family: var(--font-ui); font-size: 15px; font-weight: 600; padding: 14px 24px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 180ms; border: 0; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+  .btn-secondary { background: transparent; color: var(--primary); border: 1px solid var(--primary-line); }
+  .btn-secondary:hover { border-color: var(--primary); background: var(--primary-soft); }
+
+  /* Hero */
+  section.hero { background: var(--primary); color: #fff; padding: 96px 32px 80px; text-align: center; }
+  .hero-inner { max-width: 880px; margin: 0 auto; }
+  .hero .eyebrow { color: var(--accent); justify-content: center; }
+  .hero .eyebrow::before { background: var(--accent); }
+  .hero h1 { color: #fff; font-size: clamp(38px, 5.5vw, 56px); line-height: 1.1; margin: 0 0 22px; max-width: 22ch; margin-left: auto; margin-right: auto; }
+  .hero h1 em { color: var(--accent); }
+  .hero .lede { font-size: 19px; color: rgba(255,255,255,0.82); line-height: 1.5; margin: 0 auto; max-width: 56ch; }
+
+  /* Story body */
+  section.story-body { padding: 80px 32px 60px; }
+  .story-inner { max-width: 720px; margin: 0 auto; }
+  .story-inner p { font-size: 18px; color: var(--ink-soft); margin: 0 0 22px; line-height: 1.7; }
+  .story-inner p strong { color: var(--ink); font-weight: 600; }
+  .story-inner h2 { font-size: clamp(24px, 3vw, 32px); line-height: 1.2; margin: 48px 0 18px; }
+  .story-inner blockquote { background: var(--surface-2); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 22px 28px; margin: 30px 0; font-style: italic; font-size: 19px; color: var(--ink); line-height: 1.5; }
+  .story-inner blockquote p { font-size: 19px; color: var(--ink); margin: 0; }
+
+  /* Three pillars */
+  section.pillars { padding: 80px 32px; background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .pillars-inner { max-width: 1100px; margin: 0 auto; }
+  .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+  @media (max-width: 880px) { .pillars-grid { grid-template-columns: 1fr; } }
+  .pillar { background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 12px; padding: 28px 26px; }
+  .pillar .when { font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 12px; display: block; }
+  .pillar h3 { font-size: 22px; margin: 0 0 12px; }
+  .pillar p { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.6; }
+
+  /* What it taught */
+  section.lessons { padding: 80px 32px; }
+  .lessons-inner { max-width: 880px; margin: 0 auto; }
+  .lessons-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 36px; }
+  .lesson { background: var(--surface-2); border-radius: 12px; padding: 22px 26px; }
+  .lesson h4 { font-family: var(--font-serif); font-size: 19px; font-weight: 600; margin: 0 0 6px; color: var(--ink); }
+  .lesson p { font-family: var(--font-ui); font-size: 14.5px; color: var(--ink-soft); margin: 0; line-height: 1.6; }
+
+  .cta-band { padding: 96px 32px; background: var(--surface-2); border-top: 1px solid var(--line); }
+  .cta-inner { max-width: 880px; margin: 0 auto; text-align: center; }
+  .cta-inner h2 { font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 0 0 16px; }
+  .cta-inner p { font-size: 18px; color: var(--ink-soft); margin: 0 0 30px; max-width: 56ch; margin-left: auto; margin-right: auto; line-height: 1.5; }
+  .ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 56px 32px 28px; }
+  .footer-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 24px; font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.06em; flex-wrap: wrap; }
+  .footer-inner a { color: rgba(255,255,255,0.78); text-decoration: none; }
+  .footer-inner a:hover { color: #fff; }
+
+  @media (max-width: 640px) {
+    .topbar-inner { padding: 14px 18px; gap: 12px; }
+    .nav-links { display: none; }
+    section.hero, section.story-body, section.pillars, section.lessons, .cta-band { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      <div>
+        <div class="brand-name">The Saunter Group</div>
+        <div class="brand-sub">Leadership &amp; Organizational Intelligence</div>
+      </div>
+    </a>
+    <div class="nav-spacer"></div>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="/method/">Method</a>
+      <a href="/baic/">BAIC</a>
+      <a href="/ldna/">LDNA</a>
+      <a href="/story/" class="active">Story</a>
+    </nav>
+    <a href="/start/" class="nav-cta">Run a Fit Assessment</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Behind the method</div>
+    <h1>Why I build <em>systems</em>, not just strategies.</h1>
+    <p class="lede">
+      Ryan Roberts · Founder · The Saunter Group. Twenty years modeling failure for the Department of Defense.
+      Then built and sold a defense firm. Same discipline, different arena.
+    </p>
+  </div>
+</section>
+
+<section class="story-body">
+  <div class="story-inner">
+    <p>
+      I started my career as a <strong>fighter pilot and senior strategy officer</strong> in the United States
+      Air Force. That world demanded clarity under pressure, disciplined systems, and leadership in environments
+      where mistakes were not recoverable.
+    </p>
+    <p>
+      Most of my career was spent leading teams that modeled and assessed systems risk for the Department of
+      Defense — working alongside large defense contractors and weapons manufacturers to synthesize failure-mode
+      data across complex systems and produce real-world risk-level assessments.
+    </p>
+    <p>
+      That work forced <strong>mastery of risk</strong>: how to quantify it, how to model it, and how to engineer
+      around it before it could cascade. It taught me that the difference between systems that hold and systems
+      that fail is rarely the people inside them. It's the architecture.
+    </p>
+
+    <blockquote><p>"At this level, ambition without architecture doesn't create freedom — it creates exposure."</p></blockquote>
+
+    <h2>From the cockpit to the cabin.</h2>
+    <p>
+      When I transitioned out of the military, I <strong>built and sold a defense contracting firm</strong> while
+      living aboard a sailboat in the Caribbean. Different arena. Same laws of reality. Complex systems. Small
+      decisions. Compounding consequences.
+    </p>
+    <p>
+      At one point, revenue was outpacing structure. Demand was real, but the system underneath it wasn't ready.
+      What looked like progress on the surface was actually structural debt forming underneath. Visibility narrowed.
+      Decision latency increased. The margin for error collapsed.
+    </p>
+    <p>
+      That was the moment it became undeniable: <strong>the same systems-engineering discipline I'd applied to
+      cascading failure modes in defense systems applied directly to business architecture under growth load</strong>.
+      The variables changed. The math didn't.
+    </p>
+
+    <h2>Why this practice exists.</h2>
+    <p>
+      Over the years since, I've watched the same pattern repeat across founders and executive teams I've worked
+      with. Growth exposes weak systems. Stress exposes weak leadership rhythms. Chaos exposes structural gaps.
+      What worked at one level breaks at the next.
+    </p>
+    <p>
+      People are rarely the real problem. <strong>Their architecture is.</strong>
+    </p>
+    <p>
+      The Saunter Group exists to correct that — with evidence, not opinion — before it becomes irreversible. We
+      diagnose the system, diagnose the leaders inside it, prescribe the structure that holds under load, and
+      maintain it as complexity rises. Two instruments, one coherent method, built for founders who've moved past
+      survival mode and are quietly struggling under the weight of their own growth.
+    </p>
+  </div>
+</section>
+
+<section class="pillars">
+  <div class="pillars-inner">
+    <div class="eyebrow">Three arenas, one discipline</div>
+    <h2 style="max-width: 32ch;">Systems engineering, applied across thirty years.</h2>
+    <div class="pillars-grid">
+      <div class="pillar">
+        <span class="when">USAF · 20+ years</span>
+        <h3>Fighter pilot. Strategy officer.</h3>
+        <p>Two decades flying combat aircraft and serving as a senior strategy officer. Where the cost of a wrong decision is measured in lives — not P&amp;L.</p>
+      </div>
+      <div class="pillar">
+        <span class="when">DoD systems risk</span>
+        <h3>Failure-mode modeling at scale.</h3>
+        <p>Led teams synthesizing failure-mode data across complex defense systems with large contractors and weapons manufacturers. Turned cascade prevention into a discipline.</p>
+      </div>
+      <div class="pillar">
+        <span class="when">Operator · founder</span>
+        <h3>Built &amp; sold a defense firm.</h3>
+        <p>Founded, scaled, and exited a defense technology company while sailing the Caribbean. Same systems. Different arena. Compounding consequences either way.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lessons">
+  <div class="lessons-inner">
+    <div class="eyebrow">What it taught me</div>
+    <h2>The patterns that repeat across companies.</h2>
+    <div class="lessons-grid">
+      <div class="lesson">
+        <h4>Growth exposes weak systems.</h4>
+        <p>What worked at $50K/month breaks at $200K. Not because the team got worse, but because the architecture wasn't built for the load.</p>
+      </div>
+      <div class="lesson">
+        <h4>Stress exposes weak leadership rhythms.</h4>
+        <p>Pressure reveals where decision-making cadence falls apart — and which leaders carry weight under load and which can't.</p>
+      </div>
+      <div class="lesson">
+        <h4>Chaos exposes structural gaps.</h4>
+        <p>Crisis shows where the foundation was never built for sustained load. The cracks were there. The growth just made them visible.</p>
+      </div>
+      <div class="lesson">
+        <h4>Architecture compounds. Architectural debt also compounds.</h4>
+        <p>What you don't structure quietly accumulates as exposure. The fix is rarely heroic — it's structural.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-inner">
+    <div class="eyebrow" style="display: inline-flex; margin: 0 auto 14px;">Start the conversation</div>
+    <h2>If you're scaling, the next conversation is honest evidence.</h2>
+    <p>Run a Fit Assessment. Eight questions. We tell you whether there's structural leverage worth pursuing — or we tell you there isn't.</p>
+    <div class="ctas">
+      <a href="/start/" class="btn btn-primary">Run a Fit Assessment →</a>
+      <a href="/method/" class="btn btn-secondary">See the method</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 The Saunter Group, LLC · LDNA™ used under license from Vertical Consulting, LLC</span>
+    <span><a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="mailto:hello@thesauntergroup.com">Contact</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
