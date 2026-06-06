@@ -4,11 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#0E1F3D" />
-<title>The Saunter Group — Guiding Your Business Forward</title>
-<meta name="description" content="The Saunter Group helps founders, executives, and HR leaders make better decisions about people. Home of the LDNA™ leadership behavioral assessment." />
+<title>The Saunter Group — Diagnostic-led leadership and organizational architecture</title>
+<meta name="description" content="The Saunter Group helps founders and operators at $300K–$1M/month scale through evidence-based diagnostics of their organization and leadership team. Two proprietary instruments: BAIC and LDNA." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #FFFFFF;
@@ -32,251 +32,129 @@
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
   body { font-family: var(--font-serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
-  .topbar {
-    position: sticky; top: 0; z-index: 20;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: saturate(140%) blur(8px);
-    border-bottom: 1px solid var(--line);
-  }
-  .topbar-inner {
-    max-width: 1100px; margin: 0 auto;
-    padding: 18px 32px;
-    display: flex; align-items: center; gap: 24px;
-  }
+  /* ---------- Topbar ---------- */
+  .topbar { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.94); backdrop-filter: saturate(140%) blur(8px); border-bottom: 1px solid var(--line); }
+  .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; gap: 24px; }
   .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-  .brand-mark {
-    width: 42px; height: 42px;
-    border-radius: 7px;
-    background: var(--primary);
-    display: inline-flex; align-items: center; justify-content: center;
-    color: #fff;
-    font-family: var(--font-serif);
-    font-weight: 700;
-    font-style: italic;
-    font-size: 22px;
-    box-shadow: 0 1px 0 var(--accent) inset;
-  }
-  .brand-name {
-    font-family: var(--font-serif);
-    font-size: 20px;
-    color: var(--ink);
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -0.005em;
-  }
-  .brand-sub {
-    font-family: var(--font-ui);
-    font-size: 11px;
-    color: var(--ink-mute);
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    margin-top: 3px;
-  }
+  .brand-mark { width: 42px; height: 42px; border-radius: 7px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-serif); font-weight: 700; font-style: italic; font-size: 22px; box-shadow: 0 1px 0 var(--accent) inset; }
+  .brand-name { font-family: var(--font-serif); font-size: 20px; color: var(--ink); font-weight: 600; line-height: 1.1; letter-spacing: -0.005em; }
+  .brand-sub { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 3px; }
   .nav-spacer { flex: 1; }
   .nav-links { display: flex; gap: 28px; }
-  .nav-links a {
-    font-family: var(--font-ui);
-    font-size: 14px; font-weight: 500;
-    color: var(--ink-soft);
-    text-decoration: none;
-    transition: color 180ms;
-  }
+  .nav-links a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 180ms; }
   .nav-links a:hover { color: var(--primary); }
+  .nav-cta { font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: #fff; background: var(--primary); padding: 9px 18px; border-radius: 999px; text-decoration: none; transition: background 180ms; }
+  .nav-cta:hover { background: var(--primary-hover); }
 
-  main { max-width: 1100px; margin: 0 auto; padding: 80px 32px 100px; }
-
-  .eyebrow {
-    font-family: var(--font-ui);
-    text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px;
-    color: var(--accent); font-weight: 600;
-    margin-bottom: 18px;
-    display: inline-flex; align-items: center; gap: 10px;
-  }
+  /* ---------- Shared elements ---------- */
+  .eyebrow { font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 18px; display: inline-flex; align-items: center; gap: 10px; }
   .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); display: inline-block; }
+  h1, h2, h3 { font-family: var(--font-serif); font-weight: 600; color: var(--ink); letter-spacing: -0.015em; }
+  h1 em, h2 em, h3 em { font-style: italic; color: var(--accent); font-weight: 600; }
+  .tm { font-size: 0.5em; vertical-align: super; line-height: 0; margin-left: 0.08em; font-weight: 500; font-style: normal; color: var(--ink-mute); }
 
-  .hero h1 {
-    font-family: var(--font-serif);
-    font-size: clamp(40px, 6vw, 64px);
-    line-height: 1.05; letter-spacing: -0.02em;
-    margin: 0 0 22px;
-    color: var(--ink);
-    font-weight: 600;
-    max-width: 18ch;
-  }
-  .hero h1 em { font-style: italic; color: var(--accent); font-weight: 600; }
-  .hero .lede {
-    font-size: 20px;
-    color: var(--ink-soft);
-    max-width: 56ch;
-    line-height: 1.55;
-    margin: 0 0 36px;
-  }
+  /* ---------- Hero ---------- */
+  section.hero { max-width: 1180px; margin: 0 auto; padding: 88px 32px 80px; }
+  .hero h1 { font-size: clamp(36px, 5vw, 56px); line-height: 1.1; margin: 0 0 24px; max-width: 22ch; }
+  .hero .lede { font-size: 20px; color: var(--ink-soft); max-width: 60ch; line-height: 1.5; margin: 0 0 36px; }
+  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn { font-family: var(--font-ui); font-size: 15px; font-weight: 600; padding: 14px 24px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 180ms; cursor: pointer; border: 0; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+  .btn-secondary { background: transparent; color: var(--primary); border: 1px solid var(--primary-line); }
+  .btn-secondary:hover { border-color: var(--primary); background: var(--primary-soft); }
 
-  .offerings {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-top: 80px;
-  }
-  @media (max-width: 720px) { .offerings { grid-template-columns: 1fr; } }
+  /* ---------- Offerings ---------- */
+  section.offerings { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .offerings-inner { max-width: 1180px; margin: 0 auto; padding: 88px 32px; }
+  .section-heading { text-align: center; margin-bottom: 56px; }
+  .section-heading h2 { font-size: clamp(28px, 3.5vw, 40px); line-height: 1.15; margin: 0 auto 14px; max-width: 28ch; }
+  .section-heading p { font-size: 18px; color: var(--ink-soft); max-width: 56ch; margin: 0 auto; line-height: 1.5; }
+  .section-heading.left { text-align: left; }
+  .section-heading.left h2, .section-heading.left p { margin-left: 0; }
+  .offering-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  @media (max-width: 880px) { .offering-grid { grid-template-columns: 1fr; } }
+  .offering-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 36px 32px; display: flex; flex-direction: column; transition: border-color 200ms, transform 200ms, box-shadow 200ms; }
+  .offering-card:hover { border-color: var(--primary-line); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(14,31,61,0.08); }
+  .offering-tag { font-family: var(--font-ui); font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600; padding: 4px 10px; border-radius: 999px; align-self: flex-start; margin-bottom: 18px; background: var(--accent-soft); color: #5B4416; border: 1px solid var(--accent-line); }
+  .offering-card h3 { font-size: 32px; line-height: 1.1; margin: 0 0 4px; }
+  .offering-card .full-name { font-family: var(--font-ui); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); margin-bottom: 22px; }
+  .offering-card .what { font-size: 16px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 24px; flex: 1; }
+  .offering-card .what strong { color: var(--ink); font-weight: 600; }
+  .offering-card ul { list-style: none; padding: 0; margin: 0 0 28px; }
+  .offering-card ul li { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); padding: 8px 0; border-top: 1px solid var(--line); display: flex; align-items: flex-start; gap: 10px; }
+  .offering-card ul li::before { content: ""; flex-shrink: 0; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; margin-top: 7px; }
+  .offering-card .card-cta { font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: var(--primary); text-decoration: none; align-self: flex-start; border-bottom: 1px solid var(--primary-line); padding-bottom: 2px; transition: border-color 180ms; }
+  .offering-card .card-cta:hover { border-bottom-color: var(--primary); }
 
-  .card {
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 32px;
-    background: var(--surface);
-    transition: border-color 200ms, transform 200ms;
-    display: flex; flex-direction: column;
-  }
-  .card.available { border-color: var(--primary-line); background: linear-gradient(180deg, var(--primary-soft) 0%, #fff 60%); }
-  .card.available:hover { transform: translateY(-2px); border-color: var(--primary); }
+  /* ---------- Problem section ---------- */
+  section.problem { padding: 88px 32px; }
+  .problem-inner { max-width: 1180px; margin: 0 auto; }
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+  @media (max-width: 960px) { .problem-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .problem-grid { grid-template-columns: 1fr; } }
+  .problem-card { padding: 24px 4px; border-top: 2px solid var(--accent); }
+  .problem-card h4 { font-family: var(--font-serif); font-size: 19px; font-weight: 600; margin: 0 0 8px; color: var(--ink); }
+  .problem-card p { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.6; }
 
-  .card-tag {
-    font-family: var(--font-ui);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 999px;
-    align-self: flex-start;
-    margin-bottom: 16px;
-  }
-  .card-tag.live { background: var(--accent-soft); color: #5B4416; border: 1px solid var(--accent-line); }
-  .card-tag.soon { background: var(--surface-2); color: var(--ink-mute); border: 1px solid var(--line); }
+  /* ---------- Method band ---------- */
+  section.method { background: var(--primary); color: #fff; padding: 88px 32px; }
+  .method-inner { max-width: 1180px; margin: 0 auto; }
+  .method .section-heading h2 { color: #fff; }
+  .method .section-heading p { color: rgba(255,255,255,0.78); }
+  .method-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 48px; }
+  @media (max-width: 880px) { .method-steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .method-steps { grid-template-columns: 1fr; } }
+  .method-step { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 24px 22px; }
+  .method-step .num { font-family: var(--font-serif); font-style: italic; color: var(--accent); font-size: 22px; line-height: 1; margin-bottom: 12px; display: block; }
+  .method-step h4 { font-family: var(--font-serif); font-size: 18px; font-weight: 600; margin: 0 0 6px; color: #fff; }
+  .method-step p { font-family: var(--font-ui); font-size: 13.5px; color: rgba(255,255,255,0.78); margin: 0; line-height: 1.55; }
+  .method-link { text-align: center; margin-top: 40px; }
+  .method-link a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.4); padding-bottom: 2px; }
+  .method-link a:hover { border-bottom-color: #fff; }
 
-  .card h2 {
-    font-family: var(--font-serif);
-    font-size: 28px;
-    line-height: 1.15;
-    margin: 0 0 8px;
-    color: var(--ink);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .card h2 .tm { font-size: 0.5em; vertical-align: super; line-height: 0; margin-left: 0.08em; font-weight: 500; color: var(--accent); }
-  .card .full-name {
-    font-family: var(--font-ui);
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--ink-mute);
-    margin-bottom: 18px;
-  }
-  .card p {
-    color: var(--ink-soft);
-    margin: 0 0 24px;
-    line-height: 1.55;
-    flex: 1;
-  }
-  .card .cta {
-    font-family: var(--font-ui);
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--primary);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    border-radius: 999px;
-    background: var(--primary);
-    color: #fff;
-    align-self: flex-start;
-    transition: background 180ms, transform 180ms;
-  }
-  .card .cta:hover { background: var(--primary-hover); transform: translateY(-1px); }
-  .card .cta-disabled {
-    font-family: var(--font-ui);
-    font-size: 13px;
-    color: var(--ink-mute);
-    align-self: flex-start;
-  }
+  /* ---------- Story band ---------- */
+  section.story { padding: 88px 32px; background: var(--surface-2); border-top: 1px solid var(--line); }
+  .story-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 5fr 6fr; gap: 56px; align-items: center; }
+  @media (max-width: 880px) { .story-inner { grid-template-columns: 1fr; gap: 32px; } }
+  .story-quote { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 28px 32px; font-family: var(--font-serif); font-size: 22px; line-height: 1.45; color: var(--ink); font-style: italic; }
+  .story-quote .who { display: block; margin-top: 18px; font-style: normal; font-size: 14px; color: var(--ink-mute); font-family: var(--font-ui); letter-spacing: 0.02em; }
+  .story-content h2 { font-size: clamp(26px, 3.2vw, 36px); line-height: 1.15; margin: 0 0 18px; max-width: 22ch; }
+  .story-content p { font-size: 17px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 14px; }
+  .story-content p strong { color: var(--ink); font-weight: 600; }
+  .story-content .read-more { display: inline-block; margin-top: 12px; font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: var(--primary); text-decoration: none; border-bottom: 1px solid var(--primary-line); padding-bottom: 2px; }
+  .story-content .read-more:hover { border-bottom-color: var(--primary); }
 
-  .about-band {
-    margin-top: 120px;
-    padding-top: 64px;
-    border-top: 1px solid var(--line);
-  }
-  .about-band h2 {
-    font-family: var(--font-serif);
-    font-size: clamp(26px, 3.5vw, 36px);
-    line-height: 1.2; letter-spacing: -0.015em;
-    margin: 0 0 18px;
-    color: var(--ink);
-    font-weight: 600;
-    max-width: 22ch;
-  }
-  .about-band p {
-    font-size: 18px;
-    color: var(--ink-soft);
-    max-width: 64ch;
-    line-height: 1.55;
-    margin: 0 0 14px;
-  }
+  /* ---------- CTA band ---------- */
+  section.cta-band { padding: 96px 32px; }
+  .cta-inner { max-width: 880px; margin: 0 auto; text-align: center; }
+  .cta-inner h2 { font-size: clamp(28px, 4vw, 44px); line-height: 1.1; margin: 0 0 16px; }
+  .cta-inner p { font-size: 18px; color: var(--ink-soft); margin: 0 0 32px; max-width: 56ch; margin-left: auto; margin-right: auto; line-height: 1.5; }
+  .cta-inner .hero-ctas { justify-content: center; }
+  .cta-inner .signals { margin-top: 30px; display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); }
+  .cta-inner .signals span { display: inline-flex; align-items: center; gap: 8px; }
+  .cta-inner .signals span::before { content: "✓"; color: var(--accent); font-weight: 700; }
 
-  .contact-strip {
-    margin-top: 80px;
-    background: var(--surface-2);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 36px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-  .contact-strip h3 {
-    font-family: var(--font-serif);
-    font-size: 22px;
-    margin: 0;
-    color: var(--ink);
-    font-weight: 600;
-    letter-spacing: -0.005em;
-  }
-  .contact-strip p {
-    margin: 6px 0 0;
-    font-family: var(--font-ui);
-    font-size: 14px;
-    color: var(--ink-soft);
-  }
-  .contact-strip a {
-    font-family: var(--font-ui);
-    font-size: 15px;
-    font-weight: 600;
-    color: #fff;
-    background: var(--primary);
-    text-decoration: none;
-    padding: 12px 22px;
-    border-radius: 999px;
-    transition: background 180ms;
-  }
-  .contact-strip a:hover { background: var(--primary-hover); }
-
-  footer {
-    border-top: 1px solid var(--line);
-    margin-top: 80px;
-    padding: 36px 32px 60px;
-  }
-  .footer-inner {
-    max-width: 1100px; margin: 0 auto;
-    display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;
-    font-family: var(--font-ui);
-    font-size: 12px;
-    color: var(--ink-mute);
-    letter-spacing: 0.04em;
-  }
-  .footer-inner a { color: var(--ink-soft); text-decoration: none; }
-  .footer-inner a:hover { color: var(--primary); }
-  .footer-attribution { text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px; }
+  /* ---------- Footer ---------- */
+  footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 64px 32px 32px; }
+  .footer-inner { max-width: 1180px; margin: 0 auto; }
+  .footer-cols { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  @media (max-width: 720px) { .footer-cols { grid-template-columns: 1fr 1fr; } }
+  .footer-brand .brand-name { color: #fff; }
+  .footer-brand .brand-sub { color: rgba(255,255,255,0.55); }
+  .footer-brand p { font-family: var(--font-ui); font-size: 13px; color: rgba(255,255,255,0.65); max-width: 32ch; margin: 18px 0 0; line-height: 1.55; }
+  .footer-col h4 { font-family: var(--font-ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em; color: rgba(255,255,255,0.5); font-weight: 600; margin: 0 0 14px; }
+  .footer-col ul { list-style: none; padding: 0; margin: 0; }
+  .footer-col ul li { margin-bottom: 8px; }
+  .footer-col ul li a { font-family: var(--font-ui); font-size: 14px; color: rgba(255,255,255,0.78); text-decoration: none; }
+  .footer-col ul li a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 24px; display: flex; justify-content: space-between; gap: 16px; font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.06em; color: rgba(255,255,255,0.45); flex-wrap: wrap; }
 
   @media (max-width: 640px) {
-    .topbar-inner { padding: 14px 18px; gap: 14px; }
-    .nav-links { gap: 18px; }
-    main { padding: 48px 18px 60px; }
-    .card { padding: 24px; }
-    .contact-strip { padding: 28px 24px; flex-direction: column; align-items: flex-start; }
+    .topbar-inner { padding: 14px 18px; gap: 12px; }
+    .nav-links { display: none; }
+    section.hero, section.offerings .offerings-inner, section.problem, section.method, section.story, section.cta-band { padding-left: 18px; padding-right: 18px; }
+    .offering-card { padding: 28px 22px; }
   }
 </style>
 </head>
@@ -288,91 +166,244 @@
       <span class="brand-mark" aria-hidden="true">S</span>
       <div>
         <div class="brand-name">The Saunter Group</div>
-        <div class="brand-sub">Guiding Your Business Forward</div>
+        <div class="brand-sub">Leadership &amp; Organizational Intelligence</div>
       </div>
     </a>
     <div class="nav-spacer"></div>
     <nav class="nav-links" aria-label="Primary">
-      <a href="/ldna/">LDNA™</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+      <a href="/method/">Method</a>
+      <a href="/baic/">BAIC</a>
+      <a href="/ldna/">LDNA</a>
+      <a href="/story/">Story</a>
     </nav>
+    <a href="/start/" class="nav-cta">Run a Fit Assessment</a>
   </div>
 </header>
 
-<main>
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">Diagnostic-led growth at scale</div>
+  <h1>Build the architecture your next stage of growth <em>actually requires</em>.</h1>
+  <p class="lede">
+    Most companies don't stall because of effort, talent, or strategy. They stall because the organization
+    and the leadership team were architected for the last revenue tier, not the next one. The Saunter Group
+    diagnoses both — the system and the leaders — and prescribes the structure that holds under load.
+  </p>
+  <div class="hero-ctas">
+    <a href="/start/" class="btn btn-primary">Run a Fit Assessment →</a>
+    <a href="/method/" class="btn btn-secondary">See how we work</a>
+  </div>
+</section>
 
-  <section class="hero">
-    <div class="eyebrow">Leadership behavior, measured</div>
-    <h1>Better people decisions, made <em>with evidence</em>.</h1>
-    <p class="lede">
-      The Saunter Group helps founders, executives, and HR leaders understand the
-      behavioral signatures of high performance — and use that understanding to
-      build teams that win. We turn assessment into action.
-    </p>
-  </section>
-
-  <section class="offerings" aria-label="Assessments">
-    <article class="card available">
-      <span class="card-tag live">Available now</span>
-      <h2>LDNA<span class="tm">™</span></h2>
-      <div class="full-name">Leadership Drivers &amp; Natural Aptitudes</div>
-      <p>
-        A two-part behavioral assessment that surfaces a leader's natural work style
-        and the behaviors their current role demands. Used for role fit, executive
-        coaching, and team alignment. Takes about 10 minutes; results are
-        confidential.
-      </p>
-      <a href="/ldna/" class="cta">Take the assessment →</a>
-    </article>
-
-    <article class="card">
-      <span class="card-tag soon">In development</span>
-      <h2>BAIC</h2>
-      <div class="full-name">Behavioral Alignment &amp; Influence Coaching</div>
-      <p>
-        A structured engagement that translates LDNA results into a tailored
-        development plan and coaching cadence. Builds on the LDNA profile to make
-        leadership growth specific, measurable, and accountable.
-      </p>
-      <span class="cta-disabled">Coming soon — contact us to learn more</span>
-    </article>
-  </section>
-
-  <section class="about-band" id="about">
-    <div class="eyebrow">About</div>
-    <h2>We're a small consultancy with a clear point of view.</h2>
-    <p>
-      The Saunter Group operates the LDNA<span style="font-family: var(--font-serif); font-size: 0.6em; vertical-align: super;">™</span> assessment under license from Vertical Consulting, LLC, the IP holder.
-      We work directly with founders and senior leaders to make the often-fuzzy
-      conversation around behavior, fit, and team dynamics concrete, evidence-led,
-      and useful.
-    </p>
-    <p>
-      A more complete site is on its way. In the meantime, the assessment is live
-      and you can reach us directly below.
-    </p>
-  </section>
-
-  <section class="contact-strip" id="contact">
-    <div>
-      <h3>Get in touch</h3>
-      <p>We respond within one business day.</p>
+<!-- OFFERINGS -->
+<section class="offerings">
+  <div class="offerings-inner">
+    <div class="section-heading">
+      <div class="eyebrow" style="display: inline-flex; margin: 0 auto 14px;">Two proprietary instruments</div>
+      <h2>One architecture, two lenses.</h2>
+      <p>We diagnose how the organization is built — and how the leaders inside it actually operate. The same evidence base runs end to end.</p>
     </div>
-    <a href="mailto:hello@thesauntergroup.com?subject=LDNA%20inquiry">hello@thesauntergroup.com →</a>
-  </section>
 
-</main>
+    <div class="offering-grid">
+      <article class="offering-card">
+        <span class="offering-tag">Organizational architecture</span>
+        <h3>BAIC</h3>
+        <div class="full-name">Business Architecture &amp; Intelligence Cycle</div>
+        <p class="what">
+          A <strong>30-day, founder-anchored diagnostic</strong> of your business as a system — across eight
+          interdependent domains. Surfaces failure modes before they cascade, ranks them by impact, and
+          installs a 90-day execution blueprint with a hosted dashboard for ongoing governance.
+        </p>
+        <ul>
+          <li>Architecture maturity score across 8 domains</li>
+          <li>Vulnerability register — what breaks first, what breaks hardest</li>
+          <li>Operating blueprint with owner-level accountability</li>
+          <li>Quarterly re-score and advisory retainer available</li>
+        </ul>
+        <a href="/baic/" class="card-cta">Explore BAIC →</a>
+      </article>
 
+      <article class="offering-card">
+        <span class="offering-tag">Leadership intelligence</span>
+        <h3>LDNA<span class="tm">™</span></h3>
+        <div class="full-name">Leadership Drivers &amp; Natural Aptitudes</div>
+        <p class="what">
+          A <strong>leadership-intelligence instrument</strong> that reads each leader across seven dimensions —
+          who they are naturally, and what their role demands. The Team Report rolls every profile into one
+          view of complementarity, blind spots, and where the bench is exposed.
+        </p>
+        <ul>
+          <li>Natural &amp; adaptive read — and the daily cost of the gap</li>
+          <li>Fifteen archetypes on the value-stream field</li>
+          <li>Team complementarity and coverage map</li>
+          <li>Built-in AI-exposure read for each leader's value</li>
+        </ul>
+        <a href="/ldna/" class="card-cta">Take the assessment →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="problem-inner">
+    <div class="section-heading left" style="margin-bottom: 24px;">
+      <div class="eyebrow">Why companies stall</div>
+      <h2>Growth doesn't forgive structural debt. It amplifies it.</h2>
+      <p>At $300K–$1M/month, the architecture that got you here starts breaking. We see the same six patterns repeat.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <h4>The founder is the bottleneck</h4>
+        <p>Every major decision still routes through one person. Velocity drops the day the founder gets sick.</p>
+      </div>
+      <div class="problem-card">
+        <h4>Decisions go reactive</h4>
+        <p>The team puts out fires instead of building strategically. Planning becomes impossible.</p>
+      </div>
+      <div class="problem-card">
+        <h4>Visibility breaks down</h4>
+        <p>You don't see what's failing until it's already broken. Dashboards lie or don't exist.</p>
+      </div>
+      <div class="problem-card">
+        <h4>Leadership outgrows structure</h4>
+        <p>You've grown as a leader, but the org chart, decision rights, and accountability haven't kept pace.</p>
+      </div>
+      <div class="problem-card">
+        <h4>The team is mis-paired</h4>
+        <p>The right people are in the wrong seats, or paired with people who share their blind spots, not cover them.</p>
+      </div>
+      <div class="problem-card">
+        <h4>Systems were never built for scale</h4>
+        <p>What worked at $50K/month breaks at $200K. Your operating rhythm was never designed for the current load.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section class="method">
+  <div class="method-inner">
+    <div class="section-heading">
+      <div class="eyebrow" style="color: var(--accent); margin: 0 auto 14px;">How we work</div>
+      <h2>Diagnose first. Prescribe second. Govern continuously.</h2>
+      <p>Every engagement begins with evidence — never opinion. The diagnostic determines what to build, what to fix first, and what to ignore for now.</p>
+    </div>
+    <div class="method-steps">
+      <div class="method-step">
+        <span class="num">01</span>
+        <h4>Fit assessment</h4>
+        <p>Eight questions. We confirm there's structural leverage worth pursuing — or we say so and part with clarity.</p>
+      </div>
+      <div class="method-step">
+        <span class="num">02</span>
+        <h4>Diagnose</h4>
+        <p>BAIC for the organization. LDNA for the leaders. The two together surface the real failure points.</p>
+      </div>
+      <div class="method-step">
+        <span class="num">03</span>
+        <h4>Prescribe</h4>
+        <p>Operating blueprint, vulnerability fixes, leadership pairing, and where coaching is warranted.</p>
+      </div>
+      <div class="method-step">
+        <span class="num">04</span>
+        <h4>Govern</h4>
+        <p>Hosted dashboard, quarterly re-score, and advisory retainer. Architecture is maintained, not abandoned.</p>
+      </div>
+    </div>
+    <div class="method-link">
+      <a href="/method/">See the full method →</a>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story">
+  <div class="story-inner">
+    <div>
+      <blockquote class="story-quote">
+        "I learned scale in environments where failure cascaded and structure decided outcomes before execution ever began."
+        <span class="who">Ryan Roberts · Founder · The Saunter Group</span>
+      </blockquote>
+    </div>
+    <div class="story-content">
+      <div class="eyebrow">Behind the method</div>
+      <h2>Built by an operator who learned systems the hard way.</h2>
+      <p>
+        Two decades as a <strong>fighter pilot and senior strategy officer</strong> in the United States Air Force.
+        Led teams modeling systems risk for the Department of Defense — working alongside large defense
+        contractors to quantify failure modes before they could cascade.
+      </p>
+      <p>
+        Later, <strong>built and sold a defense contracting firm</strong> while living on a sailboat in the Caribbean.
+        Different arena. Same discipline. Same obsession with failure prevention, execution integrity, and
+        scalable systems.
+      </p>
+      <p>Those experiences shaped both BAIC and LDNA — and the conviction that growth without architecture isn't freedom, it's exposure.</p>
+      <a href="/story/" class="read-more">Read the full story →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="cta-inner">
+    <div class="eyebrow" style="display: inline-flex; margin: 0 auto 14px;">Start here</div>
+    <h2>If you're serious about scaling, the first step is honest evidence.</h2>
+    <p>Eight questions. No pitch. We tell you whether there's structural leverage worth working on — or we tell you there isn't.</p>
+    <div class="hero-ctas">
+      <a href="/start/" class="btn btn-primary">Run a Fit Assessment →</a>
+      <a href="/method/" class="btn btn-secondary">See the method first</a>
+    </div>
+    <div class="signals">
+      <span>No generic frameworks</span>
+      <span>Designed for the $300K–$1M/month zone</span>
+      <span>Real architecture, real results</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div>
-      <a href="/ldna/">LDNA™ Assessment</a>
-      &nbsp;·&nbsp; <a href="/ldna/privacy.html">Privacy</a>
-      &nbsp;·&nbsp; <a href="mailto:hello@thesauntergroup.com">Contact</a>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a href="/" class="brand" style="color: inherit;">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <div>
+            <div class="brand-name">The Saunter Group</div>
+            <div class="brand-sub">Leadership &amp; Organizational Intelligence</div>
+          </div>
+        </a>
+        <p>Diagnostic-led leadership and organizational architecture for founders and operators at scale.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Practice</h4>
+        <ul>
+          <li><a href="/method/">Method</a></li>
+          <li><a href="/baic/">BAIC</a></li>
+          <li><a href="/ldna/">LDNA</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Firm</h4>
+        <ul>
+          <li><a href="/story/">Story</a></li>
+          <li><a href="/start/">Fit Assessment</a></li>
+          <li><a href="mailto:hello@thesauntergroup.com">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/ldna/privacy.html">Privacy</a></li>
+          <li><a href="mailto:privacy@thesauntergroup.com">Data requests</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="footer-attribution">
-      © 2026 The Saunter Group, LLC &nbsp;·&nbsp; LDNA™ used under license from Vertical Consulting, LLC
+    <div class="footer-bottom">
+      <span>© 2026 The Saunter Group, LLC</span>
+      <span>LDNA™ used under license from Vertical Consulting, LLC</span>
     </div>
   </div>
 </footer>
