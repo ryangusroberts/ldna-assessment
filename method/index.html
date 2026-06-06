@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0E1F3D" />
+<title>The Method — The Saunter Group</title>
+<meta name="description" content="The Saunter Group's diagnostic-first method: BAIC for organizational architecture, LDNA for leadership intelligence, governed by hosted dashboards and quarterly re-scoring." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF; --surface: #FFFFFF; --surface-2: #F4F6FA;
+    --ink: #0B1220; --ink-soft: #3E4860; --ink-mute: #7A8499;
+    --line: #DCE2EC; --primary: #0E1F3D; --primary-hover: #081530;
+    --primary-soft: #EEF2FB; --primary-line: #C6D2E6;
+    --accent: #A77A28; --accent-soft: #F5EFE0; --accent-line: #D9C28A;
+    --font-serif: 'Aptos Serif', 'Aptos', 'Source Serif 4', 'Source Serif Pro', 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
+    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body { font-family: var(--font-serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .topbar { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.94); backdrop-filter: saturate(140%) blur(8px); border-bottom: 1px solid var(--line); }
+  .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; gap: 24px; }
+  .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .brand-mark { width: 42px; height: 42px; border-radius: 7px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-serif); font-weight: 700; font-style: italic; font-size: 22px; box-shadow: 0 1px 0 var(--accent) inset; }
+  .brand-name { font-family: var(--font-serif); font-size: 20px; color: var(--ink); font-weight: 600; line-height: 1.1; letter-spacing: -0.005em; }
+  .brand-sub { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 3px; }
+  .nav-spacer { flex: 1; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 180ms; }
+  .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+  .nav-links a.active { font-weight: 600; }
+  .nav-cta { font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: #fff; background: var(--primary); padding: 9px 18px; border-radius: 999px; text-decoration: none; }
+  .nav-cta:hover { background: var(--primary-hover); }
+  .eyebrow { font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 18px; display: inline-flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); display: inline-block; }
+  h1, h2, h3 { font-family: var(--font-serif); font-weight: 600; color: var(--ink); letter-spacing: -0.015em; }
+  h1 em, h2 em { font-style: italic; color: var(--accent); font-weight: 600; }
+  .btn { font-family: var(--font-ui); font-size: 15px; font-weight: 600; padding: 14px 24px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 180ms; cursor: pointer; border: 0; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+  .btn-secondary { background: transparent; color: var(--primary); border: 1px solid var(--primary-line); }
+  .btn-secondary:hover { border-color: var(--primary); background: var(--primary-soft); }
+
+  /* Page-specific */
+  section.hero { max-width: 1000px; margin: 0 auto; padding: 80px 32px 64px; }
+  .hero h1 { font-size: clamp(36px, 5vw, 56px); line-height: 1.1; margin: 0 0 24px; max-width: 22ch; }
+  .hero .lede { font-size: 20px; color: var(--ink-soft); max-width: 64ch; line-height: 1.5; margin: 0 0 0; }
+
+  .ladder-band { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 72px 32px; }
+  .ladder-inner { max-width: 1000px; margin: 0 auto; }
+  .ladder-inner h2 { font-size: clamp(24px, 3vw, 32px); line-height: 1.2; margin: 0 0 12px; }
+  .ladder-inner .lede { font-size: 17px; color: var(--ink-soft); margin: 0 0 40px; max-width: 56ch; }
+  .ladder { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  @media (max-width: 880px) { .ladder { grid-template-columns: 1fr; } }
+  .rung { background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 12px; padding: 24px; }
+  .rung .num { font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 12px; display: block; }
+  .rung h3 { font-size: 22px; margin: 0 0 10px; }
+  .rung p { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.55; }
+
+  .instrument { padding: 88px 32px; }
+  .instrument:nth-of-type(odd) { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .instrument-inner { max-width: 1180px; margin: 0 auto; }
+  .instrument-header { display: grid; grid-template-columns: 5fr 7fr; gap: 56px; align-items: end; margin-bottom: 48px; }
+  @media (max-width: 880px) { .instrument-header { grid-template-columns: 1fr; gap: 24px; } }
+  .instrument-header h2 { font-size: clamp(28px, 4vw, 44px); line-height: 1.1; margin: 0 0 12px; }
+  .instrument-header .full-name { font-family: var(--font-ui); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); }
+  .instrument-header .lede { font-size: 18px; color: var(--ink-soft); line-height: 1.5; margin: 0; }
+
+  .grid-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  @media (max-width: 960px) { .grid-cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .grid-cards { grid-template-columns: 1fr; } }
+  .small-card { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 22px 20px; }
+  .small-card h4 { font-family: var(--font-serif); font-size: 16px; font-weight: 600; margin: 0 0 6px; color: var(--ink); }
+  .small-card p { font-family: var(--font-ui); font-size: 13px; color: var(--ink-soft); margin: 0; line-height: 1.55; }
+  .instrument:nth-of-type(odd) .small-card { border-color: var(--line); }
+
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+  @media (max-width: 720px) { .feature-grid { grid-template-columns: 1fr; } }
+  .feature { display: flex; gap: 18px; align-items: flex-start; }
+  .feature .ring { flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-line); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; font-style: italic; }
+  .feature h4 { font-family: var(--font-serif); font-size: 17px; font-weight: 600; margin: 0 0 4px; color: var(--ink); }
+  .feature p { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.55; }
+
+  .pull-quote { background: var(--primary); color: #fff; padding: 80px 32px; }
+  .pull-quote-inner { max-width: 880px; margin: 0 auto; text-align: center; }
+  .pull-quote h2 { color: #fff; font-size: clamp(26px, 3.5vw, 36px); line-height: 1.2; margin: 0 0 16px; }
+  .pull-quote p { color: rgba(255,255,255,0.78); font-size: 17px; line-height: 1.55; margin: 0 auto; max-width: 56ch; }
+
+  .cta-band { padding: 88px 32px; }
+  .cta-inner { max-width: 880px; margin: 0 auto; text-align: center; }
+  .cta-inner h2 { font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 0 0 16px; }
+  .cta-inner p { font-size: 18px; color: var(--ink-soft); margin: 0 0 30px; max-width: 56ch; margin-left: auto; margin-right: auto; line-height: 1.5; }
+  .ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 56px 32px 28px; }
+  .footer-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 24px; font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.06em; flex-wrap: wrap; }
+  .footer-inner a { color: rgba(255,255,255,0.78); text-decoration: none; }
+  .footer-inner a:hover { color: #fff; }
+
+  @media (max-width: 640px) {
+    .topbar-inner { padding: 14px 18px; gap: 12px; }
+    .nav-links { display: none; }
+    section.hero, .ladder-band, .instrument, .pull-quote, .cta-band { padding-left: 18px; padding-right: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand">
+      <span class="brand-mark" aria-hidden="true">S</span>
+      <div>
+        <div class="brand-name">The Saunter Group</div>
+        <div class="brand-sub">Leadership &amp; Organizational Intelligence</div>
+      </div>
+    </a>
+    <div class="nav-spacer"></div>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="/method/" class="active">Method</a>
+      <a href="/baic/">BAIC</a>
+      <a href="/ldna/">LDNA</a>
+      <a href="/story/">Story</a>
+    </nav>
+    <a href="/start/" class="nav-cta">Run a Fit Assessment</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">The method</div>
+  <h1>The architecture behind <em>predictable</em> scale.</h1>
+  <p class="lede">
+    Founders don't fail because they lack discipline. They fail because no one taught them the architecture of scale.
+    Our method combines systems engineering, organizational diagnosis, and behavioral science into a single coherent
+    sequence — built for the stage where hiring outruns structure, revenue hides risk, and founders become involuntary
+    constraints.
+  </p>
+</section>
+
+<section class="ladder-band">
+  <div class="ladder-inner">
+    <div class="eyebrow">The three-step ladder</div>
+    <h2>Diagnose → Prescribe → Govern.</h2>
+    <p class="lede">
+      Every engagement fits inside this sequence. The diagnosis determines what to prescribe. The governance ensures
+      the prescription compounds instead of decaying.
+    </p>
+    <div class="ladder">
+      <div class="rung">
+        <span class="num">01 · Diagnose</span>
+        <h3>Evidence before opinion</h3>
+        <p>
+          BAIC diagnoses the organization as a system. LDNA diagnoses the leaders inside it. Both surface the failure
+          modes that growth is about to amplify — backed by evidence, not interview impressions.
+        </p>
+      </div>
+      <div class="rung">
+        <span class="num">02 · Prescribe</span>
+        <h3>The architecture rebuild</h3>
+        <p>
+          A ranked, evidence-backed upgrade path. What to fix first, what will break hardest, who pairs with whom,
+          where leadership coaching is warranted. Sequenced for impact, not optics.
+        </p>
+      </div>
+      <div class="rung">
+        <span class="num">03 · Govern</span>
+        <h3>Architecture under load</h3>
+        <p>
+          The hosted dashboard, the quarterly re-score, the advisory cadence. The system you built is maintained as
+          complexity rises — so structural debt doesn't quietly accumulate inside the growth you're celebrating.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BAIC -->
+<section class="instrument" id="baic">
+  <div class="instrument-inner">
+    <div class="instrument-header">
+      <div>
+        <div class="eyebrow">Instrument 01</div>
+        <h2>BAIC</h2>
+        <div class="full-name">Business Architecture &amp; Intelligence Cycle</div>
+      </div>
+      <p class="lede">
+        A 30-day, founder-anchored diagnostic of the business as an interdependent system. Eight domains, scored
+        against an evidence-based rubric, with a ranked vulnerability register and a 90-day execution blueprint.
+      </p>
+    </div>
+
+    <div class="eyebrow" style="margin-bottom: 14px;">The eight domains we score</div>
+    <div class="grid-cards" style="margin-bottom: 48px;">
+      <div class="small-card"><h4>Strategy</h4><p>Where the business is going and why it can.</p></div>
+      <div class="small-card"><h4>Structure &amp; Accountability</h4><p>How decisions flow and who owns outcomes.</p></div>
+      <div class="small-card"><h4>Systems &amp; Processes</h4><p>The repeatable mechanics underneath revenue.</p></div>
+      <div class="small-card"><h4>Financial Controls</h4><p>Visibility, discipline, and the reporting cadence.</p></div>
+      <div class="small-card"><h4>Revenue Engine</h4><p>How customers actually become customers, predictably.</p></div>
+      <div class="small-card"><h4>Data &amp; Dashboards</h4><p>What you can see, and what's still invisible.</p></div>
+      <div class="small-card"><h4>Risk &amp; Compliance</h4><p>What breaks loud, and what breaks quiet.</p></div>
+      <div class="small-card"><h4>Leadership Capacity</h4><p>Whether the bench can carry the next stage.</p></div>
+    </div>
+
+    <div class="eyebrow" style="margin-bottom: 14px;">What you leave with</div>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="ring">A</div>
+        <div>
+          <h4>Architecture maturity score</h4>
+          <p>Your current architecture rated across all eight domains, with a spider chart and a ranked path of high-leverage upgrades.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="ring">B</div>
+        <div>
+          <h4>Vulnerability register</h4>
+          <p>The top failure modes ranked by impact and likelihood — what will break first, what will break hardest, and what to ignore for now.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="ring">C</div>
+        <div>
+          <h4>90-day operating blueprint</h4>
+          <p>Sequenced execution plan with owner-level accountability. Not a wishlist — an installation order.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="ring">D</div>
+        <div>
+          <h4>Hosted dashboard</h4>
+          <p>A live view of the architecture as it evolves. Quarterly re-scoring keeps you honest about whether the upgrades are sticking.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LDNA -->
+<section class="instrument" id="ldna">
+  <div class="instrument-inner">
+    <div class="instrument-header">
+      <div>
+        <div class="eyebrow">Instrument 02</div>
+        <h2>LDNA<span style="font-size: 0.5em; vertical-align: super; line-height: 0; margin-left: 0.08em; font-weight: 500; color: var(--accent);">™</span></h2>
+        <div class="full-name">Leadership Drivers &amp; Natural Aptitudes</div>
+      </div>
+      <p class="lede">
+        A leadership-intelligence instrument grounded in well-documented behavioral science. Reads each leader twice
+        — who they are naturally, and what their role demands — then rolls every profile into one view of the team.
+      </p>
+    </div>
+
+    <div class="eyebrow" style="margin-bottom: 14px;">The seven dimensions</div>
+    <div class="grid-cards" style="margin-bottom: 48px;">
+      <div class="small-card"><h4>Drive</h4><p>How the leader pushes toward results.</p></div>
+      <div class="small-card"><h4>Connection</h4><p>How they engage and influence people.</p></div>
+      <div class="small-card"><h4>Stability</h4><p>How they hold steady under pressure.</p></div>
+      <div class="small-card"><h4>Structure</h4><p>How they impose order on complexity.</p></div>
+      <div class="small-card"><h4>Creativity</h4><p>How they generate and pursue ideas.</p></div>
+      <div class="small-card"><h4>Empathy</h4><p>How they read and respond to others.</p></div>
+      <div class="small-card"><h4>Velocity</h4><p>How they manage tempo and pace.</p></div>
+      <div class="small-card"><h4>Plus an AI-exposure read</h4><p>Where each leader's value holds as AI rises.</p></div>
+    </div>
+
+    <div class="eyebrow" style="margin-bottom: 14px;">What you leave with</div>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="ring">1</div>
+        <div>
+          <h4>Individual profile per leader</h4>
+          <p>Natural pattern, adaptive pattern, the daily cost of the gap, archetype on the value-stream field, strengths read.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="ring">2</div>
+        <div>
+          <h4>The Team Report</h4>
+          <p>Where the team is collectively strong, where it's thin, who complements whom, and where shared blind spots put the bench at risk.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="ring">3</div>
+        <div>
+          <h4>Pairing &amp; composition guidance</h4>
+          <p>Who to put together, who to keep apart, and what role profile the team is missing — with evidence behind every call.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="ring">4</div>
+        <div>
+          <h4>The Team Dashboard</h4>
+          <p>An interactive view of the team across all seven dimensions. Built to run live sessions from and revisit as the team changes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW THEY FIT -->
+<section class="pull-quote">
+  <div class="pull-quote-inner">
+    <div class="eyebrow" style="color: var(--accent); margin: 0 auto 14px; justify-content: center;">How the two fit together</div>
+    <h2>Diagnose the system. Diagnose the leaders inside it. Treat both — or neither one sticks.</h2>
+    <p>
+      BAIC tells you which dimensions of the business are under-architected for the next stage. LDNA tells you
+      whether the bench in front of you can carry the work that the rebuild will require. Used together, the
+      diagnosis becomes prescriptive: a ranked path of structural upgrades and a paired plan for the people who
+      will deliver them.
+    </p>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="cta-inner">
+    <div class="eyebrow" style="display: inline-flex; margin: 0 auto 14px;">Where to start</div>
+    <h2>The first step is honest evidence — not a sales call.</h2>
+    <p>Eight questions tell us whether there's structural leverage worth pursuing. If there isn't, we say so.</p>
+    <div class="ctas">
+      <a href="/start/" class="btn btn-primary">Run a Fit Assessment →</a>
+      <a href="/baic/" class="btn btn-secondary">Explore BAIC</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span>© 2026 The Saunter Group, LLC · LDNA™ used under license from Vertical Consulting, LLC</span>
+    <span><a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="mailto:hello@thesauntergroup.com">Contact</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
