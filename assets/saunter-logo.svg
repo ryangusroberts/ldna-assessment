@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="80 50 840 260" role="img" aria-label="Saunter">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 360" role="img" aria-label="Saunter">
   <title>Saunter</title>
-  <!-- SAUNTER wordmark -->
-  <g fill="#1F3E73" font-family="Inter, 'Helvetica Neue', Arial, sans-serif" font-weight="900" letter-spacing="6">
-    <text x="500" y="190" font-size="180" text-anchor="middle">SAUNTER</text>
-  </g>
 
-  <!-- Stylized water wave — two flowing curves -->
-  <!-- Lighter blue wave on top -->
-  <path d="M 130 245
-           C 230 225, 320 215, 420 245
-           S 600 290, 720 245
-           S 870 215, 880 240
-           C 870 245, 740 305, 610 270
-           S 360 240, 230 270
-           S 145 260, 130 245 Z"
-        fill="#5B82B5" opacity="0.95" />
+  <!-- SAUNTER wordmark — transitional serif, generous tracking, navy -->
+  <text x="620" y="210"
+        font-family="'Aptos Serif', Georgia, 'Times New Roman', serif"
+        font-weight="700"
+        font-size="200"
+        letter-spacing="20"
+        text-anchor="middle"
+        fill="#0E1F3D">SAUNTER</text>
 
-  <!-- Darker navy wave on bottom -->
-  <path d="M 100 285
-           C 220 260, 360 245, 500 275
-           S 760 330, 900 275
-           C 890 290, 770 340, 600 305
-           S 320 280, 180 305
-           S 110 300, 100 285 Z"
-        fill="#1F3E73" />
+  <!-- Two-tone wave underneath: brass accent (top) + navy (bottom) -->
+
+  <!-- Lighter brass wave - top -->
+  <path d="M 220 275
+           C 360 256, 490 246, 620 272
+           S 880 308, 1020 270
+           C 1012 280, 880 318, 690 292
+           S 400 270, 260 292
+           S 215 285, 220 275 Z"
+        fill="#A77A28" opacity="0.55" />
+
+  <!-- Darker navy wave - bottom (the dominant brand stroke) -->
+  <path d="M 200 305
+           C 360 282, 500 268, 620 292
+           S 900 340, 1040 292
+           C 1032 304, 900 348, 700 318
+           S 380 295, 240 318
+           S 195 312, 200 305 Z"
+        fill="#0E1F3D" />
 </svg>
