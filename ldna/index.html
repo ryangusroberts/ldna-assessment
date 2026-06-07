@@ -569,12 +569,12 @@
       <div class="free-badge">Free assessment</div>
       <h2 style="margin-top: 10px;">What you'll receive.</h2>
       <p class="report-lede">
-        Complete the assessment and we'll email you a <strong>2-page Foundations report</strong> — your archetype, dominant dimensions, your natural-versus-adaptive gap, and what each pattern typically means for how you lead. No cost, no upsell required.
+        Complete the assessment and we'll email you a <strong>2-page LDNA report</strong> — your archetype, dominant dimensions, your natural-versus-adaptive gap, and what each pattern typically means for how you lead. No cost, no upsell required.
       </p>
       <div class="report-tiers">
         <div class="tier tier-free">
           <div class="tier-tag">Included free</div>
-          <h3>2-page Foundations report</h3>
+          <h3>2-page LDNA report</h3>
           <ul>
             <li>Your archetype on the value-stream field</li>
             <li>Top dimensions and what they mean</li>
@@ -584,7 +584,7 @@
         </div>
         <div class="tier tier-extended">
           <div class="tier-tag">Optional · deeper</div>
-          <h3>Expanded 8–10 page report</h3>
+          <h3>Full LDNA report (8–10 pages)</h3>
           <ul>
             <li>Full seven-dimension scoring with detail</li>
             <li>Archetype deep-dive: strengths and blind spots</li>
@@ -826,7 +826,65 @@ const SUBMIT_ENDPOINT = "https://script.google.com/macros/s/AKfycbx2If3UCmoe6HOB
    State
    ============================================================ */
 const STORAGE_KEY = "ldna.v1";
+const ATTRIBUTION_KEY = "ldna.attribution.v1";
 const POLICY_VERSION = "2026-05-29";
+
+/* ============================================================
+   Attribution capture
+   ------------------------------------------------------------
+   Reads UTM parameters, a partner/licensee tag, and an external
+   contact id from the URL on every page load. First-touch values
+   persist in localStorage for 90 days so a returning visitor stays
+   attributed to whichever licensee originally drove them here.
+   Later params overwrite empty slots but never overwrite first-touch.
+   ============================================================ */
+const ATTR_KEYS = ["partner", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "cid", "contact_id"];
+const ATTR_TTL_DAYS = 90;
+
+function readAttribution() {
+  let stored = null;
+  try {
+    const raw = localStorage.getItem(ATTRIBUTION_KEY);
+    if (raw) {
+      stored = JSON.parse(raw);
+      // Expire stale first-touch
+      if (stored.firstTouchAt && (Date.now() - new Date(stored.firstTouchAt).getTime()) > ATTR_TTL_DAYS * 24 * 60 * 60 * 1000) {
+        stored = null;
+      }
+    }
+  } catch (_) {}
+
+  const params = new URLSearchParams(window.location.search);
+  const incoming = {};
+  ATTR_KEYS.forEach(k => {
+    const v = params.get(k);
+    if (v) incoming[k] = v.trim().slice(0, 120); // cap length
+  });
+  // Normalize contact_id alias
+  if (incoming.contact_id && !incoming.cid) incoming.cid = incoming.contact_id;
+
+  const isFirstTouch = !stored;
+  const merged = stored ? { ...stored } : {
+    firstTouchAt: new Date().toISOString(),
+    firstTouchReferrer: (document.referrer || "").slice(0, 240),
+    firstTouchLanding: location.pathname + location.search,
+  };
+  // First-touch: only set if absent
+  ATTR_KEYS.forEach(k => {
+    if (incoming[k] && !merged[k]) merged[k] = incoming[k];
+  });
+  // Last-touch: always capture so we can compute attribution either way
+  merged.lastTouchAt = new Date().toISOString();
+  ATTR_KEYS.forEach(k => {
+    if (incoming[k]) merged["last_" + k] = incoming[k];
+  });
+  merged.lastReferrer = (document.referrer || "").slice(0, 240);
+
+  try { localStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(merged)); } catch (_) {}
+  return merged;
+}
+
+const ATTRIBUTION = readAttribution();
 const state = {
   step: 0,
   demographics: { fullName: "", email: "", role: "", experience: "" },
@@ -1087,6 +1145,20 @@ function buildPayload() {
     optInFeedback: !!state.consent.followup,
     optInResearch: !!state.consent.followup,
     optInUpdates: !!state.consent.followup,
+    // Attribution — what brought this respondent here. First-touch values
+    // are sticky (90 days via localStorage); last-touch reflects the most
+    // recent visit so licensees can analyze attribution either way.
+    partner: ATTRIBUTION.partner || "",
+    utmSource: ATTRIBUTION.utm_source || "",
+    utmMedium: ATTRIBUTION.utm_medium || "",
+    utmCampaign: ATTRIBUTION.utm_campaign || "",
+    utmTerm: ATTRIBUTION.utm_term || "",
+    utmContent: ATTRIBUTION.utm_content || "",
+    contactId: ATTRIBUTION.cid || ATTRIBUTION.contact_id || "",
+    firstTouchAt: ATTRIBUTION.firstTouchAt || "",
+    firstTouchReferrer: ATTRIBUTION.firstTouchReferrer || "",
+    lastTouchAt: ATTRIBUTION.lastTouchAt || "",
+    lastReferrer: ATTRIBUTION.lastReferrer || "",
   };
 }
 
