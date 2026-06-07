@@ -352,6 +352,24 @@
   }
   .btn-ghost:hover { color: var(--ink); }
 
+  /* ---------- Free assessment + report tiers card ---------- */
+  .report-card { background: var(--surface); border-color: var(--accent-line); }
+  .free-badge { display: inline-block; font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: #5B4416; background: var(--accent-soft); border: 1px solid var(--accent-line); padding: 5px 12px; border-radius: 999px; }
+  .report-lede { font-family: var(--font-serif); font-size: 16px; color: var(--ink-soft); line-height: 1.6; max-width: 64ch; margin: 12px 0 24px; }
+  .report-lede strong { color: var(--ink); font-weight: 600; }
+  .report-tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 720px) { .report-tiers { grid-template-columns: 1fr; } }
+  .tier { padding: 22px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); display: flex; flex-direction: column; }
+  .tier-free { background: var(--accent-soft); border-color: var(--accent-line); }
+  .tier-extended { background: var(--surface-2); }
+  .tier-tag { font-family: var(--font-ui); font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600; color: var(--ink-mute); margin-bottom: 8px; }
+  .tier-free .tier-tag { color: #5B4416; }
+  .tier h3 { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--ink); margin: 0 0 12px; line-height: 1.2; }
+  .tier ul { list-style: none; padding: 0; margin: 0 0 8px; }
+  .tier ul li { font-family: var(--font-ui); font-size: 13.5px; color: var(--ink-soft); padding: 5px 0; padding-left: 18px; position: relative; line-height: 1.45; }
+  .tier ul li::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-weight: 700; font-family: var(--font-ui); }
+  .tier-note { font-family: var(--font-ui); font-size: 12px; color: var(--ink-mute); margin: 10px 0 0; font-style: italic; }
+
   /* ---------- Consent ---------- */
   .consent-card { background: var(--surface); }
   .consent-notice {
@@ -543,7 +561,39 @@
       </div>
     </div>
 
-    <div class="card" style="margin-top: 28px;">
+    <!-- Free assessment + report tiers -->
+    <div class="card report-card" style="margin-top: 28px;">
+      <div class="free-badge">Free assessment</div>
+      <h2 style="margin-top: 10px;">What you'll receive.</h2>
+      <p class="report-lede">
+        Complete the assessment and we'll email you a <strong>2-page Foundations report</strong> — your archetype, dominant dimensions, your natural-versus-adaptive gap, and what each pattern typically means for how you lead. No cost, no upsell required.
+      </p>
+      <div class="report-tiers">
+        <div class="tier tier-free">
+          <div class="tier-tag">Included free</div>
+          <h3>2-page Foundations report</h3>
+          <ul>
+            <li>Your archetype on the value-stream field</li>
+            <li>Top dimensions and what they mean</li>
+            <li>The daily cost of your natural-vs-adaptive gap</li>
+            <li>A short interpretation written for you</li>
+          </ul>
+        </div>
+        <div class="tier tier-extended">
+          <div class="tier-tag">Optional · deeper</div>
+          <h3>Expanded 8–10 page report</h3>
+          <ul>
+            <li>Full seven-dimension scoring with detail</li>
+            <li>Archetype deep-dive: strengths and blind spots</li>
+            <li>AI-exposure read — where your value holds</li>
+            <li>Pairing &amp; team-fit guidance, if applicable</li>
+          </ul>
+          <p class="tier-note">We'll include the option in your results email — no commitment to take it.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 22px;">
       <h2>Tell us a bit about yourself</h2>
       <p class="help" style="margin-top: 4px; margin-bottom: 18px; color: var(--ink-mute); font-size: 14px;">
         This context helps us tailor your profile.
@@ -594,20 +644,14 @@
       </label>
 
       <div class="consent-optional">
-        <p class="consent-sublabel">Optional — I'd also like to receive:</p>
+        <p class="consent-sublabel">Stay in touch</p>
         <label class="consent-row">
-          <input type="checkbox" id="consentFeedback" />
-          <span>A brief feedback request about my LDNA experience</span>
+          <input type="checkbox" id="consentFollowup" checked />
+          <span>
+            Send me a brief feedback request about my LDNA experience, occasional research invitations, and articles on leadership development.
+          </span>
         </label>
-        <label class="consent-row">
-          <input type="checkbox" id="consentResearch" />
-          <span>Occasional research invitations on leadership behavior</span>
-        </label>
-        <label class="consent-row">
-          <input type="checkbox" id="consentUpdates" />
-          <span>Articles and resources on leadership development</span>
-        </label>
-        <p class="consent-fineprint">You can unsubscribe from any of these at any time.</p>
+        <p class="consent-fineprint">Pre-selected — untick if you'd rather not. You can unsubscribe from any message at any time.</p>
       </div>
 
       <div class="consent-links">
@@ -785,9 +829,10 @@ const state = {
   demographics: { fullName: "", email: "", role: "", experience: "" },
   consent: {
     required: false,
-    feedback: false,
-    research: false,
-    updates: false,
+    // Pre-checked combined follow-up opt-in. Tracked as a single flag,
+    // but mirrored across the legacy feedback/research/updates columns
+    // in the sheet so existing reporting keeps working.
+    followup: true,
     timestamp: null,   // set when required consent is first ticked
   },
   part1: new Set(),
@@ -933,9 +978,7 @@ function bindDemographics() {
 /* ---------- Consent binding ---------- */
 const CONSENT_FIELDS = {
   consentRequired: "required",
-  consentFeedback: "feedback",
-  consentResearch: "research",
-  consentUpdates: "updates",
+  consentFollowup: "followup",
 };
 function bindConsent() {
   Object.entries(CONSENT_FIELDS).forEach(([id, key]) => {
@@ -1035,9 +1078,12 @@ function buildPayload() {
     roleBehaviorCount: state.part2.size,
     consentTimestamp: state.consent.timestamp || new Date().toISOString(),
     policyVersion: POLICY_VERSION,
-    optInFeedback: !!state.consent.feedback,
-    optInResearch: !!state.consent.research,
-    optInUpdates: !!state.consent.updates,
+    // One combined follow-up opt-in (pre-checked, can be unticked).
+    // Mirrored to legacy columns so existing reporting/sheets keep working.
+    optInFollowup: !!state.consent.followup,
+    optInFeedback: !!state.consent.followup,
+    optInResearch: !!state.consent.followup,
+    optInUpdates: !!state.consent.followup,
   };
 }
 
