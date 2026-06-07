@@ -91,6 +91,25 @@
   .section h2 { font-size: clamp(28px, 4vw, 40px); line-height: 1.15; margin: 0 0 14px; max-width: 24ch; }
   .section .lede { font-size: 18px; color: var(--ink-soft); line-height: 1.5; max-width: 64ch; margin: 0 0 36px; }
 
+  .tm { font-size: 0.5em; vertical-align: super; line-height: 0; margin-left: 0.08em; font-weight: 500; font-style: normal; color: var(--accent); }
+
+  /* Stat band */
+  section.stat-band { padding: 56px 32px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  .stat-inner { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: auto 1fr; gap: 44px; align-items: center; }
+  @media (max-width: 720px) { .stat-inner { grid-template-columns: 1fr; gap: 14px; } }
+  .stat-number { font-family: var(--font-serif); font-size: clamp(64px, 9vw, 100px); line-height: 1; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
+  .stat-number .pct { font-size: 0.5em; vertical-align: 22%; font-weight: 600; color: var(--accent); margin-left: 2px; }
+  .stat-context { font-family: var(--font-ui); font-size: 16px; color: var(--ink-soft); line-height: 1.55; max-width: 60ch; }
+  .stat-context strong { color: var(--ink); font-weight: 600; }
+  .stat-source { display: block; margin-top: 10px; font-size: 12px; color: var(--ink-mute); letter-spacing: 0.02em; }
+
+  /* VMOCA callout */
+  .vmoca-callout { margin-top: 56px; padding: 30px 34px; background: var(--surface-2); border-left: 4px solid var(--accent); border-radius: 0 12px 12px 0; }
+  .vmoca-tag { font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 10px; display: block; }
+  .vmoca-callout h3 { font-family: var(--font-serif); font-size: clamp(20px, 2.4vw, 24px); margin: 0 0 12px; color: var(--ink); font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; }
+  .vmoca-callout p { font-family: var(--font-ui); font-size: 15px; color: var(--ink-soft); line-height: 1.6; margin: 0; max-width: 72ch; }
+  .vmoca-callout p strong { color: var(--ink); font-weight: 600; }
+
   /* Domain SVG diagram */
   .domain-diagram { display: flex; justify-content: center; margin: 32px 0 48px; }
   .domain-diagram svg { width: 100%; max-width: 640px; height: auto; }
@@ -193,13 +212,24 @@
     <div class="eyebrow">Organizational architecture</div>
     <h1>BAIC. Diagnose the business as a <em>system</em>.</h1>
     <p class="lede">
-      A 30-day, founder-anchored diagnostic that surfaces failure modes before they cascade, ranks them by impact,
-      and installs the architecture the next revenue tier actually requires. For the $300K–$1M/month zone, where
-      structural debt stops being theoretical and starts costing money.
+      A 30-day diagnostic that surfaces failure modes before they cascade, ranks them by impact, and installs the
+      architecture the business actually needs. Built for founders scaling at $300K–$1M/month — and used by acquirers
+      to validate whether a business survives the ownership transition before they close.
     </p>
     <div class="hero-ctas">
       <a href="/start/" class="btn btn-primary btn-lg">Run a Fit Assessment →</a>
       <a href="#how" class="btn btn-secondary btn-lg">How BAIC works</a>
+    </div>
+  </div>
+</section>
+
+<!-- STAT BAND -->
+<section class="stat-band">
+  <div class="stat-inner">
+    <div class="stat-number">82<span class="pct">%</span></div>
+    <div class="stat-context">
+      of failed businesses cite cash-flow problems. <strong>The cause underneath is almost always structural</strong> — that's what BAIC measures, before the failure modes start showing up in the P&amp;L.
+      <span class="stat-source">U.S. Bank cash-flow study, widely cited across SBA and SME research.</span>
     </div>
   </div>
 </section>
@@ -279,6 +309,12 @@
       <div class="domain"><span class="num">06</span><h4>Data &amp; Dashboards</h4><p>What's measured, what's visible, what's still invisible.</p></div>
       <div class="domain"><span class="num">07</span><h4>Risk &amp; Compliance</h4><p>What breaks loudly, and what breaks quietly until it doesn't.</p></div>
       <div class="domain"><span class="num">08</span><h4>Leadership Capacity</h4><p>Whether the bench can carry the architecture you're about to build.</p></div>
+    </div>
+
+    <div class="vmoca-callout">
+      <span class="vmoca-tag">The engine behind the diagnosis</span>
+      <h3>VMOCA<span class="tm">™</span> — Vulnerability Mechanism Outcome &amp; Criticality Analysis.</h3>
+      <p>BAIC's analytical core. Adapted from systems-engineering risk frameworks, VMOCA scores <strong>150+ failure mechanisms across 50+ failure causes</strong>, ranked by likelihood and impact. It's how we replace intuition with measurable architecture — exposing fragility, ranking risk, and converting complexity into a prioritized fix sequence.</p>
     </div>
   </div>
 </section>
@@ -360,16 +396,17 @@
   <div class="section-inner">
     <div class="eyebrow">Honest fit</div>
     <h2>Who BAIC is built for — and who it isn't.</h2>
-    <p class="lede">BAIC is a high-consequence engagement designed for founders operating with real financial and organizational exposure. It's not for every stage and not the right tool for every problem.</p>
+    <p class="lede">BAIC is a high-consequence engagement designed for operators with real financial and organizational exposure — whether they're scaling the business they built or buying one. It's not for every stage and not the right tool for every problem.</p>
 
     <div class="who-grid">
       <div class="who-block fit">
         <h3>This is for you if…</h3>
         <ul>
-          <li>You're between $300K and $5M/month and the architecture that got you here is breaking.</li>
+          <li><strong>You're a founder</strong> between $300K and $5M/month and the architecture that got you here is breaking.</li>
           <li>You've moved past product–market fit and the constraint is now structural, not commercial.</li>
-          <li>You want a ranked, evidence-backed answer to "what must we fix first?"</li>
-          <li>You're prepared to act on the diagnosis, not just receive a report.</li>
+          <li><strong>You're an acquirer</strong> (SBA-financed search funder, holdco, or strategic) and need to know whether the business survives the ownership transition without the seller.</li>
+          <li>You're 30-60 days from close and want stress-testing to know whether to proceed, renegotiate, or walk.</li>
+          <li>You want a ranked, evidence-backed answer to "what must we fix first?" — not a list of fifty things.</li>
           <li>The cost of a wrong next move is higher than the cost of the diagnostic.</li>
         </ul>
       </div>
