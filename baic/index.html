@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="#0E1F3D" />
+<link rel="icon" type="image/svg+xml" href="/assets/saunter-mark.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/saunter-mark-32.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/assets/saunter-mark-192.png">
 <title>BAIC — Business Architecture &amp; Intelligence Cycle — The Saunter Group</title>
 <meta name="description" content="BAIC is a 30-day, founder-anchored diagnostic of your business as an interdependent system. Eight domains, an evidence-backed vulnerability register, and a 90-day execution blueprint." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,38 +18,59 @@
     --ink: #0B1220; --ink-soft: #3E4860; --ink-mute: #7A8499;
     --line: #DCE2EC; --primary: #0E1F3D; --primary-hover: #081530;
     --primary-soft: #EEF2FB; --primary-line: #C6D2E6;
-    --accent: #A77A28; --accent-soft: #F5EFE0; --accent-line: #D9C28A;
+    --accent: #A77A28; --accent-hover: #8E6720; --accent-soft: #F5EFE0; --accent-line: #D9C28A;
     --font-serif: 'Aptos Serif', 'Aptos', 'Source Serif 4', 'Source Serif Pro', 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
     --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
   body { font-family: var(--font-serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
-  .topbar { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.94); backdrop-filter: saturate(140%) blur(8px); border-bottom: 1px solid var(--line); }
-  .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; gap: 24px; }
-  .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-  .brand-mark { width: 42px; height: 42px; border-radius: 7px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-serif); font-weight: 700; font-style: italic; font-size: 22px; box-shadow: 0 1px 0 var(--accent) inset; }
-  .brand-name { font-family: var(--font-serif); font-size: 20px; color: var(--ink); font-weight: 600; line-height: 1.1; letter-spacing: -0.005em; }
-  .brand-sub { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 3px; }
-  .brand-logo { height: 36px; width: auto; display: block; }
-  .brand-tag { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; padding-left: 16px; margin-left: 4px; border-left: 1px solid var(--line); display: none; }
-  @media (min-width: 880px) { .brand-tag { display: block; } }
-  .nav-spacer { flex: 1; }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 180ms; }
-  .nav-links a:hover, .nav-links a.active { color: var(--primary); }
-  .nav-links a.active { font-weight: 600; }
-  .nav-cta { font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: #fff; background: var(--primary); padding: 9px 18px; border-radius: 999px; text-decoration: none; }
-  .nav-cta:hover { background: var(--primary-hover); }
+
+  /* ---------- Topbar (consistent) ---------- */
+  .topbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: saturate(140%) blur(10px); border-bottom: 1px solid var(--line); }
+  .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; gap: 24px; }
+  .brand { display: flex; align-items: center; gap: 18px; text-decoration: none; flex-shrink: 0; }
+  .brand-logo { height: 48px; width: auto; display: block; }
+  .brand-lockup { display: none; padding-left: 18px; border-left: 1px solid var(--line); }
+  .brand-tag { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 500; line-height: 1; }
+  @media (min-width: 1024px) { .brand-lockup { display: block; } }
+  .nav-links { display: flex; align-items: center; gap: 32px; flex: 1; justify-content: flex-end; }
+  .nav-links a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 180ms; position: relative; padding: 8px 0; }
+  .nav-links a:hover { color: var(--primary); }
+  .nav-links a.active { color: var(--primary); font-weight: 600; }
+  .nav-links a.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -19px; height: 2px; background: var(--accent); }
+  .nav-cta { font-family: var(--font-ui) !important; font-size: 14px !important; font-weight: 600 !important; color: var(--primary) !important; background: var(--accent); padding: 11px 20px !important; border-radius: 999px; text-decoration: none; transition: all 180ms; box-shadow: 0 4px 12px rgba(167,122,40,0.25); white-space: nowrap; }
+  .nav-cta:hover { background: var(--accent-hover); color: #fff !important; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(167,122,40,0.35); }
+  .nav-cta.active::after { display: none; }
+  .nav-toggle { display: none; background: transparent; border: 0; width: 44px; height: 44px; margin-left: auto; padding: 12px; cursor: pointer; flex-direction: column; justify-content: space-between; }
+  .nav-toggle span { display: block; height: 2px; background: var(--ink); transition: transform 220ms, opacity 220ms; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+  @media (max-width: 880px) {
+    .topbar-inner { padding: 14px 20px; gap: 12px; }
+    .brand-logo { height: 40px; }
+    .nav-toggle { display: flex; }
+    .nav-links { position: fixed; inset: 68px 0 0 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(10px); flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; padding: 24px 24px 64px; transform: translateX(100%); transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1); overflow-y: auto; }
+    .nav-links.open { transform: translateX(0); }
+    .nav-links a { font-size: 22px; padding: 20px 0; border-bottom: 1px solid var(--line); color: var(--ink); width: 100%; font-family: var(--font-serif); }
+    .nav-links a.active::after { display: none; }
+    .nav-links a.active { color: var(--accent); }
+    .nav-cta { margin-top: 28px; align-self: stretch; text-align: center; font-size: 16px !important; padding: 18px 24px !important; border-bottom: 0 !important; box-shadow: 0 4px 12px rgba(167,122,40,0.25) !important; }
+  }
+
   .eyebrow { font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 18px; display: inline-flex; align-items: center; gap: 10px; }
   .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); display: inline-block; }
   h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 600; color: var(--ink); letter-spacing: -0.015em; }
   h1 em, h2 em { font-style: italic; color: var(--accent); font-weight: 600; }
-  .btn { font-family: var(--font-ui); font-size: 15px; font-weight: 600; padding: 14px 24px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 180ms; cursor: pointer; border: 0; }
-  .btn-primary { background: var(--primary); color: #fff; }
-  .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+  .btn { font-family: var(--font-ui); font-size: 15px; font-weight: 600; padding: 14px 26px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 180ms; cursor: pointer; border: 0; }
+  .btn-primary { background: var(--accent); color: var(--primary); box-shadow: 0 6px 16px rgba(167,122,40,0.28); }
+  .btn-primary:hover { background: var(--accent-hover); color: #fff; transform: translateY(-1px); box-shadow: 0 10px 24px rgba(167,122,40,0.38); }
   .btn-secondary { background: transparent; color: var(--primary); border: 1px solid var(--primary-line); }
   .btn-secondary:hover { border-color: var(--primary); background: var(--primary-soft); }
+  .btn-navy { background: var(--primary); color: #fff; box-shadow: 0 6px 16px rgba(14,31,61,0.22); }
+  .btn-navy:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 10px 24px rgba(14,31,61,0.32); }
+  .btn-lg { font-size: 16px; padding: 17px 32px; }
 
   /* Hero */
   section.hero { background: var(--primary); color: #fff; padding: 96px 32px 80px; }
@@ -61,11 +85,15 @@
   .hero .btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
 
   /* Generic section */
-  section.section { padding: 80px 32px; }
+  section.section { padding: 88px 32px; }
   section.section.alt { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .section-inner { max-width: 1180px; margin: 0 auto; }
   .section h2 { font-size: clamp(28px, 4vw, 40px); line-height: 1.15; margin: 0 0 14px; max-width: 24ch; }
   .section .lede { font-size: 18px; color: var(--ink-soft); line-height: 1.5; max-width: 64ch; margin: 0 0 36px; }
+
+  /* Domain SVG diagram */
+  .domain-diagram { display: flex; justify-content: center; margin: 32px 0 48px; }
+  .domain-diagram svg { width: 100%; max-width: 640px; height: auto; }
 
   /* Domain grid */
   .domain-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
@@ -111,21 +139,28 @@
   .who-block.not-fit ul li { color: #5A1620; }
   .who-block.not-fit ul li::before { content: "✗"; color: #B23A4A; font-weight: 700; flex-shrink: 0; width: 16px; }
 
-  .cta-band { padding: 96px 32px; }
+  /* CTA band */
+  section.cta-band { padding: 104px 32px; background: var(--primary); color: #fff; }
   .cta-inner { max-width: 880px; margin: 0 auto; text-align: center; }
-  .cta-inner h2 { font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 0 0 16px; }
-  .cta-inner p { font-size: 18px; color: var(--ink-soft); margin: 0 0 30px; max-width: 56ch; margin-left: auto; margin-right: auto; line-height: 1.5; }
+  .cta-inner .eyebrow { color: var(--accent); justify-content: center; }
+  .cta-inner .eyebrow::before { background: var(--accent); }
+  .cta-inner h2 { color: #fff; font-size: clamp(28px, 4vw, 44px); line-height: 1.1; margin: 0 0 16px; }
+  .cta-inner h2 em { color: var(--accent); }
+  .cta-inner p { font-size: 18px; color: rgba(255,255,255,0.78); margin: 0 0 36px; max-width: 56ch; margin-left: auto; margin-right: auto; line-height: 1.5; }
   .ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .ctas .btn-secondary { color: #fff; border-color: rgba(255,255,255,0.3); }
+  .ctas .btn-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
 
-  footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 56px 32px 28px; }
+  /* Footer */
+  footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 56px 32px 28px; border-top: 1px solid rgba(255,255,255,0.1); }
   .footer-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 24px; font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.06em; flex-wrap: wrap; }
   .footer-inner a { color: rgba(255,255,255,0.78); text-decoration: none; }
   .footer-inner a:hover { color: #fff; }
+  .footer-meta { display: flex; align-items: center; gap: 14px; }
+  .footer-meta img { height: 28px; }
 
   @media (max-width: 640px) {
-    .topbar-inner { padding: 14px 18px; gap: 12px; }
-    .nav-links { display: none; }
-    section.hero, section.section, .cta-band { padding-left: 18px; padding-right: 18px; }
+    section.hero, section.section, section.cta-band { padding-left: 22px; padding-right: 22px; }
   }
 </style>
 </head>
@@ -133,18 +168,22 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a href="/" class="brand">
-      <img src="/assets/saunter-logo.svg" alt="Saunter" class="brand-logo" />
-        <div class="brand-tag">Leadership &amp; Organizational Intelligence</div>
+    <a href="/" class="brand" aria-label="The Saunter Group — home">
+      <img src="/assets/saunter-logo.svg" alt="The Saunter Group" class="brand-logo" />
+      <div class="brand-lockup">
+        <span class="brand-tag">Build what endures</span>
+      </div>
     </a>
-    <div class="nav-spacer"></div>
-    <nav class="nav-links" aria-label="Primary">
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" id="primary-nav" aria-label="Primary">
       <a href="/method/">Method</a>
       <a href="/baic/" class="active">BAIC</a>
       <a href="/ldna/">LDNA</a>
       <a href="/story/">Story</a>
+      <a href="/ldna/" class="nav-cta">Take the LDNA →</a>
     </nav>
-    <a href="/start/" class="nav-cta">Run a Fit Assessment</a>
   </div>
 </header>
 
@@ -158,13 +197,13 @@
       zone, where structural debt stops being theoretical and starts costing money.
     </p>
     <div class="hero-ctas">
-      <a href="/start/" class="btn btn-primary">Run a Fit Assessment →</a>
-      <a href="#how" class="btn btn-secondary">How BAIC works</a>
+      <a href="/start/" class="btn btn-primary btn-lg">Run a Fit Assessment →</a>
+      <a href="#how" class="btn btn-secondary btn-lg">How BAIC works</a>
     </div>
   </div>
 </section>
 
-<!-- WHAT IT IS -->
+<!-- WHAT IT IS + DIAGRAM -->
 <section class="section">
   <div class="section-inner">
     <div class="eyebrow">What BAIC is</div>
@@ -175,7 +214,61 @@
       downward. The output is a ranked map of where the business will fail first as it grows.
     </p>
 
-    <div class="eyebrow" style="margin-top: 40px;">The eight domains</div>
+    <div class="domain-diagram">
+      <svg viewBox="0 0 720 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="BAIC: eight interdependent domains arranged in a system">
+        <defs>
+          <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#1a3060" />
+            <stop offset="100%" stop-color="#0E1F3D" />
+          </radialGradient>
+        </defs>
+        <!-- Faint connecting lines from center to each domain -->
+        <g stroke="#C6D2E6" stroke-width="0.75" fill="none">
+          <line x1="360" y1="190" x2="360" y2="60"/>
+          <line x1="360" y1="190" x2="462" y2="98"/>
+          <line x1="360" y1="190" x2="495" y2="190"/>
+          <line x1="360" y1="190" x2="462" y2="282"/>
+          <line x1="360" y1="190" x2="360" y2="320"/>
+          <line x1="360" y1="190" x2="258" y2="282"/>
+          <line x1="360" y1="190" x2="225" y2="190"/>
+          <line x1="360" y1="190" x2="258" y2="98"/>
+        </g>
+        <!-- Center disc -->
+        <circle cx="360" cy="190" r="58" fill="url(#centerGlow)" stroke="#A77A28" stroke-width="1.5" />
+        <text x="360" y="184" text-anchor="middle" font-family="Aptos Serif, Source Serif 4, Georgia, serif" font-size="22" font-weight="700" font-style="italic" fill="#fff">BAIC</text>
+        <text x="360" y="206" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" letter-spacing="2.4" fill="#D9C28A">8 DOMAINS</text>
+        <!-- 8 domain nodes -->
+        <g font-family="Inter, sans-serif" font-size="13" font-weight="700" text-anchor="middle">
+          <g><circle cx="360" cy="60" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="360" y="65" fill="#A77A28">01</text></g>
+          <g><circle cx="462" cy="98" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="462" y="103" fill="#A77A28">02</text></g>
+          <g><circle cx="495" cy="190" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="495" y="195" fill="#A77A28">03</text></g>
+          <g><circle cx="462" cy="282" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="462" y="287" fill="#A77A28">04</text></g>
+          <g><circle cx="360" cy="320" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="360" y="325" fill="#A77A28">05</text></g>
+          <g><circle cx="258" cy="282" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="258" y="287" fill="#A77A28">06</text></g>
+          <g><circle cx="225" cy="190" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="225" y="195" fill="#A77A28">07</text></g>
+          <g><circle cx="258" cy="98" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="258" y="103" fill="#A77A28">08</text></g>
+        </g>
+        <!-- Labels around the ring -->
+        <g font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="#0B1220">
+          <text x="360" y="32" text-anchor="middle">Strategy</text>
+          <text x="510" y="92" text-anchor="start">Structure &amp;</text>
+          <text x="510" y="106" text-anchor="start">Accountability</text>
+          <text x="530" y="187" text-anchor="start">Systems &amp;</text>
+          <text x="530" y="201" text-anchor="start">Processes</text>
+          <text x="510" y="288" text-anchor="start">Financial</text>
+          <text x="510" y="302" text-anchor="start">Controls</text>
+          <text x="360" y="356" text-anchor="middle">Revenue Engine</text>
+          <text x="210" y="288" text-anchor="end">Data &amp;</text>
+          <text x="210" y="302" text-anchor="end">Dashboards</text>
+          <text x="190" y="194" text-anchor="end">Risk &amp;</text>
+          <text x="190" y="208" text-anchor="end">Compliance</text>
+          <text x="210" y="92" text-anchor="end">Leadership</text>
+          <text x="210" y="106" text-anchor="end">Capacity</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="eyebrow" style="margin-top: 40px;">The eight domains in detail</div>
     <div class="domain-grid">
       <div class="domain"><span class="num">01</span><h4>Strategy</h4><p>The clarity, sequencing, and defensibility of where the business is going.</p></div>
       <div class="domain"><span class="num">02</span><h4>Structure &amp; Accountability</h4><p>Org design, decision rights, ownership of outcomes.</p></div>
@@ -334,24 +427,48 @@
   </div>
 </section>
 
+<!-- CTA BAND -->
 <section class="cta-band">
   <div class="cta-inner">
-    <div class="eyebrow" style="display: inline-flex; margin: 0 auto 14px;">Start with evidence</div>
-    <h2>Run a Fit Assessment to see whether BAIC fits your stage.</h2>
+    <div class="eyebrow">Start with evidence</div>
+    <h2>See whether BAIC fits <em>your stage</em>.</h2>
     <p>Eight questions. We confirm there's structural leverage worth pursuing — or we tell you BAIC is the wrong tool for now and what isn't.</p>
     <div class="ctas">
-      <a href="/start/" class="btn btn-primary">Run a Fit Assessment →</a>
-      <a href="/method/" class="btn btn-secondary">See the full method</a>
+      <a href="/start/" class="btn btn-primary btn-lg">Run the Fit Assessment →</a>
+      <a href="/method/" class="btn btn-secondary btn-lg">See the full method</a>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="footer-inner">
-    <span>© 2026 The Saunter Group, LLC · LDNA™ used under license from Vertical Consulting, LLC</span>
-    <span><a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="mailto:info@thesauntergroup.com">Contact</a></span>
+    <div class="footer-meta">
+      <img src="/assets/saunter-logo-light.svg" alt="The Saunter Group" />
+      <span>© 2026 The Saunter Group, LLC · Build what endures</span>
+    </div>
+    <span>LDNA™ used under license from Vertical Consulting, LLC · <a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="mailto:info@thesauntergroup.com">Contact</a></span>
   </div>
 </footer>
+
+<script>
+  (function(){
+    var t = document.querySelector('.nav-toggle');
+    var n = document.querySelector('#primary-nav');
+    if (!t || !n) return;
+    t.addEventListener('click', function(){
+      var open = n.classList.toggle('open');
+      t.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    n.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        n.classList.remove('open');
+        t.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>
