@@ -131,6 +131,18 @@
 
   /* What it taught */
   section.lessons { padding: 88px 32px; }
+
+  /* From Ryan note */
+  section.from-ryan { padding: 96px 32px; background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .from-ryan-inner { max-width: 720px; margin: 0 auto; }
+  .from-ryan-card { background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 4px; padding: 36px 40px 30px; box-shadow: 0 8px 24px rgba(14,31,61,0.06); }
+  @media (max-width: 640px) { .from-ryan-card { padding: 28px 24px 22px; } }
+  .from-ryan-eyebrow { font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 18px; }
+  .from-ryan-card p { font-family: var(--font-serif); font-size: 18px; line-height: 1.7; color: var(--ink); margin: 0 0 18px; }
+  .from-ryan-card p:last-of-type { margin-bottom: 24px; }
+  .from-ryan-sig { display: flex; align-items: center; justify-content: space-between; padding-top: 18px; border-top: 1px solid var(--line); flex-wrap: wrap; gap: 12px; }
+  .from-ryan-sig-name { font-family: var(--font-serif); font-style: italic; font-size: 20px; color: var(--ink); }
+  .from-ryan-sig-meta { font-family: var(--font-ui); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.06em; }
   .lessons-inner { max-width: 880px; margin: 0 auto; }
   .lessons-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 36px; }
   .lesson { background: var(--surface-2); border-radius: 12px; padding: 22px 26px; }
@@ -224,44 +236,43 @@
       data across complex systems and produce real-world risk-level assessments.
     </p>
     <p>
-      That work forced <strong>mastery of risk</strong>: how to quantify it, how to model it, and how to engineer
-      around it before it could cascade. It taught me that the difference between systems that hold and systems
-      that fail is rarely the people inside them. It's the architecture.
+      That work taught me <strong>how risk actually behaves</strong>: how to quantify it, how to model it, and how
+      to engineer around it before it could cascade. It also taught me something I didn't expect to find useful
+      later. The difference between systems that hold and systems that fail is rarely the people inside them. It's
+      the architecture they were given to work in.
     </p>
 
     <blockquote><p>"At this level, ambition without architecture doesn't create freedom — it creates exposure."</p></blockquote>
 
     <h2>From the cockpit to the cabin.</h2>
     <p>
-      When I transitioned out of the military, I <strong>built and sold a defense contracting firm</strong> while
-      living aboard a sailboat in the Caribbean. Different arena. Same laws of reality. Complex systems. Small
-      decisions. Compounding consequences.
+      When I left the service, I <strong>built and sold a defense contracting firm</strong> while living aboard a
+      sailboat in the Caribbean. Different arena, same laws of reality.
     </p>
     <p>
-      At one point, revenue was outpacing structure. Demand was real, but the system underneath it wasn't ready.
-      What looked like progress on the surface was actually structural debt forming underneath. Visibility narrowed.
-      Decision latency increased. The margin for error collapsed.
+      At one point, revenue was outpacing structure. The demand was real, but the system underneath wasn't ready
+      to absorb it. What looked like progress was structural debt forming underneath. Visibility narrowed.
+      Decision latency went up. The margin for error collapsed in slow motion, and I was the last to see it.
     </p>
     <p>
-      That was the moment it became undeniable: <strong>the same systems-engineering discipline I'd applied to
-      cascading failure modes in defense systems applied directly to business architecture under growth load</strong>.
-      The variables changed. The math didn't.
+      That was the moment it stopped being theoretical for me. The same systems-engineering discipline I'd applied
+      to cascading failure in defense systems applied directly to business architecture under growth load. The
+      variables changed. The math didn't.
     </p>
 
     <h2>Why this practice exists.</h2>
     <p>
-      Over the years since, I've watched the same pattern repeat across operators and executive teams I've worked
-      with. Growth exposes weak systems. Stress exposes weak leadership rhythms. Chaos exposes structural gaps.
-      What worked at one level breaks at the next.
+      Since then I've watched the same pattern repeat across operators and executive teams. Growth doesn't break
+      what's strong. It exposes what was always weak, and amplifies whatever's underneath.
     </p>
     <p>
       People are rarely the real problem. <strong>Their architecture is.</strong>
     </p>
     <p>
-      The Saunter Group exists to correct that — with evidence, not opinion — before it becomes irreversible. We
-      diagnose the system, diagnose the leaders inside it, prescribe the structure that holds under load, and
-      maintain it as complexity rises. Two instruments, one coherent method, for operators who've moved past
-      survival mode and are quietly struggling under the weight of their own growth.
+      The Saunter Group exists to fix that with evidence rather than opinion, before it becomes irreversible. We
+      diagnose the system. We diagnose the leaders inside it. We prescribe the structure that holds under load,
+      and we stay long enough to make sure it actually holds. Two instruments and one method, for operators who've
+      moved past survival mode and are quietly struggling under the weight of their own growth.
     </p>
   </div>
 </section>
@@ -296,20 +307,47 @@
     <h2>The patterns that repeat across companies.</h2>
     <div class="lessons-grid">
       <div class="lesson">
-        <h4>Growth exposes weak systems.</h4>
-        <p>What worked at $50K/month breaks at $200K. Not because the team got worse, but because the architecture wasn't built for the load.</p>
+        <h4>Growth doesn't break what's strong. It exposes what was always weak.</h4>
+        <p>What worked at $50K/month breaks at $200K. Not because the team got worse. Because the architecture wasn't built for the load you just added to it.</p>
       </div>
       <div class="lesson">
-        <h4>Stress exposes weak leadership rhythms.</h4>
-        <p>Pressure reveals where decision-making cadence falls apart — and which leaders carry weight under load and which can't.</p>
+        <h4>Pressure shows you which leaders actually carry weight.</h4>
+        <p>Calm reveals very little about a leadership team. Crisis reveals who's been compensating for whom, and which decision-making rhythms fall apart the moment they're tested.</p>
       </div>
       <div class="lesson">
-        <h4>Chaos exposes structural gaps.</h4>
-        <p>Crisis shows where the foundation was never built for sustained load. The cracks were there. The growth just made them visible.</p>
+        <h4>The cracks were always there. The growth just made them visible.</h4>
+        <p>Most "sudden" failures aren't sudden. They're structural debt accumulating quietly for six to eighteen months until a growth wave finally surfaces the bill.</p>
       </div>
       <div class="lesson">
-        <h4>Architecture compounds. Architectural debt also compounds.</h4>
-        <p>What you don't structure quietly accumulates as exposure. The fix is rarely heroic — it's structural.</p>
+        <h4>Architecture compounds. So does the lack of it.</h4>
+        <p>What you don't structure accumulates as exposure. The fix is almost never heroic. It's structural, and it's usually less work than the patch you've been running.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="from-ryan">
+  <div class="from-ryan-inner">
+    <div class="from-ryan-card">
+      <div class="from-ryan-eyebrow">A note from Ryan</div>
+      <p>
+        One pattern I keep running into: leadership teams who tell me they're "almost ready" for the next stage,
+        and then the diagnostic tells a completely different story. Unstaffed reporting lines that nobody owns.
+        A VP of Sales who's actually running customer support three days a week. A 14-day financial close that
+        hasn't come up in the last three board meetings because it's just <em>how things work around here</em>.
+      </p>
+      <p>
+        The point of evidence isn't to catch anyone out. It's to make the invisible decisions visible, so the
+        team can actually choose. Nobody wakes up wanting to scale chaos. Most of the time they just can't see
+        it yet.
+      </p>
+      <p>
+        That's the whole job. Diagnose what's actually there. Tell the truth about it. Then build the
+        architecture the next stage needs, and stay long enough to make sure it holds.
+      </p>
+      <div class="from-ryan-sig">
+        <div class="from-ryan-sig-name">— Ryan "Gus" Roberts</div>
+        <div class="from-ryan-sig-meta">FOUNDER · THE SAUNTER GROUP</div>
       </div>
     </div>
   </div>
@@ -318,8 +356,8 @@
 <section class="cta-band">
   <div class="cta-inner">
     <div class="eyebrow">Start the conversation</div>
-    <h2>If you're scaling, the next conversation is <em>honest evidence</em>.</h2>
-    <p>Two ways to start. The LDNA is the front door — free, six minutes, and tells you something useful about how you lead. If you're already considering BAIC for the company, the Fit Assessment is the qualifier.</p>
+    <h2>If you're scaling, the next conversation should be <em>about evidence</em>.</h2>
+    <p>Most people start with the LDNA. It's free, takes about six minutes, and tells you something useful about how you actually lead. If you're already considering BAIC for the company, the Fit Assessment is the qualifier.</p>
     <div class="ctas">
       <a href="/ldna/" class="btn btn-primary btn-lg">Take the LDNA →</a>
       <a href="/start/" class="btn btn-secondary btn-lg">Run the Fit Assessment</a>
