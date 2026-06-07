@@ -7,8 +7,8 @@
 <link rel="icon" type="image/svg+xml" href="/assets/saunter-mark.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/saunter-mark-32.png">
 <link rel="apple-touch-icon" sizes="192x192" href="/assets/saunter-mark-192.png">
-<title>The Saunter Group — Diagnostic-led leadership and organizational architecture</title>
-<meta name="description" content="The Saunter Group helps founders and operators at $300K–$1M/month scale through evidence-based diagnostics of their organization and leadership team. Two proprietary instruments: BAIC and LDNA." />
+<title>The Saunter Group — Build what endures</title>
+<meta name="description" content="Build what endures. The Saunter Group runs two proprietary diagnostics — one for the organization, one for its leaders — so the architecture you build for your next stage is the one that actually holds." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -26,6 +26,7 @@
     --primary-soft: #EEF2FB;
     --primary-line: #C6D2E6;
     --accent: #A77A28;
+    --accent-hover: #8E6720;
     --accent-soft: #F5EFE0;
     --accent-line: #D9C28A;
     --font-serif: 'Aptos Serif', 'Aptos', 'Source Serif 4', 'Source Serif Pro', 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
@@ -35,22 +36,38 @@
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
   body { font-family: var(--font-serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
-  /* ---------- Topbar ---------- */
-  .topbar { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.94); backdrop-filter: saturate(140%) blur(8px); border-bottom: 1px solid var(--line); }
-  .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; gap: 24px; }
-  .brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
-  .brand-mark { width: 42px; height: 42px; border-radius: 7px; background: var(--primary); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-family: var(--font-serif); font-weight: 700; font-style: italic; font-size: 22px; box-shadow: 0 1px 0 var(--accent) inset; }
-  .brand-name { font-family: var(--font-serif); font-size: 20px; color: var(--ink); font-weight: 600; line-height: 1.1; letter-spacing: -0.005em; }
-  .brand-sub { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 3px; }
-  .brand-logo { height: 36px; width: auto; display: block; }
-  .brand-tag { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; padding-left: 16px; margin-left: 4px; border-left: 1px solid var(--line); display: none; }
-  @media (min-width: 880px) { .brand-tag { display: block; } }
-  .nav-spacer { flex: 1; }
-  .nav-links { display: flex; gap: 28px; }
-  .nav-links a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 180ms; }
+  /* ---------- Topbar (consistent across all pages) ---------- */
+  .topbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: saturate(140%) blur(10px); border-bottom: 1px solid var(--line); }
+  .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; gap: 24px; }
+  .brand { display: flex; align-items: center; gap: 18px; text-decoration: none; flex-shrink: 0; }
+  .brand-logo { height: 48px; width: auto; display: block; }
+  .brand-lockup { display: none; padding-left: 18px; border-left: 1px solid var(--line); }
+  .brand-tag { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 500; line-height: 1; }
+  @media (min-width: 1024px) { .brand-lockup { display: block; } }
+  .nav-links { display: flex; align-items: center; gap: 32px; flex: 1; justify-content: flex-end; }
+  .nav-links a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 180ms; position: relative; padding: 8px 0; }
   .nav-links a:hover { color: var(--primary); }
-  .nav-cta { font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: #fff; background: var(--primary); padding: 9px 18px; border-radius: 999px; text-decoration: none; transition: background 180ms; }
-  .nav-cta:hover { background: var(--primary-hover); }
+  .nav-links a.active { color: var(--primary); font-weight: 600; }
+  .nav-links a.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -19px; height: 2px; background: var(--accent); }
+  .nav-cta { font-family: var(--font-ui) !important; font-size: 14px !important; font-weight: 600 !important; color: var(--primary) !important; background: var(--accent); padding: 11px 20px !important; border-radius: 999px; text-decoration: none; transition: all 180ms; box-shadow: 0 4px 12px rgba(167,122,40,0.25); white-space: nowrap; }
+  .nav-cta:hover { background: var(--accent-hover); color: #fff !important; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(167,122,40,0.35); }
+  .nav-cta.active::after { display: none; }
+  .nav-toggle { display: none; background: transparent; border: 0; width: 44px; height: 44px; margin-left: auto; padding: 12px; cursor: pointer; flex-direction: column; justify-content: space-between; }
+  .nav-toggle span { display: block; height: 2px; background: var(--ink); transition: transform 220ms, opacity 220ms; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+  @media (max-width: 880px) {
+    .topbar-inner { padding: 14px 20px; gap: 12px; }
+    .brand-logo { height: 40px; }
+    .nav-toggle { display: flex; }
+    .nav-links { position: fixed; inset: 68px 0 0 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(10px); flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; padding: 24px 24px 64px; transform: translateX(100%); transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1); overflow-y: auto; }
+    .nav-links.open { transform: translateX(0); }
+    .nav-links a { font-size: 22px; padding: 20px 0; border-bottom: 1px solid var(--line); color: var(--ink); width: 100%; font-family: var(--font-serif); }
+    .nav-links a.active::after { display: none; }
+    .nav-links a.active { color: var(--accent); }
+    .nav-cta { margin-top: 28px; align-self: stretch; text-align: center; font-size: 16px !important; padding: 18px 24px !important; border-bottom: 0 !important; box-shadow: 0 4px 12px rgba(167,122,40,0.25) !important; }
+  }
 
   /* ---------- Shared elements ---------- */
   .eyebrow { font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 18px; display: inline-flex; align-items: center; gap: 10px; }
@@ -59,20 +76,28 @@
   h1 em, h2 em, h3 em { font-style: italic; color: var(--accent); font-weight: 600; }
   .tm { font-size: 0.5em; vertical-align: super; line-height: 0; margin-left: 0.08em; font-weight: 500; font-style: normal; color: var(--ink-mute); }
 
-  /* ---------- Hero ---------- */
-  section.hero { max-width: 1180px; margin: 0 auto; padding: 88px 32px 80px; }
-  .hero h1 { font-size: clamp(36px, 5vw, 56px); line-height: 1.1; margin: 0 0 24px; max-width: 22ch; }
-  .hero .lede { font-size: 20px; color: var(--ink-soft); max-width: 60ch; line-height: 1.5; margin: 0 0 36px; }
-  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
-  .btn { font-family: var(--font-ui); font-size: 15px; font-weight: 600; padding: 14px 24px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 180ms; cursor: pointer; border: 0; }
-  .btn-primary { background: var(--primary); color: #fff; }
-  .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+  /* ---------- Buttons ---------- */
+  .btn { font-family: var(--font-ui); font-size: 15px; font-weight: 600; padding: 14px 26px; border-radius: 999px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 180ms; cursor: pointer; border: 0; }
+  .btn-primary { background: var(--accent); color: var(--primary); box-shadow: 0 6px 16px rgba(167,122,40,0.28); }
+  .btn-primary:hover { background: var(--accent-hover); color: #fff; transform: translateY(-1px); box-shadow: 0 10px 24px rgba(167,122,40,0.38); }
   .btn-secondary { background: transparent; color: var(--primary); border: 1px solid var(--primary-line); }
   .btn-secondary:hover { border-color: var(--primary); background: var(--primary-soft); }
+  .btn-navy { background: var(--primary); color: #fff; box-shadow: 0 6px 16px rgba(14,31,61,0.22); }
+  .btn-navy:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 10px 24px rgba(14,31,61,0.32); }
+  .btn-lg { font-size: 16px; padding: 17px 32px; }
+
+  /* ---------- Hero ---------- */
+  section.hero { max-width: 1180px; margin: 0 auto; padding: 96px 32px 88px; }
+  .hero h1 { font-size: clamp(40px, 5.6vw, 60px); line-height: 1.05; margin: 0 0 24px; max-width: 18ch; letter-spacing: -0.02em; }
+  .hero .lede { font-size: 20px; color: var(--ink-soft); max-width: 60ch; line-height: 1.5; margin: 0 0 40px; }
+  .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .hero-meta { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); margin-top: 16px; }
+  .hero-meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .hero-meta span + span { margin-left: 18px; }
 
   /* ---------- Offerings ---------- */
   section.offerings { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .offerings-inner { max-width: 1180px; margin: 0 auto; padding: 88px 32px; }
+  .offerings-inner { max-width: 1180px; margin: 0 auto; padding: 96px 32px; }
   .section-heading { text-align: center; margin-bottom: 56px; }
   .section-heading h2 { font-size: clamp(28px, 3.5vw, 40px); line-height: 1.15; margin: 0 auto 14px; max-width: 28ch; }
   .section-heading p { font-size: 18px; color: var(--ink-soft); max-width: 56ch; margin: 0 auto; line-height: 1.5; }
@@ -80,21 +105,23 @@
   .section-heading.left h2, .section-heading.left p { margin-left: 0; }
   .offering-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
   @media (max-width: 880px) { .offering-grid { grid-template-columns: 1fr; } }
-  .offering-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 36px 32px; display: flex; flex-direction: column; transition: border-color 200ms, transform 200ms, box-shadow 200ms; }
+  .offering-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 36px 32px; display: flex; flex-direction: column; transition: border-color 200ms, transform 200ms, box-shadow 200ms; position: relative; }
   .offering-card:hover { border-color: var(--primary-line); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(14,31,61,0.08); }
+  .offering-card.featured { border-top: 4px solid var(--accent); }
   .offering-tag { font-family: var(--font-ui); font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600; padding: 4px 10px; border-radius: 999px; align-self: flex-start; margin-bottom: 18px; background: var(--accent-soft); color: #5B4416; border: 1px solid var(--accent-line); }
+  .free-badge { position: absolute; top: 28px; right: 28px; font-family: var(--font-ui); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); background: var(--accent-soft); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--accent-line); }
   .offering-card h3 { font-size: 32px; line-height: 1.1; margin: 0 0 4px; }
   .offering-card .full-name { font-family: var(--font-ui); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); margin-bottom: 22px; }
   .offering-card .what { font-size: 16px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 24px; flex: 1; }
   .offering-card .what strong { color: var(--ink); font-weight: 600; }
-  .offering-card ul { list-style: none; padding: 0; margin: 0 0 28px; }
+  .offering-card ul { list-style: none; padding: 0; margin: 0 0 32px; }
   .offering-card ul li { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); padding: 8px 0; border-top: 1px solid var(--line); display: flex; align-items: flex-start; gap: 10px; }
   .offering-card ul li::before { content: ""; flex-shrink: 0; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; margin-top: 7px; }
-  .offering-card .card-cta { font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: var(--primary); text-decoration: none; align-self: flex-start; border-bottom: 1px solid var(--primary-line); padding-bottom: 2px; transition: border-color 180ms; }
-  .offering-card .card-cta:hover { border-bottom-color: var(--primary); }
+  .offering-card .card-cta-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: auto; }
+  .offering-card .btn { font-size: 14.5px; padding: 13px 22px; }
 
   /* ---------- Problem section ---------- */
-  section.problem { padding: 88px 32px; }
+  section.problem { padding: 96px 32px; }
   .problem-inner { max-width: 1180px; margin: 0 auto; }
   .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
   @media (max-width: 960px) { .problem-grid { grid-template-columns: 1fr 1fr; } }
@@ -104,7 +131,7 @@
   .problem-card p { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.6; }
 
   /* ---------- Method band ---------- */
-  section.method { background: var(--primary); color: #fff; padding: 88px 32px; }
+  section.method { background: var(--primary); color: #fff; padding: 96px 32px; }
   .method-inner { max-width: 1180px; margin: 0 auto; }
   .method .section-heading h2 { color: #fff; }
   .method .section-heading p { color: rgba(255,255,255,0.78); }
@@ -120,7 +147,7 @@
   .method-link a:hover { border-bottom-color: #fff; }
 
   /* ---------- Story band ---------- */
-  section.story { padding: 88px 32px; background: var(--surface-2); border-top: 1px solid var(--line); }
+  section.story { padding: 96px 32px; background: var(--surface-2); border-top: 1px solid var(--line); }
   .story-inner { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 5fr 6fr; gap: 56px; align-items: center; }
   @media (max-width: 880px) { .story-inner { grid-template-columns: 1fr; gap: 32px; } }
   .story-quote { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 28px 32px; font-family: var(--font-serif); font-size: 22px; line-height: 1.45; color: var(--ink); font-style: italic; }
@@ -132,23 +159,27 @@
   .story-content .read-more:hover { border-bottom-color: var(--primary); }
 
   /* ---------- CTA band ---------- */
-  section.cta-band { padding: 96px 32px; }
-  .cta-inner { max-width: 880px; margin: 0 auto; text-align: center; }
-  .cta-inner h2 { font-size: clamp(28px, 4vw, 44px); line-height: 1.1; margin: 0 0 16px; }
-  .cta-inner p { font-size: 18px; color: var(--ink-soft); margin: 0 0 32px; max-width: 56ch; margin-left: auto; margin-right: auto; line-height: 1.5; }
-  .cta-inner .hero-ctas { justify-content: center; }
-  .cta-inner .signals { margin-top: 30px; display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); }
-  .cta-inner .signals span { display: inline-flex; align-items: center; gap: 8px; }
-  .cta-inner .signals span::before { content: "✓"; color: var(--accent); font-weight: 700; }
+  section.cta-band { padding: 104px 32px; }
+  .cta-inner { max-width: 1080px; margin: 0 auto; }
+  .cta-heading { text-align: center; margin-bottom: 56px; }
+  .cta-heading h2 { font-size: clamp(30px, 4vw, 44px); line-height: 1.1; margin: 0 0 16px; max-width: 24ch; margin-left: auto; margin-right: auto; }
+  .cta-heading p { font-size: 18px; color: var(--ink-soft); margin: 0 auto; max-width: 56ch; line-height: 1.5; }
+  .cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 760px) { .cta-grid { grid-template-columns: 1fr; } }
+  .cta-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 36px 32px; text-align: left; transition: border-color 200ms, transform 200ms, box-shadow 200ms; }
+  .cta-card:hover { border-color: var(--primary-line); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(14,31,61,0.08); }
+  .cta-card .tag { font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 12px; }
+  .cta-card h3 { font-size: 24px; line-height: 1.2; margin: 0 0 12px; }
+  .cta-card p { font-family: var(--font-ui); font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 24px; }
 
   /* ---------- Footer ---------- */
-  footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 64px 32px 32px; }
+  footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 72px 32px 36px; }
   .footer-inner { max-width: 1180px; margin: 0 auto; }
   .footer-cols { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
   @media (max-width: 720px) { .footer-cols { grid-template-columns: 1fr 1fr; } }
-  .footer-brand .brand-name { color: #fff; }
-  .footer-brand .brand-sub { color: rgba(255,255,255,0.55); }
-  .footer-brand p { font-family: var(--font-ui); font-size: 13px; color: rgba(255,255,255,0.65); max-width: 32ch; margin: 18px 0 0; line-height: 1.55; }
+  .footer-brand img { height: 44px; margin-bottom: 16px; }
+  .footer-brand .footer-tag { font-family: var(--font-ui); font-size: 11px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.18em; margin: 0 0 16px; font-weight: 500; }
+  .footer-brand p.desc { font-family: var(--font-ui); font-size: 13px; color: rgba(255,255,255,0.65); max-width: 32ch; margin: 0; line-height: 1.55; }
   .footer-col h4 { font-family: var(--font-ui); font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em; color: rgba(255,255,255,0.5); font-weight: 600; margin: 0 0 14px; }
   .footer-col ul { list-style: none; padding: 0; margin: 0; }
   .footer-col ul li { margin-bottom: 8px; }
@@ -157,10 +188,10 @@
   .footer-bottom { border-top: 1px solid rgba(255,255,255,0.12); padding-top: 24px; display: flex; justify-content: space-between; gap: 16px; font-family: var(--font-ui); font-size: 11px; letter-spacing: 0.06em; color: rgba(255,255,255,0.45); flex-wrap: wrap; }
 
   @media (max-width: 640px) {
-    .topbar-inner { padding: 14px 18px; gap: 12px; }
-    .nav-links { display: none; }
-    section.hero, section.offerings .offerings-inner, section.problem, section.method, section.story, section.cta-band { padding-left: 18px; padding-right: 18px; }
-    .offering-card { padding: 28px 22px; }
+    section.hero, .offerings-inner, section.problem, section.method, section.story, section.cta-band { padding-left: 22px; padding-right: 22px; }
+    .offering-card { padding: 28px 24px; }
+    .free-badge { top: 22px; right: 22px; font-size: 10px; padding: 5px 10px; }
+    .cta-card { padding: 28px 24px; }
   }
 </style>
 </head>
@@ -168,33 +199,43 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a href="/" class="brand">
-      <img src="/assets/saunter-logo.svg" alt="Saunter" class="brand-logo" />
-        <div class="brand-tag">Leadership &amp; Organizational Intelligence</div>
+    <a href="/" class="brand" aria-label="The Saunter Group — home">
+      <img src="/assets/saunter-logo.svg" alt="The Saunter Group" class="brand-logo" />
+      <div class="brand-lockup">
+        <span class="brand-tag">Build what endures</span>
+      </div>
     </a>
-    <div class="nav-spacer"></div>
-    <nav class="nav-links" aria-label="Primary">
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" id="primary-nav" aria-label="Primary">
       <a href="/method/">Method</a>
       <a href="/baic/">BAIC</a>
       <a href="/ldna/">LDNA</a>
       <a href="/story/">Story</a>
+      <a href="/ldna/" class="nav-cta">Take the LDNA →</a>
     </nav>
-    <a href="/start/" class="nav-cta">Run a Fit Assessment</a>
   </div>
 </header>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="eyebrow">Diagnostic-led growth at scale</div>
-  <h1>Build the architecture your next stage of growth <em>actually requires</em>.</h1>
+  <div class="eyebrow">Build what endures</div>
+  <h1>A company that lasts isn't <em>built in a hurry</em>.</h1>
   <p class="lede">
     Most companies don't stall because of effort, talent, or strategy. They stall because the organization
     and the leadership team were architected for the last revenue tier, not the next one. The Saunter Group
-    diagnoses both — the system and the leaders — and prescribes the structure that holds under load.
+    runs two proprietary diagnostics — one for the system, one for the leaders — so the structure you build
+    actually holds.
   </p>
   <div class="hero-ctas">
-    <a href="/start/" class="btn btn-primary">Run a Fit Assessment →</a>
-    <a href="/method/" class="btn btn-secondary">See how we work</a>
+    <a href="/ldna/" class="btn btn-primary btn-lg">Take the LDNA Assessment — Free →</a>
+    <a href="/baic/" class="btn btn-secondary btn-lg">Explore BAIC</a>
+  </div>
+  <div class="hero-meta">
+    <span>✓ &nbsp;Free 2-page LDNA report</span>
+    <span>✓ &nbsp;~6 minutes</span>
+    <span>✓ &nbsp;No sales call required</span>
   </div>
 </section>
 
@@ -208,6 +249,27 @@
     </div>
 
     <div class="offering-grid">
+      <article class="offering-card featured">
+        <span class="free-badge">Free · Start here</span>
+        <span class="offering-tag">Leadership intelligence</span>
+        <h3>LDNA<span class="tm">™</span></h3>
+        <div class="full-name">Leadership Drivers &amp; Natural Aptitudes</div>
+        <p class="what">
+          A <strong>leadership-intelligence instrument</strong> that reads each leader across seven dimensions —
+          who they are naturally, and what their role demands. Free 2-page report on completion. Optional full
+          8–10 page report for deeper development work.
+        </p>
+        <ul>
+          <li>Natural &amp; adaptive read — and the daily cost of the gap</li>
+          <li>Fifteen archetypes on the value-stream field</li>
+          <li>Team complementarity and coverage map</li>
+          <li>Built-in AI-exposure read for each leader's value</li>
+        </ul>
+        <div class="card-cta-row">
+          <a href="/ldna/" class="btn btn-primary">Take the LDNA Assessment →</a>
+        </div>
+      </article>
+
       <article class="offering-card">
         <span class="offering-tag">Organizational architecture</span>
         <h3>BAIC</h3>
@@ -223,25 +285,10 @@
           <li>Operating blueprint with owner-level accountability</li>
           <li>Quarterly re-score and advisory retainer available</li>
         </ul>
-        <a href="/baic/" class="card-cta">Explore BAIC →</a>
-      </article>
-
-      <article class="offering-card">
-        <span class="offering-tag">Leadership intelligence</span>
-        <h3>LDNA<span class="tm">™</span></h3>
-        <div class="full-name">Leadership Drivers &amp; Natural Aptitudes</div>
-        <p class="what">
-          A <strong>leadership-intelligence instrument</strong> that reads each leader across seven dimensions —
-          who they are naturally, and what their role demands. The Team Report rolls every profile into one
-          view of complementarity, blind spots, and where the bench is exposed.
-        </p>
-        <ul>
-          <li>Natural &amp; adaptive read — and the daily cost of the gap</li>
-          <li>Fifteen archetypes on the value-stream field</li>
-          <li>Team complementarity and coverage map</li>
-          <li>Built-in AI-exposure read for each leader's value</li>
-        </ul>
-        <a href="/ldna/" class="card-cta">Take the assessment →</a>
+        <div class="card-cta-row">
+          <a href="/baic/" class="btn btn-navy">Explore BAIC →</a>
+          <a href="/start/" style="font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: var(--primary); text-decoration: none; border-bottom: 1px solid var(--primary-line); padding-bottom: 2px;">Fit Assessment →</a>
+        </div>
       </article>
     </div>
   </div>
@@ -348,20 +395,28 @@
   </div>
 </section>
 
-<!-- CTA -->
+<!-- CTA BAND -->
 <section class="cta-band">
   <div class="cta-inner">
-    <div class="eyebrow" style="display: inline-flex; margin: 0 auto 14px;">Start here</div>
-    <h2>If you're serious about scaling, the first step is honest evidence.</h2>
-    <p>Eight questions. No pitch. We tell you whether there's structural leverage worth working on — or we tell you there isn't.</p>
-    <div class="hero-ctas">
-      <a href="/start/" class="btn btn-primary">Run a Fit Assessment →</a>
-      <a href="/method/" class="btn btn-secondary">See the method first</a>
+    <div class="cta-heading">
+      <div class="eyebrow" style="display: inline-flex; margin: 0 auto 14px;">Two ways to start</div>
+      <h2>Choose the one that fits where you are.</h2>
+      <p>Most people start with the LDNA — it's free, six minutes, and tells you something useful about how you lead. If you're seriously considering BAIC for the whole company, the Fit Assessment is the qualifier.</p>
     </div>
-    <div class="signals">
-      <span>No generic frameworks</span>
-      <span>Designed for the $300K–$1M/month zone</span>
-      <span>Real architecture, real results</span>
+
+    <div class="cta-grid">
+      <div class="cta-card">
+        <div class="tag">Front door · Free</div>
+        <h3>Take the LDNA Assessment</h3>
+        <p>A leadership-intelligence read for you or your team. Free 2-page report on completion. ~6 minutes. No sales call.</p>
+        <a href="/ldna/" class="btn btn-primary">Take the LDNA →</a>
+      </div>
+      <div class="cta-card">
+        <div class="tag">For BAIC engagements</div>
+        <h3>Run a Fit Assessment</h3>
+        <p>Eight questions. We confirm whether BAIC is the right next move for your company — or tell you it isn't.</p>
+        <a href="/start/" class="btn btn-navy">Run the Fit Assessment →</a>
+      </div>
     </div>
   </div>
 </section>
@@ -371,11 +426,9 @@
   <div class="footer-inner">
     <div class="footer-cols">
       <div class="footer-brand">
-        <a href="/" class="brand" style="color: inherit;">
-          <img src="/assets/saunter-logo-light.svg" alt="Saunter" class="brand-logo brand-logo-footer" />
-        </a>
-        <p style="font-family: var(--font-ui); font-size: 11px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.14em; margin: 10px 0 18px;">Leadership &amp; Organizational Intelligence</p>
-        <p>Diagnostic-led leadership and organizational architecture for founders and operators at scale.</p>
+        <a href="/" aria-label="The Saunter Group — home"><img src="/assets/saunter-logo-light.svg" alt="The Saunter Group" /></a>
+        <p class="footer-tag">Build what endures</p>
+        <p class="desc">Diagnostic-led leadership and organizational architecture for founders and operators at scale.</p>
       </div>
       <div class="footer-col">
         <h4>Practice</h4>
@@ -407,6 +460,26 @@
     </div>
   </div>
 </footer>
+
+<script>
+  (function(){
+    var t = document.querySelector('.nav-toggle');
+    var n = document.querySelector('#primary-nav');
+    if (!t || !n) return;
+    t.addEventListener('click', function(){
+      var open = n.classList.toggle('open');
+      t.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    n.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        n.classList.remove('open');
+        t.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>
