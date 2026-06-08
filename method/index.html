@@ -177,6 +177,148 @@
     section.hero, .ladder-band, .instrument, .pull-quote, .cta-band { padding-left: 22px; padding-right: 22px; }
     .cta-card { padding: 28px 24px; }
   }
+
+
+/* ===========================================================
+   COMPREHENSIVE MOBILE SWEEP — best practice across all pages
+   =========================================================== */
+@media (max-width: 880px) {
+  /* Containers: scale down section padding aggressively */
+  section.hero { padding: 64px 22px 56px !important; }
+  section.section, section.section.alt, section.stat-band, section.cta-band,
+  section.pillars, section.bench, section.lessons, section.story-body,
+  section.from-ryan, section.problem, section.method, section.offerings,
+  section.story, section.partner, section.instrument, section.ladder-band,
+  section.pull-quote { padding-left: 22px !important; padding-right: 22px !important; }
+
+  /* Hero typography */
+  section.hero h1 { font-size: clamp(28px, 8.4vw, 40px) !important; line-height: 1.08 !important; max-width: none !important; }
+  section.hero .lede, .hero .lede { font-size: 16px !important; line-height: 1.5 !important; max-width: none !important; }
+  .hero-ctas { gap: 10px !important; }
+  .hero-ctas .btn-lg, .hero-ctas .btn { width: 100% !important; justify-content: center !important; padding: 14px 18px !important; font-size: 15px !important; }
+  .hero-meta { font-size: 12px !important; margin-top: 14px !important; }
+  .hero-meta span + span { display: inline-block; margin-left: 12px !important; }
+
+  /* Section h2 + lede */
+  .section h2, .section-inner h2, section.section h2 { font-size: clamp(22px, 6.5vw, 30px) !important; line-height: 1.18 !important; max-width: none !important; }
+  .section .lede, .section-inner .lede, section.section .lede { font-size: 16px !important; max-width: none !important; }
+  .section p, .section-inner p { font-size: 16px !important; max-width: none !important; }
+
+  /* Section padding for vertical rhythm */
+  section.section, section.section.alt { padding-top: 56px !important; padding-bottom: 56px !important; }
+  section.cta-band { padding: 64px 22px !important; }
+  .cta-inner h2 { font-size: clamp(22px, 7vw, 32px) !important; }
+  .cta-inner p { font-size: 16px !important; }
+  .ctas { gap: 10px !important; }
+  .ctas .btn-lg, .ctas .btn { width: 100% !important; justify-content: center !important; }
+
+  /* Universal grid collapse */
+  .domain-grid, .pillars-grid, .lessons-grid, .who-grid, .feature-grid,
+  .deliverables, .cta-grid, .dim-grid, .usecase-grid, .outcome-grid,
+  .bench-grid, .phases, .grid-cards, .offerings-grid,
+  .pillars-grid-3, .small-cards { grid-template-columns: 1fr !important; gap: 14px !important; }
+
+  /* Two-up summaries that should remain 2-col but tighter */
+  .ami-summary { grid-template-columns: repeat(2, 1fr) !important; gap: 6px !important; }
+  .ami-domains { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* AMI widget: stack to single column */
+  .ami-body { grid-template-columns: 1fr !important; }
+  .ami-left, .ami-right { padding: 18px 16px !important; }
+  .ami-head { padding: 16px 18px 12px !important; }
+  .ami-head .t { font-size: 14px !important; line-height: 1.3 !important; }
+  .ami-card .val { font-size: 17px !important; }
+  .ami-radar svg { max-width: 100% !important; }
+  .ami-fix .desc { font-size: 12.5px !important; line-height: 1.4 !important; }
+  .ami-fix .meta { font-size: 9.5px !important; }
+  .ami-fix.demo-pulse::before { font-size: 9px !important; left: 12px !important; }
+
+  /* Tables: wrap in horizontal scroll */
+  table.compare, .rsp-sc-table, .rsp-vm-table, .rsp-sp-table { font-size: 11px !important; }
+  table.compare { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap; }
+
+  /* Stacked report deck on mobile: taller deck, lighter chrome */
+  .rsp-deck { height: 640px !important; }
+  .rsp-page-head { padding: 10px 14px !important; }
+  .rsp-page-title { font-size: 12px !important; }
+  .rsp-page-num { font-size: 8.5px !important; }
+  .rsp-page-body { padding: 12px 14px !important; height: calc(100% - 42px) !important; }
+  .rsp-tabs { gap: 6px !important; }
+  .rsp-tab { font-size: 11px !important; padding: 7px 12px !important; }
+
+  /* Scorecard table mobile */
+  .rsp-sc-table th, .rsp-sc-table td { padding: 4px 5px !important; font-size: 10px !important; }
+  .rsp-sc-bar { width: 60px !important; }
+  .rsp-sc-foot { flex-direction: column !important; gap: 8px !important; align-items: flex-start !important; }
+  .rsp-sc-amibig { font-size: 24px !important; }
+
+  /* VMOCA register: hide ID column on narrow */
+  .rsp-vm-table th, .rsp-vm-table td { padding: 3px 4px !important; font-size: 9.5px !important; }
+  .rsp-vm-header { flex-direction: column !important; gap: 4px !important; align-items: flex-start !important; }
+
+  /* Sprint actions table */
+  .rsp-sp-table th, .rsp-sp-table td { padding: 4px 5px !important; font-size: 10px !important; }
+  .rsp-sp-head { flex-direction: column !important; gap: 4px !important; align-items: flex-start !important; }
+
+  /* SVG containers should always be 100% */
+  .domain-diagram svg, .rsp-ax-wrap svg, .rsp-fmap-wrap svg, .ldna-diagram svg { max-width: 100% !important; width: 100% !important; height: auto !important; }
+
+  /* Stat band */
+  .stat-inner { flex-direction: column !important; gap: 14px !important; align-items: flex-start !important; }
+  .stat-number { font-size: clamp(56px, 18vw, 80px) !important; }
+  .stat-context { font-size: 14px !important; }
+
+  /* Pricing band */
+  .pricing-band h2, section[class*="PRICING"] h2 { font-size: clamp(22px, 6.5vw, 26px) !important; }
+
+  /* TAB / bench section */
+  .bench-card { padding: 18px 18px !important; }
+  .bench-card h3 { font-size: 16px !important; }
+  .bench-card p { font-size: 12.5px !important; }
+  .bench-lede { font-size: 14.5px !important; }
+
+  /* From-Ryan card */
+  .from-ryan-card { padding: 28px 22px !important; }
+  .from-ryan-sig { flex-direction: column !important; gap: 8px !important; align-items: flex-start !important; }
+  .from-ryan-sig-name { font-size: 17px !important; }
+  .from-ryan-sig-meta { font-size: 11px !important; }
+
+  /* Logo / topbar safety */
+  .brand-logo { height: 44px !important; }
+  .topbar-inner { padding: 12px 16px !important; gap: 10px !important; }
+  .nav-cta { font-size: 13px !important; padding: 9px 14px !important; }
+
+  /* Footer */
+  .footer-inner { flex-direction: column !important; gap: 12px !important; align-items: flex-start !important; }
+
+  /* LDNA welcome screen */
+  .step h1 { font-size: clamp(26px, 7vw, 32px) !important; line-height: 1.15 !important; }
+  .step .lede { font-size: 15px !important; }
+  .welcome-meta { flex-direction: column !important; gap: 8px !important; }
+  .card { padding: 22px 20px !important; }
+  .report-tiers { grid-template-columns: 1fr !important; }
+  .tier { padding: 18px 18px !important; }
+  .done-partner-card { padding: 22px 18px !important; }
+  .done-partner-actions { flex-direction: column !important; gap: 10px !important; }
+  .done-partner-btn { width: 100% !important; justify-content: center !important; }
+
+  /* Leadership-assessment hub: comparison table & FAQ */
+  .faq summary { padding: 18px 22px !important; font-size: 16px !important; }
+  .faq summary::after { right: 22px !important; }
+  .faq details p { padding: 0 22px 18px !important; font-size: 14px !important; }
+}
+
+@media (max-width: 480px) {
+  /* Extra-narrow refinements */
+  .ami-summary { grid-template-columns: 1fr 1fr !important; }
+  .ami-card .val { font-size: 15px !important; }
+  .ami-card .lbl { font-size: 9px !important; }
+  .rsp-deck { height: 700px !important; }
+  .bench-grid { grid-template-columns: 1fr !important; }
+  .nav-cta { font-size: 12px !important; padding: 8px 12px !important; }
+  .brand-logo { height: 40px !important; }
+}
+
 </style>
 </head>
 <body>
