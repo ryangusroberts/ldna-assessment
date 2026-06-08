@@ -873,10 +873,7 @@
         <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <h1>Thank you.</h1>
-      <p class="lede" style="margin-left: auto; margin-right: auto;">Your responses have been recorded. You'll receive your behavioral profile shortly.</p>
-      <div style="margin-top: 18px;">
-        <button class="btn btn-ghost" id="downloadBtn">Download a copy of my responses</button>
-      </div>
+      <p class="lede" style="margin-left: auto; margin-right: auto;">Your responses have been recorded. You'll receive your report via email soon.</p>
       <div class="done-partner-card" aria-label="Want to go deeper? Two paths through Vertical Motion.">
         <div class="done-partner-row" style="margin-bottom: 14px;">
           <a href="https://www.vmleader.com" target="_blank" rel="noopener" class="done-partner-link" aria-label="Visit Vertical Motion">
@@ -1317,34 +1314,19 @@ async function submit() {
       submitBtn.disabled = false;
       submitBtn.textContent = "Submit assessment";
       errBanner.hidden = false;
-      errBanner.textContent = "We couldn't submit just now (" + e.message + "). Your responses are saved locally, try again, or download them below.";
+      errBanner.textContent = "We couldn't submit just now (" + e.message + "). Your responses are saved locally. Please try again in a moment.";
       return;
     }
   } else {
-    // No endpoint, log to console and download.
+    // No endpoint, log to console.
     console.log("LDNA payload:", payload);
   }
 
-  // Stash for the download button
-  window.__lastPayload = payload;
   // Clear local cache (assessment is complete)
   try { localStorage.removeItem(STORAGE_KEY); } catch(_) {}
   showStep(4);
 }
 document.getElementById("submitBtn").addEventListener("click", submit);
-
-/* ---------- Download ---------- */
-document.getElementById("downloadBtn").addEventListener("click", () => {
-  const payload = window.__lastPayload || buildPayload();
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  const safeName = (payload.fullName || "responses").replace(/[^a-z0-9-_]+/gi, "_");
-  a.download = `LDNA_${safeName}.json`;
-  document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(url);
-});
 
 /* ---------- Init ---------- */
 load();
