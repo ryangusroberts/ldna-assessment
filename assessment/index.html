@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0E1F3D" />
+<link rel="icon" type="image/svg+xml" href="/assets/saunter-mark.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/saunter-mark-32.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/assets/saunter-mark-192.png">
+<title>LDNA — Leadership Drivers &amp; Natural Aptitudes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Design tokens ---------- */
+  :root {
+    --bg: #FFFFFF;
+    --surface: #FFFFFF;
+    --surface-2: #F4F6FA;        /* cool light gray */
+    --ink: #0B1220;              /* near-black with slight blue undertone */
+    --ink-soft: #3E4860;
+    --ink-mute: #7A8499;
+    --line: #DCE2EC;             /* cool hairline */
+    --primary: #0E1F3D;          /* deep midnight navy */
+    --primary-hover: #081530;
+    --primary-ink: #FFFFFF;
+    --primary-soft: #EEF2FB;     /* pale navy tint */
+    --primary-line: #C6D2E6;
+    --accent: #A77A28;           /* warm brass */
+    --accent-soft: #F5EFE0;      /* pale brass tint */
+    --accent-line: #D9C28A;
+    --selected-bg: #0E1F3D;
+    --selected-ink: #FFFFFF;
+    --shadow-sm: 0 1px 2px rgba(14, 31, 61, 0.06);
+    --shadow-md: 0 10px 28px rgba(14, 31, 61, 0.10);
+    --radius: 14px;
+    --radius-sm: 10px;
+    --radius-chip: 999px;
+    --transition: 180ms cubic-bezier(.2,.7,.3,1);
+
+    --font-serif: 'Aptos Serif', 'Aptos', 'Source Serif 4', 'Source Serif Pro', 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
+    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ---------- Header ---------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 1180px; margin: 0 auto;
+    padding: 16px 32px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 16px;
+    letter-spacing: -0.005em;
+    text-decoration: none;
+    color: inherit;
+    flex-shrink: 0;
+  }
+  .brand:hover .brand-tag { color: var(--primary); }
+  .brand-mark {
+    position: relative;
+    width: 54px; height: 54px;
+    border-radius: 9px;
+    background: var(--primary);
+    display: inline-block;
+    box-shadow: 0 1px 0 var(--accent) inset, var(--shadow-sm);
+    align-self: center;
+    overflow: hidden;
+  }
+  .brand-mark-L {
+    position: absolute;
+    left: 6px;
+    bottom: 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 700;
+    font-size: 46px;
+    color: #FFFFFF;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .brand-mark-dna {
+    position: absolute;
+    top: 14px;
+    right: 6px;
+    font-family: var(--font-serif);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    color: #D9C28A; /* lighter brass — higher contrast on navy at small size */
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .brand-name { font-family: var(--font-serif); font-size: 19px; color: var(--ink); font-weight: 600; line-height: 1.1; letter-spacing: -0.005em; }
+  .brand-sub  { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 3px; }
+  .brand-logo { height: 72px; width: auto; display: block; transition: opacity 180ms; }
+  .brand:hover .brand-logo { opacity: 0.85; }
+  .brand-tag { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 500; padding-left: 22px; border-left: 1px solid var(--line); display: none; line-height: 1; transition: color 180ms; }
+  @media (min-width: 1024px) { .brand-tag { display: block; } }
+  /* Trademark superscript — small, normal-weight, sits high */
+  .tm { font-size: 0.5em; vertical-align: super; line-height: 0; margin-left: 0.08em; font-weight: 500; font-style: normal; color: var(--ink-mute); }
+  h1 .tm { color: var(--accent); font-style: normal; }
+  .brand-name .tm { color: var(--ink-mute); }
+  .operator-byline { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); margin: -6px 0 18px; letter-spacing: 0.01em; }
+  .operator-byline strong { color: var(--ink-soft); font-weight: 600; }
+
+  .progress-wrap {
+    flex: 1;
+    display: flex; flex-direction: column; gap: 6px;
+    min-width: 0;
+    margin-left: 12px;
+  }
+  .progress-meta { display: flex; justify-content: space-between; font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.1em; }
+  .progress-bar { height: 4px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+  .progress-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary) 60%, var(--accent) 100%);
+    border-radius: 999px;
+    transition: width 380ms cubic-bezier(.2,.7,.3,1);
+  }
+
+  /* ---------- Layout ---------- */
+  main { max-width: 980px; margin: 0 auto; padding: 40px 28px 120px; }
+
+  .step { display: none; }
+  .step.active { display: block; animation: fadeUp 320ms cubic-bezier(.2,.7,.3,1); }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-eyebrow {
+    font-family: var(--font-ui);
+    text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px;
+    color: var(--accent); font-weight: 600;
+    margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .step-eyebrow::before {
+    content: ""; width: 18px; height: 1px; background: var(--accent); display: inline-block;
+  }
+  h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(30px, 4.2vw, 44px);
+    line-height: 1.12; letter-spacing: -0.015em;
+    margin: 0 0 16px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  h1 em { font-style: italic; color: var(--accent); font-weight: 600; }
+  h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(22px, 3vw, 28px);
+    line-height: 1.2; letter-spacing: -0.01em;
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+  .lede { color: var(--ink-soft); font-size: 18px; max-width: 64ch; margin: 0 0 28px; line-height: 1.55; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 28px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* ---------- Fields ---------- */
+  .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .field label { font-family: var(--font-ui); font-weight: 600; font-size: 13px; color: var(--ink); letter-spacing: 0.01em; }
+  .field .help { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); }
+  .field .req { color: var(--accent); margin-left: 3px; font-weight: 700; }
+
+  input[type="text"], input[type="email"], select {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-ui); font-size: 15px;
+    color: var(--ink);
+    transition: border-color var(--transition), box-shadow var(--transition);
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+  input.invalid, select.invalid { border-color: #B23A4A; box-shadow: 0 0 0 3px rgba(178,58,74,0.12); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  /* ---------- Word picker ---------- */
+  .picker-toolbar {
+    position: sticky; top: 65px; z-index: 10;
+    background: var(--bg);
+    padding: 14px 0 12px;
+    margin: 0 0 14px;
+    border-bottom: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center;
+  }
+  .search {
+    flex: 1; min-width: 240px;
+    position: relative;
+  }
+  .search input {
+    padding-left: 38px;
+  }
+  .search svg {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    width: 18px; height: 18px; color: var(--ink-mute);
+  }
+  .toolbar-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .toggle-btn {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    padding: 9px 14px;
+    font-family: var(--font-ui); font-size: 13px; font-weight: 500;
+    color: var(--ink-soft); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all var(--transition);
+  }
+  .toggle-btn:hover { color: var(--ink); border-color: var(--ink-mute); }
+  .toggle-btn.on {
+    background: var(--primary); color: var(--primary-ink); border-color: var(--primary);
+  }
+  .counter {
+    font-family: var(--font-ui);
+    font-size: 13px; color: var(--ink-soft);
+    background: var(--accent-soft);
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--accent-line);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+  .counter strong { color: var(--accent); font-weight: 700; }
+
+  .chip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px;
+  }
+  .chip {
+    appearance: none;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    border-radius: var(--radius-chip);
+    padding: 10px 14px;
+    font-family: var(--font-ui); font-size: 13.5px; font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: all 140ms cubic-bezier(.2,.7,.3,1);
+    user-select: none;
+    line-height: 1.25;
+    letter-spacing: 0.005em;
+  }
+  .chip:hover {
+    border-color: var(--primary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+  }
+  .chip.selected {
+    background: var(--selected-bg);
+    color: var(--selected-ink);
+    border-color: var(--selected-bg);
+    box-shadow: 0 4px 12px rgba(14, 31, 61, 0.22);
+  }
+  .chip.selected:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+  .chip[hidden] { display: none; }
+
+  .picker-empty {
+    text-align: center; padding: 30px; color: var(--ink-mute); font-size: 14px; font-family: var(--font-ui);
+  }
+
+  /* ---------- Carry-over banner ---------- */
+  .carry-banner {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    background: var(--primary-soft);
+    border: 1px solid var(--primary-line);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    color: var(--primary);
+  }
+  .carry-banner button {
+    background: var(--primary); color: #fff; border: 0;
+    padding: 9px 16px; border-radius: 999px;
+    font-family: var(--font-ui); font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: background var(--transition);
+    letter-spacing: 0.01em;
+  }
+  .carry-banner button:hover { background: var(--primary-hover); }
+
+  /* ---------- Review ---------- */
+  .review-section { margin-bottom: 26px; }
+  .review-section h3 {
+    font-family: var(--font-ui);
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--accent); margin: 0 0 12px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .review-edit {
+    background: none; border: 0; color: var(--primary);
+    font-family: var(--font-ui); font-size: 12px; font-weight: 600;
+    cursor: pointer; padding: 0;
+    text-decoration: underline; text-underline-offset: 3px;
+    text-transform: none; letter-spacing: 0;
+  }
+  .review-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .review-chip {
+    background: var(--surface-2); border-radius: var(--radius-chip);
+    padding: 6px 12px; font-family: var(--font-ui); font-size: 13px; color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .review-field { font-size: 16px; color: var(--ink); margin-bottom: 4px; }
+  .review-field .k { font-family: var(--font-ui); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute); margin-right: 10px; }
+
+  /* ---------- Nav ---------- */
+  .nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 32px;
+  }
+  .btn {
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    padding: 13px 24px;
+    font-family: var(--font-ui); font-size: 14px; font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: transform var(--transition), background var(--transition), box-shadow var(--transition);
+  }
+  .btn-primary {
+    background: var(--primary); color: var(--primary-ink);
+    box-shadow: 0 6px 14px rgba(14, 31, 61, 0.22);
+  }
+  .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(14, 31, 61, 0.28); }
+  .btn-primary:disabled { background: var(--ink-mute); box-shadow: none; cursor: not-allowed; transform: none; }
+  .btn-ghost {
+    background: transparent; color: var(--ink-soft);
+  }
+  .btn-ghost:hover { color: var(--ink); }
+
+  /* ---------- Free assessment + report tiers card ---------- */
+  .report-card { background: var(--surface); border-color: var(--accent-line); }
+  .ldna-diagram { display: flex; justify-content: center; margin: 22px 0 6px; transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1); transform-origin: center center; will-change: transform; }
+  .ldna-diagram:hover { transform: scale(1.05); }
+  .ldna-diagram svg { width: 100%; max-width: 480px; height: auto; overflow: visible; }
+  .ldna-dim-group { cursor: pointer; transition: opacity 180ms; outline: none; }
+  .ldna-dim-group circle { transition: fill 200ms ease, stroke-width 200ms ease, r 200ms ease; }
+  .ldna-dim-group:hover circle, .ldna-dim-group:focus circle, .ldna-dim-group.is-active circle { fill: #A77A28; stroke-width: 2.2; }
+  .ldna-dim-group:hover text, .ldna-dim-group:focus text, .ldna-dim-group.is-active text { fill: #fff; }
+  .ldna-dim-label { cursor: pointer; transition: fill 200ms, font-weight 200ms; outline: none; }
+  .ldna-dim-label:hover, .ldna-dim-label.is-active { fill: #A77A28; font-weight: 700; }
+  .ldna-hint { text-align: center; font-family: var(--font-ui); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.04em; margin: 4px 0 0; }
+  .ldna-hint svg { vertical-align: -3px; margin-right: 5px; opacity: 0.7; }
+  /* Definition panel */
+  .ldna-definition { background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; padding: 20px 24px; margin-top: 18px; min-height: 96px; transition: opacity 200ms; }
+  .ldna-def-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; flex-wrap: wrap; }
+  .ldna-def-code { font-family: var(--font-ui); font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 0.18em; }
+  .ldna-def-name { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--ink); }
+  .ldna-def-body { font-family: var(--font-ui); font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 8px; }
+  .ldna-def-poles { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); line-height: 1.6; margin: 0; }
+  .ldna-def-poles strong { color: var(--ink); font-weight: 600; }
+  .ldna-prompt { color: var(--ink-mute); font-family: var(--font-ui); font-size: 14px; font-style: italic; padding: 8px 0; }
+  @media (hover: none) { .ldna-diagram:hover { transform: none; } }
+  .free-badge { display: inline-block; font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: #5B4416; background: var(--accent-soft); border: 1px solid var(--accent-line); padding: 5px 12px; border-radius: 999px; }
+  .report-lede { font-family: var(--font-serif); font-size: 16px; color: var(--ink-soft); line-height: 1.6; max-width: 64ch; margin: 12px 0 24px; }
+  .report-lede strong { color: var(--ink); font-weight: 600; }
+  .report-tiers { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 720px) { .report-tiers { grid-template-columns: 1fr; } }
+  .tier { padding: 22px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); display: flex; flex-direction: column; }
+  .tier-free { background: var(--accent-soft); border-color: var(--accent-line); }
+  .tier-extended { background: var(--surface-2); }
+  .tier-tag { font-family: var(--font-ui); font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600; color: var(--ink-mute); margin-bottom: 8px; }
+  .tier-free .tier-tag { color: #5B4416; }
+  .tier h3 { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--ink); margin: 0 0 12px; line-height: 1.2; }
+  .tier ul { list-style: none; padding: 0; margin: 0 0 8px; }
+  .tier ul li { font-family: var(--font-ui); font-size: 13.5px; color: var(--ink-soft); padding: 5px 0; padding-left: 18px; position: relative; line-height: 1.45; }
+  .tier ul li::before { content: "→"; position: absolute; left: 0; color: var(--accent); font-weight: 700; font-family: var(--font-ui); }
+  .tier-note { font-family: var(--font-ui); font-size: 12px; color: var(--ink-mute); margin: 10px 0 0; font-style: italic; }
+  .tier-partner { display: flex; align-items: center; gap: 10px; margin: 14px 0 10px; padding: 10px 12px; background: rgba(255,255,255,0.55); border: 1px solid var(--line); border-radius: 8px; flex-wrap: wrap; }
+  .tier-partner-label { font-family: var(--font-ui); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink-mute); }
+  .tier-partner-link { display: inline-flex; align-items: center; line-height: 0; }
+  .tier-partner-logo { height: 22px; width: auto; display: block; }
+  .tier-partner-desc { font-family: var(--font-ui); font-size: 12px; color: var(--ink-soft); }
+
+  /* ---------- Consent ---------- */
+  .consent-card { background: var(--surface); }
+  .consent-notice {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin: 4px 0 20px;
+    max-width: 64ch;
+  }
+  .consent-row {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    color: var(--ink);
+    padding: 9px 0;
+    cursor: pointer;
+    line-height: 1.45;
+  }
+  .consent-row input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    min-width: 18px;
+    border: 1.5px solid var(--line);
+    border-radius: 4px;
+    background: var(--surface);
+    margin: 2px 0 0;
+    cursor: pointer;
+    transition: all var(--transition);
+    position: relative;
+  }
+  .consent-row input[type="checkbox"]:hover { border-color: var(--primary); }
+  .consent-row input[type="checkbox"]:focus { outline: none; box-shadow: 0 0 0 3px var(--primary-soft); border-color: var(--primary); }
+  .consent-row input[type="checkbox"]:checked {
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+  .consent-row input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px; top: 1px;
+    width: 5px; height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .consent-row.invalid input[type="checkbox"] { border-color: #B23A4A; box-shadow: 0 0 0 3px rgba(178,58,74,0.12); }
+  .consent-required {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 4px;
+  }
+  .req-tag {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-line);
+    padding: 1px 7px;
+    border-radius: 999px;
+    margin-left: 6px;
+    vertical-align: 1px;
+    font-weight: 600;
+  }
+  .consent-optional { margin-top: 8px; }
+  .consent-sublabel {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    margin: 4px 0 4px;
+  }
+  .consent-fineprint {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--ink-mute);
+    margin: 6px 0 0;
+    padding-left: 30px;
+  }
+  .consent-links {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--ink-mute);
+  }
+  .consent-links a {
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 1px solid var(--primary-line);
+    transition: border-color var(--transition);
+  }
+  .consent-links a:hover { border-bottom-color: var(--primary); }
+  .consent-sep { margin: 0 10px; color: var(--ink-mute); }
+
+  /* ---------- Welcome ---------- */
+  .welcome-meta {
+    display: flex; gap: 28px; margin-top: 22px;
+    font-family: var(--font-ui); font-size: 13px; color: var(--ink-soft);
+    flex-wrap: wrap;
+  }
+  .welcome-meta div { display: flex; align-items: center; gap: 9px; }
+  .welcome-meta svg { color: var(--primary); }
+
+  /* ---------- Done ---------- */
+  .done {
+    text-align: center; padding: 60px 20px;
+  }
+  .done .check {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--primary-soft); color: var(--primary);
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 22px;
+    border: 1px solid var(--primary-line);
+  }
+  .done-partner-card { margin: 36px auto 0; max-width: 580px; padding: 24px 26px; background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 12px; text-align: left; }
+  .done-partner-eyebrow { font-family: var(--font-ui); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: #5B4416; margin-bottom: 6px; }
+  .done-partner-heading { font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--ink); margin: 0 0 10px; line-height: 1.25; }
+  .done-partner-body { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 18px; }
+  .done-partner-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .done-partner-link { display: inline-flex; align-items: center; line-height: 0; }
+  .done-partner-logo { height: 28px; width: auto; display: block; }
+  .done-partner-cta { font-family: var(--font-ui); font-size: 13px; font-weight: 600; color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 200ms ease; padding-bottom: 1px; }
+  .done-partner-cta:hover { border-bottom-color: var(--accent); }
+
+  .err-banner {
+    background: #FBEAEC; color: #7A1F2B; border: 1px solid #E8B5BC;
+    padding: 12px 14px; border-radius: var(--radius-sm); margin-bottom: 16px;
+    font-family: var(--font-ui); font-size: 14px;
+  }
+
+  .footer-note {
+    text-align: center; color: var(--ink-mute);
+    font-family: var(--font-ui); font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 36px 24px 60px;
+  }
+
+  /* small screens */
+  @media (max-width: 640px) {
+    .topbar-inner { padding: 12px 16px; gap: 10px; flex-wrap: wrap; }
+    .progress-wrap { order: 3; flex-basis: 100%; }
+    main { padding: 24px 16px 80px; }
+    .card { padding: 18px; }
+    .picker-toolbar { top: 110px; }
+    .chip-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand" aria-label="The Saunter Group — home">
+      <img src="/assets/saunter-logo.svg" alt="The Saunter Group" class="brand-logo" />
+      <div class="brand-tag">Build what endures</div>
+    </a>
+    <div class="progress-wrap" aria-hidden="true">
+      <div class="progress-meta">
+        <span id="stepLabel">Welcome</span>
+        <span id="stepIndex">Step 1 of 4</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- STEP 1: Welcome + demographics -->
+  <section class="step active" data-step="0" aria-label="About you">
+    <div class="step-eyebrow">About you</div>
+    <h1>Welcome to your LDNA<span class="tm">™</span> assessment.</h1>
+    <p class="operator-byline">An assessment by <strong>The Saunter Group, LLC</strong></p>
+    <p class="lede">
+      This is a two‑part word checklist that helps surface your natural work style and the
+      behaviors your current role asks of you. There are no right or wrong answers. Pick
+      what genuinely fits. Your responses generate a confidential behavioral profile used
+      for role fit, coaching, and team alignment.
+    </p>
+    <div class="welcome-meta">
+      <div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        About 10 minutes
+      </div>
+      <div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Confidential
+      </div>
+      <div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Your progress saves automatically
+      </div>
+    </div>
+
+    <!-- LDNA 7-dimension visual -->
+    <div class="card" style="margin-top: 28px;">
+      <h2>What LDNA reads.</h2>
+      <p class="report-lede" style="margin-bottom: 0;">
+        Seven dimensions grounded in established behavioral science. Each one captures a different driver of how you naturally lead, and how your role asks you to adapt.
+      </p>
+      <div class="ldna-diagram" id="ldnaDiagram">
+        <svg viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The seven LDNA dimensions arranged in a heptagon around a central LDNA mark. Hover or tap a dimension for the definition.">
+          <defs>
+            <radialGradient id="ldnaCenter" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#1a3060" />
+              <stop offset="100%" stop-color="#0E1F3D" />
+            </radialGradient>
+          </defs>
+          <g stroke="#C6D2E6" stroke-width="0.75" fill="none">
+            <line x1="300" y1="240" x2="300" y2="80"/>
+            <line x1="300" y1="240" x2="425" y2="140"/>
+            <line x1="300" y1="240" x2="456" y2="275"/>
+            <line x1="300" y1="240" x2="369" y2="384"/>
+            <line x1="300" y1="240" x2="231" y2="384"/>
+            <line x1="300" y1="240" x2="144" y2="275"/>
+            <line x1="300" y1="240" x2="175" y2="140"/>
+          </g>
+          <circle cx="300" cy="240" r="58" fill="url(#ldnaCenter)" stroke="#A77A28" stroke-width="1.5" />
+          <text x="300" y="234" text-anchor="middle" font-family="Aptos Serif, Source Serif 4, Georgia, serif" font-size="22" font-weight="700" fill="#fff">LDNA</text>
+          <text x="300" y="256" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" letter-spacing="2.4" fill="#D9C28A">7 DIMENSIONS</text>
+          <g font-family="Inter, sans-serif" font-size="13" font-weight="700" text-anchor="middle">
+            <g class="ldna-dim-group" data-dim="0" tabindex="0" role="button" aria-label="Drive and Independence"><title>Drive &amp; Independence</title><circle cx="300" cy="80" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="300" y="85" fill="#A77A28">1</text></g>
+            <g class="ldna-dim-group" data-dim="1" tabindex="0" role="button" aria-label="Social Energy"><title>Social Energy</title><circle cx="425" cy="140" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="425" y="145" fill="#A77A28">2</text></g>
+            <g class="ldna-dim-group" data-dim="2" tabindex="0" role="button" aria-label="Pace and Patience"><title>Pace &amp; Patience</title><circle cx="456" cy="275" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="456" y="280" fill="#A77A28">3</text></g>
+            <g class="ldna-dim-group" data-dim="3" tabindex="0" role="button" aria-label="Structure and Order"><title>Structure &amp; Order</title><circle cx="369" cy="384" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="369" y="389" fill="#A77A28">4</text></g>
+            <g class="ldna-dim-group" data-dim="4" tabindex="0" role="button" aria-label="Creative Battery"><title>Creative Battery</title><circle cx="231" cy="384" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="231" y="389" fill="#A77A28">5</text></g>
+            <g class="ldna-dim-group" data-dim="5" tabindex="0" role="button" aria-label="Logic and Analysis"><title>Logic &amp; Analysis</title><circle cx="144" cy="275" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="144" y="280" fill="#A77A28">6</text></g>
+            <g class="ldna-dim-group" data-dim="6" tabindex="0" role="button" aria-label="Vision and Ideas"><title>Vision &amp; Ideas</title><circle cx="175" cy="140" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="175" y="145" fill="#A77A28">7</text></g>
+          </g>
+          <g font-family="Inter, sans-serif" font-size="11.5" font-weight="600" fill="#0B1220">
+            <text class="ldna-dim-label" data-dim="0" x="300" y="42" text-anchor="middle">Drive &amp; Independence</text>
+            <text class="ldna-dim-label" data-dim="1" x="455" y="135" text-anchor="start">Social Energy</text>
+            <text class="ldna-dim-label" data-dim="2" x="486" y="272" text-anchor="start">Pace &amp; Patience</text>
+            <text class="ldna-dim-label" data-dim="3" x="369" y="426" text-anchor="middle">Structure &amp; Order</text>
+            <text class="ldna-dim-label" data-dim="4" x="231" y="426" text-anchor="middle">Creative Battery</text>
+            <text class="ldna-dim-label" data-dim="5" x="114" y="272" text-anchor="end">Logic &amp; Analysis</text>
+            <text class="ldna-dim-label" data-dim="6" x="145" y="135" text-anchor="end">Vision &amp; Ideas</text>
+          </g>
+        </svg>
+      </div>
+      <p class="ldna-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v5.25"/><path d="M16 11h-1a3 3 0 0 0-3 3v0a3 3 0 0 0 3 3h1a4 4 0 0 0 4-4v-2a4 4 0 0 0-4-4"/></svg>
+        Hover or tap any dimension to see what it measures.
+      </p>
+      <div class="ldna-definition" id="ldnaDefinition" aria-live="polite">
+        <span class="ldna-prompt" id="ldnaPrompt">Each of the seven dimensions captures a different driver of how you naturally lead. Hover or tap one to read the definition.</span>
+        <div class="ldna-def-head" style="display:none;">
+          <span class="ldna-def-code" id="ldnaDefCode"></span>
+          <span class="ldna-def-name" id="ldnaDefName"></span>
+        </div>
+        <p class="ldna-def-body" id="ldnaDefBody" style="display:none;"></p>
+        <p class="ldna-def-poles" id="ldnaDefPoles" style="display:none;"></p>
+      </div>
+    </div>
+
+    <!-- Free assessment + report tiers -->
+    <div class="card report-card" style="margin-top: 22px;">
+      <div class="free-badge">Free assessment</div>
+      <h2 style="margin-top: 10px;">What you'll receive.</h2>
+      <p class="report-lede">
+        Complete the assessment and we'll email you a <strong>2-page LDNA report</strong> covering your archetype, dominant dimensions, your natural-versus-adaptive gap, and what each pattern typically means for how you lead. No cost, no upsell required.
+      </p>
+      <div class="report-tiers">
+        <div class="tier tier-free">
+          <div class="tier-tag">Included free</div>
+          <h3>2-page LDNA report</h3>
+          <ul>
+            <li>Your archetype on the value-stream field</li>
+            <li>Top dimensions and what they mean</li>
+            <li>The daily cost of your natural-vs-adaptive gap</li>
+            <li>A short interpretation written for you</li>
+          </ul>
+        </div>
+        <div class="tier tier-extended">
+          <div class="tier-tag">Inside coaching engagement</div>
+          <h3>Full LDNA report (8–10 pages)</h3>
+          <ul>
+            <li>Full seven-dimension scoring with detail</li>
+            <li>Archetype deep-dive: strengths and blind spots</li>
+            <li>AI-exposure read: where your value holds</li>
+            <li>Pairing &amp; team-fit guidance, if applicable</li>
+          </ul>
+          <div class="tier-partner" aria-label="Delivered inside Vertical Motion's Leadership Foundations Report">
+            <span class="tier-partner-label">Delivered inside</span>
+            <a href="https://www.vmleader.com" target="_blank" rel="noopener" class="tier-partner-link">
+              <img src="/assets/vmleader-logo.png" alt="Vertical Motion" class="tier-partner-logo" />
+            </a>
+            <span class="tier-partner-desc">Leadership Foundations Report</span>
+          </div>
+          <p class="tier-note">The full LDNA report is delivered to clients of our delivery partner, Vertical Motion. We'll include access details in your results email.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 22px;">
+      <h2>Tell us a bit about yourself</h2>
+      <p class="help" style="margin-top: 4px; margin-bottom: 18px; color: var(--ink-mute); font-size: 14px;">
+        This context helps us tailor your profile.
+      </p>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="fullName">Full name<span class="req">*</span></label>
+          <input id="fullName" type="text" autocomplete="name" placeholder="Jane Doe" />
+        </div>
+        <div class="field">
+          <label for="email">Email address<span class="req">*</span></label>
+          <input id="email" type="email" autocomplete="email" placeholder="jane@example.com" />
+        </div>
+        <div class="field">
+          <label for="role">Current role / title<span class="req">*</span></label>
+          <input id="role" type="text" autocomplete="organization-title" placeholder="e.g. Director of Operations" />
+        </div>
+        <div class="field">
+          <label for="experience">Years of experience<span class="req">*</span></label>
+          <select id="experience">
+            <option value="">Select…</option>
+            <option>0–2 years</option>
+            <option>3–5 years</option>
+            <option>6–10 years</option>
+            <option>11–15 years</option>
+            <option>16–20 years</option>
+            <option>20+ years</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card consent-card" style="margin-top: 22px;">
+      <h2>Consent &amp; follow-up</h2>
+      <p class="consent-notice">
+        The Saunter Group, LLC is the data controller for your responses. We process your
+        name, email, role, and behavioral selections to generate your confidential LDNA
+        profile. We don't sell or share your data with third parties.
+      </p>
+
+      <label class="consent-row consent-required">
+        <input type="checkbox" id="consentRequired" />
+        <span>
+          I consent to my responses being processed to generate my LDNA profile.
+          <span class="req-tag">Required</span>
+        </span>
+      </label>
+
+      <div class="consent-optional">
+        <p class="consent-sublabel">Stay in touch</p>
+        <label class="consent-row">
+          <input type="checkbox" id="consentFollowup" checked />
+          <span>
+            Send me a brief feedback request about my LDNA experience, occasional research invitations, and articles on leadership development.
+          </span>
+        </label>
+        <p class="consent-fineprint">Pre-selected. Untick if you'd rather not. You can unsubscribe from any message at any time.</p>
+      </div>
+
+      <div class="consent-links">
+        <a href="privacy.html" target="_blank" rel="noopener">View Privacy Policy</a>
+        <span class="consent-sep">·</span>
+        <a href="mailto:info@thesauntergroup.com?subject=LDNA%20data%20request">Contact us about your data</a>
+      </div>
+    </div>
+
+    <div class="nav">
+      <span></span>
+      <button class="btn btn-primary" id="next0">Begin assessment →</button>
+    </div>
+  </section>
+
+  <!-- STEP 2: Part 1 -->
+  <section class="step" data-step="1" aria-label="Part 1: Natural self">
+    <div class="step-eyebrow">Part 1 of 2 · Natural self</div>
+    <h1>Which of these describe who you are most of the time?</h1>
+    <p class="lede">Select every word that genuinely fits your natural style across work and life. Typical range is 20 to 50 words.</p>
+
+    <div class="picker-toolbar" id="toolbar1">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+        <input type="text" id="search1" placeholder="Filter words…" autocomplete="off" />
+      </div>
+      <div class="toolbar-actions">
+        <button class="toggle-btn" id="selOnly1" type="button" aria-pressed="false">Show selected only</button>
+        <div class="counter"><strong id="count1">0</strong> selected</div>
+      </div>
+    </div>
+
+    <div class="chip-grid" id="grid1" role="group" aria-label="Natural self words"></div>
+    <div class="picker-empty" id="empty1" hidden>No matching words. Clear the filter to see all.</div>
+
+    <div class="nav">
+      <button class="btn btn-ghost" data-back="1">← Back</button>
+      <button class="btn btn-primary" data-next="1">Continue to Part 2 →</button>
+    </div>
+  </section>
+
+  <!-- STEP 3: Part 2 -->
+  <section class="step" data-step="2" aria-label="Part 2: Role behavior">
+    <div class="step-eyebrow">Part 2 of 2 · Role behavior</div>
+    <h1>Which of these describe how you <em>must behave</em> to succeed in your current role?</h1>
+    <p class="lede">Same list, different lens. What does the role itself reward or require? It's normal for this set to overlap with, or differ from, your natural self.</p>
+
+    <div class="carry-banner" id="carryBanner" hidden>
+      <span>Want to start with your Part 1 selections and edit from there?</span>
+      <button id="carryBtn" type="button">Carry over selections</button>
+    </div>
+
+    <div class="picker-toolbar" id="toolbar2">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+        <input type="text" id="search2" placeholder="Filter words…" autocomplete="off" />
+      </div>
+      <div class="toolbar-actions">
+        <button class="toggle-btn" id="selOnly2" type="button" aria-pressed="false">Show selected only</button>
+        <div class="counter"><strong id="count2">0</strong> selected</div>
+      </div>
+    </div>
+
+    <div class="chip-grid" id="grid2" role="group" aria-label="Role behavior words"></div>
+    <div class="picker-empty" id="empty2" hidden>No matching words. Clear the filter to see all.</div>
+
+    <div class="nav">
+      <button class="btn btn-ghost" data-back="2">← Back</button>
+      <button class="btn btn-primary" data-next="2">Review your responses →</button>
+    </div>
+  </section>
+
+  <!-- STEP 4: Review + submit -->
+  <section class="step" data-step="3" aria-label="Review">
+    <div class="step-eyebrow">Almost done</div>
+    <h1>Review your responses</h1>
+    <p class="lede">Take a moment to look this over. You can jump back to any section to make changes.</p>
+
+    <div class="card">
+      <div class="review-section">
+        <h3>About you <button class="review-edit" data-jump="0">Edit</button></h3>
+        <div class="review-field"><span class="k">Name:</span><span id="rName">—</span></div>
+        <div class="review-field"><span class="k">Email:</span><span id="rEmail">—</span></div>
+        <div class="review-field"><span class="k">Role:</span><span id="rRole">—</span></div>
+        <div class="review-field"><span class="k">Experience:</span><span id="rExp">—</span></div>
+      </div>
+
+      <div class="review-section">
+        <h3>Part 1: Natural self (<span id="rCount1">0</span>) <button class="review-edit" data-jump="1">Edit</button></h3>
+        <div class="review-list" id="rList1"></div>
+      </div>
+
+      <div class="review-section">
+        <h3>Part 2: Role behavior (<span id="rCount2">0</span>) <button class="review-edit" data-jump="2">Edit</button></h3>
+        <div class="review-list" id="rList2"></div>
+      </div>
+    </div>
+
+    <div id="submitErr" class="err-banner" hidden></div>
+
+    <div class="nav">
+      <button class="btn btn-ghost" data-back="3">← Back</button>
+      <button class="btn btn-primary" id="submitBtn">Submit assessment</button>
+    </div>
+  </section>
+
+  <!-- STEP 5: Done -->
+  <section class="step" data-step="4" aria-label="Submitted">
+    <div class="done">
+      <div class="check">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h1>Thank you.</h1>
+      <p class="lede" style="margin-left: auto; margin-right: auto;">Your responses have been recorded. You'll receive your behavioral profile shortly.</p>
+      <div style="margin-top: 18px;">
+        <button class="btn btn-ghost" id="downloadBtn">Download a copy of my responses</button>
+      </div>
+      <div class="done-partner-card" aria-label="Want the full LDNA read? See how it lives inside executive coaching at Vertical Motion.">
+        <div class="done-partner-eyebrow">Want the full read?</div>
+        <h2 class="done-partner-heading">See how this lives inside executive coaching.</h2>
+        <p class="done-partner-body">
+          The full LDNA report, and its interpretation in leadership teams, executive teams, and CHRO engagements, is delivered through our delivery partner, Vertical Motion, inside their Whole Executive Framework&trade;.
+        </p>
+        <div class="done-partner-row">
+          <a href="https://www.vmleader.com" target="_blank" rel="noopener" class="done-partner-link" aria-label="Visit Vertical Motion">
+            <img src="/assets/vmleader-logo.png" alt="Vertical Motion" class="done-partner-logo" />
+          </a>
+          <a href="https://www.vmleader.com" target="_blank" rel="noopener" class="done-partner-cta">Visit Vertical Motion →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="footer-note">
+  © 2026 The Saunter Group, LLC &nbsp;·&nbsp;
+  30 N Gould St, Ste R, Sheridan, WY 82801 &nbsp;·&nbsp;
+  LDNA™ used under license from Vertical Consulting, LLC
+</div>
+
+<script>
+/* ============================================================
+   Adjective pool — refined 159-item list, ASCII hyphens.
+   Both sections use the identical pool so the natural-vs-adaptive
+   gap can be computed downstream.
+   ============================================================ */
+const WORDS = [
+  "Cooperative","Energetic","Innovative","Meticulous","Sensitive","Fast-paced","Persistent","Calm-paced",
+  "Experimental","Expressive","Critical-thinking","Structured","Laid-back with details","Thick-skinned",
+  "Charming","Strategic-thinking","Rule-conscious","Independent","Patient","Strong-willed","People-oriented",
+  "Original","Unhurried","Casual about rules","Results-driven","Friendly","Questioning","Methodical",
+  "Relentless","Intuitive-feeling","Practical-only","Determined","Talkative","Resourceful","Perfectionistic",
+  "Approachable","Big-picture","Cautious with change","Analytical","Resourceful-creative",
+  "Reserved with feelings","Tenacious","Sociable","Routine-oriented (tasks)","Numbers-oriented",
+  "Driven by deadlines","Entrepreneurial","Warm","Farsighted","Planner","Conscientious","Engaging",
+  "Abstract-minded","Relational","Unstructured","Energetic-all-day","Rational","Juggles-many-tasks",
+  "Competitive","Open","Insightful","Thorough","Careful","Compassionate","Vision-oriented",
+  "Spontaneous-casual","High stamina","Skeptical","Easily bored","Entertaining","Steady","Systematic",
+  "Disciplined","Sentimental","Conceptual","Encouraging","Even-tempered","Cautious-judging","Risk-taking",
+  "Cheerful","Dependable","Orderly","Emotional","Imaginative","Team-minded","Tolerant","Compliance-minded",
+  "Tireless","Pragmatic","Restless","Enthusiastic","Idea-driven","Quality-focused","Flexible with structure",
+  "Guided by heart","Inventive","Upbeat","Deliberate","Procedural","Easily drained","Logical",
+  "Change-seeking","Charismatic","Problem-solving","Pressured","Process-oriented","Cool-headed",
+  "Hard-driving","Chatty","Opportunistic-creative","Slow to anger","Diligent","Impartial","Strong-nerved",
+  "Self-directed","Persuasive","Lively","Precise","Empathetic","Anticipatory","Adaptable","Resilient",
+  "Self-reliant","Outgoing","Hates routine (repetition)","Detail-oriented","Burnout-prone","Objective",
+  "Easily stimulated","Personable","Active","Consistent","Sensitive to stress","Confident","Measured",
+  "Overwhelmed easily","Reserved","Firm","Hard-working","Welcoming","Curious","Easily distracted",
+  "Authoritative","Magnetic","Ingenious","Rigorous","Caring","Autonomous","Evidence-driven",
+  "Unconventional","Standards-driven","Composed","Assertive","Organized","Fast-paced (works quickly)",
+  "Holistic","Attuned","Novelty-seeking","Inquisitive"
+];
+
+/* ============================================================
+   Endpoint — paste your Google Apps Script Web App URL here
+   to send responses to your sheet. Leave as null to skip and
+   only do local JSON download.
+   ============================================================ */
+const SUBMIT_ENDPOINT = "https://script.google.com/macros/s/AKfycbx2If3UCmoe6HOB5s1jDnf0RN8Ps-IbJ15AwE0TpleGleMP7VMZ1JplGQhyMCeolILv/exec";
+
+/* ============================================================
+   State
+   ============================================================ */
+const STORAGE_KEY = "ldna.v1";
+const ATTRIBUTION_KEY = "ldna.attribution.v1";
+const POLICY_VERSION = "2026-05-29";
+
+/* ============================================================
+   Attribution capture
+   ------------------------------------------------------------
+   Reads UTM parameters, a partner/licensee tag, and an external
+   contact id from the URL on every page load. First-touch values
+   persist in localStorage for 90 days so a returning visitor stays
+   attributed to whichever licensee originally drove them here.
+   Later params overwrite empty slots but never overwrite first-touch.
+   ============================================================ */
+const ATTR_KEYS = ["partner", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "cid", "contact_id"];
+const ATTR_TTL_DAYS = 90;
+
+function readAttribution() {
+  let stored = null;
+  try {
+    const raw = localStorage.getItem(ATTRIBUTION_KEY);
+    if (raw) {
+      stored = JSON.parse(raw);
+      // Expire stale first-touch
+      if (stored.firstTouchAt && (Date.now() - new Date(stored.firstTouchAt).getTime()) > ATTR_TTL_DAYS * 24 * 60 * 60 * 1000) {
+        stored = null;
+      }
+    }
+  } catch (_) {}
+
+  const params = new URLSearchParams(window.location.search);
+  const incoming = {};
+  ATTR_KEYS.forEach(k => {
+    const v = params.get(k);
+    if (v) incoming[k] = v.trim().slice(0, 120); // cap length
+  });
+  // Normalize contact_id alias
+  if (incoming.contact_id && !incoming.cid) incoming.cid = incoming.contact_id;
+
+  const isFirstTouch = !stored;
+  const merged = stored ? { ...stored } : {
+    firstTouchAt: new Date().toISOString(),
+    firstTouchReferrer: (document.referrer || "").slice(0, 240),
+    firstTouchLanding: location.pathname + location.search,
+  };
+  // First-touch: only set if absent
+  ATTR_KEYS.forEach(k => {
+    if (incoming[k] && !merged[k]) merged[k] = incoming[k];
+  });
+  // Last-touch: always capture so we can compute attribution either way
+  merged.lastTouchAt = new Date().toISOString();
+  ATTR_KEYS.forEach(k => {
+    if (incoming[k]) merged["last_" + k] = incoming[k];
+  });
+  merged.lastReferrer = (document.referrer || "").slice(0, 240);
+
+  try { localStorage.setItem(ATTRIBUTION_KEY, JSON.stringify(merged)); } catch (_) {}
+  return merged;
+}
+
+const ATTRIBUTION = readAttribution();
+const state = {
+  step: 0,
+  demographics: { fullName: "", email: "", role: "", experience: "" },
+  consent: {
+    required: false,
+    // Pre-checked combined follow-up opt-in. Tracked as a single flag,
+    // but mirrored across the legacy feedback/research/updates columns
+    // in the sheet so existing reporting keeps working.
+    followup: true,
+    timestamp: null,   // set when required consent is first ticked
+  },
+  part1: new Set(),
+  part2: new Set(),
+};
+
+const STEP_LABELS = ["About you", "Part 1 of 2", "Part 2 of 2", "Review", "Submitted"];
+const TOTAL_STEPS = 4; // not counting "submitted"
+
+/* ============================================================
+   Persistence
+   ============================================================ */
+function save() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      step: state.step,
+      demographics: state.demographics,
+      consent: state.consent,
+      part1: [...state.part1],
+      part2: [...state.part2],
+    }));
+  } catch (_) {}
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const d = JSON.parse(raw);
+    if (d.demographics) Object.assign(state.demographics, d.demographics);
+    if (d.consent) Object.assign(state.consent, d.consent);
+    if (Array.isArray(d.part1)) state.part1 = new Set(d.part1);
+    if (Array.isArray(d.part2)) state.part2 = new Set(d.part2);
+    if (typeof d.step === "number") state.step = Math.min(d.step, 3);
+  } catch (_) {}
+}
+
+/* ============================================================
+   Rendering
+   ============================================================ */
+function showStep(i) {
+  state.step = i;
+  document.querySelectorAll(".step").forEach(s => s.classList.toggle("active", Number(s.dataset.step) === i));
+  document.getElementById("stepLabel").textContent = STEP_LABELS[i] || "";
+  document.getElementById("stepIndex").textContent = i < TOTAL_STEPS ? `Step ${i + 1} of ${TOTAL_STEPS}` : "Complete";
+  const pct = i < TOTAL_STEPS ? ((i) / (TOTAL_STEPS - 1)) * 100 : 100;
+  document.getElementById("progressFill").style.width = pct + "%";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (i === 3) renderReview();
+  if (i === 2) {
+    document.getElementById("carryBanner").hidden = (state.part2.size > 0 || state.part1.size === 0);
+  }
+  save();
+}
+
+function buildGrid(gridId, set) {
+  const grid = document.getElementById(gridId);
+  grid.innerHTML = "";
+  WORDS.forEach(word => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "chip" + (set.has(word) ? " selected" : "");
+    btn.textContent = word;
+    btn.setAttribute("role", "checkbox");
+    btn.setAttribute("aria-checked", set.has(word) ? "true" : "false");
+    btn.dataset.word = word;
+    btn.addEventListener("click", () => toggleChip(btn, set, gridId));
+    grid.appendChild(btn);
+  });
+}
+
+function toggleChip(btn, set, gridId) {
+  const word = btn.dataset.word;
+  if (set.has(word)) { set.delete(word); btn.classList.remove("selected"); btn.setAttribute("aria-checked","false"); }
+  else { set.add(word); btn.classList.add("selected"); btn.setAttribute("aria-checked","true"); }
+  updateCounters();
+  save();
+  // re-apply current filter (in case "selected only" is on)
+  if (gridId === "grid1") applyFilter(1);
+  if (gridId === "grid2") applyFilter(2);
+}
+
+function updateCounters() {
+  document.getElementById("count1").textContent = state.part1.size;
+  document.getElementById("count2").textContent = state.part2.size;
+}
+
+/* ---------- Search + "selected only" ---------- */
+const filterState = { 1: { q: "", selOnly: false }, 2: { q: "", selOnly: false } };
+
+function applyFilter(n) {
+  const { q, selOnly } = filterState[n];
+  const set = n === 1 ? state.part1 : state.part2;
+  const grid = document.getElementById("grid" + n);
+  const empty = document.getElementById("empty" + n);
+  let visible = 0;
+  grid.querySelectorAll(".chip").forEach(chip => {
+    const word = chip.dataset.word.toLowerCase();
+    const matchesQ = !q || word.includes(q);
+    const matchesSel = !selOnly || set.has(chip.dataset.word);
+    const show = matchesQ && matchesSel;
+    chip.hidden = !show;
+    if (show) visible++;
+  });
+  empty.hidden = visible > 0;
+}
+
+function wireFilter(n) {
+  const searchEl = document.getElementById("search" + n);
+  const selBtn = document.getElementById("selOnly" + n);
+  searchEl.addEventListener("input", e => {
+    filterState[n].q = e.target.value.trim().toLowerCase();
+    applyFilter(n);
+  });
+  selBtn.addEventListener("click", () => {
+    filterState[n].selOnly = !filterState[n].selOnly;
+    selBtn.classList.toggle("on", filterState[n].selOnly);
+    selBtn.setAttribute("aria-pressed", String(filterState[n].selOnly));
+    applyFilter(n);
+  });
+}
+
+/* ---------- Carry over ---------- */
+document.getElementById("carryBtn").addEventListener("click", () => {
+  state.part1.forEach(w => state.part2.add(w));
+  buildGrid("grid2", state.part2);
+  updateCounters();
+  applyFilter(2);
+  document.getElementById("carryBanner").hidden = true;
+  save();
+});
+
+/* ---------- Demographics binding ---------- */
+function bindDemographics() {
+  const fields = ["fullName","email","role","experience"];
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    el.value = state.demographics[id] || "";
+    el.addEventListener("input", () => { state.demographics[id] = el.value; save(); });
+    el.addEventListener("change", () => { state.demographics[id] = el.value; save(); });
+  });
+}
+
+/* ---------- Consent binding ---------- */
+const CONSENT_FIELDS = {
+  consentRequired: "required",
+  consentFollowup: "followup",
+};
+function bindConsent() {
+  Object.entries(CONSENT_FIELDS).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    el.checked = !!state.consent[key];
+    el.addEventListener("change", () => {
+      state.consent[key] = el.checked;
+      // Stamp the moment the user first grants required consent
+      if (key === "required" && el.checked && !state.consent.timestamp) {
+        state.consent.timestamp = new Date().toISOString();
+      }
+      // If they un-check required later, clear the stamp
+      if (key === "required" && !el.checked) {
+        state.consent.timestamp = null;
+      }
+      save();
+    });
+  });
+}
+
+function validateDemographics() {
+  const d = state.demographics;
+  let ok = true;
+  ["fullName","email","role","experience"].forEach(id => {
+    const el = document.getElementById(id);
+    const empty = !String(d[id] || "").trim();
+    el.classList.toggle("invalid", empty);
+    if (empty) ok = false;
+  });
+  const emailEl = document.getElementById("email");
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email);
+  if (d.email && !emailOk) { emailEl.classList.add("invalid"); ok = false; }
+
+  // Required consent must be ticked
+  const consentRow = document.getElementById("consentRequired").closest(".consent-row");
+  if (!state.consent.required) {
+    consentRow.classList.add("invalid");
+    ok = false;
+  } else {
+    consentRow.classList.remove("invalid");
+  }
+  return ok;
+}
+
+/* ---------- Review ---------- */
+function renderReview() {
+  document.getElementById("rName").textContent = state.demographics.fullName || "—";
+  document.getElementById("rEmail").textContent = state.demographics.email || "—";
+  document.getElementById("rRole").textContent = state.demographics.role || "—";
+  document.getElementById("rExp").textContent = state.demographics.experience || "—";
+
+  const render = (listId, countId, set) => {
+    const list = document.getElementById(listId);
+    list.innerHTML = "";
+    [...set].forEach(w => {
+      const span = document.createElement("span");
+      span.className = "review-chip";
+      span.textContent = w;
+      list.appendChild(span);
+    });
+    document.getElementById(countId).textContent = set.size;
+    if (set.size === 0) {
+      const span = document.createElement("span");
+      span.style.color = "var(--ink-mute)";
+      span.style.fontSize = "13px";
+      span.textContent = "No words selected.";
+      list.appendChild(span);
+    }
+  };
+  render("rList1", "rCount1", state.part1);
+  render("rList2", "rCount2", state.part2);
+}
+
+/* ---------- Navigation ---------- */
+document.getElementById("next0").addEventListener("click", () => {
+  if (!validateDemographics()) return;
+  showStep(1);
+});
+document.querySelectorAll("[data-next]").forEach(b => {
+  b.addEventListener("click", () => showStep(Number(b.dataset.next) + 1));
+});
+document.querySelectorAll("[data-back]").forEach(b => {
+  b.addEventListener("click", () => showStep(Number(b.dataset.back) - 1));
+});
+document.querySelectorAll("[data-jump]").forEach(b => {
+  b.addEventListener("click", () => showStep(Number(b.dataset.jump)));
+});
+
+/* ---------- Submit ---------- */
+function buildPayload() {
+  return {
+    submittedAt: new Date().toISOString(),
+    ...state.demographics,
+    naturalSelf: [...state.part1],
+    roleBehavior: [...state.part2],
+    naturalSelfCount: state.part1.size,
+    roleBehaviorCount: state.part2.size,
+    consentTimestamp: state.consent.timestamp || new Date().toISOString(),
+    policyVersion: POLICY_VERSION,
+    // One combined follow-up opt-in (pre-checked, can be unticked).
+    // Mirrored to legacy columns so existing reporting/sheets keep working.
+    optInFollowup: !!state.consent.followup,
+    optInFeedback: !!state.consent.followup,
+    optInResearch: !!state.consent.followup,
+    optInUpdates: !!state.consent.followup,
+    // Attribution — what brought this respondent here. First-touch values
+    // are sticky (90 days via localStorage); last-touch reflects the most
+    // recent visit so licensees can analyze attribution either way.
+    partner: ATTRIBUTION.partner || "",
+    utmSource: ATTRIBUTION.utm_source || "",
+    utmMedium: ATTRIBUTION.utm_medium || "",
+    utmCampaign: ATTRIBUTION.utm_campaign || "",
+    utmTerm: ATTRIBUTION.utm_term || "",
+    utmContent: ATTRIBUTION.utm_content || "",
+    contactId: ATTRIBUTION.cid || ATTRIBUTION.contact_id || "",
+    firstTouchAt: ATTRIBUTION.firstTouchAt || "",
+    firstTouchReferrer: ATTRIBUTION.firstTouchReferrer || "",
+    lastTouchAt: ATTRIBUTION.lastTouchAt || "",
+    lastReferrer: ATTRIBUTION.lastReferrer || "",
+  };
+}
+
+async function submit() {
+  const submitBtn = document.getElementById("submitBtn");
+  const errBanner = document.getElementById("submitErr");
+  errBanner.hidden = true;
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Submitting…";
+  const payload = buildPayload();
+
+  if (SUBMIT_ENDPOINT) {
+    try {
+      const res = await fetch(SUBMIT_ENDPOINT, {
+        method: "POST",
+        // Apps Script web apps don't accept preflighted JSON; send as text/plain.
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("Server returned " + res.status);
+    } catch (e) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit assessment";
+      errBanner.hidden = false;
+      errBanner.textContent = "We couldn't submit just now (" + e.message + "). Your responses are saved locally — try again, or download them below.";
+      return;
+    }
+  } else {
+    // No endpoint — log to console and download.
+    console.log("LDNA payload:", payload);
+  }
+
+  // Stash for the download button
+  window.__lastPayload = payload;
+  // Clear local cache (assessment is complete)
+  try { localStorage.removeItem(STORAGE_KEY); } catch(_) {}
+  showStep(4);
+}
+document.getElementById("submitBtn").addEventListener("click", submit);
+
+/* ---------- Download ---------- */
+document.getElementById("downloadBtn").addEventListener("click", () => {
+  const payload = window.__lastPayload || buildPayload();
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  const safeName = (payload.fullName || "responses").replace(/[^a-z0-9-_]+/gi, "_");
+  a.download = `LDNA_${safeName}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+});
+
+/* ---------- Init ---------- */
+load();
+bindDemographics();
+bindConsent();
+buildGrid("grid1", state.part1);
+buildGrid("grid2", state.part2);
+wireFilter(1);
+wireFilter(2);
+updateCounters();
+showStep(state.step || 0);
+</script>
+
+<script>
+/* LDNA diagram interactivity: hover/tap a dimension to load its definition */
+(function() {
+  var dims = [
+    { code: "DR", name: "Drive & Independence",
+      body: "Self-direction and assertiveness. The drive to set your own course.",
+      high: "self-directed, drives own agenda", low: "collaborative, takes direction" },
+    { code: "SE", name: "Social Energy",
+      body: "Outward, people-directed energy. Warmth and expressiveness.",
+      high: "outgoing, energised by people", low: "reserved, task-focused" },
+    { code: "PA", name: "Pace & Patience",
+      body: "A steady, composed tempo and an even keel under pressure.",
+      high: "patient, steady under pressure", low: "fast, urgent, quick to react" },
+    { code: "SO", name: "Structure & Order",
+      body: "Organisation, method, and follow-through on detail.",
+      high: "organised, methodical, process-driven", low: "flexible, improvisational" },
+    { code: "CB", name: "Creative Battery",
+      body: "Sustained mental energy for generating and chasing the new.",
+      high: "restless idea-engine, seeks the new", low: "prefers proven, settled ground" },
+    { code: "LA", name: "Logic & Analysis",
+      body: "Reasoning and decisions built on evidence and objective scrutiny.",
+      high: "rigorous, evidence-led", low: "intuitive, feel-led" },
+    { code: "VI", name: "Vision & Ideas",
+      body: "Imagination, abstraction, and big-picture thinking.",
+      high: "abstract, big-picture", low: "concrete, execution-focused" }
+  ];
+
+  var prompt = document.getElementById("ldnaPrompt");
+  var head   = document.querySelector("#ldnaDefinition .ldna-def-head");
+  var code   = document.getElementById("ldnaDefCode");
+  var name   = document.getElementById("ldnaDefName");
+  var body   = document.getElementById("ldnaDefBody");
+  var poles  = document.getElementById("ldnaDefPoles");
+
+  if (!prompt || !head || !code || !name || !body || !poles) return;
+
+  function setDim(idx) {
+    var d = dims[idx];
+    if (!d) return;
+    prompt.style.display = "none";
+    head.style.display = "flex";
+    body.style.display = "";
+    poles.style.display = "";
+    code.textContent = d.code;
+    name.textContent = d.name;
+    body.textContent = d.body;
+    poles.innerHTML = "<strong>High:</strong> " + d.high + ". <strong>Low:</strong> " + d.low + ".";
+    document.querySelectorAll(".ldna-dim-group.is-active, .ldna-dim-label.is-active")
+      .forEach(function(el){ el.classList.remove("is-active"); });
+    document.querySelectorAll('.ldna-dim-group[data-dim="' + idx + '"], .ldna-dim-label[data-dim="' + idx + '"]')
+      .forEach(function(el){ el.classList.add("is-active"); });
+  }
+
+  function attach(selector) {
+    document.querySelectorAll(selector).forEach(function(el) {
+      var idx = parseInt(el.getAttribute("data-dim"), 10);
+      el.addEventListener("mouseenter", function() { setDim(idx); });
+      el.addEventListener("focus",      function() { setDim(idx); });
+      el.addEventListener("click",      function() { setDim(idx); });
+      el.addEventListener("keydown",    function(e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setDim(idx); }
+      });
+    });
+  }
+  attach(".ldna-dim-group");
+  attach(".ldna-dim-label");
+})();
+</script>
+
+</body>
+</html>
