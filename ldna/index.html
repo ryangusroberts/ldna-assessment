@@ -678,6 +678,217 @@
       </div>
     </div>
 
+    <!-- ============================================================ -->
+    <!-- SAMPLE ARTIFACTS: What your read looks like                  -->
+    <!-- ============================================================ -->
+    <style>
+      .sample-card { margin-top: 22px; }
+      .sample-eyebrow { font-family: var(--font-ui); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 8px; }
+      .sample-card h2 em { color: var(--accent); font-style: italic; font-weight: 600; }
+      .sample-cap { font-family: var(--font-ui); font-size: 13.5px; color: var(--ink-soft); margin: 0 0 28px; max-width: 60ch; line-height: 1.55; }
+      .sample-cap strong { display: inline-block; font-weight: 600; color: #5B4416; background: var(--accent-soft); border: 1px solid var(--accent-line); padding: 2px 9px; border-radius: 999px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; margin-right: 8px; vertical-align: 1px; }
+      .sample-leader-card { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 10px; margin-bottom: 22px; }
+      .sample-leader-init { width: 44px; height: 44px; border-radius: 50%; background: var(--ink); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-weight: 700; font-size: 15px; letter-spacing: 0.04em; }
+      .sample-leader-meta { font-family: var(--font-ui); font-size: 12.5px; color: var(--ink-soft); }
+      .sample-leader-meta strong { color: var(--ink); font-size: 14.5px; font-weight: 600; display: block; }
+
+      /* 7-dim readout */
+      .dimr-header { display: grid; grid-template-columns: 220px 1fr 78px; align-items: center; gap: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+      .dimr-header-label { font-family: var(--font-ui); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.16em; font-weight: 600; color: var(--ink-mute); }
+      .dimr-header-scale { display: flex; justify-content: space-between; font-family: var(--font-ui); font-size: 10.5px; color: var(--ink-mute); font-feature-settings: "tnum"; }
+      .dimr-table { display: flex; flex-direction: column; gap: 14px; }
+      .dimr-row { display: grid; grid-template-columns: 220px 1fr 78px; align-items: center; gap: 16px; }
+      .dimr-label .dimr-code { display: inline-block; font-weight: 700; color: var(--accent); font-family: var(--font-serif); font-size: 14px; margin-right: 10px; }
+      .dimr-label .dimr-name { color: var(--ink); font-family: var(--font-ui); font-size: 14px; font-weight: 600; }
+      .dimr-label .dimr-desc { color: var(--ink-mute); font-family: var(--font-ui); font-size: 11.5px; display: block; margin-top: 2px; }
+      .dimr-bars { position: relative; height: 38px; }
+      .dimr-scale { position: absolute; inset: 0; display: flex; justify-content: space-between; pointer-events: none; }
+      .dimr-scale .tick { width: 1px; background: var(--line); opacity: 0.6; }
+      .dimr-bar-nat, .dimr-bar-adp { position: absolute; left: 0; height: 14px; border-radius: 4px; transition: width 700ms cubic-bezier(0.22, 1, 0.36, 1); }
+      .dimr-bar-nat { top: 2px; background: var(--ink); }
+      .dimr-bar-adp { bottom: 2px; background: var(--accent); opacity: 0.78; }
+      .dimr-gap { display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-ui); font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 999px; background: var(--accent-soft); color: #5B4416; border: 1px solid var(--accent-line); }
+      .dimr-gap-empty { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); opacity: 0.5; padding: 4px 8px; }
+      .dimr-legend { display: flex; gap: 24px; justify-content: flex-start; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--line); font-family: var(--font-ui); font-size: 12.5px; color: var(--ink-soft); flex-wrap: wrap; }
+
+      /* AI exposure */
+      .aiex-headers { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+      @media (max-width: 540px) { .aiex-headers { grid-template-columns: 1fr; } }
+      .aiex-stat { background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 10px; padding: 16px 20px; }
+      .aiex-stat-label { font-family: var(--font-ui); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; color: #5B4416; margin-bottom: 6px; }
+      .aiex-stat-value { font-family: var(--font-serif); font-weight: 700; font-size: 32px; color: var(--ink); line-height: 1; }
+      .aiex-stat-value span { font-size: 18px; color: var(--ink-mute); font-weight: 400; margin-left: 4px; }
+      .aiex-stat-desc { font-family: var(--font-ui); font-size: 12px; color: var(--ink-soft); margin-top: 8px; }
+      .aiex-bars { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items: end; margin-bottom: 22px; }
+      @media (max-width: 720px) { .aiex-bars { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+      .aiex-bar-col { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+      .aiex-bar-vis { width: 100%; height: 200px; background: #FBFAF6; border: 1px solid var(--line); border-radius: 8px; position: relative; overflow: hidden; }
+      .aiex-bar-fill { position: absolute; bottom: 0; left: 0; right: 0; border-radius: 6px 6px 0 0; transition: height 900ms cubic-bezier(0.22, 1, 0.36, 1); }
+      .aiex-bar-score { position: absolute; left: 0; right: 0; top: 8px; text-align: center; font-family: var(--font-serif); font-weight: 700; font-size: 15px; color: var(--ink); }
+      .aiex-bar-label { text-align: center; font-family: var(--font-ui); font-size: 11.5px; font-weight: 600; color: var(--ink); line-height: 1.25; min-height: 30px; }
+      .aiex-bar-exp { font-family: var(--font-ui); font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; padding: 3px 8px; border-radius: 999px; }
+      .exp-very-low { background: #E0EFE3; color: #1F5333; }
+      .exp-low { background: #DFEBDD; color: #2D6B4A; }
+      .exp-med-low { background: #ECEED4; color: #5B6818; }
+      .exp-medium { background: #F4E8C4; color: #B07B1E; }
+      .exp-med-high { background: #F4D9B7; color: #7C4A0E; }
+      .exp-high { background: #F1D9D6; color: #8B2A2A; }
+      .fill-very-low { background: linear-gradient(180deg, #4F8867 0%, #2D6B4A 100%); }
+      .fill-low { background: linear-gradient(180deg, #57A07A 0%, #2D6B4A 100%); }
+      .fill-med-low { background: linear-gradient(180deg, #B5B348 0%, #8B891E 100%); }
+      .fill-medium { background: linear-gradient(180deg, #D89F3D 0%, #B07B1E 100%); }
+      .fill-med-high { background: linear-gradient(180deg, #C97A37 0%, #9B4F0E 100%); }
+      .fill-high { background: linear-gradient(180deg, #B14040 0%, #8B2A2A 100%); }
+      .aiex-legend { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid var(--line); font-family: var(--font-ui); font-size: 12px; color: var(--ink-soft); }
+      .aiex-legend-dot { display: inline-flex; align-items: center; gap: 6px; }
+      .aiex-legend-dot .aiex-swatch { width: 14px; height: 14px; border-radius: 3px; }
+    </style>
+
+    <!-- Sample artifact 1: 7-dimension readout -->
+    <div class="card sample-card">
+      <div class="sample-eyebrow">What your read looks like · artifact 1 of 2</div>
+      <h2>Seven dimensions, <em>natural and adapted</em>.</h2>
+      <p class="sample-cap">
+        <strong>Representative example</strong>
+        One leader's reading. Navy bars are the natural baseline. Brass bars are the level the current role is asking them to perform at. The badges flag dimensions where the gap is 3+ points.
+      </p>
+
+      <div class="sample-leader-card">
+        <div class="sample-leader-init">AC</div>
+        <div class="sample-leader-meta">
+          <strong>Alex Chen · Chief Executive Officer · Aurelius Holdings</strong>
+          Natural Adventurer → role asking for Designer · Adaptation load 71 · 16 suppressed · 55 performed
+        </div>
+      </div>
+
+      <div class="dimr-header">
+        <div class="dimr-header-label">Dimension</div>
+        <div class="dimr-header-scale"><span>0</span><span>2</span><span>4</span><span>6</span><span>8</span><span>10</span></div>
+        <div class="dimr-header-label">Gap</div>
+      </div>
+
+      <div class="dimr-table" id="dimrTable"></div>
+
+      <div class="dimr-legend">
+        <span><span style="display:inline-block;width:14px;height:8px;background:var(--ink);border-radius:2px;vertical-align:1px;"></span>&nbsp; Natural</span>
+        <span><span style="display:inline-block;width:14px;height:8px;background:var(--accent);border-radius:2px;vertical-align:1px;opacity:0.78;"></span>&nbsp; Adapted</span>
+        <span style="margin-left:auto;font-style:italic;">Largest gaps: Creative Battery −7 · Structure &amp; Order +6</span>
+      </div>
+    </div>
+
+    <!-- Sample artifact 2: AI exposure strip -->
+    <div class="card sample-card">
+      <div class="sample-eyebrow">What your read looks like · artifact 2 of 2</div>
+      <h2>AI-exposure read · <em>where your value holds</em>.</h2>
+      <p class="sample-cap">
+        <strong>Representative example</strong>
+        Six capability categories. Bar height is the leader's strength in that category. Bar color is the category's intrinsic AI exposure — green is durable human work, red is increasingly AI-performed.
+      </p>
+
+      <div class="aiex-headers">
+        <div class="aiex-stat">
+          <div class="aiex-stat-label">AI-Oversight Readiness</div>
+          <div class="aiex-stat-value">9<span>/ 10</span></div>
+          <div class="aiex-stat-desc">Strong on the low-exposure work AI is least likely to replace.</div>
+        </div>
+        <div class="aiex-stat">
+          <div class="aiex-stat-label">Your Durable Edge</div>
+          <div class="aiex-stat-value">7<span>/ 10</span></div>
+          <div class="aiex-stat-desc">Net value concentrated in green-band, AI-resistant capabilities.</div>
+        </div>
+      </div>
+
+      <div class="aiex-bars">
+        <div class="aiex-bar-col">
+          <div class="aiex-bar-vis"><div class="aiex-bar-fill fill-very-low" style="height: 80%;"></div><div class="aiex-bar-score">8</div></div>
+          <div class="aiex-bar-exp exp-very-low">Very Low</div>
+          <div class="aiex-bar-label">Relational &amp; Influence</div>
+        </div>
+        <div class="aiex-bar-col">
+          <div class="aiex-bar-vis"><div class="aiex-bar-fill fill-low" style="height: 80%;"></div><div class="aiex-bar-score">8</div></div>
+          <div class="aiex-bar-exp exp-low">Low</div>
+          <div class="aiex-bar-label">Directional Judgment</div>
+        </div>
+        <div class="aiex-bar-col">
+          <div class="aiex-bar-vis"><div class="aiex-bar-fill fill-med-low" style="height: 70%;"></div><div class="aiex-bar-score">7</div></div>
+          <div class="aiex-bar-exp exp-med-low">Med-Low</div>
+          <div class="aiex-bar-label">Communicative Craft</div>
+        </div>
+        <div class="aiex-bar-col">
+          <div class="aiex-bar-vis"><div class="aiex-bar-fill fill-medium" style="height: 60%;"></div><div class="aiex-bar-score">6</div></div>
+          <div class="aiex-bar-exp exp-medium">Medium</div>
+          <div class="aiex-bar-label">Creative Origination</div>
+        </div>
+        <div class="aiex-bar-col">
+          <div class="aiex-bar-vis"><div class="aiex-bar-fill fill-med-high" style="height: 50%;"></div><div class="aiex-bar-score">5</div></div>
+          <div class="aiex-bar-exp exp-med-high">Med-High</div>
+          <div class="aiex-bar-label">Operational Execution</div>
+        </div>
+        <div class="aiex-bar-col">
+          <div class="aiex-bar-vis"><div class="aiex-bar-fill fill-high" style="height: 80%;"></div><div class="aiex-bar-score">8</div></div>
+          <div class="aiex-bar-exp exp-high">High</div>
+          <div class="aiex-bar-label">Analytical Processing</div>
+        </div>
+      </div>
+
+      <div class="aiex-legend">
+        <span class="aiex-legend-dot"><span class="aiex-swatch fill-very-low"></span>Durable human work</span>
+        <span class="aiex-legend-dot"><span class="aiex-swatch fill-medium"></span>Rising AI exposure</span>
+        <span class="aiex-legend-dot"><span class="aiex-swatch fill-high"></span>Increasingly AI-performed</span>
+      </div>
+    </div>
+
+    <script>
+      (function(){
+        const dims = [
+          { code: 'DR', name: 'Drive & Independence', desc: 'self-direction & assertiveness', nat: 8, adp: 5 },
+          { code: 'SE', name: 'Social Energy', desc: 'outward, people-directed energy', nat: 4, adp: 7 },
+          { code: 'PA', name: 'Pace & Patience', desc: 'steady tempo, even keel', nat: 3, adp: 9 },
+          { code: 'SO', name: 'Structure & Order', desc: 'method & follow-through', nat: 2, adp: 8 },
+          { code: 'CB', name: 'Creative Battery', desc: 'mental energy for the new', nat: 9, adp: 2 },
+          { code: 'LA', name: 'Logic & Analysis', desc: 'evidence-led reasoning', nat: 7, adp: 8 },
+          { code: 'VI', name: 'Vision & Ideas', desc: 'abstraction, big-picture', nat: 9, adp: 6 }
+        ];
+        const table = document.getElementById('dimrTable');
+        if (!table) return;
+        dims.forEach(d => {
+          const gap = d.adp - d.nat;
+          const gapAbs = Math.abs(gap);
+          const gapHTML = gapAbs >= 3
+            ? `<span class="dimr-gap">${gap > 0 ? '+' : ''}${gap}</span>`
+            : `<span class="dimr-gap-empty">${gap > 0 ? '+' : ''}${gap || '0'}</span>`;
+          const row = document.createElement('div');
+          row.className = 'dimr-row';
+          row.innerHTML = `
+            <div class="dimr-label">
+              <span class="dimr-code">${d.code}</span>
+              <span class="dimr-name">${d.name}</span>
+              <span class="dimr-desc">${d.desc}</span>
+            </div>
+            <div class="dimr-bars">
+              <div class="dimr-scale">${Array(11).fill('<div class="tick"></div>').join('')}</div>
+              <div class="dimr-bar-nat" style="width: 0%;" data-w="${d.nat*10}"></div>
+              <div class="dimr-bar-adp" style="width: 0%;" data-w="${d.adp*10}"></div>
+            </div>
+            <div>${gapHTML}</div>
+          `;
+          table.appendChild(row);
+        });
+        // Animate on visibility
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              document.querySelectorAll('.dimr-bar-nat, .dimr-bar-adp').forEach(el => {
+                el.style.width = el.dataset.w + '%';
+              });
+              io.disconnect();
+            }
+          });
+        }, { threshold: 0.2 });
+        io.observe(table);
+      })();
+    </script>
+
     <!-- Free assessment + report tiers -->
     <div class="card report-card" style="margin-top: 22px;">
       <div class="free-badge">Free assessment</div>
