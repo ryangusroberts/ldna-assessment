@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0E1F3D" />
+<link rel="icon" type="image/svg+xml" href="/assets/saunter-mark.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/saunter-mark-32.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/assets/saunter-mark-192.png">
+<title>Privacy Policy, LDNA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --surface: #FFFFFF;
+    --surface-2: #F4F6FA;
+    --ink: #0B1220;
+    --ink-soft: #3E4860;
+    --ink-mute: #7A8499;
+    --line: #DCE2EC;
+    --primary: #0E1F3D;
+    --primary-soft: #EEF2FB;
+    --primary-line: #C6D2E6;
+    --accent: #A77A28;
+    --accent-soft: #F5EFE0;
+    --accent-line: #D9C28A;
+    --font-serif: 'Aptos Serif', 'Aptos', 'Source Serif 4', 'Source Serif Pro', 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
+    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body { font-family: var(--font-serif); font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: saturate(140%) blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 760px; margin: 0 auto;
+    padding: 14px 28px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand-mark {
+    position: relative;
+    width: 54px; height: 54px;
+    border-radius: 9px;
+    background: var(--primary);
+    display: inline-block;
+    box-shadow: 0 1px 0 var(--accent) inset, 0 1px 2px rgba(14, 31, 61, 0.06);
+    overflow: hidden;
+  }
+  .brand-mark-L { position: absolute; left: 6px; bottom: 0; font-family: var(--font-serif); font-style: italic; font-weight: 700; font-size: 46px; color: #FFFFFF; line-height: 1; }
+  .brand-mark-dna { position: absolute; top: 14px; right: 6px; font-family: var(--font-serif); font-size: 9px; font-weight: 600; letter-spacing: 0.6px; color: #D9C28A; text-transform: uppercase; line-height: 1; }
+  .brand-name { font-family: var(--font-serif); font-size: 19px; color: var(--ink); font-weight: 600; line-height: 1.1; letter-spacing: -0.005em; }
+  .brand-sub  { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 3px; }
+  .brand-logo { height: 36px; width: auto; display: block; }
+  .brand-tag { font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; padding-left: 16px; margin-left: 4px; border-left: 1px solid var(--line); display: none; }
+  @media (min-width: 880px) { .brand-tag { display: block; } }
+  .tm { font-size: 0.5em; vertical-align: super; line-height: 0; margin-left: 0.08em; font-weight: 500; font-style: normal; color: var(--ink-mute); }
+  .brand-name .tm { color: var(--ink-mute); }
+
+  .topbar-spacer { flex: 1; }
+  .back-link {
+    font-family: var(--font-ui); font-size: 13px; font-weight: 500;
+    color: var(--primary);
+    text-decoration: none;
+    border-bottom: 1px solid var(--primary-line);
+    padding-bottom: 1px;
+    transition: border-color 180ms;
+  }
+  .back-link:hover { border-bottom-color: var(--primary); }
+
+  main { max-width: 760px; margin: 0 auto; padding: 56px 28px 120px; }
+
+  .eyebrow {
+    font-family: var(--font-ui);
+    text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px;
+    color: var(--accent); font-weight: 600;
+    margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .eyebrow::before { content: ""; width: 18px; height: 1px; background: var(--accent); display: inline-block; }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(34px, 5vw, 48px);
+    line-height: 1.1; letter-spacing: -0.018em;
+    margin: 0 0 12px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .meta {
+    font-family: var(--font-ui);
+    font-size: 13px; color: var(--ink-mute);
+    margin: 0 0 32px;
+  }
+  .meta strong { color: var(--ink); font-weight: 600; }
+
+  h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(22px, 3vw, 28px);
+    line-height: 1.2; letter-spacing: -0.01em;
+    margin: 48px 0 12px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  h2 .num {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 600;
+    margin-right: 10px;
+    font-variant-numeric: oldstyle-nums;
+  }
+
+  p { margin: 0 0 14px; max-width: 68ch; color: var(--ink); }
+  p.lede { color: var(--ink-soft); font-size: 18px; max-width: 64ch; margin: 0 0 28px; line-height: 1.55; }
+
+  ul { margin: 0 0 18px; padding-left: 22px; max-width: 68ch; }
+  ul li { margin-bottom: 8px; }
+  ul li strong { font-weight: 600; }
+
+  table {
+    width: 100%; max-width: 68ch;
+    border-collapse: collapse;
+    margin: 0 0 22px;
+    font-size: 15px;
+  }
+  th, td {
+    text-align: left;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-mute);
+    font-weight: 600;
+    border-bottom: 1px solid var(--ink-soft);
+    background: var(--surface-2);
+  }
+  td strong { font-weight: 600; }
+
+  blockquote.note {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    margin: 0 0 28px;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    line-height: 1.55;
+    color: #5B4416;
+    border-radius: 0 8px 8px 0;
+  }
+  blockquote.note strong { color: #3B2D0D; }
+
+  a { color: var(--primary); }
+  a:hover { color: var(--accent); }
+
+  .contact-card {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-top: 16px;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .contact-card strong { font-family: var(--font-serif); font-size: 16px; }
+
+  footer {
+    text-align: center;
+    color: var(--ink-mute);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 36px 24px 60px;
+    border-top: 1px solid var(--line);
+    margin-top: 40px;
+  }
+
+  @media (max-width: 640px) {
+    .topbar-inner { padding: 12px 16px; gap: 10px; }
+    main { padding: 36px 18px 80px; }
+    table { font-size: 14px; }
+    th, td { padding: 10px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="brand">
+      <img src="/assets/saunter-logo.svg" alt="Saunter" class="brand-logo" />
+        <div class="brand-tag">Leadership &amp; Organizational Intelligence</div>
+    </a>
+    <div class="topbar-spacer"></div>
+    <a href="index.html" class="back-link">← Back to assessment</a>
+  </div>
+</header>
+
+<main>
+  <div class="eyebrow">Legal</div>
+  <h1>Privacy Policy</h1>
+  <p class="meta"><strong>Effective date:</strong> 2026-05-29 &nbsp;·&nbsp; <strong>Version:</strong> 2026-05-29</p>
+
+  <p class="lede">
+    This policy explains how The Saunter Group, LLC ("we," "us," or "our") collects, uses, and protects personal information when you take the LDNA<span class="tm">™</span> (Leadership Drivers &amp; Natural Aptitudes) assessment.
+  </p>
+
+  <h2><span class="num">1.</span>Who we are</h2>
+  <p><strong>Data controller:</strong> The Saunter Group, LLC<br>
+  <strong>Contact for privacy matters:</strong> <a href="mailto:info@thesauntergroup.com">info@thesauntergroup.com</a><br>
+  <strong>Postal address:</strong> 30 N Gould St, Ste R, Sheridan, WY 82801, United States<br>
+  <strong>Website:</strong> <a href="https://www.thesauntergroup.com">www.thesauntergroup.com</a></p>
+  <p>The LDNA<span class="tm">™</span> assessment instrument and methodology are proprietary to <strong>Vertical Consulting, LLC</strong> (the "IP Owner"). The Saunter Group, LLC operates the assessment under a license from the IP Owner and is solely responsible for processing the personal data of respondents. Vertical Consulting, LLC does not receive your personal data through this assessment.</p>
+  <p>If you are in the European Economic Area or the United Kingdom and you believe a privacy concern has not been adequately addressed through the contact above, you have the right to lodge a complaint with your local supervisory authority.</p>
+
+  <h2><span class="num">2.</span>What we collect</h2>
+  <p>When you take the LDNA assessment, we collect:</p>
+  <ul>
+    <li><strong>Identification data:</strong> your full name and email address.</li>
+    <li><strong>Professional context:</strong> your current role/title and years of experience.</li>
+    <li><strong>Assessment responses:</strong> the behavioral words you select in Parts 1 and 2 of the questionnaire, and the counts of those selections.</li>
+    <li><strong>Consent record:</strong> the date and time you granted consent, the version of this policy in effect at that moment, and your opt-in choices for follow-up communications.</li>
+    <li><strong>Marketing attribution:</strong> standard query parameters (such as UTM tags) attached to the link you used to reach the assessment, the referring page if your browser provided it, and a contact identifier passed by the marketing platform that referred you (if any). This data is used to understand which marketing channels and partner referrals work, and may be shared with the licensed marketing partner who referred you so they can measure their own campaign performance.</li>
+    <li><strong>Technical metadata:</strong> the date and time of submission.</li>
+  </ul>
+  <p>We do <strong>not</strong> collect: special categories of personal data (such as health, religion, ethnicity, political views), payment information, government identifiers, geolocation, device identifiers beyond what is inherent in any web request, or behavioral tracking from outside the assessment page.</p>
+
+  <h2><span class="num">3.</span>Why we collect it and our legal basis</h2>
+  <p>We use the data for the following purposes:</p>
+  <table>
+    <thead>
+      <tr><th>Purpose</th><th>Legal basis</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Generating your confidential LDNA behavioral profile</td><td><strong>Performance of a contract</strong> with you (delivering the assessment) and your <strong>consent</strong></td></tr>
+      <tr><td>Sending the profile to your email</td><td>Performance of a contract with you</td></tr>
+      <tr><td>Sending follow-up communications you opted in to (feedback requests, research invitations, content)</td><td><strong>Your explicit consent</strong>, separate per category</td></tr>
+      <tr><td>Keeping a record of your consent and the policy version in effect</td><td><strong>Legal obligation</strong> under GDPR Article 7(1)</td></tr>
+      <tr><td>Aggregated, anonymous improvement of the LDNA instrument</td><td><strong>Legitimate interest</strong> in improving the quality of our work, balanced against your privacy</td></tr>
+    </tbody>
+  </table>
+  <p>The required consent box on the assessment form is the basis for processing your assessment responses. The optional opt-in boxes are the basis for any non-essential communications. You can withdraw any of these consents at any time (see "Your rights" below).</p>
+
+  <h2><span class="num">4.</span>Who can see your data</h2>
+  <p>Your data is processed by The Saunter Group, LLC and a small number of contracted service providers acting as our data processors under enterprise data-processing agreements:</p>
+  <ul>
+    <li><strong>An enterprise-grade cloud platform</strong>, used to receive, store, and back up your responses. The provider operates in accordance with widely recognized security standards (including independent SOC 2 / ISO 27001-type assurance), encrypts data both in transit and at rest, and supports multi-factor authentication and granular access controls. Our access to the underlying environment is limited to authorized personnel on a need-to-know basis and protected by two-factor authentication.</li>
+    <li><em>[Add any email sending platform you use, e.g. Mailchimp, ConvertKit, Customer.io]</em></li>
+  </ul>
+  <p>The IP Owner of the LDNA<span class="tm">™</span> framework (Vertical Consulting, LLC) does not receive your personal data and is not a data processor under this policy.</p>
+  <p>We do <strong>not sell</strong> your personal information, and we do not "share" it for cross-context behavioral advertising as those terms are defined under the California Consumer Privacy Act, as amended.</p>
+  <p>We may disclose data if required to comply with a valid legal process, to protect our rights, or to investigate suspected fraud, but only to the minimum extent necessary.</p>
+
+  <h2><span class="num">5.</span>International transfers</h2>
+  <p>Some of our service providers may process data in the United States or other jurisdictions outside the EEA or UK. Where personal data is transferred to a country without an adequacy decision, we rely on the European Commission's Standard Contractual Clauses (or the UK equivalent IDTA) and equivalent safeguards under our processors' enterprise data-processing agreements.</p>
+
+  <h2><span class="num">6.</span>How long we keep it</h2>
+  <ul>
+    <li><strong>Assessment responses and profile data:</strong> kept for as long as you have an active relationship with us, and for up to <strong>24 months</strong> after your most recent interaction, after which the personally identifying fields are deleted or anonymized.</li>
+    <li><strong>Consent records:</strong> kept for <strong>6 years</strong> after the consent is given or withdrawn, to comply with our legal obligation to demonstrate the basis of processing.</li>
+    <li><strong>Marketing opt-in flags:</strong> kept until you opt out or until we cease the related communications, whichever is sooner.</li>
+  </ul>
+  <p>We will not keep data longer than necessary for the purposes for which it was collected.</p>
+
+  <h2><span class="num">7.</span>Your rights</h2>
+  <p>Depending on where you live, you have the following rights regarding your personal data. We will respond to verified requests within the timeframes required by applicable law (typically 30 days under GDPR; 45 days under CCPA/CPRA).</p>
+  <ul>
+    <li><strong>Right to know / access</strong>, request a copy of the personal data we hold about you and information about how we process it.</li>
+    <li><strong>Right to rectification</strong>, correct any data that is inaccurate or incomplete.</li>
+    <li><strong>Right to erasure ("right to be forgotten")</strong>, ask us to delete your personal data, subject to legal retention requirements.</li>
+    <li><strong>Right to restriction of processing</strong>, ask us to stop using your data while a dispute is resolved.</li>
+    <li><strong>Right to data portability</strong>, receive your data in a structured, machine-readable format.</li>
+    <li><strong>Right to object</strong>, object to processing based on legitimate interests, including profiling for marketing purposes.</li>
+    <li><strong>Right to withdraw consent</strong>, withdraw any consent you've given, at any time, without affecting the lawfulness of processing carried out before the withdrawal.</li>
+    <li><strong>California-specific rights</strong>, California residents additionally have the right to opt out of any "sale" or "sharing" of personal information (we do neither), the right to limit the use of sensitive personal information, and the right to non-discrimination for exercising any of these rights.</li>
+  </ul>
+  <p><strong>To exercise any of these rights</strong>, email <a href="mailto:info@thesauntergroup.com">info@thesauntergroup.com</a> from the email address you used to take the assessment. We may ask for additional information to verify your identity.</p>
+
+  <h2><span class="num">8.</span>Automated decision-making and profiling</h2>
+  <p>The LDNA assessment uses your responses to generate a behavioral profile that is interpreted by us and shared with you. While the underlying profile uses an automated framework, all profile interpretation involves human review. We do not use the assessment to make decisions that produce legal or similarly significant effects on you without human involvement.</p>
+  <p>If you believe an interpretation of your profile is incorrect, you can contact us to request review.</p>
+
+  <h2><span class="num">9.</span>Children's data</h2>
+  <p>The LDNA assessment is intended for adults. We do not knowingly collect data from anyone under the age of 16. If you believe a minor has submitted data to us, contact us and we will delete it.</p>
+
+  <h2><span class="num">10.</span>Security</h2>
+  <p>We use industry-standard administrative and technical safeguards to protect your data, including encryption in transit (HTTPS) and at rest, multi-factor authentication on all administrative accounts that can access your data, role-based access controls on the underlying storage environment, and access limited to authorized personnel on a need-to-know basis. The platforms we rely on operate under widely recognized independent security assurance (SOC 2 / ISO 27001-type frameworks). No method of transmission over the internet is 100% secure, but we work to maintain a level of protection appropriate to the sensitivity of the data.</p>
+
+  <h2><span class="num">11.</span>Changes to this policy</h2>
+  <p>We may update this policy from time to time. When we do, we will update the <strong>Effective date</strong> and <strong>Version</strong> at the top. For material changes, we will make a reasonable effort to notify you (for example, by email if we hold your address) and, where required, seek fresh consent. The version of the policy in effect when you consented is recorded against your assessment record.</p>
+
+  <h2><span class="num">12.</span>Intellectual property</h2>
+  <p>LDNA<span class="tm">™</span>, the LDNA assessment instrument, and the underlying methodology are trademarks and proprietary works of Vertical Consulting, LLC, and are used by The Saunter Group, LLC under license. Nothing in this Privacy Policy grants you any right to use the LDNA<span class="tm">™</span> framework, mark, or methodology.</p>
+
+  <h2><span class="num">13.</span>Contact</h2>
+  <p>For any questions about this policy or your data:</p>
+  <div class="contact-card">
+    <strong>The Saunter Group, LLC</strong><br>
+    30 N Gould St, Ste R<br>
+    Sheridan, WY 82801<br>
+    United States<br>
+    <a href="mailto:info@thesauntergroup.com">info@thesauntergroup.com</a><br>
+    <a href="https://www.thesauntergroup.com">www.thesauntergroup.com</a>
+  </div>
+</main>
+
+<footer>
+  © 2026 The Saunter Group, LLC &nbsp;·&nbsp;
+  LDNA™ used under license from Vertical Consulting, LLC
+</footer>
+
+</body>
+</html>
