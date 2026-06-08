@@ -396,6 +396,658 @@
   </div>
 </section>
 
+<!-- PROOF BAND: stacked report sample + live AMI dashboard -->
+<style>
+/* =========================================================
+     RSP-BAIC: 4 stacked BAIC report pages
+     ========================================================= */
+  .rsp-band{margin:24px 0 16px;padding:8px 0 0;}
+  .rsp-head-eyebrow{font-family:var(--font-ui);font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.18em;color:var(--accent);margin-bottom:8px;text-align:center;}
+  .rsp-head h2{font-family:var(--font-serif);font-size:clamp(22px,2.6vw,28px);font-weight:600;color:var(--ink);margin:0 auto 8px;text-align:center;max-width:36ch;line-height:1.2;letter-spacing:-.01em;}
+  .rsp-head h2 em{color:var(--accent);font-style:italic;font-weight:600;}
+  .rsp-head-sub{font-family:var(--font-ui);font-size:13.5px;color:var(--ink-soft);text-align:center;margin:0 auto 24px;max-width:58ch;line-height:1.55;}
+
+  .rsp-stack{position:relative;max-width:760px;margin:0 auto;}
+  .rsp-deck{position:relative;height:520px;perspective:1400px;}
+  @media (max-width:760px){.rsp-deck{height:580px;}}
+  .rsp-page{position:absolute;top:0;left:0;right:0;bottom:0;background:#FFFFFF;border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(14,31,61,.04),0 14px 38px rgba(14,31,61,.12);overflow:hidden;transition:transform 560ms cubic-bezier(.22,1,.36,1),opacity 380ms ease,box-shadow 380ms ease;transform-origin:50% 100%;cursor:pointer;}
+  .rsp-page[data-pos="0"]{z-index:4;transform:translate(0,0) rotate(0deg);opacity:1;cursor:default;}
+  .rsp-page[data-pos="1"]{z-index:3;transform:translate(0,-14px) rotate(-1.2deg) scale(.985);opacity:.92;}
+  .rsp-page[data-pos="2"]{z-index:2;transform:translate(0,-26px) rotate(.9deg) scale(.97);opacity:.78;}
+  .rsp-page[data-pos="3"]{z-index:1;transform:translate(0,-38px) rotate(-.6deg) scale(.955);opacity:.62;}
+  .rsp-page:hover[data-pos="1"],.rsp-page:hover[data-pos="2"],.rsp-page:hover[data-pos="3"]{opacity:.98;}
+  .rsp-page-head{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#FFFFFF 0%,#FCFBF8 100%);}
+  .rsp-page-title{font-family:var(--font-serif);font-weight:600;font-size:14px;color:var(--ink);margin:0;letter-spacing:-.005em;}
+  .rsp-page-num{font-family:var(--font-ui);font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mute);}
+  .rsp-page-body{padding:18px 22px;height:calc(100% - 49px);overflow:hidden;}
+
+  .rsp-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:24px;}
+  .rsp-tab{font-family:var(--font-ui);font-size:12.5px;font-weight:600;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink-soft);cursor:pointer;transition:all 220ms ease;}
+  .rsp-tab:hover{border-color:var(--accent);color:var(--ink);}
+  .rsp-tab.is-active{background:var(--ink);color:#FFF;border-color:var(--ink);}
+  .rsp-cap{text-align:center;font-family:var(--font-ui);font-size:11.5px;color:var(--ink-mute);margin-top:14px;}
+  .rsp-cap strong{display:inline-block;font-weight:600;color:#5B4416;background:var(--accent-soft);border:1px solid var(--accent-line);padding:2px 8px;border-radius:999px;font-size:9.5px;text-transform:uppercase;letter-spacing:.14em;margin-right:6px;vertical-align:1px;}
+
+  /* PAGE 1: Domain Scorecard */
+  .rsp-sc-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+  .rsp-sc-co{font-family:var(--font-serif);font-weight:600;font-size:13px;color:var(--ink);}
+  .rsp-sc-co em{font-style:italic;color:var(--ink-soft);font-weight:400;font-size:11.5px;margin-left:6px;}
+  .rsp-sc-date{font-family:var(--font-ui);font-size:9.5px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.14em;}
+  .rsp-sc-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);}
+  .rsp-sc-table th{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-mute);padding:5px 8px;border-bottom:1px solid var(--line);text-align:left;}
+  .rsp-sc-table th.r{text-align:right;}
+  .rsp-sc-table td{font-size:11.5px;padding:7px 8px;border-bottom:1px solid var(--line-soft);}
+  .rsp-sc-table td.r{text-align:right;font-family:var(--font-serif);font-weight:600;color:var(--ink);}
+  .rsp-sc-bar{position:relative;height:6px;background:var(--surface-2);border-radius:999px;width:120px;overflow:hidden;}
+  .rsp-sc-bar i{position:absolute;left:0;top:0;height:100%;border-radius:999px;}
+  .rsp-sc-flag{font-family:var(--font-ui);font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;letter-spacing:.06em;}
+  .rsp-sc-flag.ov{background:rgba(139,42,42,.12);color:var(--bad);border:1px solid rgba(139,42,42,.28);}
+  .rsp-sc-flag.at{background:var(--accent-soft);color:#5B4416;border:1px solid var(--accent-line);}
+  .rsp-sc-flag.ok{background:#DFEBDD;color:var(--good);border:1px solid #BFD7BA;}
+  .rsp-sc-total{border-top:1.5px solid var(--ink);}
+  .rsp-sc-total td{font-family:var(--font-serif);font-weight:700;font-size:13px;padding:9px 8px;color:var(--ink);}
+  .rsp-sc-foot{margin-top:14px;display:flex;align-items:center;gap:14px;font-family:var(--font-ui);font-size:11px;color:var(--ink-soft);}
+  .rsp-sc-tier{display:inline-flex;flex-direction:column;line-height:1.15;}
+  .rsp-sc-tier strong{font-family:var(--font-serif);font-weight:700;font-size:14px;color:var(--ink);letter-spacing:.04em;text-transform:uppercase;}
+  .rsp-sc-tier span{font-size:10.5px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.12em;}
+  .rsp-sc-amibig{font-family:var(--font-serif);font-weight:700;font-size:32px;color:var(--ink);line-height:1;}
+  .rsp-sc-amibig sub{font-size:13px;color:var(--ink-mute);font-weight:400;}
+
+  /* PAGE 2: VMOCA Register */
+  .rsp-vm-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-family:var(--font-ui);}
+  .rsp-vm-header .l{font-size:11px;color:var(--ink-soft);}
+  .rsp-vm-header .l strong{font-family:var(--font-serif);color:var(--ink);font-weight:600;font-size:12.5px;margin-right:4px;}
+  .rsp-vm-header .r{font-size:9.5px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.14em;}
+  .rsp-vm-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);}
+  .rsp-vm-table th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-mute);padding:4px 6px;border-bottom:1px solid var(--line);text-align:left;}
+  .rsp-vm-table th.r{text-align:right;}
+  .rsp-vm-table td{font-size:11px;padding:6px 6px;border-bottom:1px solid var(--line-soft);vertical-align:middle;line-height:1.35;}
+  .rsp-vm-rid{font-family:'SF Mono',Menlo,monospace;font-size:10px;color:var(--ink-mute);}
+  .rsp-vm-dom{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--surface-2);color:var(--ink-soft);letter-spacing:.06em;text-transform:uppercase;}
+  .rsp-vm-c{text-align:right;font-family:var(--font-serif);font-weight:700;color:var(--ink);}
+  .rsp-vm-lev{font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;letter-spacing:.06em;}
+  .rsp-vm-lev.crit{background:rgba(139,42,42,.12);color:var(--bad);border:1px solid rgba(139,42,42,.28);}
+  .rsp-vm-lev.high{background:rgba(176,123,30,.12);color:var(--warn);border:1px solid rgba(176,123,30,.32);}
+  .rsp-vm-lev.mod{background:rgba(40,75,111,.10);color:var(--info);border:1px solid rgba(40,75,111,.28);}
+  .rsp-vm-formula{margin-top:8px;font-family:var(--font-ui);font-size:9.5px;color:var(--ink-mute);text-align:right;font-style:italic;}
+
+  /* PAGE 3: 8-Axis radar */
+  .rsp-ax-wrap{display:flex;justify-content:center;height:100%;}
+  .rsp-ax-wrap svg{width:100%;max-width:520px;height:auto;max-height:100%;}
+
+  /* PAGE 4: Sprint 1 Action Architecture */
+  .rsp-sp-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-family:var(--font-ui);}
+  .rsp-sp-head strong{font-family:var(--font-serif);color:var(--ink);font-weight:600;font-size:12.5px;}
+  .rsp-sp-head span{font-size:9.5px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.14em;}
+  .rsp-sp-table{width:100%;border-collapse:collapse;font-family:var(--font-ui);}
+  .rsp-sp-table th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-mute);padding:5px 6px;border-bottom:1px solid var(--line);text-align:left;}
+  .rsp-sp-table td{font-size:10.5px;padding:7px 6px;border-bottom:1px solid var(--line-soft);vertical-align:top;line-height:1.4;}
+  .rsp-sp-owner{font-family:var(--font-serif);font-weight:600;color:var(--ink);font-size:11px;white-space:nowrap;}
+  .rsp-sp-owner span{display:block;font-family:var(--font-ui);font-weight:400;color:var(--ink-mute);font-size:9.5px;}
+  .rsp-sp-metric{color:var(--ink-soft);font-style:italic;font-size:10px;}
+  .rsp-sp-dom{display:inline-block;font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:4px;background:var(--accent-soft);color:#5B4416;border:1px solid var(--accent-line);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;}
+
+  /* =========================================================
+     DYNAMIC AMI DASHBOARD WIDGET
+     ========================================================= */
+  .ami{margin:24px 0 0;background:#FFFFFF;border:1px solid var(--line);border-radius:14px;box-shadow:0 1px 2px rgba(14,31,61,.04),0 14px 38px rgba(14,31,61,.08);overflow:hidden;}
+  .ami-head{padding:18px 22px 14px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#FFFFFF 0%,#FCFBF8 100%);display:flex;justify-content:space-between;align-items:baseline;}
+  .ami-head .t{font-family:var(--font-serif);font-size:15px;font-weight:600;color:var(--ink);margin:0;letter-spacing:-.005em;}
+  .ami-head .t em{color:var(--accent);font-style:italic;}
+  .ami-head .s{font-family:var(--font-ui);font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mute);}
+  .ami-body{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:0;}
+  @media (max-width:780px){.ami-body{grid-template-columns:1fr;}}
+  .ami-left{padding:20px 22px;border-right:1px solid var(--line);}
+  @media (max-width:780px){.ami-left{border-right:0;border-bottom:1px solid var(--line);}}
+  .ami-right{padding:20px 22px;background:#FCFCFD;}
+
+  .ami-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px;}
+  .ami-card{background:var(--surface-2);border-radius:8px;padding:9px 11px;}
+  .ami-card .lbl{font-family:var(--font-ui);font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink-mute);}
+  .ami-card .val{font-family:var(--font-serif);font-weight:700;font-size:20px;color:var(--ink);line-height:1.1;margin-top:2px;}
+  .ami-card .val .delta{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--good);margin-left:4px;}
+  .ami-card .val .delta.neg{color:var(--bad);}
+  .ami-card.tier .val{font-family:var(--font-serif);font-size:13px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
+  .ami-card.tier.stab .val{color:var(--bad);}
+  .ami-card.tier.cap .val{color:var(--info);}
+  .ami-card.tier.gro .val{color:var(--good);}
+
+  .ami-bar-wrap{margin:14px 0 18px;position:relative;height:54px;}
+  .ami-bar-track{position:absolute;top:18px;left:0;right:0;height:10px;border-radius:999px;display:flex;overflow:hidden;}
+  .ami-bar-track .b1{flex:0 0 40%;background:rgba(139,42,42,.16);}
+  .ami-bar-track .b2{flex:0 0 12%;background:rgba(176,123,30,.16);}
+  .ami-bar-track .b3{flex:0 0 16%;background:rgba(40,75,111,.16);}
+  .ami-bar-track .b4{flex:0 0 16%;background:rgba(31,83,51,.16);}
+  .ami-bar-track .b5{flex:0 0 16%;background:rgba(31,83,51,.30);}
+  .ami-bar-needle{position:absolute;top:11px;height:24px;width:2px;background:var(--ink);border-radius:1px;z-index:3;transition:left 700ms cubic-bezier(.22,1,.36,1);}
+  .ami-bar-needle::after{content:attr(data-val);position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-family:var(--font-serif);font-size:12px;font-weight:700;color:var(--ink);}
+  .ami-bar-base{position:absolute;top:18px;height:10px;width:1px;background:rgba(14,31,61,.45);z-index:2;border-radius:1px;transition:left 700ms cubic-bezier(.22,1,.36,1);}
+  .ami-bar-gate{position:absolute;top:18px;height:10px;width:1px;background:rgba(14,31,61,.25);}
+  .ami-bar-gate .lab{position:absolute;top:14px;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:var(--font-ui);font-size:9.5px;color:var(--ink-mute);}
+  .ami-bar-ticks{position:absolute;top:36px;left:0;right:0;height:14px;}
+  .ami-bar-ticks span{position:absolute;transform:translateX(-50%);font-family:var(--font-ui);font-size:9px;color:var(--ink-dim);}
+
+  .ami-radar{display:flex;justify-content:center;margin:0 -10px 12px;}
+  .ami-radar svg{width:100%;max-width:420px;height:auto;}
+
+  .ami-domains{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:0 0 8px;}
+  .ami-dom{background:var(--surface-2);border-radius:6px;padding:6px 8px;border-left:3px solid var(--ink-mute);}
+  .ami-dom .nm{font-family:var(--font-ui);font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.10em;color:var(--ink-mute);line-height:1.25;min-height:22px;}
+  .ami-dom .vw{display:flex;align-items:baseline;gap:5px;}
+  .ami-dom .vv{font-family:var(--font-serif);font-weight:700;font-size:15px;color:var(--ink);line-height:1;}
+  .ami-dom .vd{font-family:var(--font-ui);font-size:9.5px;font-weight:700;color:var(--good);}
+  .ami-dom .vo{font-family:var(--font-ui);font-size:8.5px;font-weight:700;color:var(--bad);text-transform:uppercase;letter-spacing:.08em;margin-left:auto;}
+  .ami-dom[data-state="ok"]{border-left-color:var(--good);}
+  .ami-dom[data-state="warn"]{border-left-color:var(--warn);}
+  .ami-dom[data-state="bad"]{border-left-color:var(--bad);}
+
+  .ami-fixhead{font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--ink);margin:0 0 4px;letter-spacing:-.005em;}
+  .ami-fixsub{font-family:var(--font-ui);font-size:11px;color:var(--ink-soft);margin:0 0 12px;line-height:1.45;}
+  .ami-fixsub em{color:var(--accent);font-style:italic;}
+  .ami-fixlist{display:flex;flex-direction:column;gap:6px;}
+  .ami-fix{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;background:#FFFFFF;border:1px solid var(--line);border-radius:8px;cursor:pointer;transition:all 200ms ease;}
+  .ami-fix:hover{border-color:var(--accent);}
+  .ami-fix.on{background:rgba(31,83,51,.04);border-color:rgba(31,83,51,.30);}
+  .ami-fix input{margin-top:2px;accent-color:var(--good);cursor:pointer;flex-shrink:0;}
+  .ami-fix .body{flex:1;min-width:0;}
+  .ami-fix .desc{font-family:var(--font-ui);font-size:11.5px;color:var(--ink);font-weight:500;line-height:1.35;}
+  .ami-fix.on .desc{color:var(--ink);}
+  .ami-fix .meta{display:flex;flex-wrap:wrap;gap:4px 8px;margin-top:4px;font-family:var(--font-ui);font-size:9px;color:var(--ink-mute);}
+  .ami-fix .meta b{font-weight:600;color:var(--ink-soft);}
+  .ami-fix .impact{margin-top:4px;font-family:'SF Mono',Menlo,monospace;font-size:9.5px;color:var(--good);opacity:.85;}
+  .ami-fix:not(.on) .impact{color:var(--ink-mute);}
+
+  .ami-controls{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap;}
+  .ami-ctl{font-family:var(--font-ui);font-size:10px;font-weight:600;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#FFFFFF;color:var(--ink-soft);cursor:pointer;transition:all 200ms ease;}
+  .ami-ctl:hover{border-color:var(--accent);color:var(--ink);}
+  .ami-ctl.prim{background:var(--ink);color:#FFF;border-color:var(--ink);}
+  .ami-ctl.prim:hover{background:var(--accent);border-color:var(--accent);color:#FFF;}
+
+  .ami-foot{padding:10px 22px;border-top:1px solid var(--line);background:#FAFBFD;font-family:var(--font-ui);font-size:10.5px;color:var(--ink-mute);text-align:center;}
+  .ami-foot strong{display:inline-block;font-weight:600;color:#5B4416;background:var(--accent-soft);border:1px solid var(--accent-line);padding:2px 8px;border-radius:999px;font-size:9px;text-transform:uppercase;letter-spacing:.14em;margin-right:6px;vertical-align:1px;}
+</style>
+<section class="section">
+  <div class="section-inner">
+    <div class="eyebrow" style="text-align:center;">See what BAIC produces</div>
+    <h2 style="text-align:center;max-width: 38ch;margin-left:auto;margin-right:auto;">Sample pages, sample dashboard, real engine.</h2>
+    <p class="lede" style="text-align:center;max-width:60ch;margin-left:auto;margin-right:auto;">A fictional engagement ("Northway Apparel Co.") so you can see exactly what a 30-day BAIC delivers, then try the live AMI scoring engine yourself.</p>
+
+  <div class="rsp-band">
+    <div class="rsp-head">
+      <div class="rsp-head-eyebrow">Inside a typical BAIC report</div>
+      <h2>Four pages from a 30-day diagnostic · <em>flip through</em>.</h2>
+      <p class="rsp-head-sub">Click any peeking page (or any tab below) to bring it forward. Representative data throughout.</p>
+    </div>
+
+    <div class="rsp-stack">
+      <div class="rsp-deck" id="bspDeck">
+
+        <!-- ============================================================
+             PAGE 1: AMI Domain Scorecard
+             ============================================================ -->
+        <div class="rsp-page" data-id="amid" data-pos="0">
+          <div class="rsp-page-head">
+            <h4 class="rsp-page-title">AMI domain scorecard · architecture maturity</h4>
+            <span class="rsp-page-num">Page · Scorecard</span>
+          </div>
+          <div class="rsp-page-body">
+            <div class="rsp-sc-head">
+              <div class="rsp-sc-co">Northway Apparel Co.<em>Day 30 baseline read</em></div>
+              <div class="rsp-sc-date">Confidential · BAIC v1.1</div>
+            </div>
+            <table class="rsp-sc-table">
+              <thead>
+                <tr><th>Domain</th><th class="r">Score</th><th>Read</th><th class="r">Wt.</th><th class="r">Weighted</th><th>Signal</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Strategy</td><td class="r">40</td><td><div class="rsp-sc-bar"><i style="width:40%;background:var(--warn);"></i></div></td><td class="r">15%</td><td class="r">6.00</td><td><span class="rsp-sc-flag at">At risk</span></td></tr>
+                <tr><td>Structure / People</td><td class="r">35</td><td><div class="rsp-sc-bar"><i style="width:35%;background:var(--bad);"></i></div></td><td class="r">15%</td><td class="r">5.25</td><td><span class="rsp-sc-flag ov">Override</span></td></tr>
+                <tr><td>Systems</td><td class="r">38</td><td><div class="rsp-sc-bar"><i style="width:38%;background:var(--bad);"></i></div></td><td class="r">15%</td><td class="r">5.70</td><td><span class="rsp-sc-flag ov">Override</span></td></tr>
+                <tr><td>Financial Control</td><td class="r">42</td><td><div class="rsp-sc-bar"><i style="width:42%;background:var(--warn);"></i></div></td><td class="r">15%</td><td class="r">6.30</td><td><span class="rsp-sc-flag ov">Override</span></td></tr>
+                <tr><td>Revenue Engine</td><td class="r">39</td><td><div class="rsp-sc-bar"><i style="width:39%;background:var(--bad);"></i></div></td><td class="r">15%</td><td class="r">5.85</td><td><span class="rsp-sc-flag ov">Override</span></td></tr>
+                <tr><td>Data &amp; Dashboards</td><td class="r">28</td><td><div class="rsp-sc-bar"><i style="width:28%;background:var(--bad);"></i></div></td><td class="r">10%</td><td class="r">2.80</td><td><span class="rsp-sc-flag ov">Override</span></td></tr>
+                <tr><td>Risk &amp; Compliance</td><td class="r">24</td><td><div class="rsp-sc-bar"><i style="width:24%;background:var(--bad);"></i></div></td><td class="r">5%</td><td class="r">1.20</td><td><span class="rsp-sc-flag ov">Override</span></td></tr>
+                <tr><td>Leadership Capacity</td><td class="r">32</td><td><div class="rsp-sc-bar"><i style="width:32%;background:var(--bad);"></i></div></td><td class="r">10%</td><td class="r">3.20</td><td><span class="rsp-sc-flag ov">Override</span></td></tr>
+                <tr class="rsp-sc-total"><td>Total AMI</td><td class="r">36.3</td><td></td><td class="r">100%</td><td class="r">36.30</td><td><span class="rsp-sc-flag ov">7 active</span></td></tr>
+              </tbody>
+            </table>
+            <div class="rsp-sc-foot">
+              <div class="rsp-sc-tier"><strong>Stabilize</strong><span>Foundation sub-tier</span></div>
+              <div style="flex:1;font-size:10.5px;color:var(--ink-mute);max-width:280px;">Seven hard overrides lock classification at Stabilize Sprint regardless of total AMI. Five must clear before tier reclassification.</div>
+              <div class="rsp-sc-amibig">36<sub>.3 / 100</sub></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================
+             PAGE 2: VMOCA Vulnerability Register
+             ============================================================ -->
+        <div class="rsp-page" data-id="vmoc" data-pos="1">
+          <div class="rsp-page-head">
+            <h4 class="rsp-page-title">VMOCA vulnerability register · top 10 by criticality</h4>
+            <span class="rsp-page-num">Page · VMOCA</span>
+          </div>
+          <div class="rsp-page-body">
+            <div class="rsp-vm-header">
+              <div class="l"><strong>Northway Apparel Co.</strong>· 38 vulnerabilities total · top 10 shown</div>
+              <div class="r">Criticality = (O × S × E) / D</div>
+            </div>
+            <table class="rsp-vm-table">
+              <thead>
+                <tr><th>#</th><th>Domain</th><th>Vulnerability</th><th>ID</th><th class="r">C</th><th>Level</th><th class="r">Spr.</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td><span class="rsp-vm-dom">Structure</span></td><td>Founder is sole decision-maker · no delegation infrastructure</td><td><span class="rsp-vm-rid">SP-C01</span></td><td class="rsp-vm-c">126</td><td><span class="rsp-vm-lev crit">Critical</span></td><td class="r">1</td></tr>
+                <tr><td>2</td><td><span class="rsp-vm-dom">Leadership</span></td><td>All investor &amp; vendor relationships concentrated in one person</td><td><span class="rsp-vm-rid">LC-C01</span></td><td class="rsp-vm-c">118</td><td><span class="rsp-vm-lev crit">Critical</span></td><td class="r">1</td></tr>
+                <tr><td>3</td><td><span class="rsp-vm-dom">Revenue</span></td><td>87% single-purchase churn · zero retention program</td><td><span class="rsp-vm-rid">GTM-C01</span></td><td class="rsp-vm-c">112</td><td><span class="rsp-vm-lev crit">Critical</span></td><td class="r">1</td></tr>
+                <tr><td>4</td><td><span class="rsp-vm-dom">Financial</span></td><td>Cash-negative projected within 5 months · no rolling forecast</td><td><span class="rsp-vm-rid">FC-C01</span></td><td class="rsp-vm-c">108</td><td><span class="rsp-vm-lev crit">Critical</span></td><td class="r">1</td></tr>
+                <tr><td>5</td><td><span class="rsp-vm-dom">Risk</span></td><td>Related-party transaction used as basis for investor SAFEs</td><td><span class="rsp-vm-rid">RC-C01</span></td><td class="rsp-vm-c">102</td><td><span class="rsp-vm-lev crit">Critical</span></td><td class="r">1</td></tr>
+                <tr><td>6</td><td><span class="rsp-vm-dom">Data</span></td><td>Return rate 25% actual vs. 12% reported · product issues invisible</td><td><span class="rsp-vm-rid">DD-C02</span></td><td class="rsp-vm-c">94</td><td><span class="rsp-vm-lev high">High</span></td><td class="r">1</td></tr>
+                <tr><td>7</td><td><span class="rsp-vm-dom">Systems</span></td><td>Negative inventory on 6 SKUs with active EDI partnerships</td><td><span class="rsp-vm-rid">SYS-C01</span></td><td class="rsp-vm-c">88</td><td><span class="rsp-vm-lev high">High</span></td><td class="r">1</td></tr>
+                <tr><td>8</td><td><span class="rsp-vm-dom">Financial</span></td><td>AP / balance sheet $84K gap · statements materially misstated</td><td><span class="rsp-vm-rid">FC-C03</span></td><td class="rsp-vm-c">82</td><td><span class="rsp-vm-lev high">High</span></td><td class="r">1</td></tr>
+                <tr><td>9</td><td><span class="rsp-vm-dom">Revenue</span></td><td>No CRM · 3,400+ contacts &amp; 7 reps with no pipeline stages</td><td><span class="rsp-vm-rid">GTM-C02</span></td><td class="rsp-vm-c">74</td><td><span class="rsp-vm-lev high">High</span></td><td class="r">1</td></tr>
+                <tr><td>10</td><td><span class="rsp-vm-dom">Strategy</span></td><td>Exit-driven strategy substitutes for organizational plan</td><td><span class="rsp-vm-rid">ST-C01</span></td><td class="rsp-vm-c">68</td><td><span class="rsp-vm-lev high">High</span></td><td class="r">2</td></tr>
+              </tbody>
+            </table>
+            <div class="rsp-vm-formula">Critical (C &gt; 100) · daily action · 5 active · High (C 51-100) · weekly mitigation · 21 active</div>
+          </div>
+        </div>
+
+        <!-- ============================================================
+             PAGE 3: 8-axis architecture map (radar)
+             ============================================================ -->
+        <div class="rsp-page" data-id="arch" data-pos="2">
+          <div class="rsp-page-head">
+            <h4 class="rsp-page-title">8-axis architecture map · domain spider</h4>
+            <span class="rsp-page-num">Page · Spider</span>
+          </div>
+          <div class="rsp-page-body">
+            <div class="rsp-ax-wrap">
+              <svg viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sample BAIC 8-axis architecture map">
+                <g transform="translate(260,185)">
+                  <!-- grid rings -->
+                  <g fill="none" stroke="#EEF1F6" stroke-width="1">
+                    <polygon points="0,-30 21.2,-21.2 30,0 21.2,21.2 0,30 -21.2,21.2 -30,0 -21.2,-21.2"/>
+                    <polygon points="0,-60 42.4,-42.4 60,0 42.4,42.4 0,60 -42.4,42.4 -60,0 -42.4,-42.4"/>
+                    <polygon points="0,-90 63.6,-63.6 90,0 63.6,63.6 0,90 -63.6,63.6 -90,0 -63.6,-63.6"/>
+                    <polygon points="0,-120 84.9,-84.9 120,0 84.9,84.9 0,120 -84.9,84.9 -120,0 -84.9,-84.9"/>
+                    <polygon points="0,-150 106,-106 150,0 106,106 0,150 -106,106 -150,0 -106,-106"/>
+                  </g>
+                  <!-- threshold ring at 40 (radius 60) -->
+                  <polygon points="0,-60 42.4,-42.4 60,0 42.4,42.4 0,60 -42.4,42.4 -60,0 -42.4,-42.4" fill="none" stroke="rgba(139,42,42,0.45)" stroke-width="1.2" stroke-dasharray="5,4"/>
+                  <!-- spokes -->
+                  <g stroke="#EEF1F6" stroke-width="1">
+                    <line x1="0" y1="0" x2="0" y2="-150"/><line x1="0" y1="0" x2="106" y2="-106"/>
+                    <line x1="0" y1="0" x2="150" y2="0"/><line x1="0" y1="0" x2="106" y2="106"/>
+                    <line x1="0" y1="0" x2="0" y2="150"/><line x1="0" y1="0" x2="-106" y2="106"/>
+                    <line x1="0" y1="0" x2="-150" y2="0"/><line x1="0" y1="0" x2="-106" y2="-106"/>
+                  </g>
+                  <!-- score polygon: 40,35,38,42,39,28,24,32 → radius v*1.5 -->
+                  <!-- order: Top(Strategy 40), TR(Structure 35), R(Systems 38), BR(FC 42), B(RE 39), BL(Data 28), L(Risk 24), TL(Lead 32) -->
+                  <polygon points="0,-60 37.1,-37.1 57,0 44.5,44.5 0,58.5 -29.7,29.7 -36,0 -33.9,-33.9"
+                           fill="rgba(167,122,40,0.18)" stroke="#A77A28" stroke-width="2" stroke-linejoin="round"/>
+                  <!-- dots -->
+                  <g fill="#0E1F3D">
+                    <circle cx="0" cy="-60" r="3.5"/>
+                    <circle cx="37.1" cy="-37.1" r="3.5"/>
+                    <circle cx="57" cy="0" r="3.5"/>
+                    <circle cx="44.5" cy="44.5" r="3.5"/>
+                    <circle cx="0" cy="58.5" r="3.5"/>
+                    <circle cx="-29.7" cy="29.7" r="3.5"/>
+                    <circle cx="-36" cy="0" r="3.5"/>
+                    <circle cx="-33.9" cy="-33.9" r="3.5"/>
+                  </g>
+                  <!-- center AMI -->
+                  <text text-anchor="middle" font-family="'Aptos Serif',Georgia,serif" font-weight="700" font-size="22" fill="#0E1F3D" y="-2">36.3</text>
+                  <text text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="2" fill="#7A8499" y="14">AMI</text>
+
+                  <!-- labels -->
+                  <g font-family="Inter,sans-serif" font-size="10.5" font-weight="600" fill="#0E1F3D">
+                    <text x="0" y="-160" text-anchor="middle">Strategy <tspan font-weight="700" fill="#B07B1E">40</tspan></text>
+                    <text x="120" y="-115" text-anchor="start">Structure <tspan font-weight="700" fill="#8B2A2A">35</tspan></text>
+                    <text x="160" y="4" text-anchor="start">Systems <tspan font-weight="700" fill="#8B2A2A">38</tspan></text>
+                    <text x="120" y="124" text-anchor="start">Financial <tspan font-weight="700" fill="#B07B1E">42</tspan></text>
+                    <text x="0" y="170" text-anchor="middle">Revenue Engine <tspan font-weight="700" fill="#8B2A2A">39</tspan></text>
+                    <text x="-120" y="124" text-anchor="end">Data <tspan font-weight="700" fill="#8B2A2A">28</tspan></text>
+                    <text x="-160" y="4" text-anchor="end">Risk <tspan font-weight="700" fill="#8B2A2A">24</tspan></text>
+                    <text x="-120" y="-115" text-anchor="end">Leadership <tspan font-weight="700" fill="#8B2A2A">32</tspan></text>
+                  </g>
+                  <!-- threshold legend -->
+                  <g transform="translate(-130,150)">
+                    <line x1="0" y1="0" x2="14" y2="0" stroke="rgba(139,42,42,0.55)" stroke-width="1.2" stroke-dasharray="4,3"/>
+                    <text x="18" y="3" font-family="Inter,sans-serif" font-size="9" fill="#7A8499">40 = override threshold</text>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================
+             PAGE 4: Sprint 1 Action Architecture
+             ============================================================ -->
+        <div class="rsp-page" data-id="sp01" data-pos="3">
+          <div class="rsp-page-head">
+            <h4 class="rsp-page-title">Sprint 1 action architecture · days 1-30</h4>
+            <span class="rsp-page-num">Page · 90-day</span>
+          </div>
+          <div class="rsp-page-body">
+            <div class="rsp-sp-head">
+              <strong>Northway Apparel · Sprint 1 · Secure the foundation</strong>
+              <span>1 owner per action · weekly cadence</span>
+            </div>
+            <table class="rsp-sp-table">
+              <thead>
+                <tr><th style="width:90px;">Owner</th><th>Action</th><th style="width:150px;">Success metric</th><th style="width:80px;">Domain</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><div class="rsp-sp-owner">Diane Park<span>COO</span></div></td><td>Build 13-week rolling cash forecast with weekly refresh and spending freeze triggers</td><td class="rsp-sp-metric">Forecast live with 3 scenarios; reviewed weekly</td><td><span class="rsp-sp-dom">Financial</span></td></tr>
+                <tr><td><div class="rsp-sp-owner">Diane Park<span>COO</span></div></td><td>Stand up weekly one-page business health dashboard</td><td class="rsp-sp-metric">Dashboard live; delivered to CEO every Monday</td><td><span class="rsp-sp-dom">Data</span></td></tr>
+                <tr><td><div class="rsp-sp-owner">Tom Vinson<span>Marketing</span></div></td><td>Deploy HubSpot CRM with 5 B2B pipeline stages and territory assignment for 7 reps</td><td class="rsp-sp-metric">CRM active; 3,400+ contacts imported; weekly pipeline review</td><td><span class="rsp-sp-dom">Revenue</span></td></tr>
+                <tr><td><div class="rsp-sp-owner">Carla Reyes<span>Legal &amp; IR</span></div></td><td>Engage securities counsel; initiate 409A valuation; prepare investor disclosure remediation</td><td class="rsp-sp-metric">Engagement letter signed within 14 days</td><td><span class="rsp-sp-dom">Risk</span></td></tr>
+                <tr><td><div class="rsp-sp-owner">Mark Sutton<span>CEO</span></div></td><td>Co-sign board resolution for COO authority matrix; review weekly dashboard every Monday</td><td class="rsp-sp-metric">Signed resolution filed; 4 weeks of documented review</td><td><span class="rsp-sp-dom">Structure</span></td></tr>
+                <tr><td><div class="rsp-sp-owner">Tom Vinson<span>Marketing</span></div></td><td>Launch Klaviyo post-purchase retention sequences (30 / 60 / 90 day) segmented by category</td><td class="rsp-sp-metric">3 automated sequences live; repeat-rate baseline set</td><td><span class="rsp-sp-dom">Revenue</span></td></tr>
+                <tr><td><div class="rsp-sp-owner">Diane Park<span>COO</span></div></td><td>Physical inventory count with 3PL; resolve negative inventory on 6 SKUs; document 3PL backup</td><td class="rsp-sp-metric">Zero negative-inventory SKUs; backup warehouse identified</td><td><span class="rsp-sp-dom">Systems</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="rsp-tabs" id="bspTabs">
+        <button class="rsp-tab is-active" data-target="amid" type="button">Scorecard</button>
+        <button class="rsp-tab" data-target="vmoc" type="button">VMOCA register</button>
+        <button class="rsp-tab" data-target="arch" type="button">8-axis map</button>
+        <button class="rsp-tab" data-target="sp01" type="button">Sprint 1</button>
+      </div>
+
+      <p class="rsp-cap"><strong>Representative example</strong>Fictional Northway Apparel Co. team. Your own read will differ.</p>
+    </div>
+  </div>
+
+  <div class="ami" id="amiWidget">
+    <div class="ami-head">
+      <h3 class="t">Watch the score <em>cascade</em> · check a fix, see the architecture move.</h3>
+      <span class="s">Live BAIC engine · sample data</span>
+    </div>
+
+    <div class="ami-body">
+      <div class="ami-left">
+        <!-- Summary cards -->
+        <div class="ami-summary">
+          <div class="ami-card"><div class="lbl">AMI</div><div class="val"><span id="amiVal">36.3</span><span class="delta" id="amiDelta"></span></div></div>
+          <div class="ami-card tier stab" id="amiTier"><div class="lbl">Tier</div><div class="val" id="amiTierVal">Stabilize</div></div>
+          <div class="ami-card"><div class="lbl">Overrides</div><div class="val"><span id="amiOvs">7</span><span class="delta neg" id="amiOvsDelta"></span></div></div>
+          <div class="ami-card"><div class="lbl">Fixes on</div><div class="val"><span id="amiFixCount">0</span></div></div>
+        </div>
+
+        <!-- AMI progress bar -->
+        <div class="ami-bar-wrap">
+          <div class="ami-bar-track"><div class="b1"></div><div class="b2"></div><div class="b3"></div><div class="b4"></div><div class="b5"></div></div>
+          <div class="ami-bar-base" id="amiBase" style="left:36.3%;"></div>
+          <div class="ami-bar-gate" style="left:50%;"><span class="lab">Capital-Ready</span></div>
+          <div class="ami-bar-gate" style="left:62%;"><span class="lab">Growth-Ready</span></div>
+          <div class="ami-bar-needle" id="amiNeedle" style="left:36.3%;" data-val="36"></div>
+          <div class="ami-bar-ticks"><span style="left:0%;">0</span><span style="left:40%;">40</span><span style="left:55%;">55</span><span style="left:70%;">70</span><span style="left:85%;">85</span><span style="left:100%;">100</span></div>
+        </div>
+
+        <!-- Spider chart -->
+        <div class="ami-radar">
+          <svg viewBox="-220 -180 440 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Live BAIC 8-axis architecture map">
+            <g fill="none" stroke="#EEF1F6" stroke-width="1">
+              <polygon points="0,-30 21.2,-21.2 30,0 21.2,21.2 0,30 -21.2,21.2 -30,0 -21.2,-21.2"/>
+              <polygon points="0,-60 42.4,-42.4 60,0 42.4,42.4 0,60 -42.4,42.4 -60,0 -42.4,-42.4"/>
+              <polygon points="0,-90 63.6,-63.6 90,0 63.6,63.6 0,90 -63.6,63.6 -90,0 -63.6,-63.6"/>
+              <polygon points="0,-120 84.9,-84.9 120,0 84.9,84.9 0,120 -84.9,84.9 -120,0 -84.9,-84.9"/>
+              <polygon points="0,-150 106,-106 150,0 106,106 0,150 -106,106 -150,0 -106,-106"/>
+            </g>
+            <polygon points="0,-60 42.4,-42.4 60,0 42.4,42.4 0,60 -42.4,42.4 -60,0 -42.4,-42.4" fill="none" stroke="rgba(139,42,42,0.45)" stroke-width="1.2" stroke-dasharray="5,4"/>
+            <g stroke="#EEF1F6" stroke-width="1">
+              <line x1="0" y1="0" x2="0" y2="-150"/><line x1="0" y1="0" x2="106" y2="-106"/>
+              <line x1="0" y1="0" x2="150" y2="0"/><line x1="0" y1="0" x2="106" y2="106"/>
+              <line x1="0" y1="0" x2="0" y2="150"/><line x1="0" y1="0" x2="-106" y2="106"/>
+              <line x1="0" y1="0" x2="-150" y2="0"/><line x1="0" y1="0" x2="-106" y2="-106"/>
+            </g>
+            <!-- baseline outline (dashed) -->
+            <polygon id="amiBasePoly" points="" fill="none" stroke="rgba(14,31,61,0.18)" stroke-width="1" stroke-dasharray="3,3" stroke-linejoin="round"/>
+            <!-- current state -->
+            <polygon id="amiPoly" points="" fill="rgba(167,122,40,0.18)" stroke="#A77A28" stroke-width="2" stroke-linejoin="round" style="transition:all 600ms cubic-bezier(.22,1,.36,1);"/>
+            <g id="amiDots" fill="#0E1F3D"></g>
+            <text text-anchor="middle" font-family="'Aptos Serif',Georgia,serif" font-weight="700" font-size="22" fill="#0E1F3D" y="-2" id="amiCenter">36.3</text>
+            <text text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="2" fill="#7A8499" y="14">AMI</text>
+            <g font-family="Inter,sans-serif" font-size="10" font-weight="600" fill="#0E1F3D">
+              <text x="0" y="-160" text-anchor="middle">Strategy</text>
+              <text x="120" y="-112" text-anchor="start">Structure</text>
+              <text x="158" y="4" text-anchor="start">Systems</text>
+              <text x="120" y="124" text-anchor="start">Financial</text>
+              <text x="0" y="168" text-anchor="middle">Revenue</text>
+              <text x="-120" y="124" text-anchor="end">Data</text>
+              <text x="-158" y="4" text-anchor="end">Risk</text>
+              <text x="-120" y="-112" text-anchor="end">Leadership</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Domain tiles -->
+        <div class="ami-domains" id="amiDomains"></div>
+      </div>
+
+      <div class="ami-right">
+        <div class="ami-fixhead">Toggle Sprint 1 fixes</div>
+        <p class="ami-fixsub">Each fix recalculates affected domains, then the AMI total. Watch tier classification flip from <em>Stabilize</em> to <em>Capital-Ready</em> as overrides clear.</p>
+
+        <div class="ami-fixlist" id="amiFixes"></div>
+
+        <div class="ami-controls">
+          <button class="ami-ctl prim" data-act="all" type="button">Turn all 7 on</button>
+          <button class="ami-ctl" data-act="none" type="button">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ami-foot"><strong>Sample</strong>Fictional Northway Apparel Co. baseline. Real engagement = your scores, your fixes, your trajectory.</div>
+  </div>
+  </div>
+</section>
+
+<script>
+  // ============================================================
+  // RSP stacked report behavior (same pattern as LDNA stacked)
+  // ============================================================
+  (function(){
+    const deck=document.getElementById('bspDeck');
+    const tabsRoot=document.getElementById('bspTabs');
+    if(!deck||!tabsRoot) return;
+    const pages=[...deck.querySelectorAll('.rsp-page')];
+    const tabs=[...tabsRoot.querySelectorAll('.rsp-tab')];
+    let order=pages.map(p=>p.dataset.id);
+    function bringForward(id){
+      if(order[0]===id) return;
+      order=[id,...order.filter(x=>x!==id)];
+      order.forEach((x,pos)=>{
+        const p=pages.find(pg=>pg.dataset.id===x);
+        if(p) p.dataset.pos=pos;
+      });
+      tabs.forEach(t=>t.classList.toggle('is-active',t.dataset.target===id));
+    }
+    tabs.forEach(t=>t.addEventListener('click',()=>bringForward(t.dataset.target)));
+    pages.forEach(p=>p.addEventListener('click',()=>bringForward(p.dataset.id)));
+  })();
+
+  // ============================================================
+  // AMI dashboard widget
+  // ============================================================
+  (function(){
+    // Domain order (clockwise from top): Strategy, Structure, Systems, Financial, Revenue, Data, Risk, Leadership
+    const DOMAINS=[
+      {key:'st',short:'ST',name:'Strategy',weight:.15,thr:40},
+      {key:'sp',short:'SP',name:'Structure',weight:.15,thr:40},
+      {key:'sy',short:'SY',name:'Systems',weight:.15,thr:40},
+      {key:'fc',short:'FC',name:'Financial',weight:.15,thr:50},
+      {key:'re',short:'RE',name:'Revenue',weight:.15,thr:40},
+      {key:'dd',short:'DD',name:'Data',weight:.10,thr:40},
+      {key:'rc',short:'RC',name:'Risk',weight:.05,thr:40},
+      {key:'lc',short:'LC',name:'Leadership',weight:.10,thr:40},
+    ];
+    const BASE={st:40,sp:35,sy:38,fc:42,re:39,dd:28,rc:24,lc:32};
+
+    const FIXES=[
+      {id:'f1',desc:'Build 13-week rolling cash forecast',owner:'Diane Park · COO',sprint:1,rid:'FC-C01',crit:108,tier:'Critical',targets:{fc:48,st:43}},
+      {id:'f2',desc:'Stand up weekly business health dashboard',owner:'Diane Park · COO',sprint:1,rid:'DD-C01',crit:54,tier:'High',targets:{dd:40,lc:36}},
+      {id:'f3',desc:'Deploy HubSpot CRM + B2B pipeline stages',owner:'Tom Vinson · Marketing',sprint:1,rid:'GTM-C02',crit:74,tier:'High',targets:{re:48,dd:48,sp:39}},
+      {id:'f4',desc:'Engage securities counsel + 409A valuation',owner:'Carla Reyes · Legal & IR',sprint:1,rid:'RC-C01',crit:102,tier:'Critical',targets:{rc:42,lc:42}},
+      {id:'f5',desc:'Board resolution: COO authority matrix',owner:'Mark Sutton · CEO',sprint:1,rid:'SP-C01',crit:126,tier:'Critical',targets:{sp:50,lc:46,rc:48}},
+      {id:'f6',desc:'Klaviyo post-purchase retention sequences',owner:'Tom Vinson · Marketing',sprint:2,rid:'GTM-C01',crit:112,tier:'Critical',targets:{re:54,st:50,dd:52}},
+      {id:'f7',desc:'Inventory reconciliation + 3PL contingency',owner:'Diane Park · COO',sprint:1,rid:'SYS-C01',crit:88,tier:'High',targets:{sy:54,fc:56}},
+    ];
+
+    const active=new Set();
+
+    function compute(){
+      const scores={};
+      DOMAINS.forEach(d=>scores[d.key]=BASE[d.key]);
+      FIXES.forEach(f=>{
+        if(!active.has(f.id)) return;
+        Object.entries(f.targets).forEach(([k,v])=>{
+          if(v>scores[k]) scores[k]=v;
+        });
+      });
+      let ami=0,ovs=[];
+      DOMAINS.forEach(d=>{
+        ami+=scores[d.key]*d.weight;
+        if(scores[d.key]<d.thr) ovs.push(d.short);
+      });
+      ami=Math.round(ami*10)/10;
+      let tier,sub,tierClass;
+      if(ami>=85){tier='Scale Track';sub='';tierClass='gro';}
+      else if(ami>=70){tier='Build-Then-Scale';sub='';tierClass='gro';}
+      else if(ami>=55){tier='Stabilize';sub='Emerging';tierClass='cap';}
+      else if(ami>=50){tier='Capital-Ready';sub='Approaching';tierClass='cap';}
+      else if(ami>=40){tier='Stabilize';sub='Foundation';tierClass='stab';}
+      else{tier='Stabilize';sub='Critical';tierClass='stab';}
+      return {scores,ami,ovs,tier,sub,tierClass};
+    }
+
+    // baseline once
+    const baseState=(function(){
+      const tmp=new Set(active);
+      active.clear();
+      const r=compute();
+      tmp.forEach(x=>active.add(x));
+      return r;
+    })();
+
+    // SVG geometry: radius = score * 1.5
+    function radarPoints(scores){
+      // axes order clockwise from top: st(N), sp(NE), sy(E), fc(SE), re(S), dd(SW), rc(W), lc(NW)
+      const angles=[-Math.PI/2,-Math.PI/4,0,Math.PI/4,Math.PI/2,3*Math.PI/4,Math.PI,-3*Math.PI/4];
+      const keys=['st','sp','sy','fc','re','dd','rc','lc'];
+      return keys.map((k,i)=>{
+        const r=scores[k]*1.5;
+        return [Math.cos(angles[i])*r, Math.sin(angles[i])*r];
+      });
+    }
+
+    function render(){
+      const s=compute();
+      const baseAmi=baseState.ami;
+      const delta=Math.round((s.ami-baseAmi)*10)/10;
+      document.getElementById('amiVal').textContent=s.ami.toFixed(1);
+      const dEl=document.getElementById('amiDelta');
+      if(Math.abs(delta)>0.05){dEl.textContent=(delta>0?'+':'')+delta.toFixed(1);}else{dEl.textContent='';}
+      document.getElementById('amiOvs').textContent=s.ovs.length;
+      const ovDelta=s.ovs.length-baseState.ovs.length;
+      const oEl=document.getElementById('amiOvsDelta');
+      if(ovDelta!==0){oEl.textContent=(ovDelta>0?'+':'')+ovDelta;oEl.classList.toggle('neg',ovDelta>0);oEl.style.color=ovDelta>0?'':'var(--good)';}else{oEl.textContent='';}
+      document.getElementById('amiFixCount').textContent=active.size;
+      const tierCard=document.getElementById('amiTier');
+      tierCard.classList.remove('stab','cap','gro');
+      tierCard.classList.add(s.tierClass);
+      document.getElementById('amiTierVal').textContent=s.sub?s.sub:s.tier;
+
+      // needle position
+      const needle=document.getElementById('amiNeedle');
+      needle.style.left=s.ami+'%';
+      needle.setAttribute('data-val',s.ami.toFixed(0));
+
+      // radar
+      const pts=radarPoints(s.scores);
+      const polyStr=pts.map(p=>p.join(',')).join(' ');
+      document.getElementById('amiPoly').setAttribute('points',polyStr);
+      // baseline overlay
+      const basePts=radarPoints(baseState.scores);
+      document.getElementById('amiBasePoly').setAttribute('points',basePts.map(p=>p.join(',')).join(' '));
+      // dots
+      const dotsG=document.getElementById('amiDots');
+      dotsG.innerHTML=pts.map(p=>`<circle cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="3.2" fill="#0E1F3D" stroke="#fff" stroke-width="1.5"/>`).join('');
+      // center
+      document.getElementById('amiCenter').textContent=s.ami.toFixed(1);
+
+      // domain tiles
+      const tiles=document.getElementById('amiDomains');
+      tiles.innerHTML=DOMAINS.map(d=>{
+        const v=s.scores[d.key];
+        const bv=baseState.scores[d.key];
+        const isOv=v<d.thr;
+        const changed=v!==bv;
+        const state=isOv?'bad':v<55?'warn':'ok';
+        return `<div class="ami-dom" data-state="${state}">
+          <div class="nm">${d.name}</div>
+          <div class="vw"><span class="vv">${v}</span>${changed?`<span class="vd">+${v-bv}</span>`:''}${isOv?'<span class="vo">ov</span>':''}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // build fix rows
+    const fixRoot=document.getElementById('amiFixes');
+    fixRoot.innerHTML=FIXES.map(f=>{
+      const impactStr=Object.entries(f.targets).map(([k,v])=>{
+        const dom=DOMAINS.find(d=>d.key===k);
+        return `${dom.short} ${BASE[k]}→${v}`;
+      }).join(' · ');
+      return `<label class="ami-fix" data-id="${f.id}">
+        <input type="checkbox" data-id="${f.id}">
+        <div class="body">
+          <div class="desc">${f.desc}</div>
+          <div class="meta"><b>${f.owner}</b> · Sprint ${f.sprint} · <span style="color:${f.tier==='Critical'?'var(--bad)':'var(--warn)'};font-weight:700;">${f.rid} C=${f.crit}</span></div>
+          <div class="impact">${impactStr}</div>
+        </div>
+      </label>`;
+    }).join('');
+
+    // wire toggles
+    fixRoot.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+      cb.addEventListener('change',()=>{
+        const id=cb.dataset.id;
+        const row=cb.closest('.ami-fix');
+        if(cb.checked){active.add(id);row.classList.add('on');}
+        else{active.delete(id);row.classList.remove('on');}
+        render();
+      });
+    });
+
+    // bulk controls
+    document.querySelectorAll('#amiWidget .ami-ctl').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const act=btn.dataset.act;
+        if(act==='all'){
+          FIXES.forEach(f=>active.add(f.id));
+        }else if(act==='none'){
+          active.clear();
+        }
+        fixRoot.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+          cb.checked=active.has(cb.dataset.id);
+          cb.closest('.ami-fix').classList.toggle('on',cb.checked);
+        });
+        render();
+      });
+    });
+
+    render();
+  })();
+</script>
+
 <!-- WHO -->
 <section class="section alt">
   <div class="section-inner">
