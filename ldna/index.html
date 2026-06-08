@@ -72,7 +72,8 @@
     flex-shrink: 0;
   }
   .brand:hover .brand-tag { color: var(--primary); }
-  .brand-tag-sub { display: block; font-family: var(--font-serif); font-style: italic; font-size: 12.5px; color: var(--ink-soft); line-height: 1.35; margin-top: 4px; max-width: 36ch; letter-spacing: 0; text-transform: none; font-weight: 400; }
+  .brand-tag-sub { display: none; font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--ink-soft); line-height: 1.35; margin-top: 6px; flex-basis: 100%; letter-spacing: 0; text-transform: none; font-weight: 400; white-space: nowrap; }
+  @media (min-width: 1024px) { .brand-tag-sub { display: block; } }
   .brand-mark {
     position: relative;
     width: 54px; height: 54px;
@@ -589,8 +590,8 @@
   <!-- STEP 1: Welcome + demographics -->
   <section class="step active" data-step="0" aria-label="About you">
     <div class="step-eyebrow">About you</div>
-    <h1>Welcome to your LDNA<span class="tm">™</span> assessment.</h1>
-    <p class="operator-byline">An assessment by <strong>The Saunter Group, LLC</strong></p>
+    <h1>The LDNA<span class="tm">™</span>. Six minutes. <em>A free 2-page behavioral profile.</em></h1>
+    <p class="operator-byline">Delivered by <strong>The Saunter Group, LLC</strong></p>
     <div class="welcome-partner" aria-label="In partnership with Vertical Motion">
       <span class="welcome-partner-label">In partnership with</span>
       <a href="https://www.vmleader.com" target="_blank" rel="noopener" class="welcome-partner-link" aria-label="Visit Vertical Motion">
