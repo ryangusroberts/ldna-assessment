@@ -301,6 +301,230 @@
       <div class="small-card"><h4>Plus an AI-exposure read</h4><p>Where each leader's value holds as AI reshapes the work.</p></div>
     </div>
 
+    <!-- ============================================================ -->
+    <!-- SAMPLE ARTIFACTS: What a typical LDNA team read looks like   -->
+    <!-- ============================================================ -->
+    <style>
+      .sample-band { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 40px 44px 44px; margin-bottom: 48px; }
+      .sample-band-eyebrow { font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 12px; }
+      .sample-band-heading { font-family: var(--font-serif); font-size: clamp(22px, 2.6vw, 28px); font-weight: 600; color: var(--ink); margin: 0 0 10px; line-height: 1.2; letter-spacing: -0.01em; }
+      .sample-band-heading em { font-style: italic; color: var(--accent); font-weight: 600; }
+      .sample-band-lede { font-family: var(--font-ui); font-size: 15px; color: var(--ink-soft); margin: 0 0 32px; max-width: 64ch; line-height: 1.55; }
+
+      .sample-artifact { background: #FBFAF6; border: 1px solid var(--line); border-radius: 12px; padding: 28px 32px 32px; margin-bottom: 20px; }
+      .sample-artifact:last-child { margin-bottom: 0; }
+      .sample-artifact-eyebrow { font-family: var(--font-ui); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 6px; }
+      .sample-artifact h3 { font-family: var(--font-serif); font-size: 20px; font-weight: 600; color: var(--ink); margin: 0 0 8px; line-height: 1.25; }
+      .sample-artifact h3 em { font-style: italic; color: var(--accent); font-weight: 600; }
+      .sample-artifact-cap { font-family: var(--font-ui); font-size: 13px; color: var(--ink-soft); margin: 0 0 22px; max-width: 60ch; line-height: 1.55; }
+      .sample-artifact-cap strong { display: inline-block; font-weight: 600; color: #5B4416; background: var(--accent-soft); border: 1px solid var(--accent-line); padding: 2px 9px; border-radius: 999px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; margin-right: 8px; vertical-align: 1px; }
+
+      /* Field map */
+      .fmap-wrap { display: flex; justify-content: center; }
+      .fmap-wrap svg { width: 100%; max-width: 720px; height: auto; }
+      .fmap-legend { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; margin-top: 16px; font-family: var(--font-ui); font-size: 12px; color: var(--ink-soft); }
+      .fmap-legend-item { display: inline-flex; align-items: center; gap: 8px; }
+      .fmap-legend-circle { width: 12px; height: 12px; border-radius: 50%; background: var(--ink); }
+      .fmap-legend-diamond { width: 11px; height: 11px; background: transparent; border: 1.5px solid var(--accent); transform: rotate(45deg); }
+      .fmap-legend-arrow { width: 18px; height: 2px; background: var(--ink-mute); position: relative; }
+      .fmap-legend-arrow::after { content: ''; position: absolute; right: -1px; top: -3px; width: 0; height: 0; border-left: 6px solid var(--ink-mute); border-top: 4px solid transparent; border-bottom: 4px solid transparent; }
+
+      /* Team interaction grid */
+      .tigr-wrap { display: flex; justify-content: center; }
+      .tigr-table { border-collapse: separate; border-spacing: 4px; font-family: var(--font-ui); }
+      .tigr-table th, .tigr-table td { width: 86px; height: 62px; text-align: center; vertical-align: middle; font-size: 11.5px; }
+      .tigr-table th { color: var(--ink-mute); font-weight: 600; font-size: 12px; letter-spacing: 0.04em; }
+      .tigr-table th.row-head { text-align: right; padding-right: 12px; width: auto; }
+      .tigr-cell { border-radius: 8px; padding: 6px 4px; line-height: 1.2; transition: transform 220ms ease, box-shadow 220ms ease; }
+      .tigr-cell:hover { transform: scale(1.04); box-shadow: 0 4px 14px rgba(14,31,61,0.10); }
+      .tigr-self { background: var(--ink); color: #fff; font-family: var(--font-serif); font-weight: 600; font-size: 11px; }
+      .tigr-self .self-init { display: block; font-size: 13px; margin-bottom: 2px; }
+      .tigr-self .self-arch { font-size: 9.5px; opacity: 0.78; letter-spacing: 0.06em; text-transform: uppercase; font-family: var(--font-ui); }
+      .tigr-high { background: #DFEBDD; color: #2D6B4A; font-weight: 600; }
+      .tigr-shared { background: #F4E8C4; color: #B07B1E; font-weight: 600; }
+      .tigr-overlap { background: #F1D9D6; color: #8B2A2A; font-weight: 600; }
+      .tigr-mirror { background: var(--surface-2); color: var(--ink-mute); opacity: 0.4; font-weight: 500; font-size: 11px; }
+      .tigr-cap { display: block; font-size: 9px; opacity: 0.78; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+      .tigr-legend { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; margin-top: 22px; font-family: var(--font-ui); font-size: 12px; color: var(--ink-soft); }
+      .tigr-legend-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; vertical-align: -3px; margin-right: 6px; }
+      .sw-high { background: #DFEBDD; border: 1px solid #2D6B4A; }
+      .sw-shared { background: #F4E8C4; border: 1px solid #B07B1E; }
+      .sw-overlap { background: #F1D9D6; border: 1px solid #8B2A2A; }
+    </style>
+
+    <div class="sample-band">
+      <div class="sample-band-eyebrow">What a typical team read looks like</div>
+      <h2 class="sample-band-heading">Not just metrics. <em>A picture of the team.</em></h2>
+      <p class="sample-band-lede">
+        Two of the artifacts an LDNA team report produces, built from a representative leadership team
+        (Aurelius Holdings). Data is illustrative, not real.
+      </p>
+
+      <!-- Field map -->
+      <div class="sample-artifact">
+        <div class="sample-artifact-eyebrow">Artifact · Value-stream field map</div>
+        <h3>Where the team <em>sits</em>, and where the role <em>pulls</em>.</h3>
+        <p class="sample-artifact-cap">
+          <strong>Representative example</strong>
+          Five-person leadership team plotted on the LDNA value-stream field. Circles = natural position. Diamonds = adapted position. The arrow is the daily role pull.
+        </p>
+
+        <div class="fmap-wrap">
+          <svg viewBox="0 0 760 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="LDNA value-stream field map representative example">
+            <defs>
+              <marker id="fmap-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7A8499"/>
+              </marker>
+            </defs>
+            <g font-family="'Aptos Serif', Georgia, serif" font-weight="700" text-anchor="middle">
+              <text x="200" y="34" font-size="17" fill="#A77A28">Vision</text>
+              <text x="200" y="50" font-size="11" font-weight="500" font-style="italic" fill="#7A8499">strategy</text>
+              <text x="400" y="34" font-size="17" fill="#0E1F3D">Flow</text>
+              <text x="400" y="50" font-size="11" font-weight="500" font-style="italic" fill="#7A8499">operations</text>
+              <text x="600" y="34" font-size="17" fill="#1F5333">Delivery</text>
+              <text x="600" y="50" font-size="11" font-weight="500" font-style="italic" fill="#7A8499">execution</text>
+            </g>
+            <rect x="100" y="70" width="600" height="400" rx="8" fill="#FBFAF6" stroke="#DCE2EC" stroke-width="1"/>
+            <rect x="100" y="70" width="200" height="400" fill="#A77A28" opacity="0.04"/>
+            <rect x="500" y="70" width="200" height="400" fill="#2D6B4A" opacity="0.035"/>
+            <line x1="300" y1="70" x2="300" y2="470" stroke="#DCE2EC" stroke-width="1" stroke-dasharray="3 4"/>
+            <line x1="500" y1="70" x2="500" y2="470" stroke="#DCE2EC" stroke-width="1" stroke-dasharray="3 4"/>
+            <g font-family="Inter, sans-serif" font-size="11" fill="#7A8499">
+              <text x="78" y="115" text-anchor="end">Structured</text>
+              <text x="78" y="129" text-anchor="end">&amp; analytical</text>
+              <line x1="88" y1="140" x2="88" y2="180" stroke="#A77A28" stroke-width="1.5"/>
+              <polygon points="88,180 84,174 92,174" fill="#A77A28"/>
+              <text x="78" y="430" text-anchor="end">Adaptive</text>
+              <text x="78" y="444" text-anchor="end">&amp; intuitive</text>
+              <line x1="88" y1="385" x2="88" y2="420" stroke="#A77A28" stroke-width="1.5"/>
+              <polygon points="88,385 84,391 92,391" fill="#A77A28"/>
+              <text x="135" y="496" text-anchor="start" font-style="italic">workflow</text>
+              <text x="665" y="496" text-anchor="end" font-style="italic">idea → execution</text>
+              <line x1="195" y1="492" x2="600" y2="492" stroke="#DCE2EC" stroke-width="1"/>
+            </g>
+            <g font-family="Inter, sans-serif" font-size="11" fill="#9A9388">
+              <g><circle cx="200" cy="120" r="3" fill="#C9C4B8"/><text x="210" y="124" text-anchor="start">Strategist</text></g>
+              <g><circle cx="350" cy="155" r="3" fill="#C9C4B8"/><text x="360" y="159" text-anchor="start">Venturer</text></g>
+              <g><circle cx="600" cy="120" r="3" fill="#C9C4B8"/><text x="610" y="124" text-anchor="start">Expert</text></g>
+              <g><circle cx="400" cy="195" r="3" fill="#C9C4B8"/><text x="410" y="199" text-anchor="start">Designer</text></g>
+              <g><circle cx="620" cy="190" r="3" fill="#C9C4B8"/><text x="630" y="194" text-anchor="start">Analyst</text></g>
+              <g><circle cx="220" cy="265" r="3" fill="#C9C4B8"/><text x="230" y="269" text-anchor="start">Adventurer</text></g>
+              <g><circle cx="450" cy="265" r="3" fill="#C9C4B8"/><text x="460" y="269" text-anchor="start">Pathfinder</text></g>
+              <g><circle cx="640" cy="260" r="3" fill="#C9C4B8"/><text x="650" y="264" text-anchor="start">Artisan</text></g>
+              <g><circle cx="400" cy="320" r="3" fill="#C9C4B8"/><text x="410" y="324" text-anchor="start">Ambassador</text></g>
+              <g><circle cx="600" cy="320" r="3" fill="#C9C4B8"/><text x="610" y="324" text-anchor="start">Organizer</text></g>
+              <g><circle cx="370" cy="380" r="3" fill="#C9C4B8"/><text x="380" y="384" text-anchor="start">Promoter</text></g>
+              <g><circle cx="640" cy="380" r="3" fill="#C9C4B8"/><text x="650" y="384" text-anchor="start">Conserver</text></g>
+              <g><circle cx="230" cy="435" r="3" fill="#C9C4B8"/><text x="240" y="439" text-anchor="start">Catalyst</text></g>
+              <g><circle cx="420" cy="435" r="3" fill="#C9C4B8"/><text x="430" y="439" text-anchor="start">Challenger</text></g>
+              <g><circle cx="630" cy="435" r="3" fill="#C9C4B8"/><text x="640" y="439" text-anchor="start">Mediator</text></g>
+            </g>
+            <g>
+              <line x1="400" y1="195" x2="402" y2="240" stroke="#0E1F3D" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#fmap-arrow)" opacity="0.6"/>
+              <polygon points="402,232 412,242 402,252 392,242" fill="none" stroke="#A77A28" stroke-width="2"/>
+              <circle cx="400" cy="195" r="10" fill="#0E1F3D"/>
+              <text x="400" y="180" font-family="'Aptos Serif', Georgia, serif" font-size="13" font-weight="700" fill="#0E1F3D" text-anchor="middle">AC · Designer</text>
+            </g>
+            <g>
+              <line x1="450" y1="265" x2="450" y2="305" stroke="#0E1F3D" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#fmap-arrow)" opacity="0.6"/>
+              <polygon points="450,300 460,310 450,320 440,310" fill="none" stroke="#A77A28" stroke-width="2"/>
+              <circle cx="450" cy="265" r="10" fill="#0E1F3D"/>
+              <text x="450" y="252" font-family="'Aptos Serif', Georgia, serif" font-size="13" font-weight="700" fill="#0E1F3D" text-anchor="middle">MR · Pathfinder</text>
+            </g>
+            <g>
+              <line x1="200" y1="120" x2="436" y2="258" stroke="#0E1F3D" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#fmap-arrow)" opacity="0.6"/>
+              <polygon points="442,258 452,268 442,278 432,268" fill="none" stroke="#A77A28" stroke-width="2"/>
+              <circle cx="200" cy="120" r="10" fill="#0E1F3D"/>
+              <text x="200" y="105" font-family="'Aptos Serif', Georgia, serif" font-size="13" font-weight="700" fill="#0E1F3D" text-anchor="middle">KP · Strategist</text>
+            </g>
+            <g>
+              <line x1="220" y1="265" x2="386" y2="200" stroke="#0E1F3D" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#fmap-arrow)" opacity="0.6"/>
+              <polygon points="384,192 394,202 384,212 374,202" fill="none" stroke="#A77A28" stroke-width="2"/>
+              <circle cx="220" cy="265" r="10" fill="#0E1F3D"/>
+              <text x="220" y="290" font-family="'Aptos Serif', Georgia, serif" font-size="13" font-weight="700" fill="#0E1F3D" text-anchor="middle">SD · Adventurer</text>
+            </g>
+            <g>
+              <line x1="230" y1="435" x2="358" y2="385" stroke="#0E1F3D" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#fmap-arrow)" opacity="0.6"/>
+              <polygon points="362,378 372,388 362,398 352,388" fill="none" stroke="#A77A28" stroke-width="2"/>
+              <circle cx="230" cy="435" r="10" fill="#0E1F3D"/>
+              <text x="230" y="460" font-family="'Aptos Serif', Georgia, serif" font-size="13" font-weight="700" fill="#0E1F3D" text-anchor="middle">JL · Catalyst</text>
+            </g>
+          </svg>
+        </div>
+        <div class="fmap-legend">
+          <span class="fmap-legend-item"><span class="fmap-legend-circle"></span>Natural position</span>
+          <span class="fmap-legend-item"><span class="fmap-legend-diamond"></span>Adapted position</span>
+          <span class="fmap-legend-item"><span class="fmap-legend-arrow"></span>Daily role pull</span>
+        </div>
+      </div>
+
+      <!-- Team interaction grid -->
+      <div class="sample-artifact">
+        <div class="sample-artifact-eyebrow">Artifact · Team interaction grid</div>
+        <h3>Who <em>multiplies</em> with whom. Where the <em>overlap</em> is.</h3>
+        <p class="sample-artifact-cap">
+          <strong>Representative example</strong>
+          Pair-by-pair complementarity across the leadership team. Green pairs are high-complementarity (different strengths that multiply). Amber pairs share strengths and blind spots (productive when sequenced). Red flags overlap risk.
+        </p>
+
+        <div class="tigr-wrap">
+          <table class="tigr-table">
+            <thead>
+              <tr><th></th><th>AC</th><th>MR</th><th>KP</th><th>SD</th><th>JL</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th class="row-head">AC</th>
+                <td class="tigr-cell tigr-self"><span class="self-init">AC</span><span class="self-arch">Designer</span></td>
+                <td class="tigr-cell tigr-high">High<span class="tigr-cap">Build + frame</span></td>
+                <td class="tigr-cell tigr-shared">Shared<span class="tigr-cap">Both analytical</span></td>
+                <td class="tigr-cell tigr-high">High<span class="tigr-cap">Vision + delivery</span></td>
+                <td class="tigr-cell tigr-high">High<span class="tigr-cap">Frame + mobilize</span></td>
+              </tr>
+              <tr>
+                <th class="row-head">MR</th>
+                <td class="tigr-cell tigr-mirror">↑</td>
+                <td class="tigr-cell tigr-self"><span class="self-init">MR</span><span class="self-arch">Pathfinder</span></td>
+                <td class="tigr-cell tigr-high">High<span class="tigr-cap">Logic + path</span></td>
+                <td class="tigr-cell tigr-shared">Shared<span class="tigr-cap">Both ground detail</span></td>
+                <td class="tigr-cell tigr-high">High<span class="tigr-cap">Close + open</span></td>
+              </tr>
+              <tr>
+                <th class="row-head">KP</th>
+                <td class="tigr-cell tigr-mirror">↑</td>
+                <td class="tigr-cell tigr-mirror">↑</td>
+                <td class="tigr-cell tigr-self"><span class="self-init">KP</span><span class="self-arch">Strategist</span></td>
+                <td class="tigr-cell tigr-overlap">Overlap<span class="tigr-cap">Same lane</span></td>
+                <td class="tigr-cell tigr-high">High<span class="tigr-cap">Logic + warmth</span></td>
+              </tr>
+              <tr>
+                <th class="row-head">SD</th>
+                <td class="tigr-cell tigr-mirror">↑</td>
+                <td class="tigr-cell tigr-mirror">↑</td>
+                <td class="tigr-cell tigr-mirror">↑</td>
+                <td class="tigr-cell tigr-self"><span class="self-init">SD</span><span class="self-arch">Adventurer</span></td>
+                <td class="tigr-cell tigr-high">High<span class="tigr-cap">Explore + align</span></td>
+              </tr>
+              <tr>
+                <th class="row-head">JL</th>
+                <td class="tigr-cell tigr-mirror">↑</td>
+                <td class="tigr-cell tigr-mirror">↑</td>
+                <td class="tigr-cell tigr-mirror">↑</td>
+                <td class="tigr-cell tigr-mirror">↑</td>
+                <td class="tigr-cell tigr-self"><span class="self-init">JL</span><span class="self-arch">Catalyst</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tigr-legend">
+          <span><span class="tigr-legend-swatch sw-high"></span>High complementarity</span>
+          <span><span class="tigr-legend-swatch sw-shared"></span>Shared strengths · sequence them</span>
+          <span><span class="tigr-legend-swatch sw-overlap"></span>Overlap risk · separate the lanes</span>
+        </div>
+      </div>
+    </div>
+
     <div class="eyebrow" style="margin-bottom: 14px;">What you leave with</div>
     <div class="feature-grid">
       <div class="feature">
