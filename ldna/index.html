@@ -362,8 +362,27 @@
 
   /* ---------- Free assessment + report tiers card ---------- */
   .report-card { background: var(--surface); border-color: var(--accent-line); }
-  .ldna-diagram { display: flex; justify-content: center; margin: 22px 0 6px; }
-  .ldna-diagram svg { width: 100%; max-width: 460px; height: auto; }
+  .ldna-diagram { display: flex; justify-content: center; margin: 22px 0 6px; transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1); transform-origin: center center; will-change: transform; }
+  .ldna-diagram:hover { transform: scale(1.05); }
+  .ldna-diagram svg { width: 100%; max-width: 480px; height: auto; overflow: visible; }
+  .ldna-dim-group { cursor: pointer; transition: opacity 180ms; outline: none; }
+  .ldna-dim-group circle { transition: fill 200ms ease, stroke-width 200ms ease, r 200ms ease; }
+  .ldna-dim-group:hover circle, .ldna-dim-group:focus circle, .ldna-dim-group.is-active circle { fill: #A77A28; stroke-width: 2.2; }
+  .ldna-dim-group:hover text, .ldna-dim-group:focus text, .ldna-dim-group.is-active text { fill: #fff; }
+  .ldna-dim-label { cursor: pointer; transition: fill 200ms, font-weight 200ms; outline: none; }
+  .ldna-dim-label:hover, .ldna-dim-label.is-active { fill: #A77A28; font-weight: 700; }
+  .ldna-hint { text-align: center; font-family: var(--font-ui); font-size: 12px; color: var(--ink-mute); letter-spacing: 0.04em; margin: 4px 0 0; }
+  .ldna-hint svg { vertical-align: -3px; margin-right: 5px; opacity: 0.7; }
+  /* Definition panel */
+  .ldna-definition { background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0; padding: 20px 24px; margin-top: 18px; min-height: 96px; transition: opacity 200ms; }
+  .ldna-def-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 8px; flex-wrap: wrap; }
+  .ldna-def-code { font-family: var(--font-ui); font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 0.18em; }
+  .ldna-def-name { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--ink); }
+  .ldna-def-body { font-family: var(--font-ui); font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 8px; }
+  .ldna-def-poles { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); line-height: 1.6; margin: 0; }
+  .ldna-def-poles strong { color: var(--ink); font-weight: 600; }
+  .ldna-prompt { color: var(--ink-mute); font-family: var(--font-ui); font-size: 14px; font-style: italic; padding: 8px 0; }
+  @media (hover: none) { .ldna-diagram:hover { transform: none; } }
   .free-badge { display: inline-block; font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: #5B4416; background: var(--accent-soft); border: 1px solid var(--accent-line); padding: 5px 12px; border-radius: 999px; }
   .report-lede { font-family: var(--font-serif); font-size: 16px; color: var(--ink-soft); line-height: 1.6; max-width: 64ch; margin: 12px 0 24px; }
   .report-lede strong { color: var(--ink); font-weight: 600; }
@@ -577,8 +596,8 @@
       <p class="report-lede" style="margin-bottom: 0;">
         Seven dimensions grounded in established behavioral science. Each one captures a different driver of how you naturally lead, and how your role asks you to adapt.
       </p>
-      <div class="ldna-diagram">
-        <svg viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The seven LDNA dimensions arranged in a heptagon around a central LDNA mark">
+      <div class="ldna-diagram" id="ldnaDiagram">
+        <svg viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The seven LDNA dimensions arranged in a heptagon around a central LDNA mark. Hover or tap a dimension for the definition.">
           <defs>
             <radialGradient id="ldnaCenter" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stop-color="#1a3060" />
@@ -598,24 +617,37 @@
           <text x="300" y="234" text-anchor="middle" font-family="Aptos Serif, Source Serif 4, Georgia, serif" font-size="22" font-weight="700" fill="#fff">LDNA</text>
           <text x="300" y="256" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" letter-spacing="2.4" fill="#D9C28A">7 DIMENSIONS</text>
           <g font-family="Inter, sans-serif" font-size="13" font-weight="700" text-anchor="middle">
-            <g><circle cx="300" cy="80" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="300" y="85" fill="#A77A28">1</text></g>
-            <g><circle cx="425" cy="140" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="425" y="145" fill="#A77A28">2</text></g>
-            <g><circle cx="456" cy="275" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="456" y="280" fill="#A77A28">3</text></g>
-            <g><circle cx="369" cy="384" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="369" y="389" fill="#A77A28">4</text></g>
-            <g><circle cx="231" cy="384" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="231" y="389" fill="#A77A28">5</text></g>
-            <g><circle cx="144" cy="275" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="144" y="280" fill="#A77A28">6</text></g>
-            <g><circle cx="175" cy="140" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="175" y="145" fill="#A77A28">7</text></g>
+            <g class="ldna-dim-group" data-dim="0" tabindex="0" role="button" aria-label="Drive and Independence"><title>Drive &amp; Independence</title><circle cx="300" cy="80" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="300" y="85" fill="#A77A28">1</text></g>
+            <g class="ldna-dim-group" data-dim="1" tabindex="0" role="button" aria-label="Social Energy"><title>Social Energy</title><circle cx="425" cy="140" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="425" y="145" fill="#A77A28">2</text></g>
+            <g class="ldna-dim-group" data-dim="2" tabindex="0" role="button" aria-label="Pace and Patience"><title>Pace &amp; Patience</title><circle cx="456" cy="275" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="456" y="280" fill="#A77A28">3</text></g>
+            <g class="ldna-dim-group" data-dim="3" tabindex="0" role="button" aria-label="Structure and Order"><title>Structure &amp; Order</title><circle cx="369" cy="384" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="369" y="389" fill="#A77A28">4</text></g>
+            <g class="ldna-dim-group" data-dim="4" tabindex="0" role="button" aria-label="Creative Battery"><title>Creative Battery</title><circle cx="231" cy="384" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="231" y="389" fill="#A77A28">5</text></g>
+            <g class="ldna-dim-group" data-dim="5" tabindex="0" role="button" aria-label="Logic and Analysis"><title>Logic &amp; Analysis</title><circle cx="144" cy="275" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="144" y="280" fill="#A77A28">6</text></g>
+            <g class="ldna-dim-group" data-dim="6" tabindex="0" role="button" aria-label="Vision and Ideas"><title>Vision &amp; Ideas</title><circle cx="175" cy="140" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="175" y="145" fill="#A77A28">7</text></g>
           </g>
           <g font-family="Inter, sans-serif" font-size="11.5" font-weight="600" fill="#0B1220">
-            <text x="300" y="42" text-anchor="middle">Drive &amp; Independence</text>
-            <text x="455" y="135" text-anchor="start">Social Energy</text>
-            <text x="486" y="272" text-anchor="start">Pace &amp; Patience</text>
-            <text x="369" y="426" text-anchor="middle">Structure &amp; Order</text>
-            <text x="231" y="426" text-anchor="middle">Creative Battery</text>
-            <text x="114" y="272" text-anchor="end">Logic &amp; Analysis</text>
-            <text x="145" y="135" text-anchor="end">Vision &amp; Ideas</text>
+            <text class="ldna-dim-label" data-dim="0" x="300" y="42" text-anchor="middle">Drive &amp; Independence</text>
+            <text class="ldna-dim-label" data-dim="1" x="455" y="135" text-anchor="start">Social Energy</text>
+            <text class="ldna-dim-label" data-dim="2" x="486" y="272" text-anchor="start">Pace &amp; Patience</text>
+            <text class="ldna-dim-label" data-dim="3" x="369" y="426" text-anchor="middle">Structure &amp; Order</text>
+            <text class="ldna-dim-label" data-dim="4" x="231" y="426" text-anchor="middle">Creative Battery</text>
+            <text class="ldna-dim-label" data-dim="5" x="114" y="272" text-anchor="end">Logic &amp; Analysis</text>
+            <text class="ldna-dim-label" data-dim="6" x="145" y="135" text-anchor="end">Vision &amp; Ideas</text>
           </g>
         </svg>
+      </div>
+      <p class="ldna-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v5.25"/><path d="M16 11h-1a3 3 0 0 0-3 3v0a3 3 0 0 0 3 3h1a4 4 0 0 0 4-4v-2a4 4 0 0 0-4-4"/></svg>
+        Hover or tap any dimension to see what it measures.
+      </p>
+      <div class="ldna-definition" id="ldnaDefinition" aria-live="polite">
+        <span class="ldna-prompt" id="ldnaPrompt">Each of the seven dimensions captures a different driver of how you naturally lead. Hover or tap one to read the definition.</span>
+        <div class="ldna-def-head" style="display:none;">
+          <span class="ldna-def-code" id="ldnaDefCode"></span>
+          <span class="ldna-def-name" id="ldnaDefName"></span>
+        </div>
+        <p class="ldna-def-body" id="ldnaDefBody" style="display:none;"></p>
+        <p class="ldna-def-poles" id="ldnaDefPoles" style="display:none;"></p>
       </div>
     </div>
 
@@ -1279,5 +1311,75 @@ wireFilter(2);
 updateCounters();
 showStep(state.step || 0);
 </script>
+
+<script>
+/* LDNA diagram interactivity: hover/tap a dimension to load its definition */
+(function() {
+  var dims = [
+    { code: "DR", name: "Drive & Independence",
+      body: "Self-direction and assertiveness. The drive to set your own course.",
+      high: "self-directed, drives own agenda", low: "collaborative, takes direction" },
+    { code: "SE", name: "Social Energy",
+      body: "Outward, people-directed energy. Warmth and expressiveness.",
+      high: "outgoing, energised by people", low: "reserved, task-focused" },
+    { code: "PA", name: "Pace & Patience",
+      body: "A steady, composed tempo and an even keel under pressure.",
+      high: "patient, steady under pressure", low: "fast, urgent, quick to react" },
+    { code: "SO", name: "Structure & Order",
+      body: "Organisation, method, and follow-through on detail.",
+      high: "organised, methodical, process-driven", low: "flexible, improvisational" },
+    { code: "CB", name: "Creative Battery",
+      body: "Sustained mental energy for generating and chasing the new.",
+      high: "restless idea-engine, seeks the new", low: "prefers proven, settled ground" },
+    { code: "LA", name: "Logic & Analysis",
+      body: "Reasoning and decisions built on evidence and objective scrutiny.",
+      high: "rigorous, evidence-led", low: "intuitive, feel-led" },
+    { code: "VI", name: "Vision & Ideas",
+      body: "Imagination, abstraction, and big-picture thinking.",
+      high: "abstract, big-picture", low: "concrete, execution-focused" }
+  ];
+
+  var prompt = document.getElementById("ldnaPrompt");
+  var head   = document.querySelector("#ldnaDefinition .ldna-def-head");
+  var code   = document.getElementById("ldnaDefCode");
+  var name   = document.getElementById("ldnaDefName");
+  var body   = document.getElementById("ldnaDefBody");
+  var poles  = document.getElementById("ldnaDefPoles");
+
+  if (!prompt || !head || !code || !name || !body || !poles) return;
+
+  function setDim(idx) {
+    var d = dims[idx];
+    if (!d) return;
+    prompt.style.display = "none";
+    head.style.display = "flex";
+    body.style.display = "";
+    poles.style.display = "";
+    code.textContent = d.code;
+    name.textContent = d.name;
+    body.textContent = d.body;
+    poles.innerHTML = "<strong>High:</strong> " + d.high + ". <strong>Low:</strong> " + d.low + ".";
+    document.querySelectorAll(".ldna-dim-group.is-active, .ldna-dim-label.is-active")
+      .forEach(function(el){ el.classList.remove("is-active"); });
+    document.querySelectorAll('.ldna-dim-group[data-dim="' + idx + '"], .ldna-dim-label[data-dim="' + idx + '"]')
+      .forEach(function(el){ el.classList.add("is-active"); });
+  }
+
+  function attach(selector) {
+    document.querySelectorAll(selector).forEach(function(el) {
+      var idx = parseInt(el.getAttribute("data-dim"), 10);
+      el.addEventListener("mouseenter", function() { setDim(idx); });
+      el.addEventListener("focus",      function() { setDim(idx); });
+      el.addEventListener("click",      function() { setDim(idx); });
+      el.addEventListener("keydown",    function(e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setDim(idx); }
+      });
+    });
+  }
+  attach(".ldna-dim-group");
+  attach(".ldna-dim-label");
+})();
+</script>
+
 </body>
 </html>
