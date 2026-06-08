@@ -654,6 +654,45 @@
   .ami-fixsub{font-family:var(--font-ui);font-size:11px;color:var(--ink-soft);margin:0 0 12px;line-height:1.45;}
   .ami-fixsub em{color:var(--accent);font-style:italic;}
   .ami-fixlist{display:flex;flex-direction:column;gap:6px;}
+  @keyframes amiPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(167,122,40,0.45); }
+    50% { box-shadow: 0 0 0 8px rgba(167,122,40,0); }
+  }
+  @keyframes amiHintFade {
+    0%, 70% { opacity: 1; }
+    100% { opacity: 1; }
+  }
+  .ami-fix.demo-pulse {
+    border-color: var(--accent);
+    background: rgba(167,122,40,0.05);
+    animation: amiPulse 2.2s ease-in-out infinite;
+    position: relative;
+    margin-top: 28px;
+  }
+  .ami-fix.demo-pulse::before {
+    content: "TRY THIS";
+    position: absolute;
+    top: -22px;
+    left: 14px;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    pointer-events: none;
+    background: white;
+    padding: 0 8px;
+  }
+  .ami-fix.demo-pulse::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 70px;
+    width: 1px;
+    height: 12px;
+    background: var(--accent);
+    pointer-events: none;
+  }
   .ami-fix{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;background:#FFFFFF;border:1px solid var(--line);border-radius:8px;cursor:pointer;transition:all 200ms ease;}
   .ami-fix:hover{border-color:var(--accent);}
   .ami-fix.on{background:rgba(31,83,51,.04);border-color:rgba(31,83,51,.30);}
@@ -877,7 +916,7 @@
 
   <div class="ami" id="amiWidget">
     <div class="ami-head">
-      <h3 class="t">Watch the score <em>cascade</em> · check a fix, see the architecture move.</h3>
+      <h3 class="t">Try the engine. <em>Check any fix below</em> and watch every score respond.</h3>
       <span class="s">Live BAIC engine · sample data</span>
     </div>
 
@@ -1125,9 +1164,17 @@
       </label>`;
     }).join('');
 
+    // demo pulse on first fix until any interaction
+    const firstFixRow = fixRoot.querySelector('.ami-fix');
+    if (firstFixRow) firstFixRow.classList.add('demo-pulse');
+    function killDemoPulse(){
+      fixRoot.querySelectorAll('.ami-fix.demo-pulse').forEach(el=>el.classList.remove('demo-pulse'));
+    }
+
     // wire toggles
     fixRoot.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
       cb.addEventListener('change',()=>{
+        killDemoPulse();
         const id=cb.dataset.id;
         const row=cb.closest('.ami-fix');
         if(cb.checked){active.add(id);row.classList.add('on');}
@@ -1139,6 +1186,7 @@
     // bulk controls
     document.querySelectorAll('#amiWidget .ami-ctl').forEach(btn=>{
       btn.addEventListener('click',()=>{
+        killDemoPulse();
         const act=btn.dataset.act;
         if(act==='all'){
           FIXES.forEach(f=>active.add(f.id));
