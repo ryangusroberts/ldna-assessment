@@ -143,6 +143,16 @@
   .partner-cta:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
   .partner-cta-secondary { font-family: var(--font-ui); font-size: 14px; color: var(--ink-mute); text-decoration: none; }
   .partner-cta-secondary:hover { color: var(--primary); }
+  /* Logo strip */
+  .partner-logos { margin-top: 64px; padding-top: 44px; border-top: 1px solid var(--line); }
+  .partner-logos-label { font-family: var(--font-ui); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: var(--ink-mute); text-align: center; margin-bottom: 30px; }
+  .partner-logos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px 36px; align-items: center; max-width: 1040px; margin: 0 auto; }
+  @media (min-width: 1024px) { .partner-logos-grid { grid-template-columns: repeat(8, 1fr); gap: 24px; } }
+  .partner-logo-item { display: flex; align-items: center; justify-content: center; height: 38px; opacity: 0.55; transition: opacity 220ms ease; }
+  .partner-logo-item:hover { opacity: 0.95; }
+  .partner-logo-item img { max-width: 100%; max-height: 100%; object-fit: contain; filter: grayscale(1) brightness(0.55); transition: filter 220ms ease; }
+  .partner-logo-item:hover img { filter: grayscale(0) brightness(1); }
+  .partner-logo-text { font-family: var(--font-serif); font-size: 15px; font-weight: 700; color: var(--ink); letter-spacing: 0.04em; text-align: center; line-height: 1.05; white-space: nowrap; }
 
   /* ---------- Problem section ---------- */
   section.problem { padding: 96px 32px; }
@@ -355,6 +365,44 @@
         <div class="partner-cta-row">
           <a href="https://www.vmleader.com" target="_blank" rel="noopener" class="partner-cta">Visit Vertical Motion →</a>
           <a href="https://www.youtube.com/@tomcoxvm" target="_blank" rel="noopener" class="partner-cta-secondary">YouTube channel ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="partner-logos">
+      <div class="partner-logos-label">Where Vertical Motion's coaching team has led</div>
+      <div class="partner-logos-grid">
+        <div class="partner-logo-item" aria-label="Disney">
+          <img src="/assets/logos/disney.svg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" alt="Disney" />
+          <span class="partner-logo-text" style="display:none;">Disney</span>
+        </div>
+        <div class="partner-logo-item" aria-label="NFL">
+          <img src="/assets/logos/nfl.svg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" alt="NFL" />
+          <span class="partner-logo-text" style="display:none;">NFL</span>
+        </div>
+        <div class="partner-logo-item" aria-label="NBA">
+          <img src="/assets/logos/nba.svg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" alt="NBA" />
+          <span class="partner-logo-text" style="display:none;">NBA</span>
+        </div>
+        <div class="partner-logo-item" aria-label="NCAA">
+          <img src="/assets/logos/ncaa.svg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" alt="NCAA" />
+          <span class="partner-logo-text" style="display:none;">NCAA</span>
+        </div>
+        <div class="partner-logo-item" aria-label="Accenture">
+          <img src="/assets/logos/accenture.svg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" alt="Accenture" />
+          <span class="partner-logo-text" style="display:none;">Accenture</span>
+        </div>
+        <div class="partner-logo-item" aria-label="Uniqlo">
+          <img src="/assets/logos/uniqlo.svg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" alt="Uniqlo" />
+          <span class="partner-logo-text" style="display:none;">Uniqlo</span>
+        </div>
+        <div class="partner-logo-item" aria-label="Skechers">
+          <img src="/assets/logos/skechers.svg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" alt="Skechers" />
+          <span class="partner-logo-text" style="display:none;">Skechers</span>
+        </div>
+        <div class="partner-logo-item" aria-label="L.L.Bean">
+          <img src="/assets/logos/llbean.svg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" alt="L.L.Bean" />
+          <span class="partner-logo-text" style="display:none;">L.L.Bean</span>
         </div>
       </div>
     </div>
