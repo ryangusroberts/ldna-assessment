@@ -135,6 +135,20 @@
   .pillar p { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.6; }
 
   /* What it taught */
+  section.bench { padding: 88px 32px; background: var(--primary); color: #fff; border-top: 1px solid var(--line); }
+  .bench-inner { max-width: 1100px; margin: 0 auto; }
+  .bench .eyebrow { color: var(--accent); }
+  .bench h2 { color: #fff; }
+  .bench-lede { font-family: var(--font-ui); font-size: 16px; color: rgba(255,255,255,0.78); max-width: 64ch; line-height: 1.6; margin: 0 0 36px; }
+  .bench-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  @media (max-width: 980px) { .bench-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .bench-grid { grid-template-columns: 1fr; } }
+  .bench-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-top: 3px solid var(--accent); border-radius: 12px; padding: 22px 20px; }
+  .bench-card .tag { font-family: var(--font-ui); font-size: 10.5px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 10px; display: block; }
+  .bench-card h3 { font-family: var(--font-serif); font-size: 17px; font-weight: 600; margin: 0 0 10px; color: #fff; letter-spacing: -0.005em; line-height: 1.25; }
+  .bench-card p { font-family: var(--font-ui); font-size: 13px; color: rgba(255,255,255,0.78); margin: 0; line-height: 1.55; }
+  .bench-foot { font-family: var(--font-ui); font-size: 12px; color: rgba(255,255,255,0.55); margin: 26px 0 0; font-style: italic; max-width: 70ch; line-height: 1.55; }
+
   section.lessons { padding: 88px 32px; }
 
   /* From Ryan note */
@@ -175,7 +189,7 @@
   .footer-address { font-family: var(--font-ui); font-size: 11px; font-style: normal; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
 
   @media (max-width: 640px) {
-    section.hero, section.story-body, section.pillars, section.lessons, section.cta-band { padding-left: 22px; padding-right: 22px; }
+    section.hero, section.story-body, section.pillars, section.bench, section.lessons, section.cta-band { padding-left: 22px; padding-right: 22px; }
   }
 </style>
 </head>
@@ -256,35 +270,22 @@
 
     <blockquote><p>"At this level, ambition without architecture doesn't create freedom. It creates exposure."</p></blockquote>
 
-    <h2>From the cockpit to the cabin.</h2>
+    <h2>The same pattern, in business.</h2>
     <p>
-      When I left the service, I <strong>built and sold a defense contracting firm</strong> while living aboard a
-      sailboat in the Caribbean. Different arena, same laws of reality.
+      After the service, I <strong>built and sold a defense contracting firm</strong>, much of it run from a
+      sailboat in the Caribbean. Different arena, same laws of reality. Revenue was outpacing structure. The
+      system couldn't absorb what the market was giving us. Visibility narrowed. Decision latency went up. The
+      margin for error collapsed in slow motion, and I was the last to see it.
     </p>
     <p>
-      At one point, revenue was outpacing structure. The demand was real, but the system underneath wasn't ready
-      to absorb it. What looked like progress was structural debt forming underneath. Visibility narrowed.
-      Decision latency went up. The margin for error collapsed in slow motion, and I was the last to see it.
+      That was the moment it stopped being theoretical. The same systems-engineering discipline I'd applied to
+      cascading failure in defense systems applied directly to business architecture under growth load. Variables
+      changed. Math didn't.
     </p>
     <p>
-      That was the moment it stopped being theoretical for me. The same systems-engineering discipline I'd applied
-      to cascading failure in defense systems applied directly to business architecture under growth load. The
-      variables changed. The math didn't.
-    </p>
-
-    <h2>Why this practice exists.</h2>
-    <p>
-      Since then I've watched the same pattern repeat across operators and executive teams. Growth doesn't break
-      what's strong. It exposes what was always weak, and amplifies whatever's underneath.
-    </p>
-    <p>
-      People are rarely the real problem. <strong>Their architecture is.</strong>
-    </p>
-    <p>
-      The Saunter Group exists to fix that with evidence rather than opinion, before it becomes irreversible. We
-      diagnose the system. We diagnose the leaders inside it. We prescribe the structure that holds under load,
-      and we stay long enough to make sure it actually holds. Two instruments and one method, for operators who've
-      moved past survival mode and are quietly struggling under the weight of their own growth.
+      The Saunter Group exists to apply that discipline before the bill comes due. People are rarely the real
+      problem. <strong>Their architecture is.</strong> Two instruments, one method, for operators who've moved
+      past survival mode and are quietly struggling under the weight of their own growth.
     </p>
   </div>
 </section>
@@ -313,6 +314,41 @@
   </div>
 </section>
 
+<section class="bench">
+  <div class="bench-inner">
+    <div class="eyebrow">Behind the method</div>
+    <h2 style="max-width: 36ch;">The methodology has a bench.</h2>
+    <p class="bench-lede">
+      BAIC, VMOCA, and LDNA are the intellectual property of Vertical Consulting, licensed to Saunter for delivery.
+      A private technical advisory board stands behind that IP: rubrics, peer review, methodology calibration.
+      They don't take client calls. They make sure the science holds.
+    </p>
+    <div class="bench-grid">
+      <div class="bench-card">
+        <span class="tag">Aviation · National security</span>
+        <h3>Combat aviator turned serial CEO.</h3>
+        <p>Retired Lieutenant Colonel. TOPGUN-graduate fighter pilot. Doctorate in aviation. Global cargo-airline check airman. Now runs government-contracting and concierge-healthcare ventures.</p>
+      </div>
+      <div class="bench-card">
+        <span class="tag">Public company · Finance</span>
+        <h3>CFO at multi-billion scale.</h3>
+        <p>Multi-time public-company CFO and COO. Former Marine Corps officer. Currently leads finance for a global aviation-leasing platform measured in the billions.</p>
+      </div>
+      <div class="bench-card">
+        <span class="tag">Financial services · Coaching</span>
+        <h3>Two decades inside regulated growth.</h3>
+        <p>Twenty years across Fortune 500 financial services, high-growth fintech, and mid-size wealth management. Coaches founders and senior leadership teams through scale transitions.</p>
+      </div>
+      <div class="bench-card">
+        <span class="tag">DoD · Enterprise sales</span>
+        <h3>$1.5B closed. Two VC-backed exits.</h3>
+        <p>DoD and Intelligence Community veteran. Two-time VC-backed founder. More than $1.5B in closed enterprise contracts. Runs an executive leadership development firm.</p>
+      </div>
+    </div>
+    <p class="bench-foot">Names withheld to honor private advisory commitments. The bench contributes to methodology, scoring rubrics, and peer review, not client delivery.</p>
+  </div>
+</section>
+
 <section class="lessons">
   <div class="lessons-inner">
     <div class="eyebrow">What it taught me</div>
@@ -325,10 +361,6 @@
       <div class="lesson">
         <h4>Pressure shows you which leaders actually carry weight.</h4>
         <p>Calm reveals very little about a leadership team. Crisis reveals who's been compensating for whom, and which decision-making rhythms fall apart the moment they're tested.</p>
-      </div>
-      <div class="lesson">
-        <h4>The cracks were always there. The growth just made them visible.</h4>
-        <p>Most "sudden" failures aren't sudden. They're structural debt accumulating quietly for six to eighteen months until a growth wave finally surfaces the bill.</p>
       </div>
       <div class="lesson">
         <h4>Architecture compounds. So does the lack of it.</h4>
