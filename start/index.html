@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="/assets/saunter-mark.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/saunter-mark-32.png">
 <link rel="apple-touch-icon" sizes="192x192" href="/assets/saunter-mark-192.png">
-<title>Fit Assessment for BAIC — The Saunter Group</title>
+<title>Fit Assessment for BAIC, The Saunter Group</title>
 <meta name="description" content="Eight questions to determine whether BAIC is the right next move for your company. The qualifier for our diagnostic-led engagement, not a generic discovery call." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -142,7 +142,7 @@
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a href="/" class="brand" aria-label="The Saunter Group — home">
+    <a href="/" class="brand" aria-label="The Saunter Group, home">
       <img src="/assets/saunter-logo.svg" alt="The Saunter Group" class="brand-logo" />
       <div class="brand-lockup">
         <span class="brand-tag">Build what endures</span>
@@ -178,7 +178,7 @@
   <div class="form-inner" id="formWrapper">
 
     <div class="alert">
-      <strong>This isn't for everyone.</strong> If you're still searching for product–market fit or building toward your first $100K/month, BAIC isn't for you yet. The work assumes the market has validated you and the constraint is now structural.
+      <strong>This isn't for everyone.</strong> If you're still searching for product-market fit or building toward your first $100K/month, BAIC isn't for you yet. The work assumes the market has validated you and the constraint is now structural.
     </div>
 
     <div class="heading">
@@ -216,10 +216,10 @@
         <select id="currentRev">
           <option value="">Select…</option>
           <option>Under $100K / month</option>
-          <option>$100K–$300K / month</option>
-          <option>$300K–$500K / month</option>
-          <option>$500K–$1M / month</option>
-          <option>$1M–$3M / month</option>
+          <option>$100K-$300K / month</option>
+          <option>$300K-$500K / month</option>
+          <option>$500K-$1M / month</option>
+          <option>$1M-$3M / month</option>
           <option>Over $3M / month</option>
         </select>
       </div>
@@ -380,7 +380,7 @@ function buildPayload() {
 }
 
 function buildMailto(p) {
-  const subject = `Fit Assessment — ${p.fullName} (${p.company})`;
+  const subject = `Fit Assessment, ${p.fullName} (${p.company})`;
   const body = [
     `Submitted: ${p.submittedAt}`,
     ``,
@@ -435,12 +435,12 @@ document.getElementById("fitForm").addEventListener("submit", async (e) => {
       btn.disabled = false;
       btn.textContent = "Submit assessment →";
       err.hidden = false;
-      err.textContent = "We couldn't submit just now (" + e.message + "). Opening an email instead — please send it to complete your submission.";
+      err.textContent = "We couldn't submit just now (" + e.message + "). Opening an email instead, please send it to complete your submission.";
       window.location.href = buildMailto(payload);
       return;
     }
   } else {
-    // No endpoint configured yet — open a pre-filled email to TSG
+    // No endpoint configured yet, open a pre-filled email to TSG
     window.location.href = buildMailto(payload);
   }
 
