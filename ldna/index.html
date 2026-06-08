@@ -118,6 +118,10 @@
   .brand-name .tm { color: var(--ink-mute); }
   .operator-byline { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); margin: -6px 0 18px; letter-spacing: 0.01em; }
   .operator-byline strong { color: var(--ink-soft); font-weight: 600; }
+  .welcome-partner { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 22px; padding: 6px 12px; background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 999px; }
+  .welcome-partner-label { font-family: var(--font-ui); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; color: #5B4416; }
+  .welcome-partner-link { display: inline-flex; align-items: center; line-height: 0; }
+  .welcome-partner-logo { height: 20px; width: auto; display: block; }
 
   .progress-wrap {
     flex: 1;
@@ -519,6 +523,23 @@
     margin-bottom: 22px;
     border: 1px solid var(--primary-line);
   }
+  .done-partner-card { margin: 36px auto 0; max-width: 580px; padding: 24px 26px; background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 12px; text-align: left; }
+  .done-partner-eyebrow { font-family: var(--font-ui); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: #5B4416; margin-bottom: 6px; }
+  .done-partner-heading { font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--ink); margin: 0 0 10px; line-height: 1.25; }
+  .done-partner-body { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 18px; }
+  .done-partner-row { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .done-partner-link { display: inline-flex; align-items: center; line-height: 0; }
+  .done-partner-logo { height: 28px; width: auto; display: block; }
+  .done-partner-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+  .done-partner-btn { display: inline-flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-radius: 10px; text-decoration: none; font-family: var(--font-ui); font-size: 14px; font-weight: 600; transition: transform 180ms ease, box-shadow 180ms ease; }
+  .done-partner-btn:hover { transform: translateY(-1px); }
+  .done-partner-btn-primary { background: var(--ink); color: #fff; border: 1px solid var(--ink); }
+  .done-partner-btn-primary:hover { box-shadow: 0 4px 14px rgba(14, 31, 61, 0.18); }
+  .done-partner-btn-secondary { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+  .done-partner-btn-secondary:hover { border-color: var(--ink-soft); }
+  .done-partner-btn-label { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+  .done-partner-btn-eyebrow { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; opacity: 0.72; }
+  .done-partner-btn-arrow { font-size: 18px; line-height: 1; opacity: 0.8; }
 
   .err-banner {
     background: #FBEAEC; color: #7A1F2B; border: 1px solid #E8B5BC;
@@ -569,6 +590,12 @@
     <div class="step-eyebrow">About you</div>
     <h1>Welcome to your LDNA<span class="tm">™</span> assessment.</h1>
     <p class="operator-byline">An assessment by <strong>The Saunter Group, LLC</strong></p>
+    <div class="welcome-partner" aria-label="In partnership with Vertical Motion">
+      <span class="welcome-partner-label">In partnership with</span>
+      <a href="https://www.vmleader.com" target="_blank" rel="noopener" class="welcome-partner-link" aria-label="Visit Vertical Motion">
+        <img src="/assets/vmleader-logo.png" alt="Vertical Motion" class="welcome-partner-logo" />
+      </a>
+    </div>
     <p class="lede">
       This is a two‑part word checklist that helps surface your natural work style and the
       behaviors your current role asks of you. There are no right or wrong answers. Pick
@@ -668,17 +695,6 @@
             <li>The daily cost of your natural-vs-adaptive gap</li>
             <li>A short interpretation written for you</li>
           </ul>
-        </div>
-        <div class="tier tier-extended">
-          <div class="tier-tag">Optional · deeper</div>
-          <h3>Full LDNA report (8–10 pages)</h3>
-          <ul>
-            <li>Full seven-dimension scoring with detail</li>
-            <li>Archetype deep-dive: strengths and blind spots</li>
-            <li>AI-exposure read: where your value holds</li>
-            <li>Pairing &amp; team-fit guidance, if applicable</li>
-          </ul>
-          <p class="tier-note">We'll include the option in your results email. No commitment to take it.</p>
         </div>
       </div>
     </div>
@@ -858,6 +874,34 @@
       <p class="lede" style="margin-left: auto; margin-right: auto;">Your responses have been recorded. You'll receive your behavioral profile shortly.</p>
       <div style="margin-top: 18px;">
         <button class="btn btn-ghost" id="downloadBtn">Download a copy of my responses</button>
+      </div>
+      <div class="done-partner-card" aria-label="Want to go deeper? Two paths through Vertical Motion.">
+        <div class="done-partner-row" style="margin-bottom: 14px;">
+          <a href="https://www.vmleader.com" target="_blank" rel="noopener" class="done-partner-link" aria-label="Visit Vertical Motion">
+            <img src="/assets/vmleader-logo.png" alt="Vertical Motion" class="done-partner-logo" />
+          </a>
+          <span class="done-partner-eyebrow" style="margin: 0;">Delivery partner</span>
+        </div>
+        <h2 class="done-partner-heading">Want to go deeper?</h2>
+        <p class="done-partner-body">
+          Two paths through Vertical Motion. Start with the framework, or get the full LDNA inside a personalized executive read.
+        </p>
+        <div class="done-partner-actions">
+          <a href="https://community.vmleader.com/checkout/foundations-report" target="_blank" rel="noopener" class="done-partner-btn done-partner-btn-primary">
+            <span class="done-partner-btn-label">
+              <span class="done-partner-btn-eyebrow">The full LDNA read</span>
+              <span>Get the Foundations Report</span>
+            </span>
+            <span class="done-partner-btn-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="https://community.vmleader.com/checkout/foundations-course" target="_blank" rel="noopener" class="done-partner-btn done-partner-btn-secondary">
+            <span class="done-partner-btn-label">
+              <span class="done-partner-btn-eyebrow">Learn the framework</span>
+              <span>Start the Foundations Course</span>
+            </span>
+            <span class="done-partner-btn-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
