@@ -120,6 +120,30 @@
   .offering-card .card-cta-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: auto; }
   .offering-card .btn { font-size: 14.5px; padding: 13px 22px; }
 
+  /* ---------- Partner band ---------- */
+  section.partner-band { padding: 96px 32px; background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .partner-inner { max-width: 1180px; margin: 0 auto; }
+  .partner-eyebrow { font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.18em; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 16px; display: inline-flex; align-items: center; gap: 10px; }
+  .partner-eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); display: inline-block; }
+  .partner-heading { font-family: var(--font-serif); font-size: clamp(28px, 4vw, 42px); line-height: 1.12; color: var(--ink); margin: 0 0 14px; max-width: 28ch; letter-spacing: -0.015em; font-weight: 600; }
+  .partner-heading em { font-style: italic; color: var(--accent); font-weight: 600; }
+  .partner-lede { font-size: 18px; color: var(--ink-soft); margin: 0 0 52px; max-width: 60ch; line-height: 1.5; }
+  .partner-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 56px; align-items: center; }
+  @media (max-width: 880px) { .partner-grid { grid-template-columns: 1fr; gap: 36px; } }
+  .partner-logo-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 56px 40px 44px; text-align: center; box-shadow: 0 8px 24px rgba(14,31,61,0.05); }
+  .partner-logo { width: 100%; max-width: 320px; height: auto; display: block; margin: 0 auto 22px; }
+  .partner-tagline { font-family: var(--font-serif); font-size: 17px; font-style: italic; color: var(--ink-mute); line-height: 1.4; max-width: 28ch; margin: 0 auto; }
+  .partner-content p { font-family: var(--font-ui); font-size: 16px; color: var(--ink-soft); line-height: 1.65; margin: 0 0 18px; max-width: 60ch; }
+  .partner-content p strong { color: var(--ink); font-weight: 600; }
+  .partner-meta { display: flex; flex-wrap: wrap; gap: 14px 28px; margin: 22px 0 8px; font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); }
+  .partner-meta span { display: inline-flex; align-items: center; gap: 7px; }
+  .partner-meta span::before { content: ""; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; }
+  .partner-cta-row { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; margin-top: 12px; }
+  .partner-cta { font-family: var(--font-ui); font-size: 15px; font-weight: 600; color: var(--primary); text-decoration: none; padding: 12px 22px; background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 999px; transition: all 180ms; }
+  .partner-cta:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .partner-cta-secondary { font-family: var(--font-ui); font-size: 14px; color: var(--ink-mute); text-decoration: none; }
+  .partner-cta-secondary:hover { color: var(--primary); }
+
   /* ---------- Problem section ---------- */
   section.problem { padding: 96px 32px; }
   .problem-inner { max-width: 1180px; margin: 0 auto; }
@@ -292,6 +316,45 @@
           <a href="/start/" style="font-family: var(--font-ui); font-size: 14px; font-weight: 600; color: var(--primary); text-decoration: none; border-bottom: 1px solid var(--primary-line); padding-bottom: 2px;">Fit Assessment →</a>
         </div>
       </article>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER BAND -->
+<section class="partner-band">
+  <div class="partner-inner">
+    <div class="partner-eyebrow">Licensed Delivery Partner</div>
+    <h2 class="partner-heading">Where the LDNA is in <em>active practice</em>.</h2>
+    <p class="partner-lede">
+      In executive coaching contexts, the LDNA assessment is delivered through licensed partners. Vertical Motion is our launch partner.
+    </p>
+
+    <div class="partner-grid">
+      <div class="partner-logo-card">
+        <a href="https://www.vmleader.com" target="_blank" rel="noopener" aria-label="Visit Vertical Motion">
+          <img src="/assets/vmleader-logo.png"
+               onerror="this.onerror=null; this.src='https://images.squarespace-cdn.com/content/v1/67d84861b35dd82387d52220/fd6ec7ef-2c28-4366-a1f0-b31cbc5b2e70/PNG+File+Sans+ECA+Tag.png?format=1500w';"
+               alt="Vertical Motion" class="partner-logo" />
+        </a>
+        <div class="partner-tagline">"We help good people become great leaders."</div>
+      </div>
+      <div class="partner-content">
+        <p>
+          Vertical Motion is a leadership development company and executive career accelerator founded by <strong>Tom Cox</strong>, a former Aerospace and Defense executive. Their programs help mid-career professionals reach the executive ranks and help senior executives accelerate to their next level.
+        </p>
+        <p>
+          The LDNA is part of Vertical Motion's <strong>Whole Executive Framework&trade;</strong>, used inside their coaching engagements, the Executive Career Accelerator program, and their executive mastermind cohorts. Respondents who take the assessment through Vertical Motion receive the full LDNA report alongside Vertical Motion's executive-development guidance.
+        </p>
+        <div class="partner-meta">
+          <span>Executive Career Accelerator</span>
+          <span>Executive Mastermind</span>
+          <span>Whole Executive Framework&trade;</span>
+        </div>
+        <div class="partner-cta-row">
+          <a href="https://www.vmleader.com" target="_blank" rel="noopener" class="partner-cta">Visit Vertical Motion →</a>
+          <a href="https://www.youtube.com/@tomcoxvm" target="_blank" rel="noopener" class="partner-cta-secondary">YouTube channel ↗</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
