@@ -1,0 +1,16 @@
+{
+  "name": "The Saunter Group",
+  "short_name": "Saunter",
+  "description": "Two diagnostics for operators scaling under load. BAIC reads the business as a system. LDNA reads the leaders inside it.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0E1F3D",
+  "icons": [
+    { "src": "/assets/saunter-mark.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/assets/saunter-mark-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/assets/saunter-mark-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/assets/saunter-mark-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
