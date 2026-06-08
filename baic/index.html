@@ -29,11 +29,12 @@
   /* ---------- Topbar (consistent) ---------- */
   .topbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: saturate(140%) blur(10px); border-bottom: 1px solid var(--line); }
   .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; gap: 24px; }
-  .brand { display: flex; align-items: center; gap: 18px; text-decoration: none; flex-shrink: 0; }
+  .brand { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; text-decoration: none; flex-shrink: 0; }
   .brand-logo { height: 72px; width: auto; display: block; }
   .brand-lockup { display: none; padding-left: 22px; border-left: 1px solid var(--line); }
   .brand-tag { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 500; line-height: 1.1; }
-  .brand-tag-sub { display: block; font-family: var(--font-serif); font-style: italic; font-size: 12.5px; color: var(--ink-soft); line-height: 1.35; margin-top: 4px; max-width: 36ch; letter-spacing: 0; text-transform: none; font-weight: 400; }
+  .brand-tag-sub { display: none; font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--ink-soft); line-height: 1.35; margin-top: 6px; flex-basis: 100%; letter-spacing: 0; text-transform: none; font-weight: 400; white-space: nowrap; }
+  @media (min-width: 1024px) { .brand-tag-sub { display: block; } }
   @media (min-width: 1024px) { .brand-lockup { display: block; } }
   .nav-links { display: flex; align-items: center; gap: 32px; flex: 1; justify-content: flex-end; }
   .nav-links a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 180ms; position: relative; padding: 8px 0; }
@@ -195,8 +196,8 @@
       <img src="/assets/saunter-logo.svg" alt="The Saunter Group" class="brand-logo" />
       <div class="brand-lockup">
         <span class="brand-tag" style="display:block;">Build what endures</span>
-        <span class="brand-tag-sub">Diagnose the business. Develop the leaders inside it.</span>
       </div>
+      <span class="brand-tag-sub">Diagnose the business. Develop the leaders inside it.</span>
     </a>
     <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav">
       <span></span><span></span><span></span>
