@@ -765,42 +765,42 @@
   .ami-fixsub em{color:var(--accent);font-style:italic;}
   .ami-fixlist{display:flex;flex-direction:column;gap:6px;}
   @keyframes amiPulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(167,122,40,0.45); }
-    50% { box-shadow: 0 0 0 8px rgba(167,122,40,0); }
-  }
-  @keyframes amiHintFade {
-    0%, 70% { opacity: 1; }
-    100% { opacity: 1; }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(167,122,40,0.65), 0 0 0 0 rgba(167,122,40,0.35); transform: scale(1); }
+    50% { box-shadow: 0 0 0 14px rgba(167,122,40,0), 0 0 0 22px rgba(167,122,40,0); transform: scale(1.012); }
   }
   .ami-fix.demo-pulse {
-    border-color: var(--accent);
-    background: rgba(167,122,40,0.05);
-    animation: amiPulse 2.2s ease-in-out infinite;
+    border: 2px solid var(--accent) !important;
+    background: rgba(167,122,40,0.10);
+    animation: amiPulse 1.8s ease-in-out infinite;
     position: relative;
-    margin-top: 28px;
+    margin-top: 32px;
   }
   .ami-fix.demo-pulse::before {
-    content: "TRY THIS";
+    content: "▸ CLICK ME";
     position: absolute;
-    top: -22px;
-    left: 14px;
+    top: -24px;
+    left: 12px;
     font-family: var(--font-ui);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    color: var(--accent);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: #FFF;
+    background: var(--accent);
+    padding: 4px 10px;
+    border-radius: 4px;
     pointer-events: none;
-    background: white;
-    padding: 0 8px;
+    box-shadow: 0 4px 10px rgba(167,122,40,0.35);
   }
   .ami-fix.demo-pulse::after {
     content: "";
     position: absolute;
-    top: -10px;
-    left: 70px;
-    width: 1px;
-    height: 12px;
-    background: var(--accent);
+    top: -6px;
+    left: 28px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--accent);
     pointer-events: none;
   }
   .ami-fix{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;background:#FFFFFF;border:1px solid var(--line);border-radius:8px;cursor:pointer;transition:all 200ms ease;}
@@ -1024,10 +1024,27 @@
     </div>
   </div>
 
-  <div class="ami" id="amiWidget">
+  <!-- Demo call-out, pulled OUT of the widget so it reads first -->
+  <div style="text-align:center; margin: 56px auto 0; max-width: 760px; padding: 0 20px;">
+    <div style="display:inline-flex; align-items:center; gap:10px; font-family:var(--font-ui); font-size:11px; font-weight:800; letter-spacing:0.22em; color:var(--accent); text-transform:uppercase; padding:6px 14px; border:1px solid var(--accent-line); border-radius:999px; background:var(--accent-soft);">
+      <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent); animation: amiDotBlink 1.4s ease-in-out infinite;"></span>
+      Interactive Demo
+    </div>
+    <h3 style="font-family:var(--font-serif); font-size: clamp(22px, 2.8vw, 30px); font-weight:600; color:var(--ink); margin:14px 0 6px; line-height:1.18;">Try the engine. <em style="color:var(--accent); font-style:italic;">Click any fix</em> and watch the architecture move.</h3>
+    <p style="font-family:var(--font-ui); font-size:14.5px; color:var(--ink-soft); margin:0; line-height:1.5;">The AMI score, the 8-axis radar, and the Stabilize → Capital-Ready tier badge all recalculate in real time.</p>
+    <svg width="22" height="32" viewBox="0 0 22 32" style="display:block; margin: 14px auto 0; animation: amiArrow 1.6s ease-in-out infinite;" aria-hidden="true">
+      <path d="M11 2 L11 26 M2 19 L11 28 L20 19" stroke="#A77A28" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+  </div>
+  <style>
+    @keyframes amiDotBlink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.7); } }
+    @keyframes amiArrow { 0%, 100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(6px); opacity: 0.55; } }
+  </style>
+
+  <div class="ami" id="amiWidget" style="margin-top: 14px;">
     <div class="ami-head">
-      <h3 class="t">Try the engine. <em>Check any fix below</em> and watch every score respond.</h3>
-      <span class="s">Live BAIC engine · sample data</span>
+      <h3 class="t">Sample · Northway Co. baseline</h3>
+      <span class="s">Live BAIC engine</span>
     </div>
 
     <div class="ami-body">
