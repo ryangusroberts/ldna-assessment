@@ -97,7 +97,24 @@
     max-width: 1180px; margin: 0 auto;
     padding: 16px 32px;
     display: flex; align-items: center; gap: 20px;
+    position: relative;
   }
+
+  /* Nav links + hamburger */
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; width: 36px; height: 36px; background: transparent; border: 0; cursor: pointer; padding: 0; justify-content: center; align-items: center; margin-left: auto; }
+  .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform 200ms ease, opacity 200ms ease; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-links { display: flex; align-items: center; gap: 28px; flex: 1; justify-content: flex-end; }
+  .nav-links a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 180ms; position: relative; padding: 8px 0; }
+  .nav-links a:hover { color: var(--primary); }
+  .nav-links a.active { color: var(--primary); font-weight: 600; }
+  .nav-links a.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -19px; height: 2px; background: var(--accent); }
+
+  /* Progress strip below topbar */
+  .progress-strip { background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--line); }
+  .progress-strip-inner { max-width: 1180px; margin: 0 auto; padding: 10px 32px 12px; }
   .brand {
     display: flex; align-items: center; gap: 16px;
     letter-spacing: -0.005em;
@@ -163,7 +180,7 @@
     flex: 1;
     display: flex; flex-direction: column; gap: 6px;
     min-width: 0;
-    margin-left: 12px;
+    margin-left: 0;
   }
   .progress-meta { display: flex; justify-content: space-between; font-family: var(--font-ui); font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.1em; }
   .progress-bar { height: 4px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
@@ -710,6 +727,40 @@
   .topbar-inner { padding: 12px 16px !important; gap: 10px !important; }
   .nav-cta { font-size: 13px !important; padding: 9px 14px !important; }
 
+  /* Mobile nav: clean dropdown that shows ALL links, not a slide-in panel */
+  .nav-toggle { display: flex !important; }
+  .nav-links {
+    position: absolute !important;
+    top: 100% !important; left: 0 !important; right: 0 !important;
+    background: #fff !important;
+    border-top: 1px solid var(--line) !important;
+    border-bottom: 1px solid var(--line) !important;
+    box-shadow: 0 8px 20px rgba(14,31,61,0.06) !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    padding: 4px 20px 16px !important;
+    gap: 0 !important;
+    z-index: 99 !important;
+    display: none !important;
+    transform: none !important;
+    inset: auto !important;
+  }
+  .nav-links.open { display: flex !important; }
+  .nav-links a {
+    font-family: var(--font-ui) !important;
+    font-size: 17px !important;
+    padding: 14px 0 !important;
+    border-bottom: 1px solid var(--line) !important;
+    width: 100% !important;
+    color: var(--ink) !important;
+    font-weight: 500 !important;
+  }
+  .nav-links a:last-child { border-bottom: 0 !important; }
+  .nav-links a.active { color: var(--accent) !important; font-weight: 600 !important; }
+  .nav-links a.active::after { display: none !important; }
+  .progress-strip-inner { padding: 8px 16px 10px !important; }
+
   /* Footer */
   .footer-inner { flex-direction: column !important; gap: 12px !important; align-items: flex-start !important; }
 
@@ -751,12 +802,25 @@
       <img src="/assets/saunter-logo.svg" alt="The Saunter Group" class="brand-logo" />
       <div class="brand-tag">Build what endures</div>
     </a>
-    <div class="progress-wrap" aria-hidden="true">
-      <div class="progress-meta">
-        <span id="stepLabel">Welcome</span>
-        <span id="stepIndex">Step 1 of 4</span>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" id="primary-nav" aria-label="Primary">
+      <a href="/method/">Method</a>
+      <a href="/baic/">BAIC</a>
+      <a href="/ldna/" class="active">LDNA</a>
+      <a href="/story/">Story</a>
+    </nav>
+  </div>
+  <div class="progress-strip">
+    <div class="progress-strip-inner">
+      <div class="progress-wrap" aria-hidden="true">
+        <div class="progress-meta">
+          <span id="stepLabel">Welcome</span>
+          <span id="stepIndex">Step 1 of 4</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
       </div>
-      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
     </div>
   </div>
 </header>
@@ -1593,6 +1657,26 @@ showStep(state.step || 0);
   }
   attach(".ldna-dim-group");
   attach(".ldna-dim-label");
+})();
+</script>
+
+<script>
+/* Hamburger nav toggle — shows the dropdown on mobile */
+(function() {
+  var navToggle = document.querySelector(".nav-toggle");
+  var navLinks  = document.getElementById("primary-nav");
+  if (!navToggle || !navLinks) return;
+  navToggle.addEventListener("click", function() {
+    var open = navLinks.classList.toggle("open");
+    navToggle.setAttribute("aria-expanded", String(open));
+  });
+  /* Close when clicking a nav link */
+  navLinks.querySelectorAll("a").forEach(function(a) {
+    a.addEventListener("click", function() {
+      navLinks.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+    });
+  });
 })();
 </script>
 
