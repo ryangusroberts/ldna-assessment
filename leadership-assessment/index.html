@@ -94,10 +94,27 @@
     .topbar-inner { padding: 14px 20px; gap: 12px; }
     .brand-logo { height: 52px; }
     .nav-toggle { display: flex; }
-    .nav-links { position: fixed; inset: 68px 0 0 0; background: rgba(255,255,255,0.98); backdrop-filter: blur(10px); flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; padding: 24px 24px 64px; transform: translateX(100%); transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1); overflow-y: auto; }
-    .nav-links.open { transform: translateX(0); }
-    .nav-links a { font-size: 22px; padding: 20px 0; border-bottom: 1px solid var(--line); color: var(--ink); width: 100%; font-family: var(--font-serif); }
-    .nav-cta { margin-top: 28px; align-self: stretch; text-align: center; font-size: 16px !important; padding: 18px 24px !important; border-bottom: 0 !important; }
+    .topbar-inner { position: relative; }
+    /* Mobile nav: clean dropdown that shows ALL links visibly, not a slide-in panel */
+    .nav-links {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 8px 20px rgba(14,31,61,0.06);
+      flex-direction: column; align-items: stretch; justify-content: flex-start;
+      gap: 0; padding: 4px 20px 16px;
+      transform: none; transition: none;
+      inset: auto; overflow: visible;
+      z-index: 99;
+      display: none;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { font-family: var(--font-ui); font-size: 17px; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--ink); width: 100%; font-weight: 500; }
+    .nav-links a:last-child { border-bottom: 0; }
+    .nav-links a.active::after { display: none; }
+    .nav-links a.active { color: var(--accent); font-weight: 600; }
+    .nav-cta { margin-top: 8px; align-self: stretch; text-align: center; font-size: 15px !important; padding: 14px 20px !important; border-bottom: 0 !important; box-shadow: 0 4px 12px rgba(167,122,40,0.25) !important; }
   }
 
   .eyebrow { font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 18px; display: inline-flex; align-items: center; gap: 10px; }
