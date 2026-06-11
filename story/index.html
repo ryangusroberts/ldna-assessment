@@ -192,10 +192,10 @@
   .bench-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
   @media (max-width: 980px) { .bench-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 540px) { .bench-grid { grid-template-columns: 1fr; } }
-  .bench-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-top: 3px solid var(--accent); border-radius: 12px; padding: 22px 20px; }
-  .bench-card .tag { font-family: var(--font-ui); font-size: 10.5px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 10px; display: block; }
+  .bench-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.12); border-top: 3px solid var(--accent); border-radius: 12px; padding: 22px 20px; display: flex; flex-direction: column; }
   .bench-card h3 { font-family: var(--font-serif); font-size: 17px; font-weight: 600; margin: 0 0 10px; color: #fff; letter-spacing: -0.005em; line-height: 1.25; }
   .bench-card p { font-family: var(--font-ui); font-size: 13px; color: rgba(255,255,255,0.78); margin: 0; line-height: 1.55; }
+  .bench-card .tag { font-family: var(--font-ui); font-size: 10.5px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.14em; margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.10); display: block; }
   .bench-foot { font-family: var(--font-ui); font-size: 12px; color: rgba(255,255,255,0.55); margin: 26px 0 0; font-style: italic; max-width: 70ch; line-height: 1.55; }
 
   section.lessons { padding: 88px 32px; }
@@ -510,30 +510,29 @@
     <div class="eyebrow">Behind the method</div>
     <h2 style="max-width: 36ch;">Technical advisory board.</h2>
     <p class="bench-lede">
-      BAIC, VMOCA, and LDNA are the intellectual property of Vertical Consulting, licensed to Saunter for delivery.
-      A private technical advisory board stands behind that IP: rubrics, peer review, methodology calibration.
+      A private technical advisory board stands behind the methodology: rubrics, peer review, methodology calibration.
       They don't take client calls. They make sure the science holds.
     </p>
     <div class="bench-grid">
       <div class="bench-card">
-        <span class="tag">Aviation · National security</span>
         <h3>Combat aviator turned serial CEO.</h3>
         <p>Retired senior officer. TOPGUN-graduate fighter pilot. Doctorate in aviation. Global cargo-airline check airman. CEO of government-contracting and concierge-healthcare companies.</p>
+        <span class="tag">Aviation · National security</span>
       </div>
       <div class="bench-card">
-        <span class="tag">Public company · Finance</span>
         <h3>CFO at multi-billion scale.</h3>
         <p>Multi-time public-company CFO and COO. Former Marine Corps officer. Currently leads finance for a global aviation-leasing platform measured in the billions.</p>
+        <span class="tag">Public company · Finance</span>
       </div>
       <div class="bench-card">
-        <span class="tag">Financial services · Operations</span>
         <h3>Operational scale across three financial sectors.</h3>
         <p>Twenty years inside Fortune 500 financial services, high-growth fintech, and mid-size wealth management. Operations build-out, process redesign, and the execution rhythms that turn improvised growth into repeatable architecture.</p>
+        <span class="tag">Financial services · Operations</span>
       </div>
       <div class="bench-card">
-        <span class="tag">DoD · Enterprise sales</span>
         <h3>$1.5B closed. Two VC-backed exits.</h3>
         <p>DoD and Intelligence Community veteran. Two-time VC-backed founder. More than $1.5B in closed enterprise contracts. Runs an executive leadership development firm.</p>
+        <span class="tag">DoD · Enterprise sales</span>
       </div>
     </div>
     <p class="bench-foot">Names withheld to honor private advisory commitments. The Technical Advisory Board contributes to methodology, scoring rubrics, and peer review.</p>
@@ -557,7 +556,6 @@
         <div class="from-ryan-sig-name">, Ryan "Gus" Roberts</div>
         <div class="from-ryan-sig-meta">
           <div>FOUNDER · THE SAUNTER GROUP</div>
-          <div style="margin-top:4px;">OPERATING PARTNER · VERTICAL CONSULTING</div>
         </div>
       </div>
     </div>
