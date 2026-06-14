@@ -215,6 +215,28 @@
   .rr-consent { font-family: var(--font-ui); font-size: 12px; color: var(--ink-mute); line-height: 1.5; margin: 4px 0 0; }
   .rr-consent a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
 
+  /* report extras */
+  .rr-report-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .rr-print { font-family: var(--font-ui); font-size: 13px; font-weight: 600; color: var(--primary); background: #fff; border: 1px solid var(--primary-line); border-radius: 999px; padding: 9px 16px; cursor: pointer; transition: all 150ms; white-space: nowrap; margin-top: 6px; }
+  .rr-print:hover { background: var(--primary-soft); }
+  .rr-levers { display: grid; gap: 12px; margin: 0 0 6px; }
+  .rr-lever { background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--warn); border-radius: 12px; padding: 16px 18px; }
+  .rr-lever-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 6px; }
+  .rr-lever-name { font-family: var(--font-serif); font-weight: 600; font-size: 16px; color: var(--primary); }
+  .rr-lever-score { font-family: var(--font-ui); font-size: 13px; font-weight: 600; color: var(--warn); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .rr-lever-note { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.55; }
+
+  @media print {
+    .topbar, .rr-rail, footer, .rr-print, .rr-restart, .rr-cta a.alt, .nav-toggle { display: none !important; }
+    body { background: #fff; }
+    section.rr-band { padding: 0 !important; background: #fff !important; border: 0 !important; min-height: 0 !important; }
+    .rr-screen { animation: none !important; }
+    .rr-cta, .rr-ailens { background: #fff !important; border: 1px solid var(--line) !important; }
+    .rr-cta h3, .rr-cta p, .rr-ailens h3, .rr-ailens p { color: var(--ink) !important; }
+    .rr-cta a.go { border: 1px solid var(--primary); }
+    .rr-bar .fill, .rr-cta a.go { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
   /* footer (consistent with site) */
   footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 56px 32px 28px; border-top: 1px solid rgba(255,255,255,0.1); }
   .footer-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 24px; font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.06em; flex-wrap: wrap; }
@@ -307,10 +329,11 @@
    ============================================================ */
 
 /* ---- Lead capture ----
-   Paste an Apps Script / webhook URL here to capture leads silently.
-   While null, the read still renders and the lead + result are emailed
-   to CONTACT_EMAIL via the visitor's mail client (same pattern the site
-   used for the old Fit Assessment). */
+   The visitor ALWAYS gets their full report on screen. This endpoint is
+   only for (a) logging the lead and (b) emailing the respondent a copy of
+   the report with a book-a-call CTA. Deploy /docs/capture_endpoint_appscript.gs
+   as a Google Apps Script Web App and paste its URL below. Until then,
+   capture is skipped silently — no email is ever drafted to the visitor. */
 const SUBMIT_ENDPOINT = null;
 const CONTACT_EMAIL = "info@thesauntergroup.com";
 const BOOK_CALL_URL = "https://app.usemotion.com/meet/Saunter/BusinessArchitecture";
@@ -330,6 +353,16 @@ const cfg = {
     growth_trap:'Left alone, you scale an engine that isn’t predictable yet; the gap shows up as a cash squeeze 12–18 months later, by which point the cause is already months old.',
     visibility_decay:'Left alone, manual workarounds compound and you find out about the breaks after they cost you. What you can’t see, you can’t fix in time.',
     cashflow_cascade:'Left alone, the weakness stays quiet until it surfaces in cash — and by then the cause is months old. Cash is the symptom, rarely the cause.'
+  },
+  domainInsight:{
+    leadership:'Decisions and load concentrate at the top. The move: push decision rights down and build real bench depth, so the business keeps moving when you’re out.',
+    structure:'Ownership and accountability blur at the edges. The move: right people in the right seats, with decision rights everyone can name.',
+    strategy:'The strategy isn’t landing the same way across the company. The move: sharpen it and cascade it until five employees give the same answer.',
+    financial:'Cash and true margin aren’t fully visible. The move: a rolling 13-week cash view and profit-per-deal by segment.',
+    systems:'Operations lean on manual, heroic effort. The move: document and systematize the core processes before volume doubles.',
+    revenue:'Next quarter is closer to a guess than a forecast. The move: a tracked pipeline you can actually predict from.',
+    data:'You find out about breaks after they’ve cost you. The move: live, shared metrics that surface problems while you can still act.',
+    risk:'A real shock would catch you flat. The move: name the top key-person and continuity risks and pre-plan the response.'
   },
   gate:{label:'What brought you here?',options:[
     {t:'I own or operate the business',buyer:'operator'},
@@ -401,42 +434,16 @@ function scoreAssessment(cfg,answers,ai,ctx){
           cascade_id:cfg.cascadeMap[lowest],routing,ai_lens:aiLensRead(cfg,ai),context:ctx};
 }
 
-/* ===================== CAPTURE ===================== */
-function buildMailto(payload){
-  const r = payload.result;
-  const scores = r.ordered.map(([k,s])=>`  ${cfg.catLabels[k]}: ${s}`).join("\n");
-  const subject = `What to Fix First — ${payload.lead.name||'New lead'} (${r.band})`;
-  const body = [
-    `Submitted: ${new Date().toISOString()}`,
-    ``,
-    `Name: ${payload.lead.name}`,
-    `Email: ${payload.lead.email}`,
-    `Role: ${payload.lead.role||'—'}`,
-    `Company size: ${payload.lead.size||'—'}`,
-    `Self-identified as: ${payload.context.buyer||'—'}${payload.context.flag_breaking?' (flagged: something keeps breaking)':''}`,
-    ``,
-    `BAND: ${r.band}    Overall: ${r.overall}`,
-    `Binding constraint: ${r.binding_constraint.label} (${r.binding_constraint.score})`,
-    `Routing: ${r.routing.primary} — ${r.routing.reason}`,
-    ``,
-    `Domain scores (worst → best):`,
-    scores,
-    ``,
-    r.ai_lens ? `AI lens: ${r.ai_lens.label} (posture ${r.ai_lens.posture}, mapping ${r.ai_lens.mapping})` : `AI lens: skipped`,
-    ``,
-    `Raw answers: ${JSON.stringify(payload.answers)}`,
-  ].join("\n");
-  return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
+/* ===================== CAPTURE (silent; never interrupts the visitor) ===================== */
 async function submitResult(payload){
-  if (SUBMIT_ENDPOINT) {
-    try {
-      await fetch(SUBMIT_ENDPOINT, { method:"POST", headers:{"Content-Type":"text/plain;charset=utf-8"}, body:JSON.stringify(payload) });
-      return;
-    } catch (e) { /* fall through to mailto */ }
-  }
-  // No endpoint configured: hand the lead + read to the visitor's mail client.
-  try { window.location.href = buildMailto(payload); } catch(e){}
+  if (!SUBMIT_ENDPOINT) return;          // no endpoint yet → skip silently, the report is already on screen
+  try {
+    await fetch(SUBMIT_ENDPOINT, {
+      method:"POST", mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify(payload)
+    });
+  } catch (e) { /* a capture failure must never block the visitor's report */ }
 }
 
 /* ===================== APP ===================== */
@@ -485,8 +492,8 @@ function gate(){
 function lead(){
   app.innerHTML=`<section class="rr-screen">
     <p class="eyebrow">A few details</p>
-    <h1 class="sm">Where should we send the report?</h1>
-    <p class="rr-lede" style="font-size:16px">Your full written read follows by email. We don’t sell or share your data.</p>
+    <h1 class="sm">Last step before your report</h1>
+    <p class="rr-lede" style="font-size:16px">Your report appears on the very next screen. Add your details and we’ll also email you a copy. We don’t sell or share your data.</p>
     <div class="rr-grid2">
       <label class="rr-field"><span>Full name *</span><input type="text" id="f_name" autocomplete="name"></label>
       <label class="rr-field"><span>Email *</span><input type="email" id="f_email" autocomplete="email"></label>
@@ -574,19 +581,27 @@ function result(r){
   const ai=r.ai_lens?`<div class="rr-ailens"><span class="k">AI exposure · separate read</span><h3>${r.ai_lens.label}</h3>
     <p>${r.ai_lens.teaser}</p>${r.ai_lens.nudge?`<p style="color:var(--accent)">${r.ai_lens.nudge}</p>`:''}</div>`:'';
   const altLink=c.altLabel?`<a class="alt" href="${c.altUrl}"${c.altUrl.indexOf('http')===0?' target="_blank" rel="noopener"':''}>${c.altLabel}</a>`:'';
+  const leverList=r.ordered.slice(0,3).map(([k,s])=>`<div class="rr-lever"><div class="rr-lever-head"><span class="rr-lever-name">${cfg.catLabels[k]}</span><span class="rr-lever-score">${s} / 100</span></div><p class="rr-lever-note">${cfg.domainInsight[k]}</p></div>`).join('');
+  const sentLine = SUBMIT_ENDPOINT
+    ? `Your report is yours to keep — use <strong>Save / print</strong> for a PDF. A copy is also on its way to <strong>${esc(state.lead.email||'your inbox')}</strong>.`
+    : `Your report is yours to keep — use <strong>Save / print</strong> to download a PDF, or revisit any time.`;
   app.innerHTML=`<section class="rr-screen">
-    <p class="rr-snaplabel">${cfg.title} · v1 · Snapshot</p>
-    <p class="rr-bandhead">${r.band}</p>
+    <div class="rr-report-top">
+      <div><p class="rr-snaplabel">${cfg.title} · your report</p><p class="rr-bandhead">${r.band}</p></div>
+      <button class="rr-print" onclick="window.print()">Save / print ↧</button>
+    </div>
     <p class="rr-oneline">${oneLine}</p>
     <p class="rr-expect">A directional read from your own answers — not a precise score. The full BAIC diagnostic measures all eight domains against evidence, then ranks every exposure by what it will actually cost.</p>
-    <h3 class="rr-sub">Where your leverage is</h3>
+    <h3 class="rr-sub">Your eight domains, worst to best</h3>
     <div class="rr-strip">${strip}</div>
+    <h3 class="rr-sub">Where your leverage is — your three</h3>
+    <div class="rr-levers">${leverList}</div>
     <div class="rr-callout"><h3>The one to move first: ${r.binding_constraint.label}</h3>
       <p>${cfg.cascadeTease[r.cascade_id]} <strong>This is foreseeable and fixable — if you can see it early. That’s what the full diagnostic does.</strong></p></div>
     ${ai}
     <div class="rr-cta"><h3>${c.h}</h3><p>${c.p}</p>
       <div class="actions"><a class="go" href="${c.url}"${c.url.indexOf('http')===0?' target="_blank" rel="noopener"':''}>${c.label} &rarr;</a>${altLink}</div></div>
-    <p class="rr-sentto">Your read above is yours to keep — screenshot it or revisit any time. We’ll send a copy to <strong>${esc(state.lead.email||'your inbox')}</strong> along with the link to book.</p>
+    <p class="rr-sentto">${sentLine}</p>
     <p class="rr-restart"><button id="restart">Start over</button></p>
     <p class="rr-disclaim">This is a directional self-assessment built from BAIC’s North Star / red-flag layer. It is not the validated Architecture Maturity Index, and its weighting is hook-calibrated, not the empirical AMI weighting. The leadership and structure questions surface org-level risk — they are not an LDNA bench score.</p>
   </section>`;
