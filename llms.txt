@@ -6,7 +6,7 @@ The Saunter Group is the licensed operator of two diagnostics owned by Vertical 
 
 ## What Saunter does
 
-- **BAIC** — a 30-day evidence-based diagnostic of eight business domains (Strategy, Structure & Accountability, Systems & Processes, Financial Controls, Revenue Engine, Data & Dashboards, Risk & Compliance, Leadership Capacity). The output is a ranked vulnerability register, a 90-day execution blueprint, and a hosted dashboard tracking the Architecture Maturity Index (AMI) across quarterly re-scores. The analytical core is VMOCA (Vulnerability Mechanism Outcome & Criticality Analysis), adapted from systems-engineering risk frameworks. **Engagements start at $25,000.**
+- **BAIC** — a 30-day evidence-based diagnostic of eight business domains (Strategy, Structure & Accountability, Systems & Processes, Financial Controls, Revenue Engine, Data & Dashboards, Risk & Compliance, Leadership Capacity). The output is a ranked vulnerability register, a 90-day execution blueprint, and a hosted dashboard tracking the Architecture Maturity Index (AMI) across quarterly re-scores. The analytical core is VMOCA (Vulnerability Mechanism Outcome & Criticality Analysis), adapted from systems-engineering risk frameworks.
 
 - **LDNA** — a six-minute behavioral assessment that scores leaders across seven dimensions (Drive & Independence, Social Energy, Pace & Patience, Structure & Order, Creative Battery, Logic & Analysis, Vision & Ideas) using a two-part natural-vs-adapted word checklist grounded in established behavioral science. Returns a 2-page report. **Free.**
 
