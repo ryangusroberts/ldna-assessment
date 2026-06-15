@@ -260,14 +260,18 @@
   .rr-datasrc { border: 1px dashed var(--line); border-radius: 12px; padding: 16px 20px; margin: 24px 0; }
   .rr-datasrc h4 { font-family: var(--font-serif); font-weight: 600; font-size: 15px; color: var(--primary); margin: 0 0 6px; }
   .rr-datasrc p { font-family: var(--font-ui); font-size: 12.5px; color: var(--ink-mute); line-height: 1.6; margin: 0; }
+  .rr-bias { background: var(--primary); color: #E9EEF6; border-radius: 12px; padding: 20px 22px; margin: 24px 0; }
+  .rr-bias h4 { font-family: var(--font-serif); font-weight: 600; font-size: 17px; color: #fff; margin: 0 0 8px; }
+  .rr-bias p { font-family: var(--font-ui); font-size: 13.5px; color: #C9D3E2; line-height: 1.6; margin: 0; }
+  .rr-bias strong { color: var(--accent); }
 
   @media print {
     .topbar, .rr-rail, footer, .rr-print, .rr-restart, .rr-cta a.alt, .nav-toggle { display: none !important; }
     body { background: #fff; }
     section.rr-band { padding: 0 !important; background: #fff !important; border: 0 !important; min-height: 0 !important; }
     .rr-screen { animation: none !important; }
-    .rr-cta, .rr-ailens { background: #fff !important; border: 1px solid var(--line) !important; }
-    .rr-cta h3, .rr-cta p, .rr-ailens h3, .rr-ailens p { color: var(--ink) !important; }
+    .rr-cta, .rr-ailens, .rr-bias { background: #fff !important; border: 1px solid var(--line) !important; }
+    .rr-cta h3, .rr-cta p, .rr-ailens h3, .rr-ailens p, .rr-bias h4, .rr-bias p { color: var(--ink) !important; }
     .rr-cta a.go { border: 1px solid var(--primary); }
     .rr-bar .fill, .rr-cta a.go { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
@@ -709,6 +713,10 @@ function result(r){
     <div class="rr-callout"><h3>The one to move first: ${r.binding_constraint.label}</h3>
       <p>${cfg.cascadeTease[r.cascade_id]} <strong>This is foreseeable and fixable — if you can see it early. That’s what the full diagnostic does.</strong></p></div>
     ${ai}
+    <div class="rr-bias">
+      <h4>What a questionnaire can’t see</h4>
+      <p>This read reflects what you can see and report today — and that’s its limit. The most expensive failures usually hide in exactly what a self-assessment can’t surface: the blind spots you can’t report because you can’t see them, and the areas that feel fine but aren’t. The full Business Architecture &amp; Intelligence Cycle closes that gap — it measures <strong>visibility itself</strong>, how detectable each vulnerability is from inside your business, and validates every read against evidence rather than recall. That’s what produces the Architecture Maturity Index, and it’s the difference that prevents failures: what you can’t see early, you can’t fix in time.</p>
+    </div>
     ${dataSrc}
     <div class="rr-cta"><h3>${c.h}</h3><p>${c.p}</p>
       <div class="actions"><a class="go" href="${c.url}"${c.url.indexOf('http')===0?' target="_blank" rel="noopener"':''}>${c.label} &rarr;</a>${altLink}</div></div>
