@@ -17,14 +17,14 @@
 <link rel="manifest" href="/site.webmanifest" />
 
 <title>What to Fix First · Free 12-question read | The Saunter Group</title>
-<meta name="description" content="Stop guessing. Twelve questions on what's actually slowing your business down — across leadership and the operating architecture — and the one thing to fix first. Free, 5–8 minutes, no sales call." />
+<meta name="description" content="Stop guessing. Twelve questions on what's actually slowing your business down, across leadership and the operating architecture, and the one thing to fix first. Free, 5–8 minutes, no sales call." />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Saunter Group" />
 <meta property="og:url" content="https://thesauntergroup.com/risk-read/" />
 <meta property="og:title" content="What to Fix First · Free 12-question read | The Saunter Group" />
-<meta property="og:description" content="Stop guessing. Twelve questions on what's actually slowing your business down — and the one thing to fix first. Free, 5–8 minutes, no sales call." />
+<meta property="og:description" content="Stop guessing. Twelve questions on what's actually slowing your business down, and the one thing to fix first. Free, 5–8 minutes, no sales call." />
 <meta property="og:image" content="https://thesauntergroup.com/assets/og/share-default.png" />
 <meta property="og:image:secure_url" content="https://thesauntergroup.com/assets/og/share-default.png" />
 <meta property="og:image:type" content="image/png" />
@@ -36,7 +36,7 @@
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="What to Fix First · Free 12-question read | The Saunter Group" />
-<meta name="twitter:description" content="Stop guessing. Twelve questions on what's actually slowing you down — and the one thing to fix first." />
+<meta name="twitter:description" content="Stop guessing. Twelve questions on what's actually slowing you down, and the one thing to fix first." />
 <meta name="twitter:image" content="https://thesauntergroup.com/assets/og/share-default.png" />
 <meta name="twitter:image:alt" content="The Saunter Group · Build what endures" />
 
@@ -144,7 +144,7 @@
   .rr-gatecard:focus-visible { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
   .rr-gatecard .arrow { margin-left: auto; color: var(--accent); font-size: 20px; }
 
-  /* questions — scale format */
+  /* questions, scale format */
   .rr-q { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 24px 26px; margin: 0 0 16px; }
   .rr-q .stem { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--ink); margin: 0 0 14px; line-height: 1.35; }
   .rr-opts { display: grid; gap: 8px; }
@@ -337,7 +337,7 @@
       <span>© 2026 The Saunter Group, LLC · Build what endures</span>
     </div>
     <address class="footer-address">30 N Gould St, Ste R · Sheridan, WY 82801</address>
-    <span>Leadership Drivers &amp; Natural Aptitudes (LDNA) · a Vertical Consulting instrument · © 2026 Vertical Consulting · <a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="mailto:info@thesauntergroup.com">Contact</a></span>
+    <span>Leadership Drivers &amp; Natural Aptitudes (LDNA) · a proprietary instrument of The Saunter Group, LLC · <a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="mailto:info@thesauntergroup.com">Contact</a></span>
   </div>
 </footer>
 
@@ -362,7 +362,7 @@
 
 <script>
 /* ============================================================
-   "What to Fix First" — The Scaling Risk Read (BAIC lane)
+   "What to Fix First", The Scaling Risk Read (BAIC lane)
    12 core questions across 8 domains + optional AI lens.
    Scoring params MUST stay identical to /docs/scoring_engine.py.
    ============================================================ */
@@ -372,7 +372,7 @@
    only for (a) logging the lead and (b) emailing the respondent a copy of
    the report with a book-a-call CTA. Deploy /docs/capture_endpoint_appscript.gs
    as a Google Apps Script Web App and paste its URL below. Until then,
-   capture is skipped silently — no email is ever drafted to the visitor. */
+   capture is skipped silently, no email is ever drafted to the visitor. */
 const SUBMIT_ENDPOINT = "https://script.google.com/macros/s/AKfycbxMCMHGACDrAM69U56BWeUSehvhYys6eSksv2wFJb6umkNCoTOl7l8MYmt3AXo37YIh/exec";
 const CONTACT_EMAIL = "info@thesauntergroup.com";
 const BOOK_CALL_URL = "https://app.usemotion.com/meet/Saunter/BusinessArchitecture";
@@ -380,7 +380,7 @@ const BOOK_CALL_URL = "https://app.usemotion.com/meet/Saunter/BusinessArchitectu
 const cfg = {
   key:'scaling_risk_read', lane:'baic',
   title:'What to Fix First',
-  intro:"Stop guessing. Twelve questions on what's actually slowing your business down — across your leadership and your operating architecture — and the one thing to fix first. Not fifty problems. The one that matters.",
+  intro:"Stop guessing. Twelve questions on what's actually slowing your business down, across your leadership and your operating architecture, and the one thing to fix first. Not fifty problems. The one that matters.",
   weights:{leadership:.20,structure:.20,strategy:.13,financial:.13,systems:.085,revenue:.085,data:.085,risk:.085},
   priority:['leadership','structure'],
   bands:{low:'Foundation at Risk',mid:'Structure Emerging',high:'Scaling-Ready, with watch-items'},
@@ -388,10 +388,10 @@ const cfg = {
   catLabels:{leadership:'Leadership Capacity',structure:'Structure & Accountability',strategy:'Strategy',financial:'Financial Controls',systems:'Systems & Processes',revenue:'Revenue Engine',data:'Data & Dashboards',risk:'Risk & Compliance'},
   cascadeMap:{leadership:'leadership_burnout',structure:'leadership_burnout',strategy:'growth_trap',revenue:'growth_trap',systems:'visibility_decay',data:'visibility_decay',financial:'cashflow_cascade',risk:'cashflow_cascade'},
   cascadeTease:{
-    leadership_burnout:'Left alone, load stays concentrated, decisions slip under it, and your best people are the first to leave — a tightening loop over 18–24 months that’s hard to see from the inside.',
+    leadership_burnout:'Left alone, load stays concentrated, decisions slip under it, and your best people are the first to leave, a tightening loop over 18–24 months that’s hard to see from the inside.',
     growth_trap:'Left alone, you scale an engine that isn’t predictable yet; the gap shows up as a cash squeeze 12–18 months later, by which point the cause is already months old.',
     visibility_decay:'Left alone, manual workarounds compound and you find out about the breaks after they cost you. What you can’t see, you can’t fix in time.',
-    cashflow_cascade:'Left alone, the weakness stays quiet until it surfaces in cash — and by then the cause is months old. Cash is the symptom, rarely the cause.'
+    cashflow_cascade:'Left alone, the weakness stays quiet until it surfaces in cash, and by then the cause is months old. Cash is the symptom, rarely the cause.'
   },
   domainInsight:{
     leadership:'Decisions and load concentrate at the top. The move: push decision rights down and build real bench depth, so the business keeps moving when you’re out.',
@@ -403,7 +403,7 @@ const cfg = {
     data:'You find out about breaks after they’ve cost you. The move: live, shared metrics that surface problems while you can still act.',
     risk:'A real shock would catch you flat. The move: name the top key-person and continuity risks and pre-plan the response.'
   },
-  // Four position zones — the respondent sees the zone, never the score.
+  // Four position zones, the respondent sees the zone, never the score.
   zones:[
     {name:'Exposed',color:'#B5532E',max:40},
     {name:'Fragile',color:'#C7864A',max:60},
@@ -411,40 +411,40 @@ const cfg = {
     {name:'Resilient',color:'#3E6B4F',max:101}
   ],
   // Per-domain evidence (kept identical to the email report). Failure rates are
-  // library base rates with source — BAIC failure taxonomy FC-01..FC-20.
+  // library base rates with source, BAIC failure taxonomy FC-01..FC-20.
   domainEvidence:{
     leadership:{
       head:'Decisions and load concentrate at the top, and the business slows when you step away.',
-      why:'The pattern behind this is founder overload and a decision bottleneck — load stays on one or two people, calls back up behind them, and strategic clarity erodes under the weight (the core mechanisms in FC-03, Leadership Breakdown).',
+      why:'The pattern behind this is founder overload and a decision bottleneck, load stays on one or two people, calls back up behind them, and strategic clarity erodes under the weight (the core mechanisms in FC-03, Leadership Breakdown).',
       rates:'Leadership breakdown is cited in roughly 23% of small-business failures (SCORE 2024) and about 18% of failure post-mortems (MIT Sloan). When a shock lands on top of it, crisis-response paralysis adds to that (FC-20, ~15%, WHO/OECD 2023).',
-      detect:'This is one of the hardest domains to see from the inside — it rarely shows up on a dashboard until decisions are already slipping. In VMOCA terms it carries a low visibility baseline (D=6), which is why the questions asked what happens when you are out, not whether you feel busy.',
+      detect:'This is one of the hardest domains to see from the inside, it rarely shows up on a dashboard until decisions are already slipping. In VMOCA terms it carries a low visibility baseline (D=6), which is why the questions asked what happens when you are out, not whether you feel busy.',
       move:'Push decision rights down and build real bench depth, so the business keeps moving when you are not in the room.'
     },
     structure:{
       head:'Roles, accountability, and bench depth blur at the edges.',
-      why:'The mechanisms here are wrong-seat placement, missing accountability systems, and single points of failure — one person whose absence stops a function cold (FC-05, Team & Talent).',
+      why:'The mechanisms here are wrong-seat placement, missing accountability systems, and single points of failure, one person whose absence stops a function cold (FC-05, Team & Talent).',
       rates:'Team and talent failures show up in roughly 23% of organizations (SHRM 2024) and are the primary cause in about 14% of startup post-mortems (CB Insights). Governance and decision-rights disputes add another layer (FC-16, ~6%, Stanford GSB 2023).',
-      detect:'Moderate visibility (D=5). Some of this is observable in an org chart; the dangerous part — who quietly holds everything together — usually is not.',
+      detect:'Moderate visibility (D=5). Some of this is observable in an org chart; the dangerous part, who quietly holds everything together, usually is not.',
       move:'Right people in the right seats, with decision rights everyone can name, and no single point of failure on a critical function.'
     },
     strategy:{
       head:'The strategy is not landing the same way across the company, and the edge is not clearly defended.',
-      why:'The mechanisms are success-trap thinking, customer-job blindness, and undefended differentiation — what worked at the last tier is assumed to keep working (FC-19, Innovation & Adaptation; FC-06, Competition & Disruption).',
+      why:'The mechanisms are success-trap thinking, customer-job blindness, and undefended differentiation, what worked at the last tier is assumed to keep working (FC-19, Innovation & Adaptation; FC-06, Competition & Disruption).',
       rates:'Poor market fit is implicated in roughly 42% of failures (CB Insights 2023) and 35% (Startup Genome); competitive displacement appears in about 19% (CB Insights). Strategy that does not cascade is how a company drifts into both.',
-      detect:'Moderate visibility (D=5). Strategy feels clear at the top and fragments on the way down — which is why the read tested whether five employees would give the same answer, not whether you have a strategy.',
+      detect:'Moderate visibility (D=5). Strategy feels clear at the top and fragments on the way down, which is why the read tested whether five employees would give the same answer, not whether you have a strategy.',
       move:'Sharpen the strategy and cascade it until five employees give the same answer, and name an edge competitors cannot cheaply copy.'
     },
     financial:{
       head:'Cash runway and true per-deal margin are not fully visible in real time.',
-      why:'The mechanisms are the absence of a rolling cash forecast, thin working-capital reserves, and unclear unit economics — profit assumed rather than known by segment (FC-01, Cash Flow Collapse; FC-07, Unit Economics; FC-14, Financial Mismanagement).',
+      why:'The mechanisms are the absence of a rolling cash forecast, thin working-capital reserves, and unclear unit economics, profit assumed rather than known by segment (FC-01, Cash Flow Collapse; FC-07, Unit Economics; FC-14, Financial Mismanagement).',
       rates:'Cash-flow problems are present in 82% of business failures (SBA 2024) and are the single largest named primary cause at about 29% (CB Insights). Financial mismanagement adds roughly 16% (CFO.com 2024) and unit-economics breakdown about 18% (PwC 2023).',
-      detect:'This is the most visible domain (D=4) — problems eventually surface in the numbers. The real risk is what cash masks: a weakness in another domain usually shows up here last, by which point the cause is months old.',
+      detect:'This is the most visible domain (D=4), problems eventually surface in the numbers. The real risk is what cash masks: a weakness in another domain usually shows up here last, by which point the cause is months old.',
       move:'A rolling 13-week cash view plus profit-per-deal by segment, watched weekly, not reconstructed after the quarter.'
     },
     systems:{
       head:'Operations lean on manual, heroic effort that will not survive a volume spike.',
       why:'The mechanisms are undocumented core processes, manual work that does not scale, and accumulating technical and operational debt (FC-04, Operational Inefficiency; FC-10, Technology & Systems; FC-13, Product Development).',
-      rates:'Operational inefficiency drives roughly 17% of failures (McKinsey 2023). On the technology side, about 60% of firms experience a major systems incident (Gartner 2024) — the question is whether the operation absorbs it or breaks.',
+      rates:'Operational inefficiency drives roughly 17% of failures (McKinsey 2023). On the technology side, about 60% of firms experience a major systems incident (Gartner 2024), the question is whether the operation absorbs it or breaks.',
       detect:'Moderate visibility (D=5). Manual workarounds look like dedication right up until volume doubles, which is why the read asked how operations would hold if volume doubled in 90 days.',
       move:'Document and systematize the core processes before volume doubles, not after the first thing breaks under load.'
     },
@@ -453,20 +453,20 @@ const cfg = {
       why:'The mechanisms are weak lead quality and a leaky sales process on the front end, and churn from poor onboarding and retention on the back end (FC-12, Marketing & Sales Execution; FC-17, Customer Success & Retention).',
       rates:'Sales-execution failure appears in roughly 14% of cases (HubSpot 2024); churn that destroys unit economics in about 11% (Totango 2024). Underneath both, market-fit gaps reach 42% (CB Insights) when the pipeline never really qualified.',
       detect:'Moderate visibility (D=5). A good month hides a bad pipeline, which is why the read asked whether next quarter is predictable from pipeline, not whether last quarter was good.',
-      move:'A tracked, qualified pipeline you can forecast from — and a retention motion that protects the revenue you already won.'
+      move:'A tracked, qualified pipeline you can forecast from, and a retention motion that protects the revenue you already won.'
     },
     data:{
       head:'You find out about breaks after they have cost you; the metrics lag instead of lead.',
       why:'The mechanisms are no single source of truth, reliance on lagging indicators, and vanity metrics that look good while the real number moves the wrong way (FC-18, Data & Decision Velocity).',
-      rates:'Slow or blind decision-making is a named primary cause in roughly 8% of failures (MIT CISR 2024) — but its real weight is as a multiplier. Weak data is the secondary driver sitting behind cash-flow and pipeline failures, hiding them until they surface as something more expensive.',
-      detect:'Low visibility (D=6) — and uniquely, weak data lowers the visibility of every other domain at once. What you cannot see early, you cannot fix in time.',
+      rates:'Slow or blind decision-making is a named primary cause in roughly 8% of failures (MIT CISR 2024), but its real weight is as a multiplier. Weak data is the secondary driver sitting behind cash-flow and pipeline failures, hiding them until they surface as something more expensive.',
+      detect:'Low visibility (D=6), and uniquely, weak data lowers the visibility of every other domain at once. What you cannot see early, you cannot fix in time.',
       move:'Live, shared metrics with one source of truth and at least one leading indicator per domain, so problems surface while you can still act.'
     },
     risk:{
-      head:'A real shock — a lost key client, a key person, a compliance event — would catch you flat.',
+      head:'A real shock, a lost key client, a key person, a compliance event, would catch you flat.',
       why:'The mechanisms are no contingency planning and absent liquidity buffers, often stacked on customer-concentration and key-person exposure (FC-20, Crisis Response; FC-08, Customer Concentration; FC-09, Regulatory; FC-11, Partnership & Supply Chain).',
       rates:'Crisis-response gaps were exposed in roughly 15% of failures post-pandemic (WHO/OECD 2023); customer-concentration risk in about 11% (Dun & Bradstreet 2024); partner or supply-chain failure in about 9% (Deloitte 2023).',
-      detect:'This is the least visible domain of all (D=7) — by design it stays quiet until the shock arrives. That is exactly why it is worth pressure-testing deliberately rather than waiting for the event to reveal it.',
+      detect:'This is the least visible domain of all (D=7), by design it stays quiet until the shock arrives. That is exactly why it is worth pressure-testing deliberately rather than waiting for the event to reveal it.',
       move:'Name your top key-person and continuity exposures now, and pre-plan the response while it is cheap to do so.'
     }
   },
@@ -477,19 +477,19 @@ const cfg = {
     {t:'Something keeps breaking and I’m not sure why',buyer:'operator',flag:true},
   ]},
   cta:{
-    baic:{h:'Your best next move looks structural.',p:'The pattern points to your operating architecture. The natural next step is BAIC — a 30-day diagnostic that reads the business as a system and ranks every exposure by what it will actually cost. Let’s spend 30 minutes on your result and whether BAIC is the right move.',label:'Book a call on your next step',url:BOOK_CALL_URL,altLabel:'Or explore BAIC first →',altUrl:'/baic/'},
-    ldna:{h:'Your best next move looks like the team.',p:'The exposure is in the people layer — who’s in which seat, and where two leaders share the same blind spot. The usual next step is a Leadership Team Foundations report, built on the LDNA. Let’s spend 30 minutes on your result and the right way in.',label:'Book a call on your next step',url:BOOK_CALL_URL,altLabel:'Or take the LDNA, free →',altUrl:'/ldna/'},
-    baic_mna:{h:'You’re sizing up a business to buy.',p:'Your answers map to pre-close diligence — whether the target survives the ownership transition without the seller. Let’s spend 30 minutes on your result and BAIC’s diligence read before you sign.',label:'Book a diligence call',url:BOOK_CALL_URL,altLabel:'Or explore BAIC →',altUrl:'/baic/'},
+    baic:{h:'Your best next move looks structural.',p:'The pattern points to your operating architecture. The natural next step is BAIC, a 30-day diagnostic that reads the business as a system and ranks every exposure by what it will actually cost. Let’s spend 30 minutes on your result and whether BAIC is the right move.',label:'Book a call on your next step',url:BOOK_CALL_URL,altLabel:'Or explore BAIC first →',altUrl:'/baic/'},
+    ldna:{h:'Your best next move looks like the team.',p:'The exposure is in the people layer, who’s in which seat, and where two leaders share the same blind spot. The usual next step is a Leadership Team Foundations report, built on the LDNA. Let’s spend 30 minutes on your result and the right way in.',label:'Book a call on your next step',url:BOOK_CALL_URL,altLabel:'Or take the LDNA, free →',altUrl:'/ldna/'},
+    baic_mna:{h:'You’re sizing up a business to buy.',p:'Your answers map to pre-close diligence, whether the target survives the ownership transition without the seller. Let’s spend 30 minutes on your result and BAIC’s diligence read before you sign.',label:'Book a diligence call',url:BOOK_CALL_URL,altLabel:'Or explore BAIC →',altUrl:'/baic/'},
   },
   aiLens:{teaser:'BAIC reads AI as a disruption vector across your Strategy and Systems; LDNA maps where each leader’s value actually holds.'},
   aiQuestions:[
     {id:'AI1',stem:'AI is reshaping your market and cost base. You’re…',o:['exposed and not moving','watching, no real plan','piloting in places','building it into how you operate']},
-    {id:'AI2',stem:'Do you know which of your team’s work AI is most likely to absorb — and which is your durable edge?',o:['haven’t looked','a vague sense','some idea by function','mapped it deliberately']},
+    {id:'AI2',stem:'Do you know which of your team’s work AI is most likely to absorb, and which is your durable edge?',o:['haven’t looked','a vague sense','some idea by function','mapped it deliberately']},
   ],
   sections:[
     {label:'Leadership, structure & direction',qs:[
       {id:'L1',cat:'leadership',stem:'When you’re out for a week, decisions…',o:['everything stalls','a few hold their piece','leaders run their areas','the business just runs']},
-      {id:'L2',cat:'leadership',stem:'Lose your two most critical leaders and you’d…',o:['be in serious trouble','take a multi-quarter hit','wobble but recover','absorb it — real bench']},
+      {id:'L2',cat:'leadership',stem:'Lose your two most critical leaders and you’d…',o:['be in serious trouble','take a multi-quarter hit','wobble but recover','absorb it, real bench']},
       {id:'S1',cat:'structure',stem:'Your leaders vs. their roles…',o:['several in the wrong seat','strong, but the mix is off','mostly well-matched','right people, right seats']},
       {id:'S2',cat:'structure',stem:'How your leaders pair up…',o:['same strengths, same blind spots','overlap more than complement','cover each other mostly','deliberately cover blind spots']},
       {id:'T1',cat:'strategy',stem:'Ask five employees the strategy…',o:['five different answers','vague, overlapping','broadly consistent','the same, top to bottom']},
@@ -529,11 +529,11 @@ function scoreAssessment(cfg,answers,ai,ctx){
   const ordered=Object.entries(cats).sort((a,b)=>a[1]-b[1]); // worst first
   const lowest=ordered[0][0];
   let routing;
-  if(ctx.buyer==='acquirer') routing={primary:'baic_mna',reason:'Acquirer track — pre-close diligence tier.'};
+  if(ctx.buyer==='acquirer') routing={primary:'baic_mna',reason:'Acquirer track, pre-close diligence tier.'};
   else{
     const weak=cfg.priority.includes(lowest)||cfg.priority.some(c=>cats[c]<=t.critical);
-    routing=weak?{primary:'ldna',reason:'People/leadership is the binding constraint — read the bench first.'}
-                :{primary:'baic',reason:'Architecture is the binding constraint — rank and sequence it.'};
+    routing=weak?{primary:'ldna',reason:'People/leadership is the binding constraint, read the bench first.'}
+                :{primary:'baic',reason:'Architecture is the binding constraint, rank and sequence it.'};
   }
   return {assessment:cfg.key,title:cfg.title,category_scores:cats,ordered,overall,band,
           binding_constraint:{category:lowest,label:cfg.catLabels[lowest],score:cats[lowest]},
@@ -587,7 +587,7 @@ function intro(){
 }
 function gate(){
   app.innerHTML=`<section class="rr-screen">
-    <p class="eyebrow">First — one tap</p>
+    <p class="eyebrow">First, one tap</p>
     <h1 class="sm">${cfg.gate.label}</h1>
     <div class="rr-gate">${cfg.gate.options.map((o,i)=>`<button class="rr-gatecard" data-i="${i}">${o.t}<span class="arrow">&rarr;</span></button>`).join('')}</div>
   </section>`;
@@ -656,9 +656,9 @@ function section(i){
 }
 function aiScreen(){
   app.innerHTML=`<section class="rr-screen">
-    <p class="eyebrow">Two more — optional</p>
+    <p class="eyebrow">Two more, optional</p>
     <h1 class="sm">Your AI <em>exposure</em></h1>
-    <p class="rr-lede" style="font-size:16px">A quick read on where AI sits for you. Skip if you’d rather just see your result — your read is already complete.</p>
+    <p class="rr-lede" style="font-size:16px">A quick read on where AI sits for you. Skip if you’d rather just see your result, your read is already complete.</p>
     <div id="qs">${cfg.aiQuestions.map(qHTML).join('')}</div>
     <div class="rr-nav"><button class="rr-skip" id="skip">Skip → see my read</button>
       <button class="btn btn-primary" id="next">See my read →</button></div>
@@ -674,7 +674,7 @@ function finish(){
   submitResult({assessment:cfg.key,lead:state.lead,context:state.ctx,answers:state.answers,ai_answers:state.ai,result:r});
 }
 function result(r){
-  const oneLine={[cfg.bands.low]:'Two or more areas are carrying more risk than the rest — and that’s exactly where your leverage is.',
+  const oneLine={[cfg.bands.low]:'Two or more areas are carrying more risk than the rest, and that’s exactly where your leverage is.',
     [cfg.bands.mid]:'The foundation is mostly there; a few areas decide whether the next stage holds.',
     [cfg.bands.high]:'The structure is largely in place. A couple of watch-items, and a clear next move.'}[r.band];
   const lowSet=new Set(r.ordered.slice(0,3).map(e=>e[0]));
@@ -691,38 +691,38 @@ function result(r){
   const altLink=c.altLabel?`<a class="alt" href="${c.altUrl}"${c.altUrl.indexOf('http')===0?' target="_blank" rel="noopener"':''}>${c.altLabel}</a>`:'';
   const evCard=(k,s)=>{const ev=cfg.domainEvidence[k],z=zoneFor(s).def;if(!ev)return '';return `<div class="rr-evcard" style="--zc:${z.color}"><div class="rr-evhead">${cfg.catLabels[k]} <span class="rr-evzone">· ${z.name}</span></div><p class="rr-evlede">${ev.head}</p><p class="rr-evrow"><b>What’s driving it.</b> ${ev.why}</p><p class="rr-evrow"><b>What the data shows.</b> ${ev.rates}</p><p class="rr-evrow"><b>How visible it is.</b> ${ev.detect}</p><p class="rr-evmove"><b>The move.</b> ${ev.move}</p></div>`;};
   const leverList=r.ordered.slice(0,3).map(([k,s])=>evCard(k,s)).join('');
-  const vmoca=`<div class="rr-vmoca"><h4>Why some questions asked how you’d find out — not just what’s true</h4><p>This read runs on VMOCA, the scoring engine behind BAIC, adapted from FMECA — the failure-analysis method used in aerospace and defense. VMOCA weighs every vulnerability on four axes: how often it tends to occur, how badly it would hurt, how exposed your current stage makes you, and — the one most assessments ignore — how <b>detectable</b> it is before it does damage. That last axis is why several questions asked how you’d <i>find out</i> a problem rather than whether one exists. A weakness you can see coming is manageable; the same weakness with no early signal is what turns into a cascade. Each domain carries a different baseline visibility: financial issues tend to surface in the numbers, while leadership, data, and risk-and-compliance weaknesses stay quiet the longest.</p></div>`;
-  const dataSrc=`<div class="rr-datasrc"><h4>Where these numbers come from</h4><p>Your read is scored against BAIC’s documented failure library — more than 100 failure mechanisms across 20 cataloged failure causes, mapped to eight business domains, drawn from sources including the SBA, CB Insights, McKinsey, SHRM, MIT Sloan and MIT CISR, Startup Genome, Gartner, PwC, and SCORE. The percentages above are base rates from that library — how often each failure pattern shows up across thousands of businesses — not estimates about your specific company.</p></div>`;
+  const vmoca=`<div class="rr-vmoca"><h4>Why some questions asked how you’d find out, not just what’s true</h4><p>This read runs on VMOCA, the scoring engine behind BAIC, adapted from FMECA, the failure-analysis method used in aerospace and defense. VMOCA weighs every vulnerability on four axes: how often it tends to occur, how badly it would hurt, how exposed your current stage makes you, and, the one most assessments ignore, how <b>detectable</b> it is before it does damage. That last axis is why several questions asked how you’d <i>find out</i> a problem rather than whether one exists. A weakness you can see coming is manageable; the same weakness with no early signal is what turns into a cascade. Each domain carries a different baseline visibility: financial issues tend to surface in the numbers, while leadership, data, and risk-and-compliance weaknesses stay quiet the longest.</p></div>`;
+  const dataSrc=`<div class="rr-datasrc"><h4>Where these numbers come from</h4><p>Your read is scored against BAIC’s documented failure library, more than 100 failure mechanisms across 20 cataloged failure causes, mapped to eight business domains, drawn from sources including the SBA, CB Insights, McKinsey, SHRM, MIT Sloan and MIT CISR, Startup Genome, Gartner, PwC, and SCORE. The percentages above are base rates from that library, how often each failure pattern shows up across thousands of businesses, not estimates about your specific company.</p></div>`;
   const sentLine = SUBMIT_ENDPOINT
-    ? `Your report is yours to keep — use <strong>Save / print</strong> to download a PDF, or revisit any time.`
-    : `Your report is yours to keep — use <strong>Save / print</strong> to download a PDF, or revisit any time.`;
+    ? `Your report is yours to keep, use <strong>Save / print</strong> to download a PDF, or revisit any time.`
+    : `Your report is yours to keep, use <strong>Save / print</strong> to download a PDF, or revisit any time.`;
   app.innerHTML=`<section class="rr-screen">
     <div class="rr-report-top">
       <div><p class="rr-snaplabel">${cfg.title} · your report</p><p class="rr-bandhead">${r.band}</p></div>
       <button class="rr-print" onclick="window.print()">Save / print ↧</button>
     </div>
     <p class="rr-oneline">${oneLine}</p>
-    <p class="rr-expect">A directional read from your own answers — it places you in a zone on each domain rather than a precise score. The full BAIC diagnostic measures all eight domains against evidence, then ranks every exposure by what it will actually cost.</p>
+    <p class="rr-expect">A directional read from your own answers, it places you in a zone on each domain rather than a precise score. The full BAIC diagnostic measures all eight domains against evidence, then ranks every exposure by what it will actually cost.</p>
     <h3 class="rr-sub">Where you fall on each domain</h3>
-    <p class="rr-subnote">Ordered most-exposed first. Each strip shows the zone your answers point to — not a score.</p>
+    <p class="rr-subnote">Ordered most-exposed first. Each strip shows the zone your answers point to, not a score.</p>
     <div class="rr-strip">${strip}</div>
     ${vmoca}
-    <h3 class="rr-sub">Your three leverage points — the vulnerabilities to move on first</h3>
+    <h3 class="rr-sub">Your three leverage points, the vulnerabilities to move on first</h3>
     <p class="rr-subnote">For each: what’s exposed, the mechanism driving it, the base failure rate behind it, and how visible it tends to be from the inside.</p>
     <div class="rr-levers">${leverList}</div>
     <div class="rr-callout"><h3>The one to move first: ${r.binding_constraint.label}</h3>
-      <p>${cfg.cascadeTease[r.cascade_id]} <strong>This is foreseeable and fixable — if you can see it early. That’s what the full diagnostic does.</strong></p></div>
+      <p>${cfg.cascadeTease[r.cascade_id]} <strong>This is foreseeable and fixable, if you can see it early. That’s what the full diagnostic does.</strong></p></div>
     ${ai}
     <div class="rr-bias">
       <h4>What a questionnaire can’t see</h4>
-      <p>This read reflects what you can see and report today — and that’s its limit. The most expensive failures usually hide in exactly what a self-assessment can’t surface: the blind spots you can’t report because you can’t see them, and the areas that feel fine but aren’t. The full Business Architecture &amp; Intelligence Cycle closes that gap — it measures <strong>visibility itself</strong>, how detectable each vulnerability is from inside your business, and validates every read against evidence rather than recall. That’s what produces the Architecture Maturity Index, and it’s the difference that prevents failures: what you can’t see early, you can’t fix in time.</p>
+      <p>This read reflects what you can see and report today, and that’s its limit. The most expensive failures usually hide in exactly what a self-assessment can’t surface: the blind spots you can’t report because you can’t see them, and the areas that feel fine but aren’t. The full Business Architecture &amp; Intelligence Cycle closes that gap, it measures <strong>visibility itself</strong>, how detectable each vulnerability is from inside your business, and validates every read against evidence rather than recall. That’s what produces the Architecture Maturity Index, and it’s the difference that prevents failures: what you can’t see early, you can’t fix in time.</p>
     </div>
     ${dataSrc}
     <div class="rr-cta"><h3>${c.h}</h3><p>${c.p}</p>
       <div class="actions"><a class="go" href="${c.url}"${c.url.indexOf('http')===0?' target="_blank" rel="noopener"':''}>${c.label} &rarr;</a>${altLink}</div></div>
     <p class="rr-sentto">${sentLine}</p>
     <p class="rr-restart"><button id="restart">Start over</button></p>
-    <p class="rr-disclaim">This is a directional self-assessment built from BAIC’s North Star / red-flag layer. It approximates where you may fall on each domain from a handful of self-reported answers — it is <b>not</b> the validated Architecture Maturity Index, which measures all eight domains against evidence, assigns each vulnerability a criticality score, and ranks them by what they will actually cost. <b>A full analysis against the complete framework will give you a far more thorough breakdown</b> — the specific mechanisms in play, how detectable each one is in your operation, and the order to address them. The leadership and structure questions surface org-level risk; they are not an LDNA bench score.</p>
+    <p class="rr-disclaim">This is a directional self-assessment built from BAIC’s North Star / red-flag layer. It approximates where you may fall on each domain from a handful of self-reported answers, it is <b>not</b> the validated Architecture Maturity Index, which measures all eight domains against evidence, assigns each vulnerability a criticality score, and ranks them by what they will actually cost. <b>A full analysis against the complete framework will give you a far more thorough breakdown</b>, the specific mechanisms in play, how detectable each one is in your operation, and the order to address them. The leadership and structure questions surface org-level risk; they are not an LDNA bench score.</p>
   </section>`;
   const rb=document.getElementById('restart');
   if(rb) rb.onclick=()=>{state.step=0;state.answers={};state.ai={};state.lead={};state.ctx={};render();up();};
