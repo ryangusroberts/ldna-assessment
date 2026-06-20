@@ -565,6 +565,40 @@
   .welcome-meta div { display: flex; align-items: center; gap: 9px; }
   .welcome-meta svg { color: var(--primary); }
 
+  /* ---------- Hero start CTA + scroll cue ---------- */
+  .hero-start { margin: 28px 0 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; }
+  .btn-hero { font-size: 16px; padding: 16px 34px; display: inline-flex; align-items: center; gap: 10px; }
+  .btn-hero .arrow { display: inline-block; transition: transform 220ms cubic-bezier(.2,.7,.3,1); }
+  .btn-hero:hover .arrow { transform: translateY(3px); }
+  .hero-start-note { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); margin: 0; letter-spacing: 0.01em; }
+  .hero-start-note strong { color: var(--ink-soft); font-weight: 600; }
+  /* Quiet, secondary clickable VM link beneath the prominent (non-clickable) credit */
+  .welcome-partner-static { cursor: default; }
+  .partner-visit-link { font-family: var(--font-ui); font-size: 12.5px; color: var(--ink-mute); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; margin: -10px 0 22px; letter-spacing: 0.01em; transition: color 180ms; }
+  .partner-visit-link:hover { color: var(--primary); }
+  .partner-visit-link .arrow { transition: transform 180ms; }
+  .partner-visit-link:hover .arrow { transform: translateX(3px); }
+
+  /* ---------- How-it-works step strip ---------- */
+  .how-strip { margin: 26px 0 6px; }
+  .how-strip-head { font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); margin-bottom: 12px; }
+  .how-steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .how-steps li { display: flex; gap: 11px; align-items: flex-start; padding: 14px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; }
+  .how-num { flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%; background: var(--primary); color: #fff; font-family: var(--font-ui); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .how-txt { font-family: var(--font-ui); font-size: 12.5px; color: var(--ink-soft); line-height: 1.42; }
+  .how-txt strong { display: block; color: var(--ink); font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  @media (max-width: 760px) { .how-steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 440px) { .how-steps { grid-template-columns: 1fr; } }
+
+  /* ---------- "More about the LDNA" divider ---------- */
+  .more-divider { display: flex; align-items: center; gap: 16px; margin: 46px 0 6px; }
+  .more-divider::before, .more-divider::after { content: ""; height: 1px; background: var(--line); flex: 1; }
+  .more-divider span { font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink-mute); white-space: nowrap; }
+
+  /* ---------- Intake form kicker ---------- */
+  .form-kicker { font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 12px; display: inline-flex; align-items: center; gap: 8px; }
+  .form-kicker::before { content: ""; width: 18px; height: 1px; background: var(--accent); display: inline-block; }
+
   /* ---------- Done ---------- */
   .done {
     text-align: center; padding: 60px 20px;
@@ -594,6 +628,41 @@
   .done-partner-btn-eyebrow { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; opacity: 0.72; }
   .done-partner-btn-arrow { font-size: 18px; line-height: 1; opacity: 0.8; }
 
+  /* ---------- Share-to-unlock module (completion screen) ---------- */
+  .unlock-card { margin: 34px auto 0; max-width: 620px; padding: 30px 30px 28px; background: var(--surface); border: 1px solid var(--primary-line); border-radius: 16px; text-align: left; box-shadow: var(--shadow-md); }
+  .unlock-card.is-unlocked { border-color: var(--accent-line); background: linear-gradient(180deg, var(--accent-soft) 0%, #fff 120px); }
+  .unlock-eyebrow { font-family: var(--font-ui); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 8px; }
+  .unlock-heading { font-family: var(--font-serif); font-size: 24px; font-weight: 600; color: var(--ink); margin: 0 0 12px; line-height: 1.22; }
+  .unlock-body { font-family: var(--font-ui); font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 16px; }
+  .unlock-body strong { color: var(--ink); font-weight: 600; }
+  .unlock-list { list-style: none; padding: 0; margin: 0 0 22px; }
+  .unlock-list li { font-family: var(--font-ui); font-size: 13.5px; color: var(--ink-soft); padding: 5px 0 5px 24px; position: relative; line-height: 1.45; }
+  .unlock-list li::before { content: ""; position: absolute; left: 2px; top: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .unlock-share-label { display: block; font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-mute); margin: 0 0 8px; }
+  .reflink-row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .reflink-row input { flex: 1; min-width: 0; font-size: 13.5px; color: var(--ink-soft); background: var(--surface-2); }
+  .reflink-copy { flex: 0 0 auto; padding: 12px 20px; box-shadow: none; }
+  .share-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+  .share-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); font-family: var(--font-ui); font-size: 13px; font-weight: 600; text-decoration: none; cursor: pointer; transition: border-color 180ms, transform 180ms, box-shadow 180ms; }
+  .share-btn:hover { border-color: var(--primary); transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+  .share-btn svg { width: 16px; height: 16px; }
+  .unlock-or { display: flex; align-items: center; gap: 14px; margin: 24px 0 18px; }
+  .unlock-or::before, .unlock-or::after { content: ""; height: 1px; background: var(--line); flex: 1; }
+  .unlock-or span { font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); white-space: nowrap; }
+  .invite-box input { margin-bottom: 8px; }
+  .invite-help { font-family: var(--font-ui); font-size: 12px; color: var(--ink-mute); margin: 0 0 14px; line-height: 1.45; }
+  .invite-box .btn { width: 100%; }
+  .invite-err { font-family: var(--font-ui); font-size: 13px; color: #B23A4A; margin: 10px 0 0; }
+  .unlock-done { display: flex; align-items: flex-start; gap: 14px; margin-top: 22px; padding: 18px 20px; background: #fff; border: 1px solid var(--accent-line); border-radius: 12px; }
+  .unlock-done-check { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; }
+  .unlock-done div { font-family: var(--font-ui); font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+  .unlock-done strong { display: block; color: var(--ink); font-size: 14.5px; font-weight: 600; margin-bottom: 2px; }
+  @media (max-width: 640px) {
+    .unlock-card { padding: 22px 18px; }
+    .reflink-row { flex-direction: column; }
+    .reflink-copy { width: 100%; }
+  }
+
   .err-banner {
     background: #FBEAEC; color: #7A1F2B; border: 1px solid #E8B5BC;
     padding: 12px 14px; border-radius: var(--radius-sm); margin-bottom: 16px;
@@ -619,7 +688,7 @@
 
 
 /* ===========================================================
-   COMPREHENSIVE MOBILE SWEEP — best practice across all pages
+   COMPREHENSIVE MOBILE SWEEP, best practice across all pages
    =========================================================== */
 @media (max-width: 880px) {
   /* Containers: scale down section padding aggressively */
@@ -829,25 +898,30 @@
 
   <!-- STEP 1: Welcome + demographics -->
   <section class="step active" data-step="0" aria-label="About you">
-    <div class="step-eyebrow">About you</div>
+    <div class="step-eyebrow">Free leadership assessment</div>
     <p style="font-family: var(--font-serif); font-style: italic; font-size: 15.5px; color: var(--accent); margin: 0 0 8px; letter-spacing: 0.01em;">Understand every leader. Build the whole team.</p>
-    <h1>The LDNA<span class="tm">™</span>. Six minutes. <em>A free 2-page behavioral profile.</em></h1>
+    <h1>Take the LDNA<span class="tm">™</span> assessment. <em>Your free 2-page profile in six minutes.</em></h1>
     <p class="operator-byline">Delivered by <strong>The Saunter Group, LLC</strong></p>
-    <div class="welcome-partner" aria-label="In partnership with Vertical Motion">
+    <div class="welcome-partner welcome-partner-static" aria-label="In partnership with Vertical Motion">
       <span class="welcome-partner-label">In partnership with</span>
-      <a href="https://www.vmleader.com" target="_blank" rel="noopener" class="welcome-partner-link" aria-label="Visit Vertical Motion">
+      <span class="welcome-partner-link">
         <img src="/assets/vmleader-logo.png" onerror="this.onerror=null; this.src='https://images.squarespace-cdn.com/content/v1/67d84861b35dd82387d52220/fd6ec7ef-2c28-4366-a1f0-b31cbc5b2e70/PNG+File+Sans+ECA+Tag.png?format=1500w';" alt="Vertical Motion" class="welcome-partner-logo" />
-      </a>
+      </span>
     </div>
+    <a href="https://www.vmleader.com" target="_blank" rel="noopener" class="partner-visit-link">Learn about Vertical Motion <span class="arrow" aria-hidden="true">→</span></a>
     <p class="lede">
       In six minutes you'll see how you actually lead, where your current role is asking
       you to behave differently, and what that gap is costing you every day. Pick the
       words that fit. We do the math.
     </p>
+    <div class="hero-start">
+      <button class="btn btn-primary btn-hero" id="heroStart" type="button">Start the assessment <span class="arrow" aria-hidden="true">↓</span></button>
+      <p class="hero-start-note"><strong>Free.</strong> About 6 minutes. Jump straight in, or read more below first.</p>
+    </div>
     <div class="welcome-meta">
       <div>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        About 10 minutes
+        Under 10 minutes
       </div>
       <div>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -859,100 +933,19 @@
       </div>
     </div>
 
-    <!-- LDNA 7-dimension visual -->
-    <div class="card" style="margin-top: 28px;">
-      <h2>What LDNA reads.</h2>
-      <p class="report-lede" style="margin-bottom: 0;">
-        Seven dimensions grounded in established behavioral science. Each one captures a different driver of how you naturally lead, and how your role asks you to adapt.
-      </p>
-      <div class="ldna-diagram" id="ldnaDiagram">
-        <svg viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The seven LDNA dimensions arranged in a heptagon around a central LDNA mark. Hover or tap a dimension for the definition.">
-          <defs>
-            <radialGradient id="ldnaCenter" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#1a3060" />
-              <stop offset="100%" stop-color="#0E1F3D" />
-            </radialGradient>
-          </defs>
-          <g stroke="#C6D2E6" stroke-width="0.75" fill="none">
-            <line x1="300" y1="240" x2="300" y2="80"/>
-            <line x1="300" y1="240" x2="425" y2="140"/>
-            <line x1="300" y1="240" x2="456" y2="275"/>
-            <line x1="300" y1="240" x2="369" y2="384"/>
-            <line x1="300" y1="240" x2="231" y2="384"/>
-            <line x1="300" y1="240" x2="144" y2="275"/>
-            <line x1="300" y1="240" x2="175" y2="140"/>
-          </g>
-          <circle cx="300" cy="240" r="58" fill="url(#ldnaCenter)" stroke="#A77A28" stroke-width="1.5" />
-          <text x="300" y="234" text-anchor="middle" font-family="Aptos Serif, Source Serif 4, Georgia, serif" font-size="22" font-weight="700" fill="#fff">LDNA</text>
-          <text x="300" y="256" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" letter-spacing="2.4" fill="#D9C28A">7 DIMENSIONS</text>
-          <g font-family="Inter, sans-serif" font-size="13" font-weight="700" text-anchor="middle">
-            <g class="ldna-dim-group" data-dim="0" tabindex="0" role="button" aria-label="Drive and Independence"><circle cx="300" cy="80" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="300" y="85" fill="#A77A28">1</text></g>
-            <g class="ldna-dim-group" data-dim="1" tabindex="0" role="button" aria-label="Social Energy"><circle cx="425" cy="140" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="425" y="145" fill="#A77A28">2</text></g>
-            <g class="ldna-dim-group" data-dim="2" tabindex="0" role="button" aria-label="Pace and Patience"><circle cx="456" cy="275" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="456" y="280" fill="#A77A28">3</text></g>
-            <g class="ldna-dim-group" data-dim="3" tabindex="0" role="button" aria-label="Structure and Order"><circle cx="369" cy="384" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="369" y="389" fill="#A77A28">4</text></g>
-            <g class="ldna-dim-group" data-dim="4" tabindex="0" role="button" aria-label="Creative Battery"><circle cx="231" cy="384" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="231" y="389" fill="#A77A28">5</text></g>
-            <g class="ldna-dim-group" data-dim="5" tabindex="0" role="button" aria-label="Logic and Analysis"><circle cx="144" cy="275" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="144" y="280" fill="#A77A28">6</text></g>
-            <g class="ldna-dim-group" data-dim="6" tabindex="0" role="button" aria-label="Vision and Ideas"><circle cx="175" cy="140" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="175" y="145" fill="#A77A28">7</text></g>
-          </g>
-          <g font-family="Inter, sans-serif" font-size="11.5" font-weight="600" fill="#0B1220">
-            <text class="ldna-dim-label" data-dim="0" x="300" y="42" text-anchor="middle">Drive &amp; Independence</text>
-            <text class="ldna-dim-label" data-dim="1" x="455" y="135" text-anchor="start">Social Energy</text>
-            <text class="ldna-dim-label" data-dim="2" x="486" y="272" text-anchor="start">Pace &amp; Patience</text>
-            <text class="ldna-dim-label" data-dim="3" x="369" y="426" text-anchor="middle">Structure &amp; Order</text>
-            <text class="ldna-dim-label" data-dim="4" x="231" y="426" text-anchor="middle">Creative Battery</text>
-            <text class="ldna-dim-label" data-dim="5" x="114" y="272" text-anchor="end">Logic &amp; Analysis</text>
-            <text class="ldna-dim-label" data-dim="6" x="145" y="135" text-anchor="end">Vision &amp; Ideas</text>
-          </g>
-        </svg>
-      </div>
-      <p class="ldna-hint">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v5.25"/><path d="M16 11h-1a3 3 0 0 0-3 3v0a3 3 0 0 0 3 3h1a4 4 0 0 0 4-4v-2a4 4 0 0 0-4-4"/></svg>
-        Hover or tap any dimension to see what it measures.
-      </p>
-      <div class="ldna-definition" id="ldnaDefinition" aria-live="polite">
-        <span class="ldna-prompt" id="ldnaPrompt">Each of the seven dimensions captures a different driver of how you naturally lead. Hover or tap one to read the definition.</span>
-        <div class="ldna-def-head" style="display:none;">
-          <span class="ldna-def-code" id="ldnaDefCode"></span>
-          <span class="ldna-def-name" id="ldnaDefName"></span>
-        </div>
-        <p class="ldna-def-body" id="ldnaDefBody" style="display:none;"></p>
-        <p class="ldna-def-poles" id="ldnaDefPoles" style="display:none;"></p>
-      </div>
+    <!-- How it works: makes clear this is a 4-step assessment taken on THIS page -->
+    <div class="how-strip" aria-label="How the assessment works">
+      <div class="how-strip-head">How it works · four quick steps, all on this page</div>
+      <ol class="how-steps">
+        <li><span class="how-num">1</span><span class="how-txt"><strong>About you</strong>A few details — right below.</span></li>
+        <li><span class="how-num">2</span><span class="how-txt"><strong>Words that fit you</strong>Pick what describes your natural style.</span></li>
+        <li><span class="how-num">3</span><span class="how-txt"><strong>Words your role demands</strong>The same list, through your role's lens.</span></li>
+        <li><span class="how-num">4</span><span class="how-txt"><strong>Get your report</strong>Your 2-page LDNA, emailed free.</span></li>
+      </ol>
     </div>
 
-    <!-- Adaptation Gap callout -->
-    <div class="card" style="margin-top: 22px; background: var(--primary); color: #fff; border-color: var(--primary);">
-      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-        <span style="font-family: var(--font-ui); font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #D9C28A;">The signature read</span>
-      </div>
-      <h2 style="color: #fff; margin: 0 0 12px; font-size: 22px;">The Adaptation Gap.</h2>
-      <p style="font-family: var(--font-ui); font-size: 14.5px; color: rgba(255,255,255,0.85); line-height: 1.55; margin: 0;">
-        Where your natural self and your role behavior diverge, energy is spent. The LDNA quantifies that load per dimension and names its shape — aligned, demand-weighted, or bidirectional. It is the daily cost of being who your role asks you to be, made visible.
-      </p>
-    </div>
-
-    <!-- Free assessment + report tiers -->
-    <div class="card report-card" style="margin-top: 22px;">
-      <div class="free-badge">Free assessment</div>
-      <h2 style="margin-top: 10px;">What you'll receive.</h2>
-      <p class="report-lede">
-        Complete the assessment and we'll email you a <strong>2-page LDNA report</strong> covering your archetype, dominant dimensions, your <strong>Adaptation Gap</strong>, and what each pattern typically means for how you lead. No cost, no upsell required.
-      </p>
-      <div class="report-tiers">
-        <div class="tier tier-free">
-          <div class="tier-tag">Included free</div>
-          <h3>2-page LDNA report</h3>
-          <ul>
-            <li>Your archetype on the value-stream field</li>
-            <li>Top dimensions and what they mean</li>
-            <li>The daily cost of your natural-vs-adaptive gap</li>
-            <li>A short interpretation written for you</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top: 22px;">
+    <div class="card" id="start-form" style="margin-top: 22px; scroll-margin-top: 96px;">
+      <div class="form-kicker">Step 1 of 4 · Start here</div>
       <h2>Tell us a bit about yourself</h2>
       <p class="help" style="margin-top: 4px; margin-bottom: 18px; color: var(--ink-mute); font-size: 14px;">
         This context helps us tailor your profile.
@@ -1024,6 +1017,102 @@
       <span></span>
       <button class="btn btn-primary" id="next0">Begin assessment →</button>
     </div>
+
+    <div class="more-divider"><span>More about the LDNA</span></div>
+    <!-- LDNA 7-dimension visual -->
+    <div class="card" style="margin-top: 28px;">
+      <h2>What LDNA reads.</h2>
+      <p class="report-lede" style="margin-bottom: 0;">
+        Seven dimensions grounded in established behavioral science. Each one captures a different driver of how you naturally lead, and how your role asks you to adapt.
+      </p>
+      <div class="ldna-diagram" id="ldnaDiagram">
+        <svg viewBox="0 0 600 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The seven LDNA dimensions arranged in a heptagon around a central LDNA mark. Hover or tap a dimension for the definition.">
+          <defs>
+            <radialGradient id="ldnaCenter" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#1a3060" />
+              <stop offset="100%" stop-color="#0E1F3D" />
+            </radialGradient>
+          </defs>
+          <g stroke="#C6D2E6" stroke-width="0.75" fill="none">
+            <line x1="300" y1="240" x2="300" y2="80"/>
+            <line x1="300" y1="240" x2="425" y2="140"/>
+            <line x1="300" y1="240" x2="456" y2="275"/>
+            <line x1="300" y1="240" x2="369" y2="384"/>
+            <line x1="300" y1="240" x2="231" y2="384"/>
+            <line x1="300" y1="240" x2="144" y2="275"/>
+            <line x1="300" y1="240" x2="175" y2="140"/>
+          </g>
+          <circle cx="300" cy="240" r="58" fill="url(#ldnaCenter)" stroke="#A77A28" stroke-width="1.5" />
+          <text x="300" y="234" text-anchor="middle" font-family="Aptos Serif, Source Serif 4, Georgia, serif" font-size="22" font-weight="700" fill="#fff">LDNA</text>
+          <text x="300" y="256" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" letter-spacing="2.4" fill="#D9C28A">7 DIMENSIONS</text>
+          <g font-family="Inter, sans-serif" font-size="13" font-weight="700" text-anchor="middle">
+            <g class="ldna-dim-group" data-dim="0" tabindex="0" role="button" aria-label="Drive and Independence"><circle cx="300" cy="80" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="300" y="85" fill="#A77A28">1</text></g>
+            <g class="ldna-dim-group" data-dim="1" tabindex="0" role="button" aria-label="Social Energy"><circle cx="425" cy="140" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="425" y="145" fill="#A77A28">2</text></g>
+            <g class="ldna-dim-group" data-dim="2" tabindex="0" role="button" aria-label="Pace and Patience"><circle cx="456" cy="275" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="456" y="280" fill="#A77A28">3</text></g>
+            <g class="ldna-dim-group" data-dim="3" tabindex="0" role="button" aria-label="Structure and Order"><circle cx="369" cy="384" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="369" y="389" fill="#A77A28">4</text></g>
+            <g class="ldna-dim-group" data-dim="4" tabindex="0" role="button" aria-label="Creative Battery"><circle cx="231" cy="384" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="231" y="389" fill="#A77A28">5</text></g>
+            <g class="ldna-dim-group" data-dim="5" tabindex="0" role="button" aria-label="Logic and Analysis"><circle cx="144" cy="275" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="144" y="280" fill="#A77A28">6</text></g>
+            <g class="ldna-dim-group" data-dim="6" tabindex="0" role="button" aria-label="Vision and Ideas"><circle cx="175" cy="140" r="22" fill="#fff" stroke="#A77A28" stroke-width="1.6"/><text x="175" y="145" fill="#A77A28">7</text></g>
+          </g>
+          <g font-family="Inter, sans-serif" font-size="11.5" font-weight="600" fill="#0B1220">
+            <text class="ldna-dim-label" data-dim="0" x="300" y="42" text-anchor="middle">Drive &amp; Independence</text>
+            <text class="ldna-dim-label" data-dim="1" x="455" y="135" text-anchor="start">Social Energy</text>
+            <text class="ldna-dim-label" data-dim="2" x="486" y="272" text-anchor="start">Pace &amp; Patience</text>
+            <text class="ldna-dim-label" data-dim="3" x="369" y="426" text-anchor="middle">Structure &amp; Order</text>
+            <text class="ldna-dim-label" data-dim="4" x="231" y="426" text-anchor="middle">Creative Battery</text>
+            <text class="ldna-dim-label" data-dim="5" x="114" y="272" text-anchor="end">Logic &amp; Analysis</text>
+            <text class="ldna-dim-label" data-dim="6" x="145" y="135" text-anchor="end">Vision &amp; Ideas</text>
+          </g>
+        </svg>
+      </div>
+      <p class="ldna-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.24V7.5a2.5 2.5 0 0 1 5 0v5.25"/><path d="M16 11h-1a3 3 0 0 0-3 3v0a3 3 0 0 0 3 3h1a4 4 0 0 0 4-4v-2a4 4 0 0 0-4-4"/></svg>
+        Hover or tap any dimension to see what it measures.
+      </p>
+      <div class="ldna-definition" id="ldnaDefinition" aria-live="polite">
+        <span class="ldna-prompt" id="ldnaPrompt">Each of the seven dimensions captures a different driver of how you naturally lead. Hover or tap one to read the definition.</span>
+        <div class="ldna-def-head" style="display:none;">
+          <span class="ldna-def-code" id="ldnaDefCode"></span>
+          <span class="ldna-def-name" id="ldnaDefName"></span>
+        </div>
+        <p class="ldna-def-body" id="ldnaDefBody" style="display:none;"></p>
+        <p class="ldna-def-poles" id="ldnaDefPoles" style="display:none;"></p>
+      </div>
+    </div>
+
+    <!-- Adaptation Gap callout -->
+    <div class="card" style="margin-top: 22px; background: var(--primary); color: #fff; border-color: var(--primary);">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+        <span style="font-family: var(--font-ui); font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #D9C28A;">The signature read</span>
+      </div>
+      <h2 style="color: #fff; margin: 0 0 12px; font-size: 22px;">The Adaptation Gap.</h2>
+      <p style="font-family: var(--font-ui); font-size: 14.5px; color: rgba(255,255,255,0.85); line-height: 1.55; margin: 0;">
+        Where your natural self and your role behavior diverge, energy is spent. The LDNA quantifies that load per dimension and names its shape, aligned, demand-weighted, or bidirectional. It is the daily cost of being who your role asks you to be, made visible.
+      </p>
+    </div>
+
+    <!-- Free assessment + report tiers -->
+    <div class="card report-card" style="margin-top: 22px;">
+      <div class="free-badge">Free assessment</div>
+      <h2 style="margin-top: 10px;">What you'll receive.</h2>
+      <p class="report-lede">
+        Complete the assessment and we'll email you a <strong>2-page LDNA report</strong> covering your archetype, dominant dimensions, your <strong>Adaptation Gap</strong>, and what each pattern typically means for how you lead. No cost, no upsell required.
+      </p>
+      <div class="report-tiers">
+        <div class="tier tier-free">
+          <div class="tier-tag">Included free</div>
+          <h3>2-page LDNA report</h3>
+          <ul>
+            <li>Your archetype on the value-stream field</li>
+            <li>Top dimensions and what they mean</li>
+            <li>The daily cost of your natural-vs-adaptive gap</li>
+            <li>A short interpretation written for you</li>
+          </ul>
+          <p class="tier-note">Want the full multi-page report? Unlock it free at the end by sharing your link with a colleague.</p>
+        </div>
+      </div>
+    </div>
+
   </section>
 
   <!-- STEP 2: Part 1 -->
@@ -1124,7 +1213,61 @@
         <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <h1>Thank you.</h1>
-      <p class="lede" style="margin-left: auto; margin-right: auto;">Your responses have been recorded. You'll receive your report via email soon.</p>
+      <p class="lede" style="margin-left: auto; margin-right: auto;">Your <strong>2-page LDNA report</strong> is on its way to <span id="doneEmail">your inbox</span>. Look for it shortly.</p>
+
+      <!-- Share-to-unlock: full report is the additive reward for sharing -->
+      <div class="unlock-card" id="unlockCard">
+        <div class="unlock-eyebrow">Unlock the full report · free</div>
+        <h2 class="unlock-heading">Share the LDNA, unlock your full report.</h2>
+        <p class="unlock-body">
+          Your 2-page summary is on its way. The <strong>full multi-page LDNA report</strong> goes much further — and you can unlock it free by passing the assessment to a colleague who'd benefit.
+        </p>
+        <ul class="unlock-list">
+          <li>All seven of your dimensions, scored and explained</li>
+          <li>Your archetype placed on the value-stream field</li>
+          <li>Your complete Adaptation Gap — the daily cost, dimension by dimension</li>
+          <li>Your AI-exposure read: where your strengths stay durable vs. exposed</li>
+          <li>Development guidance written to your own profile</li>
+        </ul>
+
+        <div class="unlock-share">
+          <label class="unlock-share-label" for="refLink">Your personal share link</label>
+          <div class="reflink-row">
+            <input id="refLink" type="text" readonly value="" aria-label="Your personal share link" />
+            <button class="btn btn-primary reflink-copy" id="copyLink" type="button">Copy</button>
+          </div>
+          <div class="share-btns">
+            <a id="shareEmail" class="share-btn" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email
+            </a>
+            <a id="shareLinkedIn" class="share-btn" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.25 8.25h4.5V24h-4.5V8.25zM8.25 8.25h4.31v2.15h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V24h-4.5v-6.99c0-1.67-.03-3.82-2.33-3.82-2.33 0-2.69 1.82-2.69 3.7V24h-4.5V8.25z"/></svg>LinkedIn
+            </a>
+            <a id="shareSMS" class="share-btn" href="#">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z"/></svg>Text
+            </a>
+          </div>
+        </div>
+
+        <div class="unlock-or"><span>or invite directly</span></div>
+
+        <div class="invite-box">
+          <label class="unlock-share-label" for="inviteEmails">Colleague emails</label>
+          <input id="inviteEmails" type="text" placeholder="alex@company.com, jordan@company.com" autocomplete="off" />
+          <p class="invite-help">We'll send a short invite from The Saunter Group. We don't add anyone to a mailing list unless they opt in themselves.</p>
+          <button class="btn btn-primary" id="sendInvites" type="button">Send invites &amp; unlock full report</button>
+          <p class="invite-err" id="inviteErr" hidden></p>
+        </div>
+
+        <div class="unlock-done" id="unlockDone" hidden>
+          <div class="unlock-done-check" aria-hidden="true">✓</div>
+          <div>
+            <strong>Full report unlocked.</strong>
+            <span>We'll email your full multi-page LDNA report to <span id="unlockEmail">your inbox</span> shortly. Thank you for sharing.</span>
+          </div>
+        </div>
+      </div>
+
       <div class="done-partner-card" aria-label="Want to go deeper? Two paths through Vertical Motion.">
         <div class="done-partner-row" style="margin-bottom: 14px;">
           <a href="https://www.vmleader.com" target="_blank" rel="noopener" class="done-partner-link" aria-label="Visit Vertical Motion">
@@ -1220,7 +1363,7 @@ const POLICY_VERSION = "2026-05-29";
    attributed to whichever licensee originally drove them here.
    Later params overwrite empty slots but never overwrite first-touch.
    ============================================================ */
-const ATTR_KEYS = ["partner", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "cid", "contact_id"];
+const ATTR_KEYS = ["partner", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "cid", "contact_id", "ref"];
 const ATTR_TTL_DAYS = 90;
 
 function readAttribution() {
@@ -1324,6 +1467,7 @@ function showStep(i) {
   document.getElementById("progressFill").style.width = pct + "%";
   window.scrollTo({ top: 0, behavior: "smooth" });
   if (i === 3) renderReview();
+  if (i === 4) setupShare();
   if (i === 2) {
     document.getElementById("carryBanner").hidden = (state.part2.size > 0 || state.part1.size === 0);
   }
@@ -1511,6 +1655,14 @@ document.querySelectorAll("[data-jump]").forEach(b => {
 });
 
 /* ---------- Submit ---------- */
+function getReferralCode() {
+  try {
+    const s = JSON.parse(localStorage.getItem("ldna.share.v1") || "{}");
+    if (s && s.referralCode) return s.referralCode;
+  } catch (_) {}
+  return "LD" + Date.now().toString(36).toUpperCase().slice(-5) + Math.random().toString(36).toUpperCase().slice(2, 5);
+}
+
 function buildPayload() {
   return {
     submittedAt: new Date().toISOString(),
@@ -1519,6 +1671,13 @@ function buildPayload() {
     roleBehavior: [...state.part2],
     naturalSelfCount: state.part1.size,
     roleBehaviorCount: state.part2.size,
+    // Default deliverable everyone receives free. The full multi-page report is
+    // unlocked separately via a share event from the completion screen.
+    reportTier: "2-page",
+    // This respondent's own referral code (for the share link on the Done screen).
+    referralCode: state.referralCode || "",
+    // If they arrived via someone else's share link (?ref=CODE), credit that referrer.
+    referrerCode: ATTRIBUTION.ref || "",
     consentTimestamp: state.consent.timestamp || new Date().toISOString(),
     policyVersion: POLICY_VERSION,
     // One combined follow-up opt-in (pre-checked, can be unticked).
@@ -1550,6 +1709,16 @@ async function submit() {
   errBanner.hidden = true;
   submitBtn.disabled = true;
   submitBtn.textContent = "Submitting…";
+  // Mint a personal referral code and persist it (survives the cache clear below)
+  // so the completion screen can build this person's share link.
+  state.referralCode = getReferralCode();
+  try {
+    localStorage.setItem("ldna.share.v1", JSON.stringify({
+      email: state.demographics.email,
+      name: state.demographics.fullName,
+      referralCode: state.referralCode,
+    }));
+  } catch (_) {}
   const payload = buildPayload();
 
   if (SUBMIT_ENDPOINT) {
@@ -1578,6 +1747,130 @@ async function submit() {
   showStep(4);
 }
 document.getElementById("submitBtn").addEventListener("click", submit);
+
+/* ============================================================
+   Share-to-unlock (completion screen)
+   ------------------------------------------------------------
+   The full multi-page report is unlocked by sharing. We never
+   gate the promised 2-page report. Any share action (copy link,
+   email/LinkedIn/SMS, or sending invites) records a share_unlock
+   event and reveals the "unlocked" confirmation. Self-send links
+   work with no backend; the invite-by-email path needs the
+   Apps Script handler in docs/ldna_share_unlock_appscript.gs.
+   ============================================================ */
+const SHARE_BASE = "https://thesauntergroup.com/ldna/";
+
+function shareData() {
+  let d = {};
+  try { d = JSON.parse(localStorage.getItem("ldna.share.v1") || "{}"); } catch (_) {}
+  return {
+    email: d.email || state.demographics.email || "",
+    name: d.name || state.demographics.fullName || "",
+    referralCode: d.referralCode || state.referralCode || "",
+  };
+}
+
+function buildShareLink(code) {
+  return SHARE_BASE + "?ref=" + encodeURIComponent(code || "") +
+    "&utm_source=referral&utm_medium=share&utm_campaign=ldna";
+}
+
+function recordShareEvent(channel, invitees) {
+  const d = shareData();
+  const payload = {
+    eventType: "share_unlock",
+    referrerEmail: d.email,
+    referrerName: d.name,
+    referralCode: d.referralCode,
+    channel: channel,
+    invitees: invitees || [],
+    inviteCount: (invitees || []).length,
+    unlockFull: true,
+    submittedAt: new Date().toISOString(),
+    utmSource: ATTRIBUTION.utm_source || "",
+    partner: ATTRIBUTION.partner || "",
+  };
+  if (!SUBMIT_ENDPOINT) { console.log("LDNA share event:", payload); return; }
+  try {
+    fetch(SUBMIT_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      keepalive: true,
+    }).catch(function () {});
+  } catch (_) {}
+}
+
+function markUnlocked() {
+  const done = document.getElementById("unlockDone");
+  if (done) done.hidden = false;
+  const card = document.getElementById("unlockCard");
+  if (card) card.classList.add("is-unlocked");
+}
+
+function setupShare() {
+  const d = shareData();
+  const link = buildShareLink(d.referralCode);
+
+  const de = document.getElementById("doneEmail");
+  if (de && d.email) de.textContent = d.email;
+  const ue = document.getElementById("unlockEmail");
+  if (ue && d.email) ue.textContent = d.email;
+
+  const input = document.getElementById("refLink");
+  if (input) input.value = link;
+
+  const subject = "A 6-minute leadership read I think you'd find useful";
+  const body = "I just took the LDNA — a free, 6-minute leadership assessment. " +
+    "It maps how you naturally lead versus how your role asks you to, and emails you a report. Worth a look:\n\n" +
+    link + "\n";
+
+  const em = document.getElementById("shareEmail");
+  if (em) em.href = "mailto:?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+  const li = document.getElementById("shareLinkedIn");
+  if (li) li.href = "https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(link);
+  const sms = document.getElementById("shareSMS");
+  if (sms) sms.href = "sms:?&body=" + encodeURIComponent(body);
+
+  if (setupShare._wired) return;
+  setupShare._wired = true;
+
+  const copyBtn = document.getElementById("copyLink");
+  if (copyBtn) copyBtn.addEventListener("click", function () {
+    const inp = document.getElementById("refLink");
+    if (inp) {
+      inp.focus(); inp.select();
+      const ok = function () { copyBtn.textContent = "Copied ✓"; setTimeout(function () { copyBtn.textContent = "Copy"; }, 1800); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(inp.value).then(ok).catch(function () { try { document.execCommand("copy"); } catch (_) {} ok(); });
+      } else { try { document.execCommand("copy"); } catch (_) {} ok(); }
+    }
+    recordShareEvent("copy", []);
+    markUnlocked();
+  });
+
+  [["shareEmail", "email"], ["shareLinkedIn", "linkedin"], ["shareSMS", "sms"]].forEach(function (pair) {
+    const el = document.getElementById(pair[0]);
+    if (el) el.addEventListener("click", function () { recordShareEvent(pair[1], []); markUnlocked(); });
+  });
+
+  const send = document.getElementById("sendInvites");
+  if (send) send.addEventListener("click", function () {
+    const raw = (document.getElementById("inviteEmails") || {}).value || "";
+    const emails = raw.split(/[\s,;]+/).map(function (s) { return s.trim(); }).filter(Boolean);
+    const valid = emails.filter(function (e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); });
+    const errEl = document.getElementById("inviteErr");
+    if (valid.length === 0) {
+      if (errEl) { errEl.hidden = false; errEl.textContent = "Please enter at least one valid email address."; }
+      return;
+    }
+    if (errEl) errEl.hidden = true;
+    send.disabled = true;
+    send.textContent = "Sending…";
+    recordShareEvent("invite", valid);
+    setTimeout(function () { send.textContent = "Invites sent ✓"; markUnlocked(); }, 500);
+  });
+}
 
 /* ---------- Init ---------- */
 load();
@@ -1661,7 +1954,25 @@ showStep(state.step || 0);
 </script>
 
 <script>
-/* Hamburger nav toggle — shows the dropdown on mobile */
+/* Hero CTA: smooth-scroll to the intake form and focus the first field,
+   so it's unmistakable that the assessment starts here (not the partner logo). */
+(function() {
+  var heroBtn = document.getElementById("heroStart");
+  var form = document.getElementById("start-form");
+  if (!heroBtn || !form) return;
+  heroBtn.addEventListener("click", function() {
+    var y = form.getBoundingClientRect().top + window.pageYOffset - 90;
+    window.scrollTo({ top: y, behavior: "smooth" });
+    setTimeout(function() {
+      var f = document.getElementById("fullName");
+      if (f) { try { f.focus({ preventScroll: true }); } catch (_) { f.focus(); } }
+    }, 600);
+  });
+})();
+</script>
+
+<script>
+/* Hamburger nav toggle, shows the dropdown on mobile */
 (function() {
   var navToggle = document.querySelector(".nav-toggle");
   var navLinks  = document.getElementById("primary-nav");
