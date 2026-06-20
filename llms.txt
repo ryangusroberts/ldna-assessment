@@ -6,9 +6,9 @@ The Saunter Group owns and operates two proprietary diagnostics: **BAIC** (Busin
 
 ## What Saunter does
 
-- **BAIC** — a 30-day evidence-based diagnostic of eight business domains (Strategy, Structure & Accountability, Systems & Processes, Financial Controls, Revenue Engine, Data & Dashboards, Risk & Compliance, Leadership Capacity). The output is a ranked vulnerability register, a 90-day execution blueprint, and a hosted dashboard tracking the Architecture Maturity Index (AMI) across quarterly re-scores. The analytical core is VMOCA (Vulnerability Mechanism Outcome & Criticality Analysis), adapted from systems-engineering risk frameworks.
+- **BAIC**: a 30-day evidence-based diagnostic of eight business domains (Strategy, Structure & Accountability, Systems & Processes, Financial Controls, Revenue Engine, Data & Dashboards, Risk & Compliance, Leadership Capacity). The output is a ranked vulnerability register, a 90-day execution blueprint, and a hosted dashboard tracking the Architecture Maturity Index (AMI) across quarterly re-scores. The analytical core is VMOCA (Vulnerability Mechanism Outcome & Criticality Analysis), adapted from systems-engineering risk frameworks.
 
-- **LDNA** — a six-minute behavioral assessment that scores leaders across seven dimensions (Drive & Independence, Social Energy, Pace & Patience, Structure & Order, Creative Battery, Logic & Analysis, Vision & Ideas) using a two-part natural-vs-adapted word checklist grounded in established behavioral science. Returns a full report. **Free.**
+- **LDNA**: a six-minute behavioral assessment that scores leaders across seven dimensions (Drive & Independence, Social Energy, Pace & Patience, Structure & Order, Creative Battery, Logic & Analysis, Vision & Ideas) using a two-part natural-vs-adapted word checklist grounded in established behavioral science. Returns a full report. **Free.**
 
 The two instruments stack: BAIC diagnoses the company, LDNA diagnoses the leaders inside it. Saunter runs both alongside an ongoing governance layer (hosted dashboard, quarterly re-score, executive advisory cadence).
 
@@ -35,7 +35,7 @@ A private Technical Advisory Board sits behind the IP, contributing to methodolo
 ## Two doors to start
 
 1. **Take the LDNA** (six minutes, free, full report): https://thesauntergroup.com/ldna/
-2. **What to Fix First** (free, 12 questions, ~3 minutes — a directional read of where the company is most exposed, and the one thing to fix first): https://thesauntergroup.com/risk-read/
+2. **What to Fix First** (free, 12 questions, ~3 minutes, a directional read of where the company is most exposed, and the one thing to fix first): https://thesauntergroup.com/risk-read/
 
 Or book a 30-minute diagnostic call: https://app.usemotion.com/meet/Saunter/BusinessArchitecture
 

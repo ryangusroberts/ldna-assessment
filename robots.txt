@@ -6,7 +6,7 @@ Allow: /
 # Block raw query strings (form posts, debug)
 Disallow: /*?
 
-# AI crawlers — explicitly allowed for citation in answer engines
+# AI crawlers: explicitly allowed for citation in answer engines
 User-agent: GPTBot
 Allow: /
 
