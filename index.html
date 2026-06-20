@@ -44,7 +44,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #FFFFFF;
@@ -64,6 +64,11 @@
     --accent-line: #D9C28A;
     --font-serif: 'Aptos Serif', 'Aptos', 'Source Serif 4', 'Source Serif Pro', 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
     --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    /* Layered, premium depth */
+    --shadow-card: 0 1px 2px rgba(14,31,61,0.04), 0 10px 30px rgba(14,31,61,0.10);
+    --shadow-card-hover: 0 2px 4px rgba(14,31,61,0.06), 0 18px 44px rgba(14,31,61,0.16);
+    --shadow-float: 0 2px 6px rgba(14,31,61,0.06), 0 22px 50px rgba(14,31,61,0.18), 0 48px 90px rgba(14,31,61,0.10);
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
@@ -120,7 +125,7 @@
   }
 
   /* ---------- Shared elements ---------- */
-  .eyebrow { font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 18px; display: inline-flex; align-items: center; gap: 10px; }
+  .eyebrow { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.2em; font-size: 11px; color: var(--accent); font-weight: 500; margin-bottom: 18px; display: inline-flex; align-items: center; gap: 10px; }
   .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); display: inline-block; }
   h1, h2, h3 { font-family: var(--font-serif); font-weight: 600; color: var(--ink); letter-spacing: -0.015em; }
   h1 em, h2 em, h3 em { font-style: italic; color: var(--accent); font-weight: 600; }
@@ -136,14 +141,59 @@
   .btn-navy:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: 0 10px 24px rgba(14,31,61,0.32); }
   .btn-lg { font-size: 16px; padding: 17px 32px; }
 
-  /* ---------- Hero ---------- */
-  section.hero { max-width: 1180px; margin: 0 auto; padding: 96px 32px 88px; }
-  .hero h1 { font-size: clamp(40px, 5.6vw, 60px); line-height: 1.05; margin: 0 0 24px; max-width: 18ch; letter-spacing: -0.02em; }
-  .hero .lede { font-size: 20px; color: var(--ink-soft); max-width: 60ch; line-height: 1.5; margin: 0 0 40px; }
+  /* ---------- Hero (blueprint dark) ---------- */
+  section.hero { position: relative; overflow: hidden; background: #0B1A33; color: #EAF0F6; padding: 0; }
+  section.hero::before { content: ""; position: absolute; inset: 0; z-index: 0; background:
+      radial-gradient(1200px 600px at 80% 16%, rgba(167,122,40,0.16), transparent 60%),
+      radial-gradient(900px 700px at 10% 92%, rgba(30,70,140,0.30), transparent 55%),
+      linear-gradient(160deg, #0E2244 0%, #091627 100%); }
+  section.hero::after { content: ""; position: absolute; inset: 0; z-index: 0; opacity: 0.5;
+      background-image: linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 44px 44px; -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%); mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 78%); }
+  .hero-inner { position: relative; z-index: 2; max-width: 1180px; margin: 0 auto; padding: 100px 32px 104px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
+  @media (max-width: 920px) { .hero-inner { grid-template-columns: 1fr; gap: 40px; padding: 64px 22px 68px; } }
+  .hero h1 { font-size: clamp(40px, 5.6vw, 60px); line-height: 1.05; margin: 0 0 24px; max-width: 18ch; letter-spacing: -0.02em; color: #fff; }
+  .hero .lede { font-size: 20px; color: #B7C3D6; max-width: 56ch; line-height: 1.5; margin: 0 0 40px; }
   .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
-  .hero-meta { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); margin-top: 16px; }
+  section.hero .btn-secondary { background: rgba(255,255,255,0.04); color: #fff; border: 1px solid rgba(255,255,255,0.28); }
+  section.hero .btn-secondary:hover { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.5); }
+  section.hero .strip .s1 { background: #A77A28; } section.hero .strip .s2 { background: #2D6B4A; }
+  section.hero .strip .s3 { background: #5E83C2; } section.hero .strip .s4 { background: #A77A28; opacity: 0.55; }
+  section.hero .strip .s5 { background: #FFFFFF; opacity: 0.4; } section.hero .strip .s6 { background: #2D6B4A; opacity: 0.5; }
+  .hero-meta { font-family: var(--font-ui); font-size: 13px; color: #8FA0BB; margin-top: 16px; }
   .hero-meta span { display: inline-flex; align-items: center; gap: 6px; }
   .hero-meta span + span { margin-left: 18px; }
+
+  /* Instrument strip motif (brand signature) */
+  .strip { display: flex; height: 6px; width: 200px; border-radius: 4px; overflow: hidden; gap: 2px; margin: 0 0 26px; }
+  .strip i { display: block; flex: 1; }
+  .strip .s1 { background: var(--primary); } .strip .s2 { background: var(--accent); }
+  .strip .s3 { background: #2D6B4A; } .strip .s4 { background: var(--accent); opacity: 0.55; }
+  .strip .s5 { background: var(--primary); opacity: 0.5; } .strip .s6 { background: #2D6B4A; opacity: 0.5; }
+
+  /* Floating instrument panel (fills hero right column with depth) */
+  .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; min-height: 380px; }
+  @media (max-width: 920px) { .hero-visual { min-height: 0; margin-top: 8px; } }
+  .hero-panel { position: relative; z-index: 2; width: 100%; max-width: 396px; background: #fff; border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 8px 24px rgba(0,0,0,0.34), 0 40px 90px rgba(0,0,0,0.42); transform: rotate(-1.2deg); overflow: hidden; }
+  .hero-panel:hover { transform: rotate(0deg); transition: transform 400ms cubic-bezier(0.22,1,0.36,1); }
+  .hero-panel-strip { display: flex; height: 5px; }
+  .hero-panel-strip i { flex: 1; }
+  .hero-panel-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 12px; border-bottom: 1px solid var(--line); }
+  .hero-panel-head .t { font-family: var(--font-serif); font-weight: 600; font-size: 15px; color: var(--ink); letter-spacing: -0.01em; }
+  .hero-panel-head .live { font-family: var(--font-mono); font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.16em; color: #2D6B4A; display: inline-flex; align-items: center; gap: 6px; }
+  .hero-panel-head .live::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #2D6B4A; }
+  .hero-panel-body { padding: 16px 20px 20px; }
+  .hero-radar { display: block; width: 100%; height: auto; }
+  .hero-panel-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+  .hero-chip { background: var(--surface-2); border: 1px solid var(--line); border-radius: 9px; padding: 9px 12px; }
+  .hero-chip .lbl { font-family: var(--font-mono); font-size: 8.5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-mute); display: block; margin-bottom: 2px; }
+  .hero-chip .val { font-family: var(--font-serif); font-weight: 700; font-size: 19px; color: var(--ink); line-height: 1; }
+  .hero-chip .val span { font-family: var(--font-ui); font-size: 12px; color: var(--ink-mute); font-weight: 400; }
+  /* Peeking card behind, for layered depth */
+  .hero-panel-behind { position: absolute; z-index: 1; top: 50%; left: 50%; width: 100%; max-width: 372px; height: 80%; background: #13294C; border: 1px solid rgba(255,255,255,0.10); border-radius: 18px; box-shadow: 0 8px 24px rgba(0,0,0,0.34), 0 40px 90px rgba(0,0,0,0.42); transform: translate(-44%, -40%) rotate(4deg); }
+  @media (max-width: 920px) { .hero-panel-behind { display: none; } }
+  .hero-cap { position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #8FA0BB; white-space: nowrap; }
+  @media (max-width: 920px) { .hero-cap { display: none; } }
 
   /* ---------- Offerings ---------- */
   section.offerings { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -155,8 +205,8 @@
   .section-heading.left h2, .section-heading.left p { margin-left: 0; }
   .offering-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
   @media (max-width: 880px) { .offering-grid { grid-template-columns: 1fr; } }
-  .offering-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 36px 32px; display: flex; flex-direction: column; transition: border-color 200ms, transform 200ms, box-shadow 200ms; position: relative; }
-  .offering-card:hover { border-color: var(--primary-line); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(14,31,61,0.08); }
+  .offering-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 36px 32px; display: flex; flex-direction: column; transition: border-color 200ms, transform 200ms, box-shadow 200ms; position: relative; box-shadow: var(--shadow-card); }
+  .offering-card:hover { border-color: var(--primary-line); transform: translateY(-3px); box-shadow: var(--shadow-card-hover); }
   .offering-card.featured { border-top: 4px solid var(--accent); }
   .offering-tag { font-family: var(--font-ui); font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600; padding: 4px 10px; border-radius: 999px; align-self: flex-start; margin-bottom: 18px; background: var(--accent-soft); color: #5B4416; border: 1px solid var(--accent-line); }
   .free-badge { position: absolute; top: 28px; right: 28px; font-family: var(--font-ui); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); background: var(--accent-soft); padding: 6px 12px; border-radius: 999px; border: 1px solid var(--accent-line); }
@@ -173,14 +223,14 @@
   /* ---------- Partner band ---------- */
   section.partner-band { padding: 96px 32px; background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
   .partner-inner { max-width: 1180px; margin: 0 auto; }
-  .partner-eyebrow { font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.18em; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 16px; display: inline-flex; align-items: center; gap: 10px; }
+  .partner-eyebrow { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.2em; font-size: 11px; color: var(--accent); font-weight: 500; margin-bottom: 16px; display: inline-flex; align-items: center; gap: 10px; }
   .partner-eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--accent); display: inline-block; }
   .partner-heading { font-family: var(--font-serif); font-size: clamp(28px, 4vw, 42px); line-height: 1.12; color: var(--ink); margin: 0 0 14px; max-width: 28ch; letter-spacing: -0.015em; font-weight: 600; }
   .partner-heading em { font-style: italic; color: var(--accent); font-weight: 600; }
   .partner-lede { font-size: 18px; color: var(--ink-soft); margin: 0 0 52px; max-width: 60ch; line-height: 1.5; }
   .partner-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 56px; align-items: center; }
   @media (max-width: 880px) { .partner-grid { grid-template-columns: 1fr; gap: 36px; } }
-  .partner-logo-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 56px 40px 44px; text-align: center; box-shadow: 0 8px 24px rgba(14,31,61,0.05); }
+  .partner-logo-card { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 56px 40px 44px; text-align: center; box-shadow: var(--shadow-card); }
   .partner-logo { width: 100%; max-width: 320px; height: auto; display: block; margin: 0 auto 22px; }
   .partner-tagline { font-family: var(--font-serif); font-size: 17px; font-style: italic; color: var(--ink-mute); line-height: 1.4; max-width: 28ch; margin: 0 auto; }
   .partner-content p { font-family: var(--font-ui); font-size: 16px; color: var(--ink-soft); line-height: 1.65; margin: 0 0 18px; max-width: 60ch; }
@@ -252,8 +302,8 @@
   .cta-heading p { font-size: 18px; color: var(--ink-soft); margin: 0 auto; max-width: 56ch; line-height: 1.5; }
   .cta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   @media (max-width: 760px) { .cta-grid { grid-template-columns: 1fr; } }
-  .cta-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 36px 32px; text-align: left; transition: border-color 200ms, transform 200ms, box-shadow 200ms; }
-  .cta-card:hover { border-color: var(--primary-line); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(14,31,61,0.08); }
+  .cta-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 36px 32px; text-align: left; transition: border-color 200ms, transform 200ms, box-shadow 200ms; box-shadow: var(--shadow-card); }
+  .cta-card:hover { border-color: var(--primary-line); transform: translateY(-3px); box-shadow: var(--shadow-card-hover); }
   .cta-card .tag { font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--accent); margin-bottom: 12px; }
   .cta-card h3 { font-size: 24px; line-height: 1.2; margin: 0 0 12px; }
   .cta-card p { font-family: var(--font-ui); font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 24px; }
@@ -287,7 +337,7 @@
    =========================================================== */
 @media (max-width: 880px) {
   /* Containers: scale down section padding aggressively */
-  section.hero { padding: 64px 22px 56px !important; }
+  section.hero { padding: 0 !important; }
   section.section, section.section.alt, section.stat-band, section.cta-band,
   section.pillars, section.bench, section.lessons, section.story-body,
   section.from-ryan, section.problem, section.method, section.offerings,
@@ -450,21 +500,64 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="eyebrow">Build what endures</div>
-  <h1>Effort isn't the problem. <em>Architecture is</em>.</h1>
-  <p class="lede">
-    Companies don't stall from lack of effort. They stall because the architecture was built for the last revenue
-    tier, and now you're trying to push the next one through it. We run two diagnostics. One on the organization.
-    One on the leaders inside it. The structure you build after that actually holds.
-  </p>
-  <div class="hero-ctas">
-    <a href="/ldna/" class="btn btn-primary btn-lg">Take the LDNA · 6 minutes →</a>
-    <a href="/baic/" class="btn btn-secondary btn-lg">Explore BAIC</a>
-  </div>
-  <div class="hero-meta">
-    <span>✓ &nbsp;Free full LDNA report</span>
-    <span>✓ &nbsp;~6 minutes</span>
-    <span>✓ &nbsp;No sales call required</span>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="eyebrow">Organizational intelligence</div>
+      <h1>Diagnose the business. <em>Develop the leaders.</em></h1>
+      <p class="lede">
+        Saunter is an organizational-intelligence firm built on validated measurement instruments we own. We de-risk the
+        highest-stakes calls an operator makes: a raise, a senior hire, a promotion, an acquisition, a restructure. We tell
+        you what to fix first, in the business with BAIC and in the team with LDNA.
+      </p>
+      <div class="hero-ctas">
+        <a href="/ldna/" class="btn btn-primary btn-lg">Take the LDNA · less than 10 minutes →</a>
+        <a href="/baic/" class="btn btn-secondary btn-lg">Explore BAIC</a>
+      </div>
+      <div class="hero-meta">
+        <span>✓ &nbsp;Free full LDNA report</span>
+        <span>✓ &nbsp;less than 10 minutes</span>
+        <span>✓ &nbsp;No sales call required</span>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-panel-behind"></div>
+      <div class="hero-panel">
+        <div class="hero-panel-strip"><i style="background:var(--primary)"></i><i style="background:var(--accent)"></i><i style="background:#2D6B4A"></i><i style="background:var(--accent);opacity:.55"></i><i style="background:var(--primary);opacity:.5"></i></div>
+        <div class="hero-panel-head">
+          <span class="t">Leadership readout</span>
+          <span class="live">LDNA</span>
+        </div>
+        <div class="hero-panel-body">
+          <svg class="hero-radar" viewBox="-8 -8 276 212" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Representative LDNA radar: natural versus adapted across seven dimensions">
+            <g stroke="#DCE2EC" stroke-width="1" fill="none">
+              <polygon points="130,20 192.5,50.1 208,117.8 164.7,172.1 95.3,172.1 52,117.8 67.5,50.1"/>
+              <polygon points="130,60 161.3,75.1 169,108.9 147.4,136 112.7,136 91,108.9 98.8,75.1"/>
+              <line x1="130" y1="100" x2="130" y2="20"/><line x1="130" y1="100" x2="192.5" y2="50.1"/>
+              <line x1="130" y1="100" x2="208" y2="117.8"/><line x1="130" y1="100" x2="164.7" y2="172.1"/>
+              <line x1="130" y1="100" x2="95.3" y2="172.1"/><line x1="130" y1="100" x2="52" y2="117.8"/>
+              <line x1="130" y1="100" x2="67.5" y2="50.1"/>
+            </g>
+            <polygon points="130,32 158.1,77.5 157.3,106.2 138.7,118 97,168.5 71.5,113.3 72.5,54.1" fill="#0E1F3D" fill-opacity="0.13" stroke="#0E1F3D" stroke-width="1.6" stroke-linejoin="round"/>
+            <polygon points="130,56 175,64.1 200.2,116 158.5,159.1 121.3,118 66,114.6 91.2,69.1" fill="none" stroke="#A77A28" stroke-width="1.6" stroke-dasharray="4 3" stroke-linejoin="round"/>
+            <g font-family="'IBM Plex Mono',monospace" font-size="8" font-weight="500" fill="#7A8499">
+              <text x="130" y="8" text-anchor="middle">DR</text>
+              <text x="206" y="44" text-anchor="start">SE</text>
+              <text x="216" y="120" text-anchor="start">PA</text>
+              <text x="168" y="184" text-anchor="middle">SO</text>
+              <text x="92" y="184" text-anchor="middle">CB</text>
+              <text x="44" y="120" text-anchor="end">LA</text>
+              <text x="56" y="44" text-anchor="end">VI</text>
+            </g>
+          </svg>
+          <div class="hero-panel-chips">
+            <div class="hero-chip"><span class="lbl">Adaptation load</span><span class="val">71</span></div>
+            <div class="hero-chip"><span class="lbl">AI-oversight ready</span><span class="val">9<span> / 10</span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-cap">Representative LDNA readout</div>
+    </div>
   </div>
 </section>
 
@@ -474,7 +567,7 @@
     <div class="section-heading">
       <div class="eyebrow" style="display: inline-flex; margin: 0 auto 14px;">Two proprietary instruments</div>
       <h2>One architecture, two lenses.</h2>
-      <p>We diagnose how the organization is built, and how the leaders inside it actually operate. The same evidence base runs end to end.</p>
+      <p>Saunter is a continuous organizational-intelligence firm built on owned, validated instruments. We measure how the organization is built, and how the leaders inside it actually operate. The same evidence base, end to end.</p>
     </div>
 
     <div class="offering-grid">
@@ -566,7 +659,7 @@
   .proof-band-wrap { background: #FFFFFF; padding: 8px 32px 80px; }
   .proof-band-inner { max-width: 1180px; margin: 0 auto; }
   .rsp-band { margin: 0 auto; padding: 8px 0 0; }
-  .rsp-head-eyebrow { font-family: var(--font-ui); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 10px; text-align: center; display: inline-flex; align-items: center; gap: 10px; justify-content: center; width: 100%; }
+  .rsp-head-eyebrow { font-family: var(--font-mono); font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 10px; text-align: center; display: inline-flex; align-items: center; gap: 10px; justify-content: center; width: 100%; }
   .rsp-head-eyebrow::before, .rsp-head-eyebrow::after { content: ""; width: 22px; height: 1px; background: var(--accent); display: inline-block; }
   .rsp-head h2 { font-family: var(--font-serif); font-weight: 600; color: var(--ink); margin: 0 auto 8px; text-align: center; max-width: 26ch; line-height: 1.15; letter-spacing: -0.015em; font-size: clamp(28px, 3.4vw, 38px); }
   .rsp-head h2 em { color: var(--accent); font-style: italic; font-weight: 600; }
@@ -851,7 +944,7 @@
     <div class="partner-eyebrow">Licensed Delivery Partner</div>
     <h2 class="partner-heading">Proven at <em>executive scale</em>.</h2>
     <p class="partner-lede">
-      In executive coaching and leadership-team development, the LDNA is delivered through licensed partners. Vertical Motion is our delivery partner, and the public proof that the methodology is deployed inside real leadership teams, executive teams, and CHRO engagements.
+      <strong>Saunter measures. Vertical Motion develops.</strong> In executive coaching and leadership-team development, the LDNA is delivered through licensed partners. Vertical Motion is our delivery partner, and the public proof that the methodology is deployed inside real leadership teams, executive teams, and CHRO engagements.
     </p>
 
     <div class="partner-grid">
@@ -1035,14 +1128,14 @@
     <div class="cta-heading">
       <div class="eyebrow" style="display: inline-flex; margin: 0 auto 14px;">Two ways to start</div>
       <h2>Choose the one that fits where you are.</h2>
-      <p>Most people start with the LDNA. It's free, takes about six minutes, and tells you something useful about how you actually lead. If you want a read on the whole company, run What to Fix First instead, twelve questions, free.</p>
+      <p>Most people start with the LDNA. It's free, takes less than 10 minutes, and tells you something useful about how you actually lead. If you want a read on the whole company, run What to Fix First instead, twelve questions, free.</p>
     </div>
 
     <div class="cta-grid">
       <div class="cta-card">
         <div class="tag">Front door · Free</div>
         <h3>Take the LDNA Assessment</h3>
-        <p>A leadership-intelligence read for you or your team. Free full report on completion. ~6 minutes. No sales call.</p>
+        <p>A leadership-intelligence read for you or your team. Free full report on completion. less than 10 minutes. No sales call.</p>
         <a href="/ldna/" class="btn btn-primary">Take the LDNA →</a>
       </div>
       <div class="cta-card">
