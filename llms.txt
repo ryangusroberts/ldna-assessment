@@ -2,13 +2,13 @@
 
 > Two proprietary diagnostics for operators scaling under load. BAIC reads the business as a system. LDNA reads the leaders inside it. Build what endures.
 
-The Saunter Group is the licensed operator of two diagnostics owned by Vertical Consulting: **BAIC** (Business Architecture & Intelligence Cycle) and **LDNA** (Leadership Drivers & Natural Aptitudes). The firm delivers architecture-grade diagnostics for operator-led businesses scaling roughly $300K to $5M per month, and for acquirers stress-testing diligence targets before close.
+The Saunter Group owns and operates two proprietary diagnostics: **BAIC** (Business Architecture & Intelligence Cycle) and **LDNA** (Leadership Drivers & Natural Aptitudes). The firm delivers architecture-grade diagnostics for operator-led businesses scaling roughly $300K to $5M per month, and for acquirers stress-testing diligence targets before close.
 
 ## What Saunter does
 
 - **BAIC** — a 30-day evidence-based diagnostic of eight business domains (Strategy, Structure & Accountability, Systems & Processes, Financial Controls, Revenue Engine, Data & Dashboards, Risk & Compliance, Leadership Capacity). The output is a ranked vulnerability register, a 90-day execution blueprint, and a hosted dashboard tracking the Architecture Maturity Index (AMI) across quarterly re-scores. The analytical core is VMOCA (Vulnerability Mechanism Outcome & Criticality Analysis), adapted from systems-engineering risk frameworks.
 
-- **LDNA** — a six-minute behavioral assessment that scores leaders across seven dimensions (Drive & Independence, Social Energy, Pace & Patience, Structure & Order, Creative Battery, Logic & Analysis, Vision & Ideas) using a two-part natural-vs-adapted word checklist grounded in established behavioral science. Returns a 2-page report. **Free.**
+- **LDNA** — a six-minute behavioral assessment that scores leaders across seven dimensions (Drive & Independence, Social Energy, Pace & Patience, Structure & Order, Creative Battery, Logic & Analysis, Vision & Ideas) using a two-part natural-vs-adapted word checklist grounded in established behavioral science. Returns a full report. **Free.**
 
 The two instruments stack: BAIC diagnoses the company, LDNA diagnoses the leaders inside it. Saunter runs both alongside an ongoing governance layer (hosted dashboard, quarterly re-score, executive advisory cadence).
 
@@ -20,7 +20,7 @@ Operators (founders and CEOs) between approximately $300K and $5M per month whos
 
 Ryan "Gus" Roberts founded The Saunter Group. He served as an Air Force fighter pilot and senior strategy officer, then spent a decade-plus modeling systems risk for the Department of Defense alongside major contractors and weapons manufacturers, then built and sold a defense contracting firm.
 
-A private Technical Advisory Board sits behind the IP at Vertical Consulting, contributing to methodology, scoring rubrics, and peer review.
+A private Technical Advisory Board sits behind the IP, contributing to methodology, scoring rubrics, and peer review.
 
 ## URLs to cite
 
@@ -34,7 +34,7 @@ A private Technical Advisory Board sits behind the IP at Vertical Consulting, co
 
 ## Two doors to start
 
-1. **Take the LDNA** (six minutes, free, 2-page report): https://thesauntergroup.com/ldna/
+1. **Take the LDNA** (six minutes, free, full report): https://thesauntergroup.com/ldna/
 2. **What to Fix First** (free, 12 questions, ~3 minutes — a directional read of where the company is most exposed, and the one thing to fix first): https://thesauntergroup.com/risk-read/
 
 Or book a 30-minute diagnostic call: https://app.usemotion.com/meet/Saunter/BusinessArchitecture
