@@ -14,16 +14,16 @@
 <link rel="icon" type="image/png" sizes="192x192" href="/assets/saunter-mark-192.png" />
 <link rel="icon" type="image/png" sizes="512x512" href="/assets/saunter-mark-512.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/saunter-mark-192.png" />
-<link rel="manifest" href="site.webmanifest" />
+<link rel="manifest" href="/site.webmanifest" />
 
-<title>About · The Saunter Group</title>
+<title>Story · Ryan "Gus" Roberts, Founder | The Saunter Group</title>
 <meta name="description" content="Air Force fighter pilot and senior strategy officer, then a decade-plus modeling DoD systems risk. Now applies systems engineering to business architecture." />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Saunter Group" />
 <meta property="og:url" content="https://thesauntergroup.com/story/" />
-<meta property="og:title" content="About · Ryan &quot;Gus&quot; Roberts, Founder | The Saunter Group" />
+<meta property="og:title" content="Story · Ryan &quot;Gus&quot; Roberts, Founder | The Saunter Group" />
 <meta property="og:description" content="Air Force fighter pilot and senior strategy officer, then a decade-plus modeling DoD systems risk. Now applies systems engineering to business architecture." />
 <meta property="og:image" content="https://thesauntergroup.com/assets/og/share-story.png" />
 <meta property="og:image:secure_url" content="https://thesauntergroup.com/assets/og/share-story.png" />
@@ -35,7 +35,7 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="About · Ryan &quot;Gus&quot; Roberts, Founder | The Saunter Group" />
+<meta name="twitter:title" content="Story · Ryan &quot;Gus&quot; Roberts, Founder | The Saunter Group" />
 <meta name="twitter:description" content="Air Force fighter pilot and senior strategy officer, then a decade-plus modeling DoD systems risk. Now applies systems engineering to business architecture." />
 <meta name="twitter:image" content="https://thesauntergroup.com/assets/og/share-story.png" />
 <meta name="twitter:image:alt" content="The Saunter Group · Build what endures" />
@@ -388,31 +388,6 @@
   .brand-logo { height: 40px !important; }
 }
 
-  /* ---------- Who you'll work with (team) ---------- */
-  section.team { padding: 88px 32px; background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-  .team-inner { max-width: 1100px; margin: 0 auto; }
-  .team-lede { font-family: var(--font-ui); font-size: 16px; color: var(--ink-soft); max-width: 64ch; line-height: 1.6; margin: 0 0 40px; }
-  .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; max-width: 760px; margin: 0 auto; }
-  @media (max-width: 880px) { .team-grid { grid-template-columns: 1fr; max-width: 420px; } }
-  .team-card { background: #fff; border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 12px; padding: 0 0 26px; overflow: hidden; display: flex; flex-direction: column; }
-  .team-photo { aspect-ratio: 1 / 1; width: 100%; background: linear-gradient(160deg, var(--primary) 0%, #16294b 100%); position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-  .team-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; filter: grayscale(18%) contrast(1.02); }
-  .team-monogram { font-family: var(--font-serif); font-size: 56px; font-weight: 600; color: var(--accent); letter-spacing: 0.02em; opacity: 0.92; }
-  .team-photo::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 -60px 60px -30px rgba(14,31,61,0.45); pointer-events: none; }
-  .team-body { padding: 24px 26px 0; }
-  .team-card h3 { font-family: var(--font-serif); font-size: 22px; font-weight: 600; margin: 0 0 4px; color: var(--ink); letter-spacing: -0.01em; }
-  .team-role { font-family: var(--font-ui); font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.13em; margin: 0 0 4px; }
-  .team-focus { font-family: var(--font-ui); font-size: 12.5px; font-weight: 500; color: var(--ink-mute); margin: 0 0 16px; line-height: 1.4; }
-  .team-card p.team-bio { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.62; }
-  .team-network { margin-top: 24px; background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 12px; padding: 24px 28px; }
-  .team-network .team-role { margin: 0 0 8px; }
-  .team-network p { font-family: var(--font-ui); font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.62; max-width: 84ch; }
-  @media (max-width: 880px) {
-    section.team { padding-left: 22px !important; padding-right: 22px !important; }
-    .team-photo { aspect-ratio: 4 / 3; }
-    .team-network { padding: 20px 20px !important; }
-  }
-
 </style>
 </head>
 <body>
@@ -433,7 +408,7 @@
       <a href="/method/">Method</a>
       <a href="/baic/">BAIC</a>
       <a href="/ldna/">LDNA</a>
-      <a href="/story/" class="active">About</a>
+      <a href="/story/" class="active">Story</a>
       <a href="/ldna/" class="nav-cta">Take the LDNA →</a>
     </nav>
   </div>
@@ -519,8 +494,8 @@
     <div class="pillars-grid">
       <div class="pillar">
         <span class="when">USAF · 20+ years</span>
-        <h3>Fighter pilot. Strategy officer. Leader.</h3>
-        <p>Two decades flying combat aircraft, serving as a senior strategy officer, and commanding an air-to-ground range and airfield. Where the cost of a wrong decision is measured in lives, not P&amp;L.</p>
+        <h3>Fighter pilot. Strategy officer.</h3>
+        <p>Two decades flying combat aircraft and serving as a senior strategy officer. Where the cost of a wrong decision is measured in lives, not P&amp;L.</p>
       </div>
       <div class="pillar">
         <span class="when">DoD systems risk</span>
@@ -532,72 +507,6 @@
         <h3>Built &amp; sold a defense firm.</h3>
         <p>Founded, scaled, and exited a defense technology company while sailing the Caribbean. Same systems. Different arena. Compounding consequences either way.</p>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="team">
-  <div class="team-inner">
-    <div class="eyebrow">Who you'll work with</div>
-    <h2 style="max-width: 32ch;">The framework is the product. A trained team runs it.</h2>
-    <p class="team-lede">
-      BAIC and LDNA are built so the diagnosis doesn't live in one person's head; a trained team can run the work to
-      the same standard every time. So no matter who brings you in, you get the same rigor. Chris and Jen are core to
-      every BAIC engagement: senior advisors and Certified Coaches, fluent in LDNA, hands-on from diagnosis through
-      delivery.
-    </p>
-    <div class="team-grid">
-
-      <div class="team-card">
-        <div class="team-photo">
-          <img src="/assets/team/chris.jpg" alt="Chris, Operations &amp; Process Advisor"
-               onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
-          <span class="team-monogram" style="display:none;">C</span>
-        </div>
-        <div class="team-body">
-          <p class="team-role">Operations &amp; Process Advisor</p>
-          <h3>Chris</h3>
-          <p class="team-focus">Operating model · process · execution cadence under growth load</p>
-          <p class="team-bio">
-            Chris has spent his career inside growing organizations, focused on where the operating model falls behind
-            the business: the same conversations resurfacing, decisions slowing down, leaders buried in detail they
-            used to delegate. He advises on the process and cadence that close that gap. A doctoral candidate, Chris
-            also serves as an academic advisor to the practice, bringing research rigor to how the framework develops.
-            He holds an MBA from the University of Denver and a PMP, and is a Certified Coach fluent in BAIC and LDNA.
-          </p>
-        </div>
-      </div>
-
-      <div class="team-card">
-        <div class="team-photo">
-          <img src="/assets/team/jen.jpg" alt="Jen, Transformation, Change &amp; AI Advisor"
-               onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
-          <span class="team-monogram" style="display:none;">J</span>
-        </div>
-        <div class="team-body">
-          <p class="team-role">Transformation, Change &amp; AI Advisor</p>
-          <h3>Jen</h3>
-          <p class="team-focus">Enterprise change · prioritization · AI adoption for teams in motion</p>
-          <p class="team-bio">
-            Jen advises leadership teams in the middle of consequential change, when priorities are unclear, trade-offs
-            keep getting deferred, and performance and trust start to erode. She has done this across healthcare,
-            franchise, retail, and the public sector, working at the intersection of strategy, technology, and people,
-            increasingly around how teams adopt AI without losing the plot. A senior advisor and Certified Coach fluent
-            in LDNA, Jen helps executives cut through the noise, surface the real trade-offs, and realign around
-            decisions that restore momentum.
-          </p>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="team-network">
-      <p class="team-role">Executive &amp; advisory network</p>
-      <p>
-        When an engagement calls for someone who's sat in the chair, a seasoned operator for a fractional or advisory
-        mandate, we draw on a network of senior executives and leaders through our partnership with Vertical Motion,
-        and match them to the need. It extends the bench without diluting the method.
-      </p>
     </div>
   </div>
 </section>
@@ -650,7 +559,7 @@
         architecture the next stage needs, and stay long enough to make sure it holds.
       </p>
       <div class="from-ryan-sig">
-        <div class="from-ryan-sig-name">Ryan "Gus" Roberts</div>
+        <div class="from-ryan-sig-name">, Ryan "Gus" Roberts</div>
         <div class="from-ryan-sig-meta">
           <div>FOUNDER · THE SAUNTER GROUP</div>
         </div>
@@ -679,7 +588,7 @@
       <span>© 2026 The Saunter Group, LLC · Build what endures</span>
     </div>
     <address class="footer-address">30 N Gould St, Ste R · Sheridan, WY 82801</address>
-    <span>Leadership Drivers &amp; Natural Aptitudes (LDNA) · a proprietary instrument of The Saunter Group, LLC · <a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="mailto:info@thesauntergroup.com">Contact</a></span>
+    <span>BAIC (Business Architecture &amp; Intelligence Cycle) and LDNA (Leadership Drivers &amp; Natural Aptitudes) · proprietary instruments of The Saunter Group, LLC · <a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="mailto:info@thesauntergroup.com">Contact</a></span>
   </div>
 </footer>
 
