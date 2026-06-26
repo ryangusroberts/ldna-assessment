@@ -102,26 +102,32 @@
     .brand-logo { height: 52px; }
     .nav-toggle { display: flex; }
     .topbar-inner { position: relative; }
-    /* Mobile nav: clean dropdown that shows ALL links visibly, not a slide-in panel */
+    /* Mobile nav: anchored dropdown bubble that fully exposes the menu */
     .nav-links {
-      position: absolute; top: 100%; left: 0; right: 0;
+      position: absolute; top: calc(100% + 10px); left: 14px; right: 14px;
       background: #fff;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      box-shadow: 0 8px 20px rgba(14,31,61,0.06);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 18px 44px rgba(14,31,61,0.20);
       flex-direction: column; align-items: stretch; justify-content: flex-start;
-      gap: 0; padding: 4px 20px 16px;
-      transform: none; transition: none;
-      inset: auto; max-height: calc(100dvh - 64px); overflow-y: auto; -webkit-overflow-scrolling: touch;
+      gap: 2px; padding: 8px;
+      max-height: calc(100dvh - 96px); overflow-y: auto; -webkit-overflow-scrolling: touch;
       z-index: 99;
-      display: none;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transform: translateY(-10px) scale(0.97); transform-origin: top right;
+      transition: opacity 180ms ease, transform 240ms cubic-bezier(0.22,1,0.36,1), visibility 0s linear 240ms;
     }
-    .nav-links.open { display: flex; }
-    .nav-links a { font-family: var(--font-ui); font-size: 17px; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--ink); width: 100%; font-weight: 500; }
+    .nav-links.open {
+      opacity: 1; visibility: visible; pointer-events: auto;
+      transform: translateY(0) scale(1);
+      transition: opacity 180ms ease, transform 280ms cubic-bezier(0.22,1,0.36,1);
+    }
+    .nav-links a { font-family: var(--font-ui); font-size: 16px; padding: 13px 14px; border-bottom: 1px solid var(--line); color: var(--ink); width: 100%; font-weight: 500; border-radius: 10px; transition: background 140ms ease; }
     .nav-links a:last-child { border-bottom: 0; }
+    .nav-links a:active { background: var(--surface-2, #f4f6fa); }
     .nav-links a.active::after { display: none; }
     .nav-links a.active { color: var(--accent); font-weight: 600; }
-    .nav-cta { margin-top: 8px; align-self: stretch; text-align: center; font-size: 15px !important; padding: 14px 20px !important; border-bottom: 0 !important; box-shadow: 0 4px 12px rgba(167,122,40,0.25) !important; }
+    .nav-cta { margin-top: 6px; align-self: stretch; text-align: center; font-size: 15px !important; padding: 14px 20px !important; border-bottom: 0 !important; box-shadow: 0 4px 12px rgba(167,122,40,0.25) !important; }
   }
 
   /* ---------- Shared elements ---------- */
@@ -1196,17 +1202,25 @@
     var t = document.querySelector('.nav-toggle');
     var n = document.querySelector('#primary-nav');
     if (!t || !n) return;
-    t.addEventListener('click', function(){
-      var open = n.classList.toggle('open');
+    function navBuzz(ms){ try { if (navigator.vibrate) navigator.vibrate(ms); } catch(e){} }
+    function navSet(open){
+      n.classList.toggle('open', open);
       t.setAttribute('aria-expanded', open ? 'true' : 'false');
-      document.body.style.overflow = open ? 'hidden' : '';
+    }
+    t.addEventListener('click', function(e){
+      e.stopPropagation();
+      var willOpen = !n.classList.contains('open');
+      navSet(willOpen);
+      navBuzz(willOpen ? 12 : 8);
     });
     n.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){
-        n.classList.remove('open');
-        t.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
+      a.addEventListener('click', function(){ navSet(false); navBuzz(8); });
+    });
+    document.addEventListener('click', function(e){
+      if (n.classList.contains('open') && !n.contains(e.target) && !t.contains(e.target)) navSet(false);
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && n.classList.contains('open')) { navSet(false); t.focus(); }
     });
   })();
 </script>
