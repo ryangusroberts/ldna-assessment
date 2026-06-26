@@ -95,26 +95,32 @@
     .brand-logo { height: 52px; }
     .nav-toggle { display: flex; }
     .topbar-inner { position: relative; }
-    /* Mobile nav: clean dropdown that shows ALL links visibly, not a slide-in panel */
+    /* Mobile nav: anchored dropdown bubble that fully exposes the menu */
     .nav-links {
-      position: absolute; top: 100%; left: 0; right: 0;
+      position: absolute; top: calc(100% + 10px); left: 14px; right: 14px;
       background: #fff;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      box-shadow: 0 8px 20px rgba(14,31,61,0.06);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 18px 44px rgba(14,31,61,0.20);
       flex-direction: column; align-items: stretch; justify-content: flex-start;
-      gap: 0; padding: 4px 20px 16px;
-      transform: none; transition: none;
-      inset: auto; max-height: calc(100dvh - 64px); overflow-y: auto; -webkit-overflow-scrolling: touch;
+      gap: 2px; padding: 8px;
+      max-height: calc(100dvh - 96px); overflow-y: auto; -webkit-overflow-scrolling: touch;
       z-index: 99;
-      display: none;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transform: translateY(-10px) scale(0.97); transform-origin: top right;
+      transition: opacity 180ms ease, transform 240ms cubic-bezier(0.22,1,0.36,1), visibility 0s linear 240ms;
     }
-    .nav-links.open { display: flex; }
-    .nav-links a { font-family: var(--font-ui); font-size: 17px; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--ink); width: 100%; font-weight: 500; }
+    .nav-links.open {
+      opacity: 1; visibility: visible; pointer-events: auto;
+      transform: translateY(0) scale(1);
+      transition: opacity 180ms ease, transform 280ms cubic-bezier(0.22,1,0.36,1);
+    }
+    .nav-links a { font-family: var(--font-ui); font-size: 16px; padding: 13px 14px; border-bottom: 1px solid var(--line); color: var(--ink); width: 100%; font-weight: 500; border-radius: 10px; transition: background 140ms ease; }
     .nav-links a:last-child { border-bottom: 0; }
+    .nav-links a:active { background: var(--surface-2, #f4f6fa); }
     .nav-links a.active::after { display: none; }
     .nav-links a.active { color: var(--accent); font-weight: 600; }
-    .nav-cta { margin-top: 8px; align-self: stretch; text-align: center; font-size: 15px !important; padding: 14px 20px !important; border-bottom: 0 !important; box-shadow: 0 4px 12px rgba(167,122,40,0.25) !important; }
+    .nav-cta { margin-top: 6px; align-self: stretch; text-align: center; font-size: 15px !important; padding: 14px 20px !important; border-bottom: 0 !important; box-shadow: 0 4px 12px rgba(167,122,40,0.25) !important; }
   }
 
   .eyebrow { font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.16em; font-size: 11px; color: var(--accent); font-weight: 600; margin-bottom: 18px; display: inline-flex; align-items: center; gap: 10px; }
@@ -523,9 +529,23 @@
   const tgl = document.querySelector('.nav-toggle');
   const links = document.getElementById('primary-nav');
   if (tgl && links) {
-    tgl.addEventListener('click', () => {
-      const open = links.classList.toggle('open');
+    const buzz = (ms) => { try { if (navigator.vibrate) navigator.vibrate(ms); } catch(e){} };
+    const setOpen = (open) => {
+      links.classList.toggle('open', open);
       tgl.setAttribute('aria-expanded', String(open));
+    };
+    tgl.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const willOpen = !links.classList.contains('open');
+      setOpen(willOpen);
+      buzz(willOpen ? 12 : 8);
+    });
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { setOpen(false); buzz(8); }));
+    document.addEventListener('click', (e) => {
+      if (links.classList.contains('open') && !links.contains(e.target) && !tgl.contains(e.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && links.classList.contains('open')) { setOpen(false); tgl.focus(); }
     });
   }
 </script>
