@@ -95,7 +95,7 @@
       box-shadow: 0 8px 20px rgba(14,31,61,0.06);
       flex-direction: column; align-items: stretch; justify-content: flex-start;
       gap: 0; padding: 4px 20px 16px; transform: none; transition: none;
-      inset: auto; overflow: visible; z-index: 99; display: none;
+      inset: auto; max-height: calc(100dvh - 64px); overflow-y: auto; -webkit-overflow-scrolling: touch; z-index: 99; display: none;
     }
     .nav-links.open { display: flex; }
     .nav-links a { font-family: var(--font-ui); font-size: 17px; padding: 14px 0; border-bottom: 1px solid var(--line); color: var(--ink); width: 100%; font-weight: 500; }
@@ -316,7 +316,7 @@
       <a href="/method/">Method</a>
       <a href="/baic/">BAIC</a>
       <a href="/ldna/">LDNA</a>
-      <a href="/story/">Story</a>
+      <a href="/story/">About</a>
       <a href="/ldna/" class="nav-cta">Take the LDNA →</a>
     </nav>
   </div>
