@@ -44,77 +44,53 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #FFFFFF; --surface: #FFFFFF; --surface-2: #F4F6FA;
-    --ink: #0B1220; --ink-soft: #3E4860; --ink-mute: #7A8499;
-    --line: #DCE2EC; --primary: #0E1F3D; --primary-hover: #081530;
-    --primary-soft: #EEF2FB; --primary-line: #C6D2E6;
-    --accent: #A77A28; --accent-hover: #8E6720; --accent-soft: #F5EFE0; --accent-line: #D9C28A;
-    --warn: #B5532E; --warn-soft: #F6EAE3; --warn-line: #E3C3B2;
-    --font-serif: 'Aptos Serif', 'Aptos', 'Source Serif 4', 'Source Serif Pro', 'Newsreader', Georgia, Cambria, 'Times New Roman', serif;
+    --bg: #FBF6EC; --surface: #FFFFFF; --surface-2: #F4EBDA;
+    --ink: #15233D; --ink-soft: #4B5771; --ink-mute: #8791A6;
+    --line: #E9DFCC; --primary: #0C1A30; --primary-hover: #08111F;
+    --primary-soft: #E7ECF5; --primary-line: #C6D2E6;
+    --accent: #B37B2A; --accent-hover: #8E6720; --accent-soft: #F5EFE0; --accent-line: #D9C28A;
+    --warn: #BD5236; --warn-soft: #F4DDCE; --warn-line: #E3C3B2;
+    --font-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
     --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    /* aliases so the shared nav/footer (ported from site.css) resolve */
+    --navy:#0C1A30; --navy-2:#122544; --cream:#FBF6EC; --cream-2:#F4EBDA; --card:#FFFFFF;
+    --ink-2:#4B5771; --ink-3:#8791A6; --brass:#B37B2A; --amber:#E2A950; --coral:#BD5236;
+    --disp:'Fraunces', Georgia, 'Times New Roman', serif;
+    --ui:'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+    --mx:1200px; --ease:cubic-bezier(.2,.8,.2,1);
+    --shadow:0 2px 8px rgba(21,35,61,.05), 0 20px 46px rgba(21,35,61,.10);
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
   html { scroll-behavior: smooth; }
   body { font-family: var(--font-serif); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
-  /* ---------- Topbar (consistent with site) ---------- */
-  .topbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.96); backdrop-filter: saturate(140%) blur(10px); border-bottom: 1px solid var(--line); }
-  .topbar-inner { max-width: 1180px; margin: 0 auto; padding: 18px 32px; display: flex; align-items: center; gap: 24px; }
-  .brand { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; text-decoration: none; flex-shrink: 0; }
-  .brand-logo { height: 72px; width: auto; display: block; }
-  .brand-lockup { display: none; padding-left: 22px; border-left: 1px solid var(--line); }
-  .brand-tag { font-family: var(--font-ui); font-size: 13px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 500; line-height: 1.1; }
-  .brand-tag-sub { display: none; font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--ink-soft); line-height: 1.35; margin-top: 6px; flex-basis: 100%; letter-spacing: 0; text-transform: none; font-weight: 400; white-space: nowrap; }
-  @media (min-width: 1024px) { .brand-tag-sub { display: block; } }
-  @media (min-width: 1024px) { .brand-lockup { display: block; } }
-  .nav-links { display: flex; align-items: center; gap: 32px; flex: 1; justify-content: flex-end; }
-  .nav-links a { font-family: var(--font-ui); font-size: 14px; font-weight: 500; color: var(--ink-soft); text-decoration: none; transition: color 180ms; position: relative; padding: 8px 0; }
-  .nav-links a:hover { color: var(--primary); }
-  .nav-links a.active { color: var(--primary); font-weight: 600; }
-  .nav-links a.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -19px; height: 2px; background: var(--accent); }
-  .nav-cta { font-family: var(--font-ui) !important; font-size: 14px !important; font-weight: 600 !important; color: var(--primary) !important; background: var(--accent); padding: 11px 20px !important; border-radius: 999px; text-decoration: none; transition: all 180ms; box-shadow: 0 4px 12px rgba(167,122,40,0.25); white-space: nowrap; }
-  .nav-cta:hover { background: var(--accent-hover); color: #fff !important; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(167,122,40,0.35); }
-  .nav-cta.active::after { display: none; }
-  .nav-toggle { display: none; background: transparent; border: 0; width: 44px; height: 44px; margin-left: auto; padding: 12px; cursor: pointer; flex-direction: column; justify-content: space-between; }
-  .nav-toggle span { display: block; height: 2px; background: var(--ink); transition: transform 220ms, opacity 220ms; }
-  .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-  .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
-  .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-  @media (max-width: 880px) {
-    .topbar-inner { padding: 14px 20px; gap: 12px; }
-    .brand-logo { height: 52px; }
-    .nav-toggle { display: flex; }
-    .topbar-inner { position: relative; }
-    /* Mobile nav: anchored dropdown bubble that fully exposes the menu */
-    .nav-links {
-      position: absolute; top: calc(100% + 10px); left: 14px; right: 14px;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      box-shadow: 0 18px 44px rgba(14,31,61,0.20);
-      flex-direction: column; align-items: stretch; justify-content: flex-start;
-      gap: 2px; padding: 8px;
-      max-height: calc(100dvh - 96px); overflow-y: auto; -webkit-overflow-scrolling: touch;
-      z-index: 99;
-      opacity: 0; visibility: hidden; pointer-events: none;
-      transform: translateY(-10px) scale(0.97); transform-origin: top right;
-      transition: opacity 180ms ease, transform 240ms cubic-bezier(0.22,1,0.36,1), visibility 0s linear 240ms;
-    }
-    .nav-links.open {
-      opacity: 1; visibility: visible; pointer-events: auto;
-      transform: translateY(0) scale(1);
-      transition: opacity 180ms ease, transform 280ms cubic-bezier(0.22,1,0.36,1);
-    }
-    .nav-links a { font-family: var(--font-ui); font-size: 16px; padding: 13px 14px; border-bottom: 1px solid var(--line); color: var(--ink); width: 100%; font-weight: 500; border-radius: 10px; transition: background 140ms ease; }
-    .nav-links a:last-child { border-bottom: 0; }
-    .nav-links a:active { background: var(--surface-2, #f4f6fa); }
-    .nav-links a.active::after { display: none; }
-    .nav-links a.active { color: var(--accent); font-weight: 600; }
-    .nav-cta { margin-top: 6px; align-self: stretch; text-align: center; font-size: 15px !important; padding: 14px 20px !important; border-bottom: 0 !important; box-shadow: 0 4px 12px rgba(167,122,40,0.25) !important; }
+  /* ---------- nav (shared, matches site) ---------- */
+  .nav{position:sticky;top:0;z-index:100;background:rgba(251,246,236,.82);backdrop-filter:saturate(150%) blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,background .3s;}
+  .nav.scrolled{border-color:var(--line);background:rgba(251,246,236,.95);}
+  .nav-in{max-width:var(--mx);margin:0 auto;padding:14px clamp(20px,5vw,48px);display:flex;align-items:center;gap:26px;}
+  .nav-brand{display:flex;align-items:center;flex-shrink:0;text-decoration:none;}
+  .nav-brand img{height:52px;width:auto;}
+  .nav-links{display:flex;align-items:center;gap:28px;flex:1;justify-content:flex-end;}
+  .nav-links a{font-family:var(--ui);font-weight:500;font-size:15px;color:var(--ink-2);text-decoration:none;transition:color .18s;}
+  .nav-links a:hover{color:var(--ink);}
+  .nav-cta{background:var(--navy);color:#fff!important;padding:11px 20px;border-radius:999px;font-weight:600!important;font-size:14px!important;transition:transform .2s var(--ease),box-shadow .2s;}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(12,26,48,.24);}
+  .nav-tog{display:none;background:none;border:0;width:44px;height:44px;padding:11px;cursor:pointer;flex-direction:column;justify-content:space-between;margin-left:auto;}
+  .nav-tog span{display:block;height:2.5px;border-radius:2px;background:var(--ink);transition:transform .22s,opacity .22s;}
+  .nav-tog[aria-expanded="true"] span:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
+  .nav-tog[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .nav-tog[aria-expanded="true"] span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
+  @media(max-width:860px){
+    .nav-tog{display:flex;}
+    .nav-links{position:absolute;top:100%;left:12px;right:12px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);flex-direction:column;align-items:stretch;gap:2px;padding:10px;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top;transition:opacity .2s,transform .26s var(--ease),visibility 0s linear .26s;}
+    .nav-links.open{opacity:1;visibility:visible;transform:none;transition:opacity .2s,transform .26s var(--ease);}
+    .nav-links a{padding:14px 16px;border-radius:12px;font-size:16px;}
+    .nav-links a:hover{background:var(--cream);}
+    .nav-cta{text-align:center;margin-top:4px;}
   }
 
   /* ---------- Progress rail ---------- */
@@ -278,7 +254,7 @@
   .rr-bias strong { color: var(--accent); }
 
   @media print {
-    .topbar, .rr-rail, footer, .rr-print, .rr-restart, .rr-cta a.alt, .nav-toggle { display: none !important; }
+    .nav, .rr-rail, footer, .rr-print, .rr-restart, .rr-cta a.alt, .nav-tog { display: none !important; }
     body { background: #fff; }
     section.rr-band { padding: 0 !important; background: #fff !important; border: 0 !important; min-height: 0 !important; }
     .rr-screen { animation: none !important; }
@@ -288,51 +264,43 @@
     .rr-bar .fill, .rr-cta a.go { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 
-  /* footer (consistent with site) */
-  footer { background: var(--primary); color: rgba(255,255,255,0.7); padding: 56px 32px 28px; border-top: 1px solid rgba(255,255,255,0.1); }
-  .footer-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; gap: 24px; font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.06em; flex-wrap: wrap; }
-  .footer-inner a { color: rgba(255,255,255,0.78); text-decoration: none; }
-  .footer-inner a:hover { color: #fff; }
-  .footer-meta { display: flex; align-items: center; gap: 14px; }
-  .footer-meta img { height: 28px; }
-  .footer-address { font-family: var(--font-ui); font-size: 11px; font-style: normal; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
+  /* ---------- footer (shared, matches site) ---------- */
+  .wrap{max-width:var(--mx);margin:0 auto;padding:0 clamp(20px,5vw,48px);position:relative;}
+  footer{background:#08111F;color:#8A99B4;padding:clamp(56px,7vw,84px) 0 36px;border-top:0;}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;}
+  @media(max-width:760px){.foot-grid{grid-template-columns:1fr 1fr;gap:28px;}}
+  .foot-brand img{height:44px;margin-bottom:16px;}
+  .foot-brand .foot-tag{font-family:var(--disp);font-weight:600;font-size:18px;line-height:1.25;letter-spacing:-.01em;color:#EAD9B8;max-width:22ch;margin:0 0 12px;}
+  .foot-brand p{font-family:var(--ui);font-size:14px;color:#7A88A2;max-width:32ch;line-height:1.6;margin:0;}
+  .foot-col h5{font-family:var(--ui);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#5f6d86;margin:0 0 14px;}
+  .foot-col a{display:block;font-family:var(--ui);font-size:15px;color:#AEB9CD;text-decoration:none;margin-bottom:10px;}
+  .foot-col a:hover{color:#fff;}
+  .foot-bot{margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,255,255,.10);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:var(--ui);font-size:12px;color:#5f6d86;}
+  .foot-bot a{color:#AEB9CD;text-decoration:none;}
+  .foot-bot a:hover{color:#fff;}
 
   @media (max-width: 640px) {
     section.rr-band { padding-left: 22px; padding-right: 22px; }
     .rr-q { padding: 20px 18px; }
-    .rr-footer .footer-inner { flex-direction: column; gap: 12px; align-items: flex-start; }
-  }
-  @media (max-width: 880px) {
-    .brand-logo { height: 44px; }
-    .topbar-inner { padding: 12px 16px; gap: 10px; }
-    .nav-cta { font-size: 13px !important; padding: 9px 14px !important; }
-    .footer-inner { flex-direction: column; gap: 12px; align-items: flex-start; }
   }
 </style>
 </head>
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <a href="/" class="brand" aria-label="The Saunter Group, home">
-      <img src="/assets/saunter-logo.svg" alt="The Saunter Group" class="brand-logo" />
-      <div class="brand-lockup">
-        <span class="brand-tag" style="display:block;">Build what endures</span>
-      </div>
-      <span class="brand-tag-sub">Diagnose the business. Develop the leaders inside it.</span>
-    </a>
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav">
-      <span></span><span></span><span></span>
-    </button>
-    <nav class="nav-links" id="primary-nav" aria-label="Primary">
-      <a href="/method/">Method</a>
-      <a href="/baic/">BAIC</a>
-      <a href="/ldna/">LDNA</a>
-      <a href="/story/">About</a>
-      <a href="/ldna/" class="nav-cta">Take the LDNA →</a>
-    </nav>
+<nav class="nav" id="nav">
+  <div class="nav-in">
+    <a href="/" class="nav-brand" aria-label="The Saunter Group"><img src="/assets/saunter-logo.svg" alt="The Saunter Group" /></a>
+    <button class="nav-tog" aria-label="Menu" aria-expanded="false" aria-controls="navlinks"><span></span><span></span><span></span></button>
+    <div class="nav-links" id="navlinks">
+      <a href="/assessment/">The Assessment</a>
+      <a href="/leadership-dna/">Leadership DNA</a>
+      <a href="/method/">How it works</a>
+      <a href="/about/">About</a>
+      <a href="/consulting/">For Consultants</a>
+      <a href="/#start" class="nav-cta">Start free</a>
+    </div>
   </div>
-</header>
+</nav>
 
 <div class="rr-rail" aria-hidden="true"><i id="railFill"></i></div>
 
@@ -342,43 +310,37 @@
   </div>
 </section>
 
-<footer class="rr-footer">
-  <div class="footer-inner">
-    <div class="footer-meta">
-      <img src="/assets/saunter-logo-light.svg" alt="The Saunter Group" />
-      <span>© 2026 The Saunter Group, LLC · Build what endures</span>
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="/assets/saunter-logo-light.svg" alt="The Saunter Group" />
+        <p class="foot-tag">Diagnose the business. Develop the leaders inside it.</p>
+        <p>We measure how your business is built and how your leaders operate, then tell you the one thing to fix first.</p>
+      </div>
+      <div class="foot-col"><h5>Diagnose</h5><a href="/assessment/">Business Assessment</a><a href="/leadership-dna/">Leadership DNA</a></div>
+      <div class="foot-col"><h5>Firm</h5><a href="/method/">How it works</a><a href="/advisory/">Advisory</a><a href="/consulting/">For Consultants</a><a href="/about/">About</a></div>
+      <div class="foot-col"><h5>Start</h5><a href="/risk-read/">Free Business Assessment</a><a href="/ldna/">Free Leadership DNA</a><a href="https://app.usemotion.com/meet/Saunter/BusinessArchitecture" target="_blank" rel="noopener">Book a call</a></div>
     </div>
-    <address class="footer-address">30 N Gould St, Ste R · Sheridan, WY 82801</address>
-    <span>BAIC (Business Architecture &amp; Intelligence Cycle) and LDNA (Leadership Drivers &amp; Natural Aptitudes) · proprietary instruments of The Saunter Group, LLC · <a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="mailto:info@thesauntergroup.com">Contact</a></span>
+    <p style="margin-top:14px;font-family:var(--ui);font-size:12px;color:#5f6d86;line-height:1.5;">Business Assessment and Leadership DNA are proprietary instruments operated under license by The Saunter Group, LLC.</p>
+    <div class="foot-bot">
+      <span>&copy; 2026 The Saunter Group, LLC &middot; Sheridan, Wyoming &middot; info@thesauntergroup.com</span>
+      <span><a href="/ldna/privacy.html">Privacy</a></span>
+    </div>
   </div>
 </footer>
 
 <script>
-  /* Mobile nav toggle (site-standard) */
+  /* shared nav: toggle + scrolled state (matches site) */
   (function(){
-    var t = document.querySelector('.nav-toggle');
-    var n = document.querySelector('#primary-nav');
-    if (!t || !n) return;
-    function navBuzz(ms){ try { if (navigator.vibrate) navigator.vibrate(ms); } catch(e){} }
-    function navSet(open){
-      n.classList.toggle('open', open);
-      t.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var tog=document.querySelector('.nav-tog'),links=document.getElementById('navlinks');
+    if(tog&&links){
+      tog.addEventListener('click',function(e){e.stopPropagation();var o=links.classList.toggle('open');tog.setAttribute('aria-expanded',o?'true':'false');});
+      links.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){links.classList.remove('open');tog.setAttribute('aria-expanded','false');});});
+      document.addEventListener('click',function(e){if(links.classList.contains('open')&&!links.contains(e.target)&&!tog.contains(e.target)){links.classList.remove('open');tog.setAttribute('aria-expanded','false');}});
+      document.addEventListener('keydown',function(e){if(e.key==='Escape'&&links.classList.contains('open')){links.classList.remove('open');tog.setAttribute('aria-expanded','false');tog.focus();}});
     }
-    t.addEventListener('click', function(e){
-      e.stopPropagation();
-      var willOpen = !n.classList.contains('open');
-      navSet(willOpen);
-      navBuzz(willOpen ? 12 : 8);
-    });
-    n.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){ navSet(false); navBuzz(8); });
-    });
-    document.addEventListener('click', function(e){
-      if (n.classList.contains('open') && !n.contains(e.target) && !t.contains(e.target)) navSet(false);
-    });
-    document.addEventListener('keydown', function(e){
-      if (e.key === 'Escape' && n.classList.contains('open')) { navSet(false); t.focus(); }
-    });
+    var nav=document.getElementById('nav');if(nav){var sc=function(){nav.classList.toggle('scrolled',scrollY>8);};sc();addEventListener('scroll',sc,{passive:true});}
   })();
 </script>
 
@@ -427,10 +389,10 @@ const cfg = {
   },
   // Four position zones, the respondent sees the zone, never the score.
   zones:[
-    {name:'Exposed',color:'#B5532E',max:40},
+    {name:'Exposed',color:'#BD5236',max:40},
     {name:'Fragile',color:'#C7864A',max:60},
-    {name:'Stabilizing',color:'#A77A28',max:80},
-    {name:'Resilient',color:'#3E6B4F',max:101}
+    {name:'Stabilizing',color:'#B37B2A',max:80},
+    {name:'Resilient',color:'#2E6E56',max:101}
   ],
   // Per-domain evidence (kept identical to the email report). Failure rates are
   // library base rates with source, BAIC failure taxonomy FC-01..FC-20.
