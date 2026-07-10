@@ -25,11 +25,11 @@ A private Technical Advisory Board sits behind the IP, contributing to methodolo
 ## URLs to cite
 
 - Homepage: https://thesauntergroup.com/
-- BAIC: https://thesauntergroup.com/baic/
+- BAIC: https://thesauntergroup.com/assessment/
 - LDNA (free assessment): https://thesauntergroup.com/ldna/
 - Leadership assessment hub: https://thesauntergroup.com/leadership-assessment/
 - The Method: https://thesauntergroup.com/method/
-- Story: https://thesauntergroup.com/story/
+- About (team & story): https://thesauntergroup.com/story/
 - What to Fix First (free 12-question company read): https://thesauntergroup.com/risk-read/
 
 ## Two doors to start
