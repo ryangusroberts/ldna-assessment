@@ -243,6 +243,12 @@
     .foot-grid{grid-template-columns:1fr;gap:22px;}
     .hero-trust{gap:6px 14px;}
   }
+
+  /* mobile: prevent long labels/cards from spilling off-screen */
+  @media (max-width:600px){
+    .btn{white-space:normal;}
+    .door,.tile,.step,.pain{min-width:0;}
+  }
 </style>
 </head>
 <body>
