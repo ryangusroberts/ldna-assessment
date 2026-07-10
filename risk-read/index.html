@@ -415,7 +415,7 @@ const cfg = {
       head:'The strategy is not landing the same way across the company, and the edge is not clearly defended.',
       why:'The mechanisms are success-trap thinking, customer-job blindness, and undefended differentiation, what worked at the last tier is assumed to keep working (FC-19, Innovation & Adaptation; FC-06, Competition & Disruption).',
       rates:'Poor market fit is implicated in roughly 42% of failures (CB Insights 2023) and 35% (Startup Genome); competitive displacement appears in about 19% (CB Insights). Strategy that does not cascade is how a company drifts into both.',
-      detect:'Moderate visibility (D=5). Strategy feels clear at the top and fragments on the way down, which is why the read tested whether five employees would give the same answer, not whether you have a strategy.',
+      detect:'Moderate visibility (D=5). Strategy feels clear at the top and fragments on the way down, which is why the assessment tested whether five employees would give the same answer, not whether you have a strategy.',
       move:'Sharpen the strategy and cascade it until five employees give the same answer, and name an edge competitors cannot cheaply copy.'
     },
     financial:{
@@ -429,14 +429,14 @@ const cfg = {
       head:'Operations lean on manual, heroic effort that will not survive a volume spike.',
       why:'The mechanisms are undocumented core processes, manual work that does not scale, and accumulating technical and operational debt (FC-04, Operational Inefficiency; FC-10, Technology & Systems; FC-13, Product Development).',
       rates:'Operational inefficiency drives roughly 17% of failures (McKinsey 2023). On the technology side, about 60% of firms experience a major systems incident (Gartner 2024), the question is whether the operation absorbs it or breaks.',
-      detect:'Moderate visibility (D=5). Manual workarounds look like dedication right up until volume doubles, which is why the read asked how operations would hold if volume doubled in 90 days.',
+      detect:'Moderate visibility (D=5). Manual workarounds look like dedication right up until volume doubles, which is why the assessment asked how operations would hold if volume doubled in 90 days.',
       move:'Document and systematize the core processes before volume doubles, not after the first thing breaks under load.'
     },
     revenue:{
       head:'Next quarter is closer to a guess than a forecast, and retention is not yet predictable.',
       why:'The mechanisms are weak lead quality and a leaky sales process on the front end, and churn from poor onboarding and retention on the back end (FC-12, Marketing & Sales Execution; FC-17, Customer Success & Retention).',
       rates:'Sales-execution failure appears in roughly 14% of cases (HubSpot 2024); churn that destroys unit economics in about 11% (Totango 2024). Underneath both, market-fit gaps reach 42% (CB Insights) when the pipeline never really qualified.',
-      detect:'Moderate visibility (D=5). A good month hides a bad pipeline, which is why the read asked whether next quarter is predictable from pipeline, not whether last quarter was good.',
+      detect:'Moderate visibility (D=5). A good month hides a bad pipeline, which is why the assessment asked whether next quarter is predictable from pipeline, not whether last quarter was good.',
       move:'A tracked, qualified pipeline you can forecast from, and a retention motion that protects the revenue you already won.'
     },
     data:{
@@ -463,7 +463,7 @@ const cfg = {
   cta:{
     baic:{h:'Your best next move looks structural.',p:'The pattern points to your operating architecture. The natural next step is BAIC, a 30-day diagnostic that reads the business as a system and ranks every exposure by what it will actually cost. Let’s spend 30 minutes on your result and whether BAIC is the right move.',label:'Book a call on your next step',url:BOOK_CALL_URL,altLabel:'Or explore BAIC first →',altUrl:'/baic/'},
     ldna:{h:'Your best next move looks like the team.',p:'The exposure is in the people layer, who’s in which seat, and where two leaders share the same blind spot. The usual next step is a Leadership Team Foundations report, built on the LDNA. Let’s spend 30 minutes on your result and the right way in.',label:'Book a call on your next step',url:BOOK_CALL_URL,altLabel:'Or take the LDNA, free →',altUrl:'/ldna/'},
-    baic_mna:{h:'You’re sizing up a business to buy.',p:'Your answers map to pre-close diligence, whether the target survives the ownership transition without the seller. Let’s spend 30 minutes on your result and BAIC’s diligence read before you sign.',label:'Book a diligence call',url:BOOK_CALL_URL,altLabel:'Or explore BAIC →',altUrl:'/baic/'},
+    baic_mna:{h:'You’re sizing up a business to buy.',p:'Your answers map to pre-close diligence, whether the target survives the ownership transition without the seller. Let’s spend 30 minutes on your result and BAIC’s diligence review before you sign.',label:'Book a diligence call',url:BOOK_CALL_URL,altLabel:'Or explore BAIC →',altUrl:'/baic/'},
   },
   aiLens:{teaser:'BAIC reads AI as a disruption vector across your Strategy and Systems; LDNA maps where each leader’s value actually holds.'},
   aiQuestions:[
@@ -569,7 +569,7 @@ function intro(){
     <p class="rr-lede">${cfg.intro}</p>
     <div class="rr-meta"><span><b>5-8 minutes</b></span><span><b>16 questions</b></span><span><b>No sales call</b></span></div>
     <button class="btn btn-primary" id="go">Begin the assessment →</button>
-    <p class="rr-lede" style="font-size:14px;margin-top:30px;max-width:58ch">Looking for the team read instead? <a href="/ldna/" style="color:var(--accent)">Take the LDNA, free, less than 10 minutes →</a></p>
+    <p class="rr-lede" style="font-size:14px;margin-top:30px;max-width:58ch">Looking for the team assessment instead? <a href="/ldna/" style="color:var(--accent)">Take the LDNA, free, less than 10 minutes →</a></p>
   </section>`;
   document.getElementById('go').onclick=()=>{state.step=1;render();up();};
 }
@@ -646,7 +646,7 @@ function aiScreen(){
   app.innerHTML=`<section class="rr-screen">
     <p class="eyebrow">Two more, optional</p>
     <h1 class="sm">Your AI <em>exposure</em></h1>
-    <p class="rr-lede" style="font-size:16px">A quick read on where AI sits for you. Skip if you’d rather just see your result, your read is already complete.</p>
+    <p class="rr-lede" style="font-size:16px">A quick check on where AI sits for you. Skip if you’d rather just see your result, your assessment is already complete.</p>
     <div id="qs">${cfg.aiQuestions.map(qHTML).join('')}</div>
     <div class="rr-nav"><button class="rr-skip" id="skip">Skip → see my read</button>
       <button class="btn btn-primary" id="next">See my read →</button></div>
