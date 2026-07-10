@@ -220,6 +220,29 @@
     .mcta a{width:100%;justify-content:center;}
     body{padding-bottom:76px;}
   }
+
+  /* ---------- mobile refinements (phones, 600px and under) ---------- */
+  @media (max-width:600px){
+    .h1{font-size:clamp(31px,8.2vw,40px);letter-spacing:-.012em;}
+    .h2{font-size:clamp(26px,6.7vw,34px);}
+    .h3{font-size:clamp(21px,5.2vw,27px);}
+    .lead{font-size:17px;line-height:1.5;}
+    .hero-in{padding-top:clamp(40px,10vw,60px);padding-bottom:clamp(48px,11vw,66px);}
+    .hero h1{margin-top:18px;}
+    .hero .lead{margin-top:18px;font-size:17px;}
+    .sec{padding:60px 0;}
+    .fig b{font-size:clamp(38px,11vw,52px);}
+    .about-quote{font-size:clamp(23px,6.4vw,30px);}
+    .step .sn{font-size:30px;}
+    .hero-cta{flex-direction:column;align-items:stretch;gap:10px;}
+    .hero-cta .btn{width:100%;justify-content:center;}
+    .foot-col a{padding:3px 0;}
+    .tiles,.steps,.pain-grid{gap:14px;}
+  }
+  @media (max-width:400px){
+    .foot-grid{grid-template-columns:1fr;gap:22px;}
+    .hero-trust{gap:6px 14px;}
+  }
 </style>
 </head>
 <body>
@@ -335,7 +358,7 @@
       <h2 class="h2">Measure first. Fix in order. <span class="grad-text">Keep it holding.</span></h2>
     </div>
     <div class="steps">
-      <div class="step rev d1"><span class="sn">1</span><h4>Take the free assessment</h4><p>Sixteen questions put your business on a risk map in minutes.</p></div>
+      <div class="step rev d1"><span class="sn">1</span><h4>Take the free assessment</h4><p>Twelve questions put your business on a risk map in minutes.</p></div>
       <div class="step rev d2"><span class="sn">2</span><h4>Run the full diagnostic</h4><p>Score eight areas and rank every risk by real impact.</p></div>
       <div class="step rev d3"><span class="sn">3</span><h4>Get the plan</h4><p>A ninety-day sequence with a real owner on every line.</p></div>
       <div class="step rev d4"><span class="sn">4</span><h4>Keep score</h4><p>A live dashboard and a quarterly re-check, so it keeps holding.</p></div>
@@ -397,7 +420,7 @@
       <div class="door">
         <span class="dk">Start with the business</span>
         <h3>Free Business Assessment</h3>
-        <p>Sixteen questions. In under 8 minutes you get your risk map and the single thing to fix first.</p>
+        <p>Twelve questions. In under 8 minutes you get your risk map and the single thing to fix first.</p>
         <a href="/risk-read/" class="btn btn-grad" style="align-self:flex-start;">Free Business Assessment <span class="arw">→</span></a>
       </div>
       <div class="door">
