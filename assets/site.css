@@ -364,3 +364,20 @@
     .foot-grid{grid-template-columns:1fr;gap:22px;}
     .hero-trust{gap:6px 14px;}
   }
+
+  /* ---------- mobile: prevent spill + stack comparison table (phones) ---------- */
+  @media (max-width:600px){
+    .btn{white-space:normal;}
+    .door,.tile,.step,.pain,.result,.prod-card,.mini{min-width:0;}
+    .cmp-wrap{overflow:visible;border:0;box-shadow:none;background:transparent;}
+    .cmp{min-width:0;}
+    .cmp thead{display:none;}
+    .cmp,.cmp tbody{display:block;}
+    .cmp tr{display:block;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:6px 2px 12px;margin-bottom:12px;}
+    .cmp tr.hl{background:linear-gradient(100deg,rgba(226,169,80,.10),rgba(213,98,60,.06));border-color:var(--brass);}
+    .cmp .hl td{background:transparent;}
+    .cmp td{display:block;border-bottom:0;padding:5px 18px;font-size:14.5px;white-space:normal;}
+    .cmp td:first-child{font-family:var(--disp);font-weight:700;color:var(--ink);font-size:18px;padding-top:14px;}
+    .cmp tr.hl td:first-child{color:var(--brass);}
+    .cmp td[data-label]::before{content:attr(data-label);display:block;font-family:var(--ui);font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:2px;}
+  }
