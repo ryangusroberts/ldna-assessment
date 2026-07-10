@@ -29,13 +29,13 @@ A private Technical Advisory Board sits behind the IP, contributing to methodolo
 - LDNA (free assessment): https://thesauntergroup.com/ldna/
 - Leadership assessment hub: https://thesauntergroup.com/leadership-assessment/
 - The Method: https://thesauntergroup.com/method/
-- About (team & story): https://thesauntergroup.com/story/
-- What to Fix First (free 12-question company read): https://thesauntergroup.com/risk-read/
+- About: https://thesauntergroup.com/about/
+- What to Fix First (free 16-question company read): https://thesauntergroup.com/risk-read/
 
 ## Two doors to start
 
 1. **Take the LDNA** (six minutes, free, full report): https://thesauntergroup.com/ldna/
-2. **What to Fix First** (free, 12 questions, ~3 minutes, a directional read of where the company is most exposed, and the one thing to fix first): https://thesauntergroup.com/risk-read/
+2. **What to Fix First** (free, 16 questions, 5-8 minutes, a directional read of where the company is most exposed, and the one thing to fix first): https://thesauntergroup.com/risk-read/
 
 Or book a 30-minute diagnostic call: https://app.usemotion.com/meet/Saunter/BusinessArchitecture
 
