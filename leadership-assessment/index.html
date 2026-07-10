@@ -55,7 +55,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #FFFFFF; --surface: #FFFFFF; --surface-2: #F4F6FA;
@@ -344,31 +344,77 @@
   .brand-logo { height: 40px !important; }
 }
 
+
+/* ===== 2026 palette + shared nav/footer (reskin) ===== */
+:root{
+  --bg:#FBF6EC; --surface:#FFFFFF; --surface-2:#F4EBDA;
+  --ink:#15233D; --ink-soft:#4B5771; --ink-mute:#8791A6;
+  --line:#E9DFCC; --primary:#0C1A30; --primary-hover:#08111F; --primary-soft:#E7ECF5; --primary-line:#C6D2E6;
+  --accent:#B37B2A; --accent-hover:#8E6720; --accent-soft:#F5EFE0; --accent-line:#D9C28A;
+  --warn:#BD5236; --warn-soft:#F4DDCE; --warn-line:#E3C3B2;
+  --font-serif:'Fraunces', Georgia, 'Times New Roman', serif;
+  --navy:#0C1A30; --navy-2:#122544; --cream:#FBF6EC; --cream-2:#F4EBDA; --card:#FFFFFF;
+  --ink-2:#4B5771; --ink-3:#8791A6; --brass:#B37B2A; --amber:#E2A950; --coral:#BD5236;
+  --disp:'Fraunces', Georgia, 'Times New Roman', serif;
+  --ui:'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif;
+  --mx:1200px; --ease:cubic-bezier(.2,.8,.2,1);
+  --shadow:0 2px 8px rgba(21,35,61,.05), 0 20px 46px rgba(21,35,61,.10);
+}
+.snav{position:sticky;top:0;z-index:100;background:rgba(251,246,236,.82);backdrop-filter:saturate(150%) blur(12px);border-bottom:1px solid transparent;transition:border-color .3s,background .3s;}
+.snav.scrolled{border-color:var(--line);background:rgba(251,246,236,.95);}
+.snav-in{max-width:var(--mx);margin:0 auto;padding:14px clamp(20px,5vw,48px);display:flex;align-items:center;gap:26px;}
+.snav-brand{display:flex;align-items:center;flex-shrink:0;text-decoration:none;}
+.snav-brand img{height:52px;width:auto;display:block;}
+.snav-links{display:flex;align-items:center;gap:28px;flex:1;justify-content:flex-end;}
+.snav-links a{font-family:var(--ui);font-weight:500;font-size:15px;color:var(--ink-2);text-decoration:none;transition:color .18s;}
+.snav-links a:hover{color:var(--ink);}
+.snav-cta{background:var(--navy);color:#fff!important;padding:11px 20px;border-radius:999px;font-weight:600!important;font-size:14px!important;transition:transform .2s var(--ease),box-shadow .2s;}
+.snav-cta:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(12,26,48,.24);}
+.snav-tog{display:none;background:none;border:0;width:44px;height:44px;padding:11px;cursor:pointer;flex-direction:column;justify-content:space-between;margin-left:auto;}
+.snav-tog span{display:block;height:2.5px;border-radius:2px;background:var(--ink);transition:transform .22s,opacity .22s;}
+.snav-tog[aria-expanded="true"] span:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
+.snav-tog[aria-expanded="true"] span:nth-child(2){opacity:0;}
+.snav-tog[aria-expanded="true"] span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
+@media(max-width:860px){
+  .snav-tog{display:flex;}
+  .snav-links{position:absolute;top:100%;left:12px;right:12px;background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);flex-direction:column;align-items:stretch;gap:2px;padding:10px;opacity:0;visibility:hidden;transform:translateY(-8px) scale(.98);transform-origin:top;transition:opacity .2s,transform .26s var(--ease),visibility 0s linear .26s;}
+  .snav-links.open{opacity:1;visibility:visible;transform:none;transition:opacity .2s,transform .26s var(--ease);}
+  .snav-links a{padding:14px 16px;border-radius:12px;font-size:16px;}
+  .snav-links a:hover{background:var(--cream);}
+  .snav-cta{text-align:center;margin-top:4px;}
+}
+.sfoot{background:#08111F;color:#8A99B4;padding:clamp(56px,7vw,84px) 0 36px;font-family:var(--ui);border-top:0;}
+.sfoot .wrap{max-width:var(--mx);margin:0 auto;padding:0 clamp(20px,5vw,48px);}
+.sfoot .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;}
+@media(max-width:760px){.sfoot .foot-grid{grid-template-columns:1fr 1fr;gap:28px;}}
+.sfoot .foot-brand img{height:44px;margin-bottom:16px;}
+.sfoot .foot-brand .foot-tag{font-family:var(--disp);font-weight:600;font-size:18px;line-height:1.25;letter-spacing:-.01em;color:#EAD9B8;max-width:22ch;margin:0 0 12px;}
+.sfoot .foot-brand p{font-family:var(--ui);font-size:14px;color:#7A88A2;max-width:32ch;line-height:1.6;margin:0;}
+.sfoot .foot-col h5{font-family:var(--ui);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#5f6d86;margin:0 0 14px;}
+.sfoot .foot-col a{display:block;font-family:var(--ui);font-size:15px;color:#AEB9CD;text-decoration:none;margin-bottom:10px;}
+.sfoot .foot-col a:hover{color:#fff;}
+.sfoot .foot-note{margin-top:14px;font-family:var(--ui);font-size:12px;color:#5f6d86;line-height:1.5;}
+.sfoot .foot-bot{margin-top:44px;padding-top:22px;border-top:1px solid rgba(255,255,255,.10);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:var(--ui);font-size:12px;color:#5f6d86;}
+.sfoot .foot-bot a{color:#AEB9CD;text-decoration:none;}
+.sfoot .foot-bot a:hover{color:#fff;}
 </style>
 </head>
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <a href="/" class="brand" aria-label="The Saunter Group, home">
-      <img src="/assets/saunter-logo.svg" alt="The Saunter Group" class="brand-logo" />
-      <div class="brand-lockup">
-        <span class="brand-tag" style="display:block;">Build what endures</span>
-      </div>
-      <span class="brand-tag-sub">Diagnose the business. Develop the leaders inside it.</span>
-    </a>
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="primary-nav">
-      <span></span><span></span><span></span>
-    </button>
-    <nav class="nav-links" id="primary-nav" aria-label="Primary">
-      <a href="/method/">Method</a>
-      <a href="/baic/">BAIC</a>
-      <a href="/ldna/" class="active">LDNA</a>
-      <a href="/story/">About</a>
-      <a href="/ldna/" class="nav-cta">Take the LDNA →</a>
-    </nav>
+<nav class="snav" id="snav">
+  <div class="snav-in">
+    <a href="/" class="snav-brand" aria-label="The Saunter Group"><img src="/assets/saunter-logo.svg" alt="The Saunter Group" /></a>
+    <button class="snav-tog" aria-label="Menu" aria-expanded="false" aria-controls="snavlinks"><span></span><span></span><span></span></button>
+    <div class="snav-links" id="snavlinks">
+      <a href="/assessment/">The Assessment</a>
+      <a href="/leadership-dna/">Leadership DNA</a>
+      <a href="/method/">How it works</a>
+      <a href="/about/">About</a>
+      <a href="/consulting/">For Consultants</a>
+      <a href="/#start" class="snav-cta">Start free</a>
+    </div>
   </div>
-</header>
+</nav>
 
 <section class="hero">
   <div class="hero-inner">
@@ -511,16 +557,22 @@
   </div>
 </section>
 
-<footer>
-  <div class="footer-inner">
-    <div class="footer-meta">
-      <img src="/assets/saunter-logo-light.svg" alt="The Saunter Group" />
-      <span>© 2026 The Saunter Group, LLC · Build what endures<br><span style="opacity:0.6; font-size:11px;">BAIC (Business Architecture &amp; Intelligence Cycle) and LDNA (Leadership Drivers &amp; Natural Aptitudes) · proprietary instruments of The Saunter Group, LLC</span></span>
+<footer class="sfoot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="/assets/saunter-logo-light.svg" alt="The Saunter Group" />
+        <p class="foot-tag">Diagnose the business. Develop the leaders inside it.</p>
+        <p>We measure how your business is built and how your leaders operate, then tell you the one thing to fix first.</p>
+      </div>
+      <div class="foot-col"><h5>Diagnose</h5><a href="/assessment/">Business Assessment</a><a href="/leadership-dna/">Leadership DNA</a></div>
+      <div class="foot-col"><h5>Firm</h5><a href="/method/">How it works</a><a href="/advisory/">Advisory</a><a href="/consulting/">For Consultants</a><a href="/about/">About</a></div>
+      <div class="foot-col"><h5>Start</h5><a href="/risk-read/">Free Business Assessment</a><a href="/ldna/">Free Leadership DNA</a><a href="https://app.usemotion.com/meet/Saunter/BusinessArchitecture" target="_blank" rel="noopener">Book a call</a></div>
     </div>
-    <address class="footer-address">30 N Gould St, Ste R · Sheridan, WY 82801</address>
-    <div>
-      <a href="/ldna/privacy.html">Privacy</a> &nbsp;·&nbsp;
-      <a href="mailto:info@thesauntergroup.com">info@thesauntergroup.com</a>
+    <p class="foot-note">Business Assessment and Leadership DNA are proprietary instruments operated under license by The Saunter Group, LLC.</p>
+    <div class="foot-bot">
+      <span>&copy; 2026 The Saunter Group, LLC &middot; Sheridan, Wyoming &middot; info@thesauntergroup.com</span>
+      <span><a href="/ldna/privacy.html">Privacy</a></span>
     </div>
   </div>
 </footer>
@@ -550,5 +602,18 @@
   }
 </script>
 
+<script>
+  /* shared nav (reskin): toggle + scrolled */
+  (function(){
+    var tog=document.querySelector('.snav-tog'),links=document.getElementById('snavlinks');
+    if(tog&&links){
+      tog.addEventListener('click',function(e){e.stopPropagation();var o=links.classList.toggle('open');tog.setAttribute('aria-expanded',o?'true':'false');});
+      links.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){links.classList.remove('open');tog.setAttribute('aria-expanded','false');});});
+      document.addEventListener('click',function(e){if(links.classList.contains('open')&&!links.contains(e.target)&&!tog.contains(e.target)){links.classList.remove('open');tog.setAttribute('aria-expanded','false');}});
+      document.addEventListener('keydown',function(e){if(e.key==='Escape'&&links.classList.contains('open')){links.classList.remove('open');tog.setAttribute('aria-expanded','false');tog.focus();}});
+    }
+    var nav=document.getElementById('snav');if(nav){var sc=function(){nav.classList.toggle('scrolled',scrollY>8);};sc();addEventListener('scroll',sc,{passive:true});}
+  })();
+</script>
 </body>
 </html>
