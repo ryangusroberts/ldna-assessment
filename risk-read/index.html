@@ -16,15 +16,15 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/saunter-mark-192.png" />
 <link rel="manifest" href="/site.webmanifest" />
 
-<title>What to Fix First · Free 12-question read | The Saunter Group</title>
-<meta name="description" content="Stop guessing. Twelve questions on what's actually slowing your business down, across leadership and the operating architecture, and the one thing to fix first. Free, 5-8 minutes, no sales call." />
+<title>What to Fix First · Free 16-question read | The Saunter Group</title>
+<meta name="description" content="Stop guessing. Sixteen questions on what's actually slowing your business down, across leadership and the operating architecture, and the one thing to fix first. Free, 5-8 minutes, no sales call." />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="The Saunter Group" />
 <meta property="og:url" content="https://thesauntergroup.com/risk-read/" />
-<meta property="og:title" content="What to Fix First · Free 12-question read | The Saunter Group" />
-<meta property="og:description" content="Stop guessing. Twelve questions on what's actually slowing your business down, and the one thing to fix first. Free, 5-8 minutes, no sales call." />
+<meta property="og:title" content="What to Fix First · Free 16-question read | The Saunter Group" />
+<meta property="og:description" content="Stop guessing. Sixteen questions on what's actually slowing your business down, and the one thing to fix first. Free, 5-8 minutes, no sales call." />
 <meta property="og:image" content="https://thesauntergroup.com/assets/og/share-default.png" />
 <meta property="og:image:secure_url" content="https://thesauntergroup.com/assets/og/share-default.png" />
 <meta property="og:image:type" content="image/png" />
@@ -35,12 +35,12 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="What to Fix First · Free 12-question read | The Saunter Group" />
-<meta name="twitter:description" content="Stop guessing. Twelve questions on what's actually slowing you down, and the one thing to fix first." />
+<meta name="twitter:title" content="What to Fix First · Free 16-question read | The Saunter Group" />
+<meta name="twitter:description" content="Stop guessing. Sixteen questions on what's actually slowing you down, and the one thing to fix first." />
 <meta name="twitter:image" content="https://thesauntergroup.com/assets/og/share-default.png" />
 <meta name="twitter:image:alt" content="The Saunter Group · Build what endures" />
 
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","url":"https://thesauntergroup.com/risk-read/","name":"What to Fix First · Free 12-question read | The Saunter Group","isPartOf":{"@type":"WebSite","@id":"https://thesauntergroup.com#site"},"publisher":{"@id":"https://thesauntergroup.com#org"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","url":"https://thesauntergroup.com/risk-read/","name":"What to Fix First · Free 16-question read | The Saunter Group","isPartOf":{"@type":"WebSite","@id":"https://thesauntergroup.com#site"},"publisher":{"@id":"https://thesauntergroup.com#org"}}</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -364,7 +364,7 @@ const BOOK_CALL_URL = "https://app.usemotion.com/meet/Saunter/BusinessArchitectu
 const cfg = {
   key:'scaling_risk_read', lane:'baic',
   title:'What to Fix First',
-  intro:"Stop guessing. Twelve questions on what's actually slowing your business down, across your leadership and your operating architecture, and the one thing to fix first. Not fifty problems. The one that matters.",
+  intro:"Stop guessing. Sixteen questions on what's actually slowing your business down, across your leadership and your operating architecture, and the one thing to fix first. Not fifty problems. The one that matters.",
   weights:{leadership:.20,structure:.20,strategy:.13,financial:.13,systems:.085,revenue:.085,data:.085,risk:.085},
   priority:['leadership','structure'],
   bands:{low:'Foundation at Risk',mid:'Structure Emerging',high:'Scaling-Ready, with watch-items'},
@@ -483,9 +483,13 @@ const cfg = {
       {id:'F1',cat:'financial',stem:'Your cash over the next 13 weeks…',o:['surprises happen','roughly, after the fact','monthly forecast','weekly, rolling, scenarios']},
       {id:'F2',cat:'financial',stem:'Profit per deal after full cost…',o:['not tracked','estimated','known high-level','known by segment, watched']},
       {id:'Y1',cat:'systems',stem:'Double volume in 90 days and ops would…',o:['break','strain badly','hold with pain','scale cleanly']},
+      {id:'Y2',cat:'systems',stem:'Your core operating processes are…',o:['mostly in people’s heads','partly written down','documented for the big ones','documented, followed, and kept current']},
       {id:'R1',cat:'revenue',stem:'Next quarter’s revenue is…',o:['a guess','a hopeful estimate','reasonably predictable','predictable from pipeline']},
+      {id:'R2',cat:'revenue',stem:'The customers you won a year ago…',o:['mostly gone, and churn’s a mystery','some churn, not always sure why','tracked, and we roughly know why','retention’s strong and we know what drives it']},
       {id:'D1',cat:'data',stem:'When something breaks, you find out…',o:['after it costs you','days later','in the weekly rhythm','early, with time to act']},
+      {id:'D2',cat:'data',stem:'Ask two people for the same key number and you’d get…',o:['two different answers','close, after some digging','the same number, eventually','the same number, live, from one source']},
       {id:'K1',cat:'risk',stem:'A major shock next month and you’d be…',o:['caught flat','scrambling','able to manage','prepared']},
+      {id:'K2',cat:'risk',stem:'Your single largest customer walking away tomorrow would…',o:['threaten the business','force major cuts','hurt, but you’d survive it','sting, but well within tolerance']},
     ]},
   ],
 };
@@ -563,7 +567,7 @@ function intro(){
     <p class="eyebrow">Free diagnostic · The Saunter Group</p>
     <h1>What to Fix <em>First</em></h1>
     <p class="rr-lede">${cfg.intro}</p>
-    <div class="rr-meta"><span><b>5-8 minutes</b></span><span><b>12 questions</b></span><span><b>No sales call</b></span></div>
+    <div class="rr-meta"><span><b>5-8 minutes</b></span><span><b>16 questions</b></span><span><b>No sales call</b></span></div>
     <button class="btn btn-primary" id="go">Begin the assessment →</button>
     <p class="rr-lede" style="font-size:14px;margin-top:30px;max-width:58ch">Looking for the team read instead? <a href="/ldna/" style="color:var(--accent)">Take the LDNA, free, less than 10 minutes →</a></p>
   </section>`;
