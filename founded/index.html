@@ -44,6 +44,49 @@
   .fd-card .cta{margin-top:auto;display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
   .fd-meta{font-family:var(--ui);font-size:12.5px;color:var(--ink-3);margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap;}
   .fd-meta b{font-weight:700;color:var(--ink-2);}
+  /* gated-resource button reset (buttons styled as .btn / .tlink).
+     NB: do not set background here, or it out-specifies .btn-grad/.btn-navy. */
+  button.btn,button.tlink{font:inherit;cursor:pointer;-webkit-appearance:none;appearance:none;}
+  button.btn{border:0;}
+  button.tlink{padding:0;border:0;background:none;}
+  .fd-lock{display:inline-flex;align-items:center;gap:6px;font-family:var(--ui);font-weight:700;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--brass);margin-bottom:12px;}
+  .fd-lock svg{width:13px;height:13px;}
+
+  /* ===== overlay shared (gate modal + sample lightbox) ===== */
+  .ov{position:fixed;inset:0;z-index:120;display:none;align-items:flex-start;justify-content:center;padding:clamp(14px,4vh,48px) 16px;overflow-y:auto;background:rgba(12,26,48,.62);backdrop-filter:blur(3px);}
+  .ov.open{display:flex;}
+  .ov-box{position:relative;width:100%;max-width:560px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow-lg);padding:clamp(24px,3.4vw,40px);margin:auto;}
+  .ov-box.wide{max-width:840px;}
+  .ov-x{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink-2);font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .ov-x:hover{border-color:var(--ink);color:var(--ink);}
+  .ov-eyebrow{font-family:var(--ui);font-weight:700;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--brass);}
+  .ov-h{font-family:var(--disp);font-weight:700;font-size:clamp(22px,3vw,27px);color:var(--ink);letter-spacing:-.01em;margin:8px 0 8px;line-height:1.12;}
+  .ov-sub{font-family:var(--ui);font-size:15px;color:var(--ink-2);line-height:1.55;margin:0 0 20px;}
+  /* form */
+  .gf-field{display:block;margin-bottom:16px;}
+  .gf-field>span.lab{display:block;font-family:var(--ui);font-weight:600;font-size:13.5px;color:var(--ink);margin-bottom:7px;}
+  .gf-field input,.gf-field select{width:100%;font-family:var(--ui);font-size:15px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;outline:none;-webkit-appearance:none;appearance:none;}
+  .gf-field input:focus,.gf-field select:focus{border-color:var(--brass);box-shadow:0 0 0 3px rgba(179,123,42,.14);}
+  .gf-field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238791A6' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;}
+  .gf-pills{display:flex;flex-wrap:wrap;gap:9px;}
+  .gf-pill{font-family:var(--ui);font-weight:600;font-size:14px;color:var(--ink-2);background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:9px 15px;cursor:pointer;transition:.15s;}
+  .gf-pill:hover{border-color:var(--brass);color:var(--ink);}
+  .gf-pill.sel{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .gf-consent{font-family:var(--ui);font-size:12.5px;color:var(--ink-3);line-height:1.5;margin:4px 0 18px;}
+  .gf-consent a{color:var(--brass);}
+  .gf-err{font-family:var(--ui);font-size:13px;color:var(--coral);margin:0 0 12px;display:none;}
+  .gf-err.show{display:block;}
+  .ov-box .btn{width:100%;justify-content:center;}
+  .ov-trust{font-family:var(--ui);font-size:12px;color:var(--ink-3);text-align:center;margin:12px 0 0;}
+  /* success */
+  .gf-done{text-align:center;}
+  .gf-done .tick{width:56px;height:56px;border-radius:50%;background:var(--grad-warm);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+  .gf-done .dl{display:flex;flex-direction:column;gap:12px;margin-top:22px;}
+  /* sample lightbox */
+  .sx-cap{font-family:var(--ui);font-size:14px;color:var(--ink-2);line-height:1.55;margin:0 0 18px;}
+  .sx-shots{display:flex;flex-direction:column;gap:16px;margin-bottom:22px;}
+  .sx-shots img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);}
+  .sx-cta{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
 </style>
 </head>
 <body>
@@ -57,7 +100,7 @@
       <a href="../leadership-dna/">Leadership DNA</a>
       <a href="../method/">How it works</a>
       <a href="../about/">About</a>
-      <a href="dashboard.html" target="_blank" rel="noopener" class="nav-cta">Open the dashboard</a>
+      <a href="#resources" class="nav-cta js-gate" data-res="dashboard">Open the dashboard</a>
     </div>
   </div>
 </nav>
@@ -70,7 +113,7 @@
     <div class="fd-mantra rev d3"><span>Evidence before effort</span><span>Demand before build</span><span>Proof before scale</span></div>
     <div class="hero-cta rev d3" style="margin-top:28px;">
       <a href="#resources" class="btn btn-grad">Get the guide and dashboard <span class="arw">→</span></a>
-      <a href="dashboard.html" target="_blank" rel="noopener" class="btn btn-ghost on-dark">Open the dashboard</a>
+      <a href="#resources" class="btn btn-ghost on-dark js-gate" data-res="dashboard">Open the dashboard</a>
     </div>
   </div>
 </section>
@@ -98,18 +141,18 @@
     <div class="sec-head rev">
       <span class="eyebrow">Two tools, free to use</span>
       <h2 class="h2">The map, and the way <span class="grad-text">to work it.</span></h2>
-      <p class="lead" style="margin-top:16px;max-width:60ch;">Read the field guide to see the whole path and what breaks if you skip a step. Then work the tasks in the dashboard, tracking your progress stage by stage.</p>
+      <p class="lead" style="margin-top:16px;max-width:60ch;">Read the field guide to see the whole path and what breaks if you skip a step. Then work the tasks in the dashboard, tracking your progress stage by stage. See a sample of either first. Both are free, unlocked with your email and two quick questions.</p>
     </div>
     <div class="fd-res">
       <div class="fd-card rev d1">
         <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3h9l4 4v14H6z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5M9 13h6M9 17h6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg></div>
         <span class="kind">Field guide · PDF</span>
         <h3>The Founder Task Architecture</h3>
-        <div class="fd-meta"><span><b>40 tasks</b></span><span>·</span><span>6 stages</span><span>·</span><span>Priority order + deep-dives</span></div>
+        <div class="fd-meta"><span><b>40 tasks</b></span><span>·</span><span>23 pages</span><span>·</span><span>6 stages</span><span>·</span><span>Priority order + deep-dives</span></div>
         <p>Forty tasks that carry you from an idea to paying traction, in the order that keeps you alive, each mapped to the failure it is built to prevent. Part A is the full task map; Part B sorts them by what to do first; the deep-dives show what good looks like and how to know you are done.</p>
         <div class="cta">
-          <a href="founder-task-architecture.pdf" download class="btn btn-grad">Download the field guide <span class="arw">→</span></a>
-          <a href="founder-task-architecture.pdf" target="_blank" rel="noopener" class="tlink">Preview <span class="arw">→</span></a>
+          <button type="button" class="btn btn-grad js-gate" data-res="pdf">Get the field guide <span class="arw">→</span></button>
+          <button type="button" class="tlink js-sample" data-res="pdf">See a sample <span class="arw">→</span></button>
         </div>
       </div>
       <div class="fd-card rev d2">
@@ -119,8 +162,8 @@
         <div class="fd-meta"><span><b>Live checklist</b></span><span>·</span><span>Progress by stage</span><span>·</span><span>Your next task</span></div>
         <p>Work the forty tasks as a live checklist. See your progress by stage, the single most important task to do next, and where your foundation is still thin, all on one screen. It runs entirely in your browser, so nothing you enter leaves your device.</p>
         <div class="cta">
-          <a href="dashboard.html" target="_blank" rel="noopener" class="btn btn-navy">Open the dashboard <span class="arw">→</span></a>
-          <a href="dashboard.html" download="founder-architecture-dashboard.html" class="tlink">Download a copy <span class="arw">→</span></a>
+          <button type="button" class="btn btn-navy js-gate" data-res="dashboard">Get the dashboard <span class="arw">→</span></button>
+          <button type="button" class="tlink js-sample" data-res="dashboard">See a sample <span class="arw">→</span></button>
         </div>
       </div>
     </div>
@@ -162,7 +205,7 @@
         <p class="foot-tag">Diagnose the business. Develop the leaders inside it.</p>
         <p>We measure how your business is built and how your leaders operate, then tell you the one thing to fix first.</p>
       </div>
-      <div class="foot-col"><h5>FOUNDED</h5><a href="founder-task-architecture.pdf" download>The field guide</a><a href="dashboard.html" target="_blank" rel="noopener">The dashboard</a><a href="../index.html#start">Saunter assessment</a></div>
+      <div class="foot-col"><h5>FOUNDED</h5><a href="#resources" class="js-gate" data-res="pdf">The field guide</a><a href="#resources" class="js-gate" data-res="dashboard">The dashboard</a><a href="../index.html#start">Saunter assessment</a></div>
       <div class="foot-col"><h5>Firm</h5><a href="../method/">How it works</a><a href="../consulting/">For Consultants</a><a href="../about/">About</a></div>
       <div class="foot-col"><h5>Start</h5><a href="../index.html#start">Free assessment</a><a href="../leadership-dna/">Leadership DNA</a><a href="https://app.usemotion.com/meet/Saunter/BusinessArchitecture" target="_blank" rel="noopener">Book a call</a></div>
     </div>
@@ -173,12 +216,180 @@
   </div>
 </footer>
 
+<!-- ===== GATE MODAL (email + 2 questions before unlock) ===== -->
+<div class="ov" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateH">
+  <div class="ov-box">
+    <button type="button" class="ov-x" data-close aria-label="Close">&times;</button>
+    <div id="gateForm">
+      <span class="ov-eyebrow">Free · two quick questions</span>
+      <h2 class="ov-h" id="gateH">Where should we send it?</h2>
+      <p class="ov-sub">Add your email and answer two quick questions and both the field guide and the dashboard unlock right here. We will email you a copy too. We do not sell or share your details.</p>
+      <p class="gf-err" id="gateErr">Please add your email and pick an answer to each question.</p>
+      <label class="gf-field"><span class="lab">Email *</span><input type="email" id="g_email" autocomplete="email" placeholder="you@company.com" /></label>
+      <div class="gf-field">
+        <span class="lab">What stage is your business in? *</span>
+        <div class="gf-pills" id="g_stage" role="radiogroup" aria-label="Business stage">
+          <button type="button" class="gf-pill" role="radio" aria-checked="false" data-v="Idea / pre-launch">Idea / pre-launch</button>
+          <button type="button" class="gf-pill" role="radio" aria-checked="false" data-v="Building">Building</button>
+          <button type="button" class="gf-pill" role="radio" aria-checked="false" data-v="First revenue">First revenue</button>
+          <button type="button" class="gf-pill" role="radio" aria-checked="false" data-v="Scaling">Scaling</button>
+        </div>
+      </div>
+      <label class="gf-field"><span class="lab">What is the one thing you are most stuck on right now? *</span>
+        <select id="g_challenge">
+          <option value="" selected disabled>Select the closest fit…</option>
+          <option>Finding a real problem worth solving</option>
+          <option>Reaching the right customers</option>
+          <option>Validating demand before I build</option>
+          <option>Building the product</option>
+          <option>Landing first paying customers</option>
+          <option>Pricing and the business model</option>
+          <option>Focus, knowing what to do next</option>
+          <option>Something else</option>
+        </select>
+      </label>
+      <p class="gf-consent">By continuing you consent to The Saunter Group emailing you these tools and occasional related resources. See our <a href="/ldna/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>. Unsubscribe anytime.</p>
+      <button type="button" class="btn btn-grad" id="gateSubmit">Unlock both tools <span class="arw">→</span></button>
+      <p class="ov-trust">No spam. One email with your tools, that is it unless you ask for more.</p>
+    </div>
+    <div class="gf-done" id="gateDone" style="display:none;">
+      <div class="tick"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <span class="ov-eyebrow">You are in</span>
+      <h2 class="ov-h">Both tools are unlocked.</h2>
+      <p class="ov-sub" style="margin-bottom:0;">Grab them below. A copy of the field guide is also on its way to your inbox from info@thesauntergroup.com.</p>
+      <div class="dl">
+        <a class="btn btn-grad" id="dl_pdf" href="founder-task-architecture.pdf" download>Download the field guide <span class="arw">→</span></a>
+        <a class="btn btn-navy" id="dl_dash" href="dashboard.html" target="_blank" rel="noopener">Open the dashboard <span class="arw">→</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SAMPLE LIGHTBOX ===== -->
+<div class="ov" id="sample" role="dialog" aria-modal="true" aria-labelledby="sampleH">
+  <div class="ov-box wide">
+    <button type="button" class="ov-x" data-close aria-label="Close">&times;</button>
+    <span class="ov-eyebrow" id="sampleKind">Sample</span>
+    <h2 class="ov-h" id="sampleH">A look inside</h2>
+    <p class="sx-cap" id="sampleCap"></p>
+    <div class="sx-shots" id="sampleShots"></div>
+    <div class="sx-cta">
+      <button type="button" class="btn btn-grad" id="sampleGet">Get the full version <span class="arw">→</span></button>
+      <button type="button" class="tlink" data-close>Close</button>
+    </div>
+  </div>
+</div>
+
 <script>
   var tog=document.querySelector('.nav-tog'),links=document.getElementById('navlinks');
   tog.addEventListener('click',function(){var o=links.classList.toggle('open');tog.setAttribute('aria-expanded',o?'true':'false');});
   var nav=document.getElementById('nav');var sc=function(){nav.classList.toggle('scrolled',scrollY>8);};sc();addEventListener('scroll',sc,{passive:true});
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.14,rootMargin:'0px 0px -6% 0px'});
   document.querySelectorAll('.rev').forEach(function(el){io.observe(el);});
+</script>
+
+<script>
+/* ===== FOUNDED resource gate ===== */
+(function(){
+  /* Paste your deployed Google Apps Script Web App URL here to capture leads.
+     Until it is set, the gate still works, it just does not record submissions. */
+  var CAPTURE_ENDPOINT = "https://script.google.com/macros/s/AKfycbx46fCXt6yQHpNQ6nfKMBfy8SqJ7fhWZ1uj0hOUg_Fh2Otf4dsc1c7mG7mfEMUu13g-/exec";
+
+  var RES = {
+    pdf:  { url:"founder-task-architecture.pdf", open:function(){ triggerDownload(RES.pdf.url); } },
+    dashboard: { url:"dashboard.html", open:function(){ window.open(RES.dashboard.url,"_blank","noopener"); } }
+  };
+  var LSK = "founded_unlock_v1";
+  function unlocked(){ try{ return localStorage.getItem(LSK)==="1"; }catch(e){ return _mem; } }
+  var _mem=false;
+  function setUnlocked(){ _mem=true; try{ localStorage.setItem(LSK,"1"); }catch(e){} }
+  function triggerDownload(u){ var a=document.createElement("a"); a.href=u; a.setAttribute("download",""); document.body.appendChild(a); a.click(); a.remove(); }
+
+  var gate=document.getElementById("gate"),
+      sample=document.getElementById("sample"),
+      emailEl=document.getElementById("g_email"),
+      challengeEl=document.getElementById("g_challenge"),
+      errEl=document.getElementById("gateErr"),
+      formEl=document.getElementById("gateForm"),
+      doneEl=document.getElementById("gateDone");
+  var requested="pdf", stageVal="";
+
+  function openOv(el){ el.classList.add("open"); document.body.style.overflow="hidden"; }
+  function closeOv(el){ el.classList.remove("open"); if(!gate.classList.contains("open")&&!sample.classList.contains("open")) document.body.style.overflow=""; }
+  function closeAll(){ closeOv(gate); closeOv(sample); }
+
+  /* stage pills */
+  document.querySelectorAll("#g_stage .gf-pill").forEach(function(p){
+    p.addEventListener("click",function(){
+      stageVal=p.dataset.v;
+      document.querySelectorAll("#g_stage .gf-pill").forEach(function(o){o.classList.remove("sel");o.setAttribute("aria-checked","false");});
+      p.classList.add("sel"); p.setAttribute("aria-checked","true");
+    });
+  });
+
+  function emailOk(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+
+  /* open gate for a given resource; if already unlocked, go straight to it */
+  function requestResource(res){
+    requested = RES[res]?res:"pdf";
+    if(unlocked()){ RES[requested].open(); return; }
+    errEl.classList.remove("show");
+    formEl.style.display=""; doneEl.style.display="none";
+    openOv(gate);
+    setTimeout(function(){ emailEl.focus(); },60);
+  }
+
+  function submitGate(){
+    var email=(emailEl.value||"").trim();
+    if(!emailOk(email) || !stageVal || !challengeEl.value){ errEl.classList.add("show"); return; }
+    /* fire-and-forget capture; never blocks the unlock */
+    if(CAPTURE_ENDPOINT){
+      try{
+        fetch(CAPTURE_ENDPOINT,{ method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"},
+          body:JSON.stringify({ source:"founded", resource:requested, email:email, stage:stageVal, challenge:challengeEl.value, page:location.pathname }) });
+      }catch(e){}
+    }
+    setUnlocked();
+    formEl.style.display="none"; doneEl.style.display="";
+    /* auto-open the tool they asked for, within the click gesture */
+    RES[requested].open();
+  }
+
+  document.getElementById("gateSubmit").addEventListener("click",submitGate);
+  emailEl.addEventListener("keydown",function(e){ if(e.key==="Enter") submitGate(); });
+
+  /* sample lightbox content */
+  var SAMPLE={
+    pdf:{ kind:"Field guide · sample", h:"The Founder Task Architecture",
+      cap:"A look at the cover and the opening pages. The full 23-page guide, all forty tasks in priority order with the deep-dives, unlocks when you tell us where to send it.",
+      shots:["sample-fg-1.jpg","sample-fg-2.png"] },
+    dashboard:{ kind:"Dashboard · sample", h:"The Founder Architecture Dashboard",
+      cap:"A look at the live dashboard. Track all forty tasks, see your progress by stage and your single next task. It runs entirely in your browser. Unlock it with your email and two quick questions.",
+      shots:["sample-dashboard.jpg"] }
+  };
+  function openSample(res){
+    var s=SAMPLE[res]||SAMPLE.pdf; requested=res;
+    document.getElementById("sampleKind").textContent=s.kind;
+    document.getElementById("sampleH").textContent=s.h;
+    document.getElementById("sampleCap").textContent=s.cap;
+    document.getElementById("sampleShots").innerHTML=s.shots.map(function(src){return '<img src="'+src+'" alt="Sample page" loading="lazy">';}).join("");
+    openOv(sample);
+  }
+  document.getElementById("sampleGet").addEventListener("click",function(){ closeOv(sample); requestResource(requested); });
+
+  /* wire triggers */
+  document.querySelectorAll(".js-gate").forEach(function(el){
+    el.addEventListener("click",function(ev){ ev.preventDefault(); requestResource(el.dataset.res||"pdf"); });
+  });
+  document.querySelectorAll(".js-sample").forEach(function(el){
+    el.addEventListener("click",function(ev){ ev.preventDefault(); openSample(el.dataset.res||"pdf"); });
+  });
+
+  /* close interactions */
+  document.querySelectorAll("[data-close]").forEach(function(b){ b.addEventListener("click",closeAll); });
+  [gate,sample].forEach(function(ov){ ov.addEventListener("click",function(ev){ if(ev.target===ov) closeAll(); }); });
+  document.addEventListener("keydown",function(ev){ if(ev.key==="Escape") closeAll(); });
+})();
 </script>
 </body>
 </html>
