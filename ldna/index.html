@@ -348,27 +348,6 @@
     text-align: center; padding: 30px; color: var(--ink-mute); font-size: 14px; font-family: var(--font-ui);
   }
 
-  /* ---------- Identical-sets flag (review step) ---------- */
-  .same-flag {
-    display: flex; align-items: flex-start; gap: 16px;
-    background: #FDF4E3;
-    border: 1px solid #E5C97E;
-    border-radius: var(--radius-sm);
-    padding: 16px 18px;
-    margin: 0 0 20px;
-    font-family: var(--font-ui);
-    font-size: 14px; line-height: 1.55;
-    color: #6B5619;
-  }
-  .same-flag strong { color: #4F3F0E; }
-  .same-flag button {
-    background: var(--primary); color: var(--primary-ink); border: 0;
-    padding: 9px 16px; border-radius: 999px;
-    font-family: var(--font-ui); font-size: 13px; font-weight: 600;
-    cursor: pointer; white-space: nowrap; flex-shrink: 0;
-    transition: background var(--transition);
-  }
-  .same-flag button:hover { background: var(--primary-hover); }
 
   /* ---------- Review ---------- */
   .review-section { margin-bottom: 26px; }
@@ -1215,11 +1194,6 @@
     <h1>Review your responses</h1>
     <p class="lede">Take a moment to look this over. You can jump back to any section to make changes.</p>
 
-    <div class="same-flag" id="sameFlag" hidden role="status">
-      <span><strong>Your two lists are identical.</strong> Part 1 is who you are by nature. Part 2 is what your role demands. A perfect match is possible but rare, and your report is built from the difference between the two. If your role truly rewards exactly who you are, continue. Otherwise, take another pass at Part 2.</span>
-      <button type="button" id="sameFlagBtn">Revisit Part 2</button>
-    </div>
-
     <div class="card">
       <div class="review-section">
         <h3>About you <button class="review-edit" data-jump="0">Edit</button></h3>
@@ -1653,10 +1627,6 @@ function renderReview() {
   };
   render("rList1", "rCount1", state.part1);
   render("rList2", "rCount2", state.part2);
-
-  // Data-quality: warn when Part 2 exactly mirrors Part 1.
-  const sameFlag = document.getElementById("sameFlag");
-  if (sameFlag) sameFlag.hidden = !setsIdentical();
 }
 
 /* ---------- Navigation ---------- */
@@ -1686,8 +1656,8 @@ function getReferralCode() {
 /* ---------- Identical-sets check ----------
    The report is built from the gap between the two lists. An exact
    match usually means the respondent mirrored Part 1 instead of
-   answering Part 2 through the role's lens. Flag it on the review
-   screen and in the payload. */
+   answering Part 2 through the role's lens. Flagged silently in the
+   submission payload (setOverlapPct / setsIdentical). */
 function setOverlapPct() {
   let inter = 0;
   state.part1.forEach(w => { if (state.part2.has(w)) inter++; });
@@ -1697,8 +1667,6 @@ function setOverlapPct() {
 function setsIdentical() {
   return state.part1.size > 0 && state.part1.size === state.part2.size && setOverlapPct() === 100;
 }
-document.getElementById("sameFlagBtn").addEventListener("click", () => showStep(2));
-
 function buildPayload() {
   return {
     submittedAt: new Date().toISOString(),
