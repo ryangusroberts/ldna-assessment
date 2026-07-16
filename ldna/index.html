@@ -348,26 +348,27 @@
     text-align: center; padding: 30px; color: var(--ink-mute); font-size: 14px; font-family: var(--font-ui);
   }
 
-  /* ---------- Carry-over banner ---------- */
-  .carry-banner {
-    display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    background: var(--primary-soft);
-    border: 1px solid var(--primary-line);
+  /* ---------- Identical-sets flag (review step) ---------- */
+  .same-flag {
+    display: flex; align-items: flex-start; gap: 16px;
+    background: #FDF4E3;
+    border: 1px solid #E5C97E;
     border-radius: var(--radius-sm);
-    padding: 14px 18px;
-    margin-bottom: 18px;
-    font-family: var(--font-serif);
-    font-size: 15px;
-    color: var(--primary);
+    padding: 16px 18px;
+    margin: 0 0 20px;
+    font-family: var(--font-ui);
+    font-size: 14px; line-height: 1.55;
+    color: #6B5619;
   }
-  .carry-banner button {
-    background: var(--primary); color: #fff; border: 0;
+  .same-flag strong { color: #4F3F0E; }
+  .same-flag button {
+    background: var(--primary); color: var(--primary-ink); border: 0;
     padding: 9px 16px; border-radius: 999px;
     font-family: var(--font-ui); font-size: 13px; font-weight: 600;
-    cursor: pointer; transition: background var(--transition);
-    letter-spacing: 0.01em;
+    cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    transition: background var(--transition);
   }
-  .carry-banner button:hover { background: var(--primary-hover); }
+  .same-flag button:hover { background: var(--primary-hover); }
 
   /* ---------- Review ---------- */
   .review-section { margin-bottom: 26px; }
@@ -1187,10 +1188,6 @@
     <h1>Which of these describe how you <em>must behave</em> to succeed in your current role?</h1>
     <p class="lede">Same list, different lens. What does the role itself reward or require? It's normal for this set to overlap with, or differ from, your natural self.</p>
 
-    <div class="carry-banner" id="carryBanner" hidden>
-      <span>Want to start with your Part 1 selections and edit from there?</span>
-      <button id="carryBtn" type="button">Carry over selections</button>
-    </div>
 
     <div class="picker-toolbar" id="toolbar2">
       <div class="search">
@@ -1217,6 +1214,11 @@
     <div class="step-eyebrow">Almost done</div>
     <h1>Review your responses</h1>
     <p class="lede">Take a moment to look this over. You can jump back to any section to make changes.</p>
+
+    <div class="same-flag" id="sameFlag" hidden role="status">
+      <span><strong>Your two lists are identical.</strong> Part 1 is who you are by nature. Part 2 is what your role demands. A perfect match is possible but rare, and your report is built from the difference between the two. If your role truly rewards exactly who you are, continue. Otherwise, take another pass at Part 2.</span>
+      <button type="button" id="sameFlagBtn">Revisit Part 2</button>
+    </div>
 
     <div class="card">
       <div class="review-section">
@@ -1494,9 +1496,6 @@ function showStep(i) {
   window.scrollTo({ top: 0, behavior: "smooth" });
   if (i === 3) renderReview();
   if (i === 4) setupShare();
-  if (i === 2) {
-    document.getElementById("carryBanner").hidden = (state.part2.size > 0 || state.part1.size === 0);
-  }
   save();
 }
 
@@ -1567,15 +1566,6 @@ function wireFilter(n) {
   });
 }
 
-/* ---------- Carry over ---------- */
-document.getElementById("carryBtn").addEventListener("click", () => {
-  state.part1.forEach(w => state.part2.add(w));
-  buildGrid("grid2", state.part2);
-  updateCounters();
-  applyFilter(2);
-  document.getElementById("carryBanner").hidden = true;
-  save();
-});
 
 /* ---------- Demographics binding ---------- */
 function bindDemographics() {
@@ -1663,6 +1653,10 @@ function renderReview() {
   };
   render("rList1", "rCount1", state.part1);
   render("rList2", "rCount2", state.part2);
+
+  // Data-quality: warn when Part 2 exactly mirrors Part 1.
+  const sameFlag = document.getElementById("sameFlag");
+  if (sameFlag) sameFlag.hidden = !setsIdentical();
 }
 
 /* ---------- Navigation ---------- */
@@ -1689,6 +1683,22 @@ function getReferralCode() {
   return "LD" + Date.now().toString(36).toUpperCase().slice(-5) + Math.random().toString(36).toUpperCase().slice(2, 5);
 }
 
+/* ---------- Identical-sets check ----------
+   The report is built from the gap between the two lists. An exact
+   match usually means the respondent mirrored Part 1 instead of
+   answering Part 2 through the role's lens. Flag it on the review
+   screen and in the payload. */
+function setOverlapPct() {
+  let inter = 0;
+  state.part1.forEach(w => { if (state.part2.has(w)) inter++; });
+  const uni = state.part1.size + state.part2.size - inter;
+  return uni ? Math.round((inter / uni) * 100) : 0;
+}
+function setsIdentical() {
+  return state.part1.size > 0 && state.part1.size === state.part2.size && setOverlapPct() === 100;
+}
+document.getElementById("sameFlagBtn").addEventListener("click", () => showStep(2));
+
 function buildPayload() {
   return {
     submittedAt: new Date().toISOString(),
@@ -1697,6 +1707,10 @@ function buildPayload() {
     roleBehavior: [...state.part2],
     naturalSelfCount: state.part1.size,
     roleBehaviorCount: state.part2.size,
+    // Data-quality flags: Jaccard overlap of the two lists (0-100) and
+    // whether they are exactly identical (see setsIdentical()).
+    setOverlapPct: setOverlapPct(),
+    setsIdentical: setsIdentical(),
     // Default deliverable everyone receives free. The full multi-page report is
     // unlocked separately via a share event from the completion screen.
     reportTier: "full",
