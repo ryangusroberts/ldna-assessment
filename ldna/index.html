@@ -309,6 +309,17 @@
     font-weight: 500;
   }
   .counter strong { color: var(--accent); font-weight: 700; }
+  .count-nudge {
+    flex-basis: 100%;
+    font-family: var(--font-ui);
+    font-size: 12.5px; line-height: 1.45;
+    color: #8a5a12;
+    background: #FBF4E6;
+    border: 1px solid #ECD9A8;
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-top: 10px;
+  }
 
   .chip-grid {
     display: grid;
@@ -347,6 +358,7 @@
   .picker-empty {
     text-align: center; padding: 30px; color: var(--ink-mute); font-size: 14px; font-family: var(--font-ui);
   }
+
 
 
   /* ---------- Review ---------- */
@@ -587,6 +599,24 @@
     margin-bottom: 22px;
     border: 1px solid var(--primary-line);
   }
+  /* ---------- Instant snapshot (teaser) ---------- */
+  .teaser-card { margin: 32px auto 0; max-width: 580px; padding: 26px 28px; background: var(--primary); color: #fff; border: 1px solid var(--primary); border-radius: 16px; text-align: left; box-shadow: var(--shadow-md); }
+  .teaser-eyebrow { font-family: var(--font-ui); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; color: #D9C28A; margin-bottom: 6px; }
+  .teaser-heading { font-family: var(--font-serif); font-size: 23px; font-weight: 600; color: #fff; margin: 0 0 14px; line-height: 1.2; }
+  .teaser-band { display: flex; align-items: baseline; gap: 9px; margin-bottom: 12px; }
+  .teaser-band-pill { font-family: var(--font-ui); font-size: 14px; font-weight: 700; letter-spacing: 0.01em; padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,0.14); color: #fff; }
+  .teaser-band-pill[data-band="low"] { background: #E7F2EC; color: #1E6B44; }
+  .teaser-band-pill[data-band="moderate"] { background: #FBF0D8; color: #8a5a12; }
+  .teaser-band-pill[data-band="high"] { background: #F6E1D9; color: #9E3B1E; }
+  .teaser-band-label { font-family: var(--font-ui); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.72); }
+  .teaser-blurb { font-family: var(--font-ui); font-size: 14.5px; line-height: 1.55; color: rgba(255,255,255,0.9); margin: 0 0 18px; }
+  .teaser-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+  .teaser-stat { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; padding: 14px 12px; text-align: center; }
+  .teaser-stat strong { display: block; font-family: var(--font-serif); font-size: 30px; font-weight: 600; color: #fff; line-height: 1; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+  .teaser-stat span { font-family: var(--font-ui); font-size: 11.5px; line-height: 1.35; color: rgba(255,255,255,0.72); }
+  .teaser-foot { font-family: var(--font-ui); font-size: 12.5px; line-height: 1.5; color: rgba(255,255,255,0.62); margin: 0; }
+  @media (max-width: 560px) { .teaser-stats { grid-template-columns: 1fr; } }
+
   .done-partner-card { margin: 36px auto 0; max-width: 580px; padding: 24px 26px; background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 12px; text-align: left; }
   .done-partner-eyebrow { font-family: var(--font-ui); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: #5B4416; margin-bottom: 6px; }
   .done-partner-heading { font-family: var(--font-serif); font-size: 22px; font-weight: 600; color: var(--ink); margin: 0 0 10px; line-height: 1.25; }
@@ -995,6 +1025,21 @@
             <option>20+ years</option>
           </select>
         </div>
+        <div class="field">
+          <label for="seniority">Seniority level<span class="req">*</span></label>
+          <select id="seniority">
+            <option value="">Select…</option>
+            <option>Individual contributor</option>
+            <option>Team lead / Supervisor</option>
+            <option>Manager</option>
+            <option>Senior manager</option>
+            <option>Director</option>
+            <option>VP / Head of</option>
+            <option>C-suite / Executive</option>
+            <option>Founder / Owner</option>
+            <option>Board / Advisor</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -1022,7 +1067,7 @@
             Send me a brief feedback request about my LDNA experience, occasional research invitations, and articles on leadership development.
           </span>
         </label>
-        <p class="consent-fineprint">Pre-selected. Untick if you'd rather not. You can unsubscribe from any message at any time.</p>
+        <p class="consent-fineprint">Optional. Tick if you'd like to hear from us. You can unsubscribe from any message at any time.</p>
       </div>
 
       <div class="consent-links">
@@ -1150,6 +1195,7 @@
         <button class="toggle-btn" id="selOnly1" type="button" aria-pressed="false">Show selected only</button>
         <div class="counter"><strong id="count1">0</strong> selected</div>
       </div>
+      <div class="count-nudge" id="nudge1" role="status" hidden></div>
     </div>
 
     <div class="chip-grid" id="grid1" role="group" aria-label="Natural self words"></div>
@@ -1177,6 +1223,7 @@
         <button class="toggle-btn" id="selOnly2" type="button" aria-pressed="false">Show selected only</button>
         <div class="counter"><strong id="count2">0</strong> selected</div>
       </div>
+      <div class="count-nudge" id="nudge2" role="status" hidden></div>
     </div>
 
     <div class="chip-grid" id="grid2" role="group" aria-label="Role behavior words"></div>
@@ -1201,6 +1248,7 @@
         <div class="review-field"><span class="k">Email:</span><span id="rEmail">,</span></div>
         <div class="review-field"><span class="k">Role:</span><span id="rRole">,</span></div>
         <div class="review-field"><span class="k">Experience:</span><span id="rExp">,</span></div>
+        <div class="review-field"><span class="k">Seniority:</span><span id="rSeniority">,</span></div>
       </div>
 
       <div class="review-section">
@@ -1230,6 +1278,24 @@
       </div>
       <h1>Thank you.</h1>
       <p class="lede" style="margin-left: auto; margin-right: auto;">Your <strong>full report</strong> arrives within <strong>one business day</strong>, sent from <strong>info@thesauntergroup.com</strong>. Add that address to your contacts so it doesn't get filtered to spam.</p>
+
+      <!-- Instant snapshot: a directional first look computed on-device from the
+           two word sets. The scored, dimension-by-dimension gap comes in the emailed report. -->
+      <div class="teaser-card" id="teaserCard" hidden>
+        <div class="teaser-eyebrow">Your instant snapshot</div>
+        <h2 class="teaser-heading">A first look at your Adaptation Gap</h2>
+        <div class="teaser-band" id="teaserBand">
+          <span class="teaser-band-pill" id="teaserBandPill">Moderate</span>
+          <span class="teaser-band-label">adaptation load</span>
+        </div>
+        <p class="teaser-blurb" id="teaserBlurb"></p>
+        <div class="teaser-stats">
+          <div class="teaser-stat"><strong id="teaserOverlap">0</strong><span>traits your natural self and role share</span></div>
+          <div class="teaser-stat"><strong id="teaserRoleOnly">0</strong><span>your role demands that aren't natural to you</span></div>
+          <div class="teaser-stat"><strong id="teaserNatOnly">0</strong><span>natural traits your role doesn't call on</span></div>
+        </div>
+        <p class="teaser-foot">This is a directional preview. Your full report scores all seven dimensions, names your archetype, and maps the gap dimension by dimension.</p>
+      </div>
 
       <!-- While you wait: the strongest free next step that exists today -->
       <div class="done-partner-card" aria-label="While you wait: get an assessment of the whole business.">
@@ -1414,13 +1480,14 @@ function readAttribution() {
 const ATTRIBUTION = readAttribution();
 const state = {
   step: 0,
-  demographics: { fullName: "", email: "", role: "", experience: "" },
+  demographics: { fullName: "", email: "", role: "", experience: "", seniority: "" },
   consent: {
     required: false,
-    // Pre-checked combined follow-up opt-in. Tracked as a single flag,
-    // but mirrored across the legacy feedback/research/updates columns
-    // in the sheet so existing reporting keeps working.
-    followup: true,
+    // Combined follow-up opt-in. Defaults OFF: pre-checked marketing consent is
+    // not valid under GDPR given the data-controller language on this page.
+    // Tracked as a single flag, but mirrored across the legacy
+    // feedback/research/updates columns in the sheet so existing reporting keeps working.
+    followup: false,
     timestamp: null,   // set when required consent is first ticked
   },
   part1: new Set(),
@@ -1463,13 +1530,21 @@ function load() {
 function showStep(i) {
   state.step = i;
   document.querySelectorAll(".step").forEach(s => s.classList.toggle("active", Number(s.dataset.step) === i));
-  document.getElementById("stepLabel").textContent = STEP_LABELS[i] || "";
-  document.getElementById("stepIndex").textContent = i < TOTAL_STEPS ? `Step ${i + 1} of ${TOTAL_STEPS}` : "Complete";
-  const pct = i < TOTAL_STEPS ? ((i) / (TOTAL_STEPS - 1)) * 100 : 100;
-  document.getElementById("progressFill").style.width = pct + "%";
+  // Progress-indicator elements are optional in the markup. Guard every lookup:
+  // if any is missing, updating it must NOT throw, or the step-specific render
+  // below (review / done screens) would never run and would appear blank.
+  const stepLabel = document.getElementById("stepLabel");
+  if (stepLabel) stepLabel.textContent = STEP_LABELS[i] || "";
+  const stepIndex = document.getElementById("stepIndex");
+  if (stepIndex) stepIndex.textContent = i < TOTAL_STEPS ? `Step ${i + 1} of ${TOTAL_STEPS}` : "Complete";
+  const progressFill = document.getElementById("progressFill");
+  if (progressFill) {
+    const pct = i < TOTAL_STEPS ? ((i) / (TOTAL_STEPS - 1)) * 100 : 100;
+    progressFill.style.width = pct + "%";
+  }
   window.scrollTo({ top: 0, behavior: "smooth" });
   if (i === 3) renderReview();
-  if (i === 4) setupShare();
+  if (i === 4) { renderTeaser(); setupShare(); }
   save();
 }
 
@@ -1503,6 +1578,21 @@ function toggleChip(btn, set, gridId) {
 function updateCounters() {
   document.getElementById("count1").textContent = state.part1.size;
   document.getElementById("count2").textContent = state.part2.size;
+  updateNudge(1, state.part1.size);
+  updateNudge(2, state.part2.size);
+}
+
+// Soft, non-blocking guardrail. Typical range is 20-50; over-selection
+// dilutes the signal used for norming, so we nudge past 50.
+function updateNudge(n, count) {
+  const el = document.getElementById("nudge" + n);
+  if (!el) return;
+  let msg = "";
+  if (count > 50) {
+    msg = "That's above the typical 20-50 range. Narrowing to the words that fit you most sharpens your profile.";
+  }
+  el.textContent = msg;
+  el.hidden = !msg;
 }
 
 /* ---------- Search + "selected only" ---------- */
@@ -1543,7 +1633,7 @@ function wireFilter(n) {
 
 /* ---------- Demographics binding ---------- */
 function bindDemographics() {
-  const fields = ["fullName","email","role","experience"];
+  const fields = ["fullName","email","role","experience","seniority"];
   fields.forEach(id => {
     const el = document.getElementById(id);
     el.value = state.demographics[id] || "";
@@ -1579,7 +1669,7 @@ function bindConsent() {
 function validateDemographics() {
   const d = state.demographics;
   let ok = true;
-  ["fullName","email","role","experience"].forEach(id => {
+  ["fullName","email","role","experience","seniority"].forEach(id => {
     const el = document.getElementById(id);
     const empty = !String(d[id] || "").trim();
     el.classList.toggle("invalid", empty);
@@ -1602,10 +1692,11 @@ function validateDemographics() {
 
 /* ---------- Review ---------- */
 function renderReview() {
-  document.getElementById("rName").textContent = state.demographics.fullName || ",";
-  document.getElementById("rEmail").textContent = state.demographics.email || ",";
-  document.getElementById("rRole").textContent = state.demographics.role || ",";
-  document.getElementById("rExp").textContent = state.demographics.experience || ",";
+  document.getElementById("rName").textContent = state.demographics.fullName || "Not provided";
+  document.getElementById("rEmail").textContent = state.demographics.email || "Not provided";
+  document.getElementById("rRole").textContent = state.demographics.role || "Not provided";
+  document.getElementById("rExp").textContent = state.demographics.experience || "Not provided";
+  document.getElementById("rSeniority").textContent = state.demographics.seniority || "Not provided";
 
   const render = (listId, countId, set) => {
     const list = document.getElementById(listId);
@@ -1627,6 +1718,48 @@ function renderReview() {
   };
   render("rList1", "rCount1", state.part1);
   render("rList2", "rCount2", state.part2);
+}
+
+/* ---------- Instant snapshot (teaser) ----------
+   Computed entirely on-device from the two word sets. This is a directional
+   preview of the Adaptation Gap, NOT the scored, dimension-weighted result,
+   which is generated server-side and emailed. Kept deliberately simple so it
+   can never contradict the full report: it only reports overlap and divergence
+   between the natural-self and role-behavior selections. */
+function renderTeaser() {
+  const card = document.getElementById("teaserCard");
+  if (!card) return;
+  const nat = state.part1, role = state.part2;
+  const n = nat.size, r = role.size;
+  // Need both sets populated to say anything meaningful.
+  if (!n || !r) { card.hidden = true; return; }
+
+  let overlap = 0;
+  nat.forEach(w => { if (role.has(w)) overlap++; });
+  const roleOnly = r - overlap;   // demands the role adds on top of the natural self
+  const natOnly  = n - overlap;   // natural traits the role doesn't call on
+  const union = n + r - overlap;
+  const divergence = union ? (union - overlap) / union : 0; // 0 (identical) .. 1 (no overlap)
+
+  let band, blurb;
+  if (divergence < 0.34) {
+    band = "Low";
+    blurb = "Your natural style and your role's demands line up closely. Most of what the role asks comes naturally to you, so less daily energy goes into adapting.";
+  } else if (divergence < 0.60) {
+    band = "Moderate";
+    blurb = "A meaningful share of what your role demands sits outside your natural style. That gap is where day-to-day energy quietly gets spent.";
+  } else {
+    band = "High";
+    blurb = "Your role asks for a lot that doesn't come naturally to you. A high adaptation load is workable, but it's worth knowing exactly where it falls, and what it costs.";
+  }
+
+  document.getElementById("teaserBandPill").textContent = band;
+  document.getElementById("teaserBandPill").dataset.band = band.toLowerCase();
+  document.getElementById("teaserBlurb").textContent = blurb;
+  document.getElementById("teaserOverlap").textContent = overlap;
+  document.getElementById("teaserRoleOnly").textContent = roleOnly;
+  document.getElementById("teaserNatOnly").textContent = natOnly;
+  card.hidden = false;
 }
 
 /* ---------- Navigation ---------- */
@@ -1652,6 +1785,7 @@ function getReferralCode() {
   } catch (_) {}
   return "LD" + Date.now().toString(36).toUpperCase().slice(-5) + Math.random().toString(36).toUpperCase().slice(2, 5);
 }
+
 
 /* ---------- Identical-sets check ----------
    The report is built from the gap between the two lists. An exact
