@@ -610,6 +610,13 @@
   .teaser-band-pill[data-band="high"] { background: #F6E1D9; color: #9E3B1E; }
   .teaser-band-label { font-family: var(--font-ui); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.72); }
   .teaser-blurb { font-family: var(--font-ui); font-size: 14.5px; line-height: 1.55; color: rgba(255,255,255,0.9); margin: 0 0 18px; }
+  .teaser-explain-intro { font-family: var(--font-ui); font-size: 14.5px; line-height: 1.55; color: rgba(255,255,255,0.9); margin: 0 0 10px; }
+  .teaser-explain { list-style: none; margin: 0 0 20px; padding: 0; }
+  .teaser-explain li { position: relative; font-family: var(--font-ui); font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,0.82); padding-left: 16px; margin-bottom: 11px; }
+  .teaser-explain li:last-child { margin-bottom: 0; }
+  .teaser-explain li::before { content: ""; position: absolute; left: 0; top: 8px; width: 5px; height: 5px; border-radius: 50%; background: #D9C28A; }
+  .teaser-explain strong { color: #fff; font-weight: 600; }
+  .teaser-compare-head { font-family: var(--font-ui); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.7); margin: 0 0 10px; }
   .teaser-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
   .teaser-stat { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; padding: 14px 12px; text-align: center; }
   .teaser-stat strong { display: block; font-family: var(--font-serif); font-size: 30px; font-weight: 600; color: #fff; line-height: 1; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
@@ -1292,18 +1299,23 @@
            two word sets. The scored, dimension-by-dimension gap comes in the emailed report. -->
       <div class="teaser-card" id="teaserCard" hidden>
         <div class="teaser-eyebrow">Your instant snapshot</div>
-        <h2 class="teaser-heading">A first look at your Adaptation Gap</h2>
+        <h2 class="teaser-heading">A first look at how your role and your natural style line up.</h2>
         <div class="teaser-band" id="teaserBand">
           <span class="teaser-band-pill" id="teaserBandPill">Moderate</span>
           <span class="teaser-band-label">adaptation load</span>
         </div>
-        <p class="teaser-blurb" id="teaserBlurb"></p>
+        <p class="teaser-explain-intro">Two different things are at work here, and your report separates them:</p>
+        <ul class="teaser-explain">
+          <li><strong>Adaptation load</strong> is how far your role pulls you from your natural defaults, a measure of distance, not difficulty. <span id="teaserLoadNote"></span></li>
+          <li><strong>Strain</strong> is what holding that distance actually costs you day to day. Load and strain aren't the same: a wide gap can sit comfortably, or a narrow one can wear on you. Where you fall is what your full report works out.</li>
+        </ul>
+        <p class="teaser-compare-head">How your natural style and your role compare</p>
         <div class="teaser-stats">
-          <div class="teaser-stat"><strong id="teaserOverlap">0</strong><span>traits your natural self and role share</span></div>
-          <div class="teaser-stat"><strong id="teaserRoleOnly">0</strong><span>your role demands that aren't natural to you</span></div>
-          <div class="teaser-stat"><strong id="teaserNatOnly">0</strong><span>natural traits your role doesn't call on</span></div>
+          <div class="teaser-stat"><strong id="teaserOverlap">0</strong><span id="teaserOverlapLabel">traits your natural style and your role share</span></div>
+          <div class="teaser-stat"><strong id="teaserRoleOnly">0</strong><span id="teaserRoleOnlyLabel">your role asks for that aren't natural to you</span></div>
+          <div class="teaser-stat"><strong id="teaserNatOnly">0</strong><span id="teaserNatOnlyLabel">natural strengths your role doesn't currently draw on</span></div>
         </div>
-        <p class="teaser-foot">This is a directional preview. Your full report scores all seven dimensions, names your archetype, and maps the gap dimension by dimension.</p>
+        <p class="teaser-foot">This is a directional preview. Your full report scores all seven dimensions, names your archetype, and maps the gap, and the strain behind it, dimension by dimension.</p>
       </div>
 
       <!-- While you wait: the strongest free next step that exists today -->
@@ -1338,7 +1350,7 @@
         <p class="unlock-body">
           Your leadership team is a system. Read together, the LDNA maps how your leaders fit, where they cover each other, and where they share a blind spot, the pattern no single report can show. If you lead a team, this is the highest-value next step.
         </p>
-        <a href="https://app.usemotion.com/meet/Saunter/BusinessArchitecture" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;margin:4px 0 8px;">Book a team assessment call <span aria-hidden="true">→</span></a>
+        <a href="https://app.usemotion.com/meet/Saunter/BusinessArchitecture" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;margin:4px 0 8px;text-decoration:none;">Book a team assessment call <span aria-hidden="true">→</span></a>
         <p style="font-family:var(--font-ui);font-size:12.5px;color:var(--ink-soft);margin:8px 0 0;">A 30-minute call to scope your team and the right way in.</p>
 
         <div class="unlock-share">
@@ -1759,32 +1771,43 @@ function renderTeaser() {
   const union = n + r - overlap;
   const divergence = union ? (union - overlap) / union : 0; // 0 (identical) .. 1 (no overlap)
 
-  let band, blurb;
+  // The snapshot only measures LOAD (distance between the two lists). It never
+  // claims to measure strain (the daily cost), which is what the full, dimension-
+  // weighted report works out. Keeping that line honest is what makes the snapshot
+  // safe to show everyone: a directional distance, not a verdict.
+  let band, loadNote;
   if (divergence < 0.34) {
     band = "Low";
-    blurb = "Your natural style and your role's demands line up closely. Most of what the role asks comes naturally to you, so less daily energy goes into adapting.";
+    loadNote = "Yours is low, which means most of what your role asks already comes naturally to you.";
   } else if (divergence < 0.60) {
     band = "Moderate";
-    blurb = "A meaningful share of what your role demands sits outside your natural style. That gap is where day-to-day energy quietly gets spent.";
+    loadNote = "Yours is moderate, a blend of what comes naturally to you and what the role adds on top.";
   } else {
     band = "High";
-    blurb = "Your role calls on a different mix than your natural defaults. A higher adaptation load is common and workable; the value is in seeing exactly where it falls, and what it costs.";
+    loadNote = "Yours is high, which is common and entirely workable.";
   }
 
-  // Guardrail: near-zero overlap is expected here, because the two word lists are
-  // two different lenses (natural self vs. role), not a matched pair. A bare "0"
-  // can read like a bug or an alarm, so add a plain-language clarifier when the
-  // overlap is minimal, keeping the number honest but never scary.
+  // A zero overlap is expected (the two lists are different lenses, not a matched
+  // pair) and must never read like a bug. Reassure explicitly in that case.
   if (overlap === 0) {
-    blurb += " A zero shared here isn't an error: your natural self and your role are two different lenses, so it simply means the role rewards a different set of words than the ones you chose for yourself.";
+    loadNote += " A zero overlap here is normal, not an error.";
   }
+
+  const plural = (nn, one, many) => (nn === 1 ? one : many);
 
   document.getElementById("teaserBandPill").textContent = band;
   document.getElementById("teaserBandPill").dataset.band = band.toLowerCase();
-  document.getElementById("teaserBlurb").textContent = blurb;
+  document.getElementById("teaserLoadNote").textContent = loadNote;
+
   document.getElementById("teaserOverlap").textContent = overlap;
+  document.getElementById("teaserOverlapLabel").textContent =
+    plural(overlap, "trait", "traits") + " your natural style and your role share";
   document.getElementById("teaserRoleOnly").textContent = roleOnly;
+  document.getElementById("teaserRoleOnlyLabel").textContent =
+    "your role asks for that " + plural(roleOnly, "isn't", "aren't") + " natural to you";
   document.getElementById("teaserNatOnly").textContent = natOnly;
+  document.getElementById("teaserNatOnlyLabel").textContent =
+    "natural " + plural(natOnly, "strength", "strengths") + " your role doesn't currently draw on";
   card.hidden = false;
 }
 
