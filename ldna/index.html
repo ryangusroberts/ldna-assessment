@@ -956,16 +956,16 @@
   <section class="step active" data-step="0" aria-label="About you">
     <div class="step-eyebrow">Free leadership assessment</div>
     <p style="font-family: var(--font-serif); font-style: italic; font-size: 15.5px; color: var(--accent); margin: 0 0 8px; letter-spacing: 0.01em;">Understand every leader. Build the whole team.</p>
-    <h1>Take the LDNA<span class="tm">™</span> assessment. <em>Your free full profile in less than 10 minutes.</em></h1>
+    <h1>Take the LDNA<span class="tm">™</span> assessment. <em>Free, and under 10 minutes.</em></h1>
     <p class="operator-byline">Delivered by <strong>The Saunter Group, LLC</strong></p>
     <p class="lede">
-      In less than 10 minutes you'll see how you actually lead, where your current role is asking
-      you to behave differently, and what that gap is costing you every day. Pick the
-      words that fit. We do the math.
+      The assessment takes under 10 minutes. You'll see an instant snapshot the moment you finish,
+      and your full behavioral report, all seven dimensions scored and your Adaptation Gap mapped,
+      arrives by email within one business day. Pick the words that fit. We do the math.
     </p>
     <div class="hero-start">
       <button class="btn btn-primary btn-hero" id="heroStart" type="button">Start the assessment <span class="arrow" aria-hidden="true">↓</span></button>
-      <p class="hero-start-note"><strong>Free.</strong> Less than 10 minutes. Jump straight in, or read more below first.</p>
+      <p class="hero-start-note"><strong>Free.</strong> Under 10 minutes. Instant snapshot on-screen, full report emailed within one business day.</p>
     </div>
     <div class="welcome-meta">
       <div>
@@ -1333,13 +1333,16 @@
 
       <!-- Bring your team: optional ungated share + team-assessment lead -->
       <div class="unlock-card" id="unlockCard">
-        <div class="unlock-eyebrow">Bring your team</div>
+        <div class="unlock-eyebrow">Assess your whole team</div>
         <h2 class="unlock-heading">The LDNA is sharper across a team.</h2>
         <p class="unlock-body">
-          Pass the assessment to anyone who'd benefit. No strings, and they each get their own full report free. <strong>Want your whole team assessed together?</strong> Email <a href="mailto:info@thesauntergroup.com?subject=Team%20LDNA%20assessment" style="color:var(--accent);font-weight:600;">info@thesauntergroup.com</a> about a team assessment, and we'll map how your leaders fit, where they cover each other, and where they share a blind spot.
+          Your leadership team is a system. Read together, the LDNA maps how your leaders fit, where they cover each other, and where they share a blind spot, the pattern no single report can show. If you lead a team, this is the highest-value next step.
         </p>
+        <a href="https://app.usemotion.com/meet/Saunter/BusinessArchitecture" target="_blank" rel="noopener" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;margin:4px 0 8px;">Book a team assessment call <span aria-hidden="true">→</span></a>
+        <p style="font-family:var(--font-ui);font-size:12.5px;color:var(--ink-soft);margin:8px 0 0;">A 30-minute call to scope your team and the right way in.</p>
 
         <div class="unlock-share">
+          <p class="unlock-share-lead" style="font-family:var(--font-ui);font-size:13.5px;color:var(--ink-soft);margin:22px 0 10px;padding-top:20px;border-top:1px solid var(--line);">Or forward the assessment to individuals, they each get their own full report free.</p>
           <label class="unlock-share-label" for="refLink">Share link</label>
           <div class="reflink-row">
             <input id="refLink" type="text" readonly value="" aria-label="LDNA assessment share link" />
@@ -1495,7 +1498,7 @@ const state = {
     // blocked until this is true. This is the field that authorizes processing.
     processing: false,
     // Optional: de-identified inclusion in the aggregate norming/validation dataset.
-    // This is the norm-eligibility flag — kept SEPARATE from marketing on purpose so
+    // This is the norm-eligibility flag, kept SEPARATE from marketing on purpose so
     // the auditable dataset is never contaminated by newsletter opt-ins.
     norming: false,
     // Optional marketing/follow-up opt-in. Defaults OFF: a pre-checked consent box is
@@ -1765,7 +1768,15 @@ function renderTeaser() {
     blurb = "A meaningful share of what your role demands sits outside your natural style. That gap is where day-to-day energy quietly gets spent.";
   } else {
     band = "High";
-    blurb = "Your role asks for a lot that doesn't come naturally to you. A high adaptation load is workable, but it's worth knowing exactly where it falls, and what it costs.";
+    blurb = "Your role calls on a different mix than your natural defaults. A higher adaptation load is common and workable; the value is in seeing exactly where it falls, and what it costs.";
+  }
+
+  // Guardrail: near-zero overlap is expected here, because the two word lists are
+  // two different lenses (natural self vs. role), not a matched pair. A bare "0"
+  // can read like a bug or an alarm, so add a plain-language clarifier when the
+  // overlap is minimal, keeping the number honest but never scary.
+  if (overlap === 0) {
+    blurb += " A zero shared here isn't an error: your natural self and your role are two different lenses, so it simply means the role rewards a different set of words than the ones you chose for yourself.";
   }
 
   document.getElementById("teaserBandPill").textContent = band;
@@ -1846,7 +1857,7 @@ function buildPayload() {
     policyVersion: POLICY_VERSION,
     // Optional marketing/follow-up opt-in (Checkbox 3, defaults OFF). Kept SEPARATE
     // from consent_norming. Mirrored to legacy columns so existing reporting/sheets
-    // keep working — but note: optInResearch here means "research invitations"
+    // keep working, but note: optInResearch here means "research invitations"
     // (marketing), NOT the norming dataset. Norm-eligibility = consent_norming only.
     optInFollowup: !!state.consent.followup,
     optInFeedback: !!state.consent.followup,
