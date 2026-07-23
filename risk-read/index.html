@@ -545,8 +545,19 @@ const app=document.getElementById('app');
 const railFill=document.getElementById('railFill');
 const nSec=cfg.sections.length;
 const hasAI=!!cfg.aiLens;
-const AI_STEP=3+nSec;
-const totalSteps=3+nSec+(hasAI?1:0);
+/* Screen sequence. The email gate ('lead') is deliberately placed AFTER Part 1,
+   so a visitor answers the first section and is invested before being asked for
+   contact details. The router ('gate') still runs first to capture buyer type. */
+const SEQ=['intro','gate'];
+if(nSec>0){
+  SEQ.push({section:0});          // Part 1
+  SEQ.push('lead');               // email gate, now after Part 1
+  for(let i=1;i<nSec;i++) SEQ.push({section:i});  // Part 2..N
+}else{
+  SEQ.push('lead');
+}
+if(hasAI) SEQ.push('ai');
+const totalSteps=SEQ.length;
 const state={step:0,answers:{},ai:{},lead:{},ctx:{}};
 
 function rail(){railFill.style.width=Math.min(100,(state.step/totalSteps)*100)+'%';}
@@ -556,11 +567,12 @@ function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','
 
 function render(){
   rail();
-  if(state.step===0) return intro();
-  if(state.step===1) return gate();
-  if(state.step===2) return lead();
-  if(state.step>=3 && state.step<3+nSec) return section(state.step-3);
-  if(hasAI && state.step===AI_STEP) return aiScreen();
+  const scr=SEQ[state.step];
+  if(scr==='intro') return intro();
+  if(scr==='gate') return gate();
+  if(scr==='lead') return lead();
+  if(scr==='ai') return aiScreen();
+  if(scr && scr.section!=null) return section(scr.section);
 }
 function intro(){
   app.innerHTML=`<section class="rr-screen">
@@ -580,14 +592,15 @@ function gate(){
     <div class="rr-gate">${cfg.gate.options.map((o,i)=>`<button class="rr-gatecard" data-i="${i}">${o.t}<span class="arrow">&rarr;</span></button>`).join('')}</div>
   </section>`;
   document.querySelectorAll('.rr-gatecard').forEach(b=>{
-    b.onclick=()=>{const o=cfg.gate.options[b.dataset.i];state.ctx={buyer:o.buyer||null,flag_breaking:!!o.flag};state.step=2;render();up();};
+    b.onclick=()=>{const o=cfg.gate.options[b.dataset.i];state.ctx={buyer:o.buyer||null,flag_breaking:!!o.flag};state.step++;render();up();};
   });
 }
 function lead(){
+  const more=nSec>1;
   app.innerHTML=`<section class="rr-screen">
     <p class="eyebrow">A few details</p>
-    <h1 class="sm">Last step before your report</h1>
-    <p class="rr-lede" style="font-size:16px">Your report appears on the very next screen. Add your details and we’ll also email you a copy. We don’t sell or share your data.</p>
+    <h1 class="sm">Where should we send your report?</h1>
+    <p class="rr-lede" style="font-size:16px">Part 1 is done. Add your details${more?` and finish the last questions`:``}, and your report appears on-screen the moment you're through, plus a copy by email. We don’t sell or share your data.</p>
     <div class="rr-grid2">
       <label class="rr-field"><span>Full name *</span><input type="text" id="f_name" autocomplete="name"></label>
       <label class="rr-field"><span>Email *</span><input type="email" id="f_email" autocomplete="email"></label>
@@ -597,15 +610,19 @@ function lead(){
     <p class="rr-consent">By continuing you consent to The Saunter Group processing your responses to produce your read and respond. See our <a href="/ldna/privacy.html">Privacy Policy</a>.</p>
     <div class="rr-nav">
       <button class="btn btn-secondary" id="back">Back</button>
-      <button class="btn btn-primary" id="next" disabled>Start the questions →</button>
+      <button class="btn btn-primary" id="next" disabled>${more?`Continue to Part 2 →`:`See my read →`}</button>
     </div>
   </section>`;
   const next=document.getElementById('next');
   const emailOk=e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
   const check=()=>{next.disabled=!(val('f_name')&&emailOk(val('f_email')));};
+  // Preserve any details already entered if the visitor steps back and forth.
+  if(state.lead){['name','email','role','size'].forEach(k=>{const el=document.getElementById('f_'+k);if(el&&state.lead[k])el.value=state.lead[k];});}
   ['f_name','f_email','f_role','f_size'].forEach(id=>document.getElementById(id).addEventListener('input',check));
-  document.getElementById('back').onclick=()=>{state.step=1;render();up();};
-  next.onclick=()=>{state.lead={name:val('f_name'),email:val('f_email'),role:val('f_role'),size:val('f_size')};state.step=3;render();up();};
+  check();
+  document.getElementById('back').onclick=()=>{state.step--;render();up();};
+  next.onclick=()=>{state.lead={name:val('f_name'),email:val('f_email'),role:val('f_role'),size:val('f_size')};
+    if(state.step+1<SEQ.length){state.step++;render();up();}else finish();};
 }
 function qHTML(q){
   return `<div class="rr-q" data-q="${q.id}"><p class="stem">${q.stem}</p><div class="rr-opts">
@@ -637,8 +654,7 @@ function section(i){
   wireQs(s.qs,state.answers);checkDone();
   document.getElementById('back').onclick=()=>{state.step--;render();up();};
   document.getElementById('next').onclick=()=>{
-    if(!last){state.step++;render();up();}
-    else if(hasAI){state.step=AI_STEP;render();up();}
+    if(state.step+1<SEQ.length){state.step++;render();up();}
     else finish();
   };
 }
