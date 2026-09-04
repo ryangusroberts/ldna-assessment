@@ -1028,7 +1028,8 @@ function viewTaxonomy(){
 }
 
 /* ── wiring ───────────────────────────────────────────────────────── */
-function render(){
+function render(keepScroll){
+  const y = window.scrollY;
   document.body.dataset.lens = S.lens;
   document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected", b.dataset.view===S.view));
   document.querySelectorAll("#lensSeg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lens===S.lens));
@@ -1038,30 +1039,30 @@ function render(){
                        : S.view==="taxonomy"  ? viewTaxonomy()
                        : S.view==="library"   ? viewLibrary()
                        : viewCompany();
-  window.scrollTo({top:0});
+  if(keepScroll) window.scrollTo({top:y}); else window.scrollTo({top:0});
 }
 
 document.addEventListener("click", e=>{
   const tab = e.target.closest(".tab");
   if(tab){ S.view = tab.dataset.view; return render(); }
   const lens = e.target.closest("#lensSeg button");
-  if(lens){ S.lens = lens.dataset.lens; return render(); }
+  if(lens){ S.lens = lens.dataset.lens; return render(true); }
   const c = e.target.closest("[data-co]");
   if(c){ S.co = c.dataset.co; S.doc = null; S.fixes = new Set(); if(S.view!=="library") S.view="company"; return render(); }
   const g = e.target.closest("[data-goto]");
   if(g){ S.co = g.dataset.goto; S.doc = null; S.fixes = new Set(); S.view="company"; return render(); }
   const d = e.target.closest("[data-doc]");
-  if(d){ S.doc = d.dataset.doc; return render(); }
+  if(d){ S.doc = d.dataset.doc; return render(true); }
   const fx = e.target.closest("[data-fix]");
   if(fx){ const id = fx.dataset.fix;
-    S.fixes.has(id) ? S.fixes.delete(id) : S.fixes.add(id); return render(); }
+    S.fixes.has(id) ? S.fixes.delete(id) : S.fixes.add(id); return render(true); }
   const ps = e.target.closest("[data-fixset]");
   if(ps){
     const all = run(S.co, S.snap).fixes || [];
     const keep = {none:[], critical:["critical"], high:["critical","high"],
                   all:["critical","high","medium","low"]}[ps.dataset.fixset];
     S.fixes = new Set(all.filter(f=>keep.includes(f.tier)).map(f=>f.fix_id));
-    return render();
+    return render(true);
   }
   const st = e.target.closest("[data-snap]");
   if(st){ S.snap = st.dataset.snap; S.fixes = new Set(); return render(); }
