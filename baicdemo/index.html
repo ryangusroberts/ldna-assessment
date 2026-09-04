@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="/assets/saunter-mark.svg">
+<title>BAIC Sandbox · The Saunter Group</title>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+
+<style>
+:root{
+  --ground:#EEEFF2; --surface:#FAFAFB; --surface-2:#E7E9ED; --sunken:#E1E4E9;
+  --line:#CFD4DC; --line-soft:#DDE1E7;
+  --ink:#161B21; --ink-2:#4A5462; --ink-3:#78828F;
+  --accent:#9A6B21; --accent-soft:#EFE2CB; --accent-line:#C79B48;
+  --critical:#A5352A; --developing:#A56E1F; --established:#256E5E; --strong:#215F80;
+  --critical-bg:#F4DFDC; --developing-bg:#F4E7CE; --established-bg:#D8EBE5; --strong-bg:#D7E7F0;
+  --flag:#A5352A; --flag-bg:#F6E3E0;
+  --shadow:0 1px 2px rgba(22,27,33,.06),0 6px 18px rgba(22,27,33,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E1216; --surface:#161B21; --surface-2:#1D242B; --sunken:#0A0E11;
+    --line:#2B333C; --line-soft:#222A32;
+    --ink:#E8EBEF; --ink-2:#A3AEBB; --ink-3:#6F7B88;
+    --accent:#D9A441; --accent-soft:#33291494; --accent-line:#8A6A2A;
+    --critical:#E3705F; --developing:#DCA84A; --established:#4FB79E; --strong:#5DA6CE;
+    --critical-bg:#331A17; --developing-bg:#32270F; --established-bg:#0F2A25; --strong-bg:#122630;
+    --flag:#E3705F; --flag-bg:#331A17;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E1216; --surface:#161B21; --surface-2:#1D242B; --sunken:#0A0E11;
+  --line:#2B333C; --line-soft:#222A32;
+  --ink:#E8EBEF; --ink-2:#A3AEBB; --ink-3:#6F7B88;
+  --accent:#D9A441; --accent-soft:#33291494; --accent-line:#8A6A2A;
+  --critical:#E3705F; --developing:#DCA84A; --established:#4FB79E; --strong:#5DA6CE;
+  --critical-bg:#331A17; --developing-bg:#32270F; --established-bg:#0F2A25; --strong-bg:#122630;
+  --flag:#E3705F; --flag-bg:#331A17;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:14px; line-height:1.55; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:Archivo,"IBM Plex Sans",system-ui,sans-serif;margin:0;text-wrap:balance;letter-spacing:-.012em}
+.mono,code{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+a{color:var(--accent)}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ── shell ───────────────────────────────────────────────────────── */
+.shell{display:grid;grid-template-columns:264px minmax(0,1fr);min-height:100vh}
+.rail{
+  background:var(--surface);border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:0;position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.brand{padding:20px 18px 16px;border-bottom:1px solid var(--line)}
+.brand h1{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.brand .sub{font-size:11px;color:var(--ink-3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase}
+.stamp{
+  display:inline-flex;align-items:center;gap:6px;margin-top:11px;padding:3px 8px;
+  border:1px solid var(--accent-line);color:var(--accent);background:var(--accent-soft);
+  font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;
+  letter-spacing:.13em;text-transform:uppercase;border-radius:2px;
+}
+.rail-label{
+  padding:16px 18px 7px;font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:600;
+}
+.co{
+  display:block;width:100%;text-align:left;padding:11px 18px;border-left:3px solid transparent;
+  border-bottom:1px solid var(--line-soft);transition:background .12s;
+}
+.co:hover{background:var(--surface-2)}
+.co[aria-current="true"]{background:var(--surface-2);border-left-color:var(--accent)}
+.co .code{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-3);letter-spacing:.06em}
+.co .nm{font-family:Archivo,sans-serif;font-weight:600;font-size:14px;margin:1px 0 4px}
+.co .sec{font-size:11.5px;color:var(--ink-2);line-height:1.3}
+.rail-foot{margin-top:auto;padding:16px 18px;border-top:1px solid var(--line);font-size:10.5px;color:var(--ink-3);line-height:1.6}
+
+/* ── top bar ─────────────────────────────────────────────────────── */
+.topbar{
+  position:sticky;top:0;z-index:20;background:var(--ground);
+  border-bottom:1px solid var(--line);padding:12px 30px;
+  display:flex;align-items:center;gap:26px;flex-wrap:wrap;
+}
+.tabs{display:flex;gap:2px}
+.tab{
+  padding:6px 13px;font-size:12.5px;font-weight:500;border-radius:2px;color:var(--ink-2);
+  border:1px solid transparent;
+}
+.tab:hover{color:var(--ink);background:var(--surface-2)}
+.tab[aria-selected="true"]{background:var(--surface);border-color:var(--line);color:var(--ink);font-weight:600}
+.seg-wrap{display:flex;align-items:center;gap:9px}
+.topbar-spacer{margin-left:auto;font-size:10.5px;color:var(--ink-3);padding-right:120px}
+.seg-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.seg{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;background:var(--surface)}
+.seg button{padding:5px 12px;font-size:12px;color:var(--ink-2);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:none}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--ground);font-weight:600}
+
+/* ── main ────────────────────────────────────────────────────────── */
+main{padding:26px 30px 80px;max-width:1180px}
+.eyebrow{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+section{margin-bottom:26px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow)}
+.panel-head{padding:13px 18px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.panel-head h3{font-size:13.5px;font-weight:600}
+.panel-head .note{font-size:11.5px;color:var(--ink-3);margin-left:auto}
+.panel-body{padding:18px}
+
+/* stepper */
+.stepper{display:flex;gap:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--surface)}
+.step{
+  flex:1;padding:11px 15px;text-align:left;border-right:1px solid var(--line);
+  display:flex;flex-direction:column;gap:2px;transition:background .12s;position:relative;
+}
+.step:last-child{border-right:none}
+.step:hover{background:var(--surface-2)}
+.step[aria-current="true"]{background:var(--surface-2)}
+.step[aria-current="true"]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--accent)}
+.step .t{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.06em}
+.step .l{font-size:12.5px;font-weight:500}
+.step .m{font-size:11px;color:var(--ink-3)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:0}
+.hero-main{padding:22px 24px;border-right:1px solid var(--line)}
+.hero-side{padding:22px 24px;display:flex;flex-direction:column;gap:14px}
+.co-title{font-size:24px;font-weight:700;letter-spacing:-.025em}
+.co-meta{font-size:12px;color:var(--ink-2);margin-top:3px}
+.headline{font-size:15px;font-style:italic;color:var(--ink-2);margin:14px 0 0;border-left:2px solid var(--accent-line);padding-left:12px;line-height:1.5}
+.tier-chip{
+  display:inline-block;padding:5px 12px;border-radius:2px;font-family:Archivo,sans-serif;
+  font-weight:700;font-size:13px;letter-spacing:-.01em;
+}
+.tier-stabilize_sprint{background:var(--critical-bg);color:var(--critical);border:1px solid var(--critical)}
+.tier-build_then_scale{background:var(--developing-bg);color:var(--developing);border:1px solid var(--developing)}
+.tier-scale_track{background:var(--established-bg);color:var(--established);border:1px solid var(--established)}
+.binding{margin-top:12px;font-size:14px;line-height:1.5}
+.binding b{font-weight:600}
+.tier-action{font-size:12.5px;color:var(--ink-3);margin-top:5px}
+.stat{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:11px;border-bottom:1px solid var(--line-soft)}
+.stat:last-child{border-bottom:none;padding-bottom:0}
+.stat .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.stat .v{font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:500}
+.stat .v small{font-size:11px;color:var(--ink-3);font-weight:400}
+
+/* gate banner */
+.gate{border:1px solid var(--flag);background:var(--flag-bg);border-radius:4px;padding:14px 18px;display:flex;gap:14px}
+.gate.ok{border-color:var(--established);background:var(--established-bg)}
+.gate .icon{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:11px;letter-spacing:.1em;color:var(--flag);white-space:nowrap;padding-top:1px}
+.gate.ok .icon{color:var(--established)}
+.gate h4{font-size:13px;font-weight:600;margin-bottom:3px}
+.gate p{margin:0;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.gate p+p{margin-top:6px}
+
+/* domain bars */
+.bars{display:flex;flex-direction:column;gap:1px}
+.bar-row{display:grid;grid-template-columns:22px minmax(150px,1.1fr) minmax(0,3fr) 62px;align-items:center;gap:12px;padding:6px 0}
+.cp-dot{font-size:15px;line-height:1;text-align:center;color:var(--accent)}
+.bar-name{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-name .ns{display:block;font-size:10.5px;color:var(--ink-3);font-weight:400;font-style:italic}
+.track{position:relative;height:22px;background:var(--sunken);border-radius:2px;overflow:hidden}
+.fill{position:absolute;left:0;top:0;bottom:0;border-radius:2px 0 0 2px}
+.tick{position:absolute;top:0;bottom:0;width:1px;background:var(--line);opacity:.9}
+.bar-score{font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600;text-align:right}
+.b-critical{background:var(--critical)}.b-developing{background:var(--developing)}
+.b-established{background:var(--established)}.b-strong{background:var(--strong)}
+.t-critical{color:var(--critical)}.t-developing{color:var(--developing)}
+.t-established{color:var(--established)}.t-strong{color:var(--strong)}
+.scale-legend{display:grid;grid-template-columns:22px minmax(150px,1.1fr) minmax(0,3fr) 62px;gap:12px;margin-top:6px}
+.scale-legend .marks{position:relative;height:14px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--ink-3)}
+.scale-legend .marks span{position:absolute;transform:translateX(-50%)}
+
+/* tables */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{
+  text-align:left;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap;
+}
+td{padding:9px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+.pill{
+  display:inline-block;padding:2px 7px;border-radius:2px;font-family:"IBM Plex Mono",monospace;
+  font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;
+}
+.p-existential{background:var(--critical);color:var(--surface)}
+.p-critical{background:var(--critical-bg);color:var(--critical);border:1px solid var(--critical)}
+.p-high{background:var(--developing-bg);color:var(--developing);border:1px solid var(--developing)}
+.p-moderate{background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+.p-scale{background:var(--established-bg);color:var(--established);border:1px solid var(--established)}
+.p-low,.p-minimal{background:var(--surface-2);color:var(--ink-3);border:1px solid var(--line)}
+.mech{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12px;color:var(--accent)}
+.dim{color:var(--ink-3)}
+.tag{
+  display:inline-block;padding:1px 6px;margin:1px 3px 1px 0;border:1px solid var(--line);
+  border-radius:2px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink-2);
+}
+
+/* accrual timeline */
+.accrual{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.acc-card{border:1px solid var(--line);border-radius:3px;padding:14px;background:var(--surface)}
+.acc-card.now{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent-line)}
+.acc-card .t{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.06em}
+.acc-card .l{font-size:12.5px;font-weight:600;margin:2px 0 10px}
+.acc-row{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;padding:3px 0}
+.acc-row .k{color:var(--ink-3)}
+.acc-row .v{font-family:"IBM Plex Mono",monospace;font-weight:500}
+.acc-verdict{margin-top:9px;padding-top:9px;border-top:1px solid var(--line-soft);font-size:11.5px;line-height:1.45}
+
+/* portfolio */
+.pf-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
+.pf-card{border:1px solid var(--line);border-radius:4px;background:var(--surface);box-shadow:var(--shadow);text-align:left;display:block;width:100%;transition:border-color .12s}
+.pf-card:hover{border-color:var(--accent-line)}
+.pf-head{padding:15px 17px;border-bottom:1px solid var(--line)}
+.pf-body{padding:15px 17px;display:flex;flex-direction:column;gap:9px}
+.pf-demo{font-size:12px;color:var(--ink-2);line-height:1.45;font-style:italic}
+
+/* taxonomy */
+.fc-group{margin-bottom:16px}
+.fc-title{font-size:12px;font-weight:600;padding-bottom:5px;border-bottom:1px solid var(--line);margin-bottom:8px;display:flex;gap:9px;align-items:baseline}
+.fc-title .fc{font-family:"IBM Plex Mono",monospace;color:var(--accent);font-size:11px}
+.mech-grid{display:grid;gap:5px;grid-template-columns:repeat(auto-fill,minmax(215px,1fr))}
+.mech-chip{
+  border:1px solid var(--line-soft);border-radius:2px;padding:6px 9px;font-size:11.5px;
+  background:var(--surface);line-height:1.35;
+}
+.mech-chip .id{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink-3);font-weight:600}
+.mech-chip.live{border-color:var(--critical);background:var(--critical-bg)}
+.mech-chip.live .id{color:var(--critical)}
+
+/* practitioner detail */
+.acc-item{border:1px solid var(--line);border-radius:3px;margin-bottom:6px;background:var(--surface)}
+.acc-item summary{padding:9px 14px;cursor:pointer;font-size:12.5px;font-weight:500;display:flex;gap:10px;align-items:center;list-style:none}
+.acc-item summary::-webkit-details-marker{display:none}
+.acc-item summary::before{content:"▸";color:var(--ink-3);font-size:11px}
+.acc-item[open] summary::before{content:"▾"}
+.acc-item .inner{padding:0 14px 12px;border-top:1px solid var(--line-soft)}
+.lens-only{display:none}
+body[data-lens="practitioner"] .lens-only{display:block}
+body[data-lens="practitioner"] .deliverable-only{display:none}
+.disp-legend{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.disp-badge{display:flex;gap:6px;align-items:baseline;border:1px solid var(--line);border-radius:2px;padding:4px 9px;font-size:11px}
+.disp-badge .c{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:11px}
+.disp-badge .n{color:var(--ink-3)}
+.footnote{font-size:11.5px;color:var(--ink-3);line-height:1.55;margin-top:10px}
+
+
+/* ── evidence room ───────────────────────────────────────────────── */
+.lib{display:grid;grid-template-columns:250px minmax(0,1fr);gap:0}
+.lib-list{border-right:1px solid var(--line);padding:8px 0;background:var(--surface)}
+.lib-group{padding:12px 16px 5px;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.doc-btn{display:block;width:100%;text-align:left;padding:8px 16px;font-size:12.5px;border-left:3px solid transparent;color:var(--ink-2)}
+.doc-btn:hover{background:var(--surface-2);color:var(--ink)}
+.doc-btn[aria-current="true"]{background:var(--surface-2);border-left-color:var(--accent);color:var(--ink);font-weight:600}
+.doc-btn .sn{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--accent);margin-left:6px}
+.doc{padding:26px 32px;overflow-x:auto}
+.doc>*:first-child{margin-top:0}
+.doc h1{font-size:22px;font-weight:700;margin:0 0 4px;letter-spacing:-.02em}
+.doc h2{font-size:15px;font-weight:600;margin:26px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.doc h3{font-size:13.5px;font-weight:600;margin:18px 0 6px}
+.doc h4{font-size:12.5px;font-weight:600;margin:14px 0 4px;color:var(--ink-2)}
+.doc p{margin:0 0 11px;max-width:74ch;font-size:13.5px;line-height:1.62}
+.doc ul{margin:0 0 12px;padding-left:20px;max-width:74ch}
+.doc li{font-size:13.5px;line-height:1.6;margin-bottom:4px}
+.doc blockquote{margin:0 0 13px;padding:10px 14px;border-left:2px solid var(--accent-line);background:var(--surface-2);font-size:13px;max-width:74ch}
+.doc blockquote p:last-child{margin-bottom:0}
+.doc hr{border:none;border-top:1px solid var(--line);margin:20px 0}
+.doc table{margin:0 0 14px;font-size:12.5px}
+.doc code{background:var(--surface-2);padding:1px 5px;border-radius:2px;font-size:11.5px;border:1px solid var(--line-soft)}
+.doc em{color:var(--ink-2)}
+.doc-meta{padding:11px 32px;border-bottom:1px solid var(--line);font-size:11.5px;color:var(--ink-3);display:flex;gap:14px;flex-wrap:wrap}
+
+/* ── passphrase gate ─────────────────────────────────────────────── */
+.gate-screen{min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--ground)}
+.gate-card{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:30px;box-shadow:var(--shadow)}
+.gate-card h1{font-size:19px;font-weight:700;letter-spacing:-.02em}
+.gate-card .sub{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin:4px 0 18px;font-weight:600}
+.gate-card p{font-size:12.5px;color:var(--ink-2);line-height:1.55;margin:0 0 18px}
+.gate-card input{width:100%;padding:10px 12px;font-family:"IBM Plex Mono",monospace;font-size:13px;background:var(--ground);color:var(--ink);border:1px solid var(--line);border-radius:3px}
+.gate-card button.go{width:100%;margin-top:10px;padding:10px;background:var(--ink);color:var(--ground);border-radius:3px;font-weight:600;font-size:13px}
+.gate-card button.go:disabled{opacity:.5;cursor:default}
+.gate-err{margin-top:10px;font-size:12px;color:var(--flag);min-height:17px}
+@media (max-width:940px){.lib{grid-template-columns:1fr}.lib-list{border-right:none;border-bottom:1px solid var(--line)}.doc{padding:20px 16px}}
+
+@media (max-width:940px){
+  .shell{grid-template-columns:1fr}
+  .rail{position:static;height:auto;flex-direction:column}
+  .hero{grid-template-columns:1fr}
+  .hero-main{border-right:none;border-bottom:1px solid var(--line)}
+  .accrual{grid-template-columns:1fr}
+  main{padding:20px 16px 60px}
+  .topbar{padding:10px 16px}
+}
+</style>
+
+<div class="shell">
+  <aside class="rail">
+    <div class="brand">
+      <h1>BAIC Sandbox</h1>
+      <div class="sub">Vertical Architecture Intensive</div>
+      <div class="stamp" id="stamp">Synthetic</div>
+    </div>
+    <div class="rail-label">Sim companies</div>
+    <div id="coList"></div>
+    <div class="rail-foot" id="railFoot"></div>
+  </aside>
+
+  <div>
+    <div class="topbar">
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" data-view="portfolio">Portfolio</button>
+        <button class="tab" role="tab" data-view="company">Engagement</button>
+        <button class="tab" role="tab" data-view="library">Evidence room</button>
+        <button class="tab" role="tab" data-view="taxonomy">Failure taxonomy</button>
+      </div>
+      <div class="seg-wrap">
+        <span class="seg-label">Lens</span>
+        <div class="seg" id="lensSeg">
+          <button data-lens="deliverable">Client deliverable</button>
+          <button data-lens="practitioner">Practitioner</button>
+        </div>
+      </div>
+      <div class="topbar-spacer" id="topNote"></div>
+    </div>
+    <main id="main"></main>
+  </div>
+</div>
+
+<script src="./data.js"></script>
+<script>
+const EMBEDDED = null;
+let DATA = null;
+const S = {view:"portfolio", co:null, snap:"T2", doc:null, lens:"deliverable"};
+const BANDS = ["critical","developing","established","strong"];
+const $ = (s,r=document)=>r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const money = n => n>=1e6 ? "$"+(n/1e6).toFixed(2)+"M" : n>=1e3 ? "$"+Math.round(n/1e3)+"k" : "$"+Math.round(n);
+const pct = n => (n*100).toFixed(1)+"%";
+const run = (c,t)=>DATA.runs[c][t];
+const co  = c => DATA.companies.find(x=>x.code===c);
+
+const DISP = {
+  "R-C":"Received, current","R-S":"Received, stale","A":"Attested only",
+  "D":"Declined / not produced","X":"Confirmed non-existent","N":"Not requested"
+};
+
+/* ── rail ─────────────────────────────────────────────────────────── */
+function renderRail(){
+  $("#coList").innerHTML = DATA.companies.map(c=>{
+    const r = run(c.code,"T2");
+    return `<button class="co" data-co="${c.code}" aria-current="${c.code===S.co}">
+      <div class="code">${esc(c.code)}</div>
+      <div class="nm">${esc(c.name)}</div>
+      <div class="sec">${esc(c.sector)}</div>
+      <div style="margin-top:6px"><span class="pill p-${r.tier==="stabilize_sprint"?"critical":r.tier==="build_then_scale"?"high":"scale"}">${esc(r.tierLabel)}</span></div>
+    </button>`;
+  }).join("");
+  $("#railFoot").innerHTML =
+    `Engine <code>${esc(DATA.meta.engine)}</code> · framework <code>${esc(DATA.meta.framework)}</code><br>
+     Generated ${esc(DATA.meta.generated)}<br><br>
+     Every score above item level is computed by <code>baic_scoring_v2.py</code>, unmodified.`;
+}
+
+/* ── portfolio ────────────────────────────────────────────────────── */
+function viewPortfolio(){
+  const cards = DATA.companies.map(c=>{
+    const r = run(c.code,"T2");
+    const weak = r.domains.find(d=>d.id===r.weakestCP) || r.domains.filter(d=>d.cp).sort((a,b)=>a.score-b.score)[0];
+    return `<button class="pf-card" data-goto="${c.code}">
+      <div class="pf-head">
+        <div class="code mono dim" style="font-size:10.5px">${esc(c.code)} · ${esc(c.stage)} · ${esc(c.sector)}</div>
+        <div style="font-family:Archivo;font-weight:700;font-size:18px;margin:2px 0 9px">${esc(c.name)}</div>
+        <span class="tier-chip tier-${r.tier}">${esc(r.tierLabel)}</span>
+      </div>
+      <div class="pf-body">
+        <div class="pf-demo">${esc(c.headline)}</div>
+        <div class="stat"><span class="k">Binding reason</span></div>
+        <div style="font-size:12.5px;margin-top:-6px">${esc(r.binding)}</div>
+        <div class="stat"><span class="k">Total AMI</span><span class="v">${r.ami} <small>± ${r.amiBand}</small></span></div>
+        <div class="stat"><span class="k">${r.gateRunway?"Runway":"Weakest critical path"}</span><span class="v" style="font-size:13px">${r.gateRunway?(r.cfPositive?"Cash-flow positive":r.runway.toFixed(1)+" mo"):esc(weak.name)+" "}${r.gateRunway?"":`<span class="t-${weak.band}">${weak.score}</span>`}</span></div>
+        <div class="stat"><span class="k">Portfolio exposure</span><span class="v">${money(r.exposure)}</span></div>
+        <div class="stat"><span class="k">Report releasable</span><span class="v" style="font-size:13px;color:var(--${r.releasable?"established":"flag"})">${r.releasable?"Yes":"Blocked"}</span></div>
+      </div>
+    </button>`;
+  }).join("");
+
+  return `
+  <section>
+    <div class="eyebrow">Portfolio · evidence-complete snapshot (T2)</div>
+    <h2 style="font-size:22px;margin:5px 0 8px">${DATA.companies.length} companies, ${new Set(DATA.companies.map(x=>run(x.code,"T2").binding.split(":")[0])).size} ways the tier gets set</h2>
+    <p style="max-width:66ch;color:var(--ink-2);margin:0 0 18px">
+      Between them these ${DATA.companies.length} exercise every branch the v2 tier rule can take: the runway gate,
+      a critical-path domain in the Critical band, a critical-path domain in the Developing band,
+      a company whose load-bearing functions are all Established but whose Scale Track is blocked
+      elsewhere, and one that clears every requirement. If a change to the framework breaks one of
+      them, it shows up here.
+    </p>
+    <p style="max-width:66ch;color:var(--ink-2);margin:0 0 18px">
+      The last of those matters as much as the other four. An instrument that returns
+      <i>Stabilize Sprint</i> on every company it touches is not measuring anything — it is
+      selling. <b>Brandt Precision</b> is the control: same rubric, same engine, same evidence
+      discipline, and the report comes back Scale Track with three named risks and no crisis.
+    </p>
+    <div class="pf-grid">${cards}</div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h3>How the tier rule resolved, company by company</h3>
+      <span class="note">Ref-Doc v2 §5 — two-step gate. The composite never decides.</span></div>
+    <div class="panel-body tbl-wrap">
+      <table>
+        <thead><tr><th>Company</th><th>Step 1 — runway gate</th><th>Step 2 — weakest critical path</th><th>Scale Track blockers</th><th class="num">AMI</th><th>Tier</th></tr></thead>
+        <tbody>${DATA.companies.map(c=>{
+          const r=run(c.code,"T2");
+          const weak=r.domains.find(d=>d.id===r.weakestCP);
+          return `<tr>
+            <td><b>${esc(c.name)}</b><br><span class="dim mono" style="font-size:10.5px">${esc(c.code)}</span></td>
+            <td>${r.gateRunway
+                 ? `<span class="t-critical"><b>Fires.</b></span> ${r.cfPositive?"":"Runway "+r.runway.toFixed(1)+" mo"}`
+                 : `<span class="dim">Clears.</span> ${r.cfPositive?"Cash-flow positive":"Runway "+r.runway.toFixed(1)+" mo"}`}</td>
+            <td>${weak?`${esc(weak.name)} <span class="t-${weak.band}"><b>${weak.score}</b> ${esc(weak.bandLabel)}</span>`:'<span class="dim">n/a — gate fired first</span>'}</td>
+            <td>${r.blockers.length?r.blockers.map(b=>esc(b)).join("<br>"):'<span class="dim">—</span>'}</td>
+            <td class="num">${r.ami}</td>
+            <td><span class="pill p-${r.tier==="stabilize_sprint"?"critical":r.tier==="build_then_scale"?"high":"scale"}">${esc(r.tierLabel)}</span></td>
+          </tr>`;}).join("")}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel lens-only">
+    <div class="panel-head"><h3>Open methodological finding this sandbox surfaces</h3>
+      <span class="note">Practitioner lens</span></div>
+    <div class="panel-body">
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Company</th><th class="num">Portfolio exposure</th><th class="num">Enterprise value</th><th class="num">Ratio</th><th>Reading</th></tr></thead>
+        <tbody>${DATA.companies.map(c=>{
+          const r=run(c.code,"T2"), ev=r.fin.enterprise_value, ratio=r.exposure/ev;
+          return `<tr><td>${esc(c.name)}</td><td class="num">${money(r.exposure)}</td><td class="num">${money(ev)}</td>
+            <td class="num ${ratio>1?"t-critical":""}"><b>${ratio.toFixed(2)}×</b></td>
+            <td>${ratio>1?"Summed expected loss exceeds the whole business":"Within enterprise value"}</td></tr>`;
+        }).join("")}</tbody></table></div>
+        <p class="footnote">
+          Summing Criticality across a register whose mechanisms overlap double-counts
+          (<code>BAIC_DoubleCounting_Map.md</code>), and the band edges — Existential at $2M — were
+          calibrated for smaller firms than three of these four
+          (<code>BAIC_Criticality_Band_Scaling_PROPOSAL.md</code>). Both are open proposals, not
+          defects in these runs. The dashboard reports the figure the engine produces and flags it
+          rather than smoothing it away.
+        </p>
+    </div>
+  </section>`;
+}
+
+/* ── company ──────────────────────────────────────────────────────── */
+function stepper(){
+  return `<div class="stepper">${DATA.snapshots.map(s=>{
+    const r = run(S.co,s.id);
+    return `<button class="step" data-snap="${s.id}" aria-current="${s.id===S.snap}">
+      <span class="t">${esc(s.id)}</span>
+      <span class="l">${esc(s.label)}</span>
+      <span class="m">${esc(s.date)} · AMI ${r.ami} · ${r.releasable?"releasable":"withheld"}</span>
+    </button>`;}).join("")}</div>`;
+}
+
+function gateBanner(r){
+  const blocks=[];
+  if(!r.tiering) blocks.push(`<p><b>Request coverage ${(r.coverage*100).toFixed(0)}%.</b>
+    ${Object.values(r.disp).filter(d=>d==="N").length} rows of the Evidence Request Register are still coded
+    <code>N</code> — never asked for. An absence is only evidence if the absence was tested, so a 1 scored on
+    one of these rows would record a hole in the <i>request</i>, not in the architecture. Tiering is not permitted.</p>`);
+  if(r.provGate) blocks.push(`<p><b>Provisional ${pct(r.provPct)} — above the 20% gate.</b>
+    ${r.prov} of ${r.itemCount} items rest on evidence that is self-reported, stale, declined or confirmed absent.
+    The report is not releasable at this evidence level.</p>`);
+  if(!blocks.length) return `<div class="gate ok"><span class="icon">Gate · clear</span><div>
+    <h4>Report releasable</h4>
+    <p>Request coverage 100%. Provisional ${pct(r.provPct)}, within the 20% gate.
+    ${r.secondAssessor.length?`Second assessor required on the tier-driving domain: <b>${r.secondAssessor.map(x=>esc(x)).join(", ")}</b>.`:""}</p></div></div>`;
+  return `<div class="gate"><span class="icon">Gate · held</span><div>
+    <h4>This report may not ship on the current evidence</h4>${blocks.join("")}</div></div>`;
+}
+
+function domainBars(r){
+  const ticks = [40,60,80].map(v=>`<span class="tick" style="left:${v}%"></span>`).join("");
+  const rows = [...r.domains].sort((a,b)=>a.score-b.score).map(d=>`
+    <div class="bar-row">
+      <span class="cp-dot" title="${d.cp?"Critical path — governs the tier":""}">${d.cp?"●":""}</span>
+      <span class="bar-name">${esc(d.name)}<span class="ns">${esc(d.northStar||"")}</span></span>
+      <span class="track"><span class="fill b-${d.band}" style="width:${d.score}%"></span>${ticks}</span>
+      <span class="bar-score t-${d.band}">${d.score}</span>
+    </div>`).join("");
+  return `<div class="bars">${rows}</div>
+    <div class="scale-legend"><span></span><span></span>
+      <span class="marks"><span style="left:0">0</span><span style="left:40%">40 Developing</span>
+      <span style="left:60%">60 Established</span><span style="left:80%">80 Strong</span><span style="left:100%">100</span></span>
+      <span></span></div>`;
+}
+
+function accrual(){
+  return `<div class="accrual">${DATA.snapshots.map(s=>{
+    const r = run(S.co,s.id);
+    return `<div class="acc-card ${s.id===S.snap?"now":""}">
+      <div class="t">${esc(s.id)}</div>
+      <div class="l">${esc(s.label)}</div>
+      <div class="acc-row"><span class="k">Tier</span><span class="v t-${r.tier==="stabilize_sprint"?"critical":r.tier==="build_then_scale"?"developing":"established"}">${esc(r.tierLabel)}</span></div>
+      <div class="acc-row"><span class="k">Total AMI</span><span class="v">${r.ami} ± ${r.amiBand}</span></div>
+      <div class="acc-row"><span class="k">Request coverage</span><span class="v">${(r.coverage*100).toFixed(0)}%</span></div>
+      <div class="acc-row"><span class="k">Provisional</span><span class="v ${r.provGate?"t-critical":""}">${pct(r.provPct)}</span></div>
+      <div class="acc-row"><span class="k">Risks scored</span><span class="v">${r.risks.length}</span></div>
+      <div class="acc-verdict">${r.releasable
+        ? '<span class="t-established"><b>Releasable.</b></span> '
+        : '<span class="t-critical"><b>Withheld.</b></span> '}${esc(r.snapshot.note)}</div>
+    </div>`;}).join("")}</div>`;
+}
+
+function riskTable(r){
+  const ev = r.fin.enterprise_value;
+  const rows = r.risks.map(v=>{
+    const mech = DATA.taxonomy.find(m=>m.id===v.id);
+    return `<tr>
+      <td><span class="mech">${esc(v.id)}</span><br><span class="dim" style="font-size:10.5px">${esc(mech?mech.fc:"")}</span></td>
+      <td style="min-width:250px">${esc(mech?mech.name:v.id)}<br><span class="dim" style="font-size:11.5px">${esc(v.desc)}</span></td>
+      <td class="lens-only" style="min-width:120px">
+        <span class="tag">P ${v.p.toFixed(2)}</span><span class="tag">O ${v.o}</span>
+        ${v.amps.map(a=>`<span class="tag">${esc(a.replace(/_/g," "))}</span>`).join("")}
+        ${v.pCapped?'<span class="tag t-critical">capped .97</span>':""}
+      </td>
+      <td class="lens-only"><span class="tag">S ${v.s}</span><br>${money(v.impact)}<br>
+        <span class="dim" style="font-size:10.5px">${(v.impactPct*100).toFixed(1)}% of ${v.basis==="revenue"?"revenue":"EV"}</span></td>
+      <td class="lens-only"><span class="tag">${esc(v.obsKey)}</span><br>×${v.obsF.toFixed(2)}
+        ${v.obsSrc==="domain_default"?'<br><span class="dim" style="font-size:10px">domain default</span>':""}</td>
+      <td class="num"><b>${money(v.c)}</b>${v.capped?'<br><span class="dim" style="font-size:10px">capped at VaR</span>':""}
+        <span class="lens-only dim" style="font-size:10px">${money(v.cLow)} – ${money(v.cHigh)}</span></td>
+      <td><span class="pill p-${v.level}">${esc(v.level)}</span>${v.sa?'<br><span class="dim" style="font-size:10px">2nd assessor</span>':""}</td>
+      <td class="deliverable-only" style="min-width:130px"><span class="dim">${esc(v.act)}</span></td>
+    </tr>`;}).join("");
+  const ratio = r.exposure/ev;
+  return `<div class="tbl-wrap"><table>
+    <thead><tr><th>Mechanism</th><th>Risk</th>
+      <th class="lens-only">Probability</th><th class="lens-only">Impact</th><th class="lens-only">Observability</th>
+      <th class="num">Criticality</th><th>Band</th><th class="deliverable-only">Action</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>
+    <p class="footnote">
+      Criticality = Probability × Impact($) × Observability (Ref-Doc v2 §6). Total portfolio exposure
+      <b>${money(r.exposure)}</b> across ${r.risks.length} scored risks, against an enterprise value of
+      ${money(ev)} — <b class="${ratio>1?"t-critical":""}">${ratio.toFixed(2)}×</b>.
+      ${ratio>1?"A summed register exceeding enterprise value is a known open issue (overlapping mechanisms, and band edges calibrated for smaller firms), not a result of this run.":""}
+    </p>`;
+}
+
+function evidenceLedger(r){
+  const counts={};
+  Object.values(r.disp).forEach(c=>counts[c]=(counts[c]||0)+1);
+  const legend = Object.keys(DISP).filter(c=>counts[c]).map(c=>
+    `<span class="disp-badge"><span class="c ${c==="R-C"?"t-established":"t-developing"}">${c}</span>
+     <span>${esc(DISP[c])}</span><span class="n">${counts[c]} row${counts[c]>1?"s":""}</span></span>`).join("");
+  const notCurrent = Object.entries(r.disp).filter(([,c])=>c!=="R-C");
+  return `<div class="disp-legend">${legend}</div>
+    ${notCurrent.length?`<div class="tbl-wrap"><table>
+      <thead><tr><th>Row</th><th>Subdomain</th><th>Disposition</th><th>Effect on scoring</th></tr></thead>
+      <tbody>${notCurrent.map(([sid,c])=>{
+        const sub = r.domains.flatMap(d=>d.subs).find(s=>s.id===sid);
+        const eff = c==="N" ? "Not scorable. Request coverage below 100% — tiering not permitted."
+                  : c==="A" ? "Scored, flagged Provisional. Self-report is the floor, not the ceiling."
+                  : c==="R-S"? "Scored from the artifact, flagged Provisional — outside its recency window."
+                  : c==="X" ? "Scores 1 under §2 rule 5. A finding, routed to the 90-Day plan."
+                  : "Scores 1. Untested absence — escalate the request or convert to X in writing.";
+        return `<tr><td class="mono">${esc(sid)}</td><td>${esc(sub?sub.name:"")}</td>
+          <td><b class="mono">${esc(c)}</b> ${esc(DISP[c])}</td><td class="dim">${esc(eff)}</td></tr>`;
+      }).join("")}</tbody></table></div>`:'<p class="footnote">Every row received and current.</p>'}`;
+}
+
+function itemLedger(r){
+  return r.domains.map(d=>`
+    <details class="acc-item">
+      <summary>${d.cp?'<span class="cp-dot">●</span>':""}
+        <span style="flex:1">${esc(d.name)}</span>
+        <span class="mono t-${d.band}">${d.score} ${esc(d.bandLabel)}</span></summary>
+      <div class="inner tbl-wrap">
+        <table><thead><tr><th>Item</th><th>Name</th><th class="num">Score</th><th>Evidence</th><th>Citation</th></tr></thead>
+        <tbody>${d.subs.flatMap(s=>s.items.map(i=>`<tr>
+          <td class="mono">${esc(i.id)}</td>
+          <td>${esc(i.name)}</td>
+          <td class="num"><b>${i.s}</b>${i.def?'<br><span class="dim" style="font-size:10px">defaulted</span>':""}${i.prov?'<br><span class="t-developing" style="font-size:10px">provisional</span>':""}</td>
+          <td><span class="tag">${esc(i.cls)}</span></td>
+          <td class="dim" style="font-size:11px;max-width:340px">${esc(i.cite)}</td>
+        </tr>`)).join("")}</tbody></table>
+      </div>
+    </details>`).join("");
+}
+
+function viewCompany(){
+  const c = co(S.co), r = run(S.co,S.snap);
+  const runwayTxt = r.cfPositive ? "Cash-flow positive"
+                  : r.runway==null ? "—" : r.runway.toFixed(1)+" <small>months</small>";
+  return `
+  <section>${stepper()}</section>
+
+  <section class="panel hero">
+    <div class="hero-main">
+      <div class="eyebrow">${esc(c.code)} · ${esc(c.sector)} · ${esc(c.stage)} · ${c.employees} staff · ${esc(c.region)}</div>
+      <div class="co-title">${esc(c.name)}</div>
+      <div class="co-meta">Evidence in hand: ${r.snapshot.sources.map(s=>esc(s)).join(" · ")}</div>
+      <div style="margin-top:16px"><span class="tier-chip tier-${r.tier}">${esc(r.tierLabel)}</span></div>
+      <div class="binding"><b>Binding reason:</b> ${esc(r.binding)}</div>
+      <div class="tier-action">${esc(r.action)}</div>
+      <p class="headline">${esc(c.headline)}</p>
+    </div>
+    <div class="hero-side">
+      <div class="stat"><span class="k">Total AMI</span><span class="v">${r.ami} <small>± ${r.amiBand} · ${esc(r.amiBandLabel)}</small></span></div>
+      <div class="stat"><span class="k">Runway</span><span class="v">${runwayTxt}</span></div>
+      <div class="stat"><span class="k">Revenue</span><span class="v">${money(r.fin.annual_revenue)}</span></div>
+      <div class="stat"><span class="k">Monthly net burn</span><span class="v">${r.fin.monthly_net_burn<0?"−":""}${money(Math.abs(r.fin.monthly_net_burn))}</span></div>
+      <div class="stat"><span class="k">Portfolio exposure</span><span class="v">${money(r.exposure)}</span></div>
+      <p class="footnote deliverable-only" style="margin-top:2px">
+        The composite is reported for context and never sets the tier (§5).</p>
+      <p class="footnote lens-only" style="margin-top:2px">${esc(r.fin.note||"")}</p>
+    </div>
+  </section>
+
+  <section>${gateBanner(r)}</section>
+
+  <section class="panel">
+    <div class="panel-head"><h3>Architecture Maturity Index — by domain</h3>
+      <span class="note">● critical path · equal weights · bands change at 40 / 60 / 80</span></div>
+    <div class="panel-body">${domainBars(r)}</div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h3>What changed as the evidence arrived</h3>
+      <span class="note">Same company, same reality, three evidence levels</span></div>
+    <div class="panel-body">${accrual()}
+      <p class="footnote">${esc(c.story)}</p></div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h3>Risk register — VMOCA</h3>
+      <span class="note">Expected loss in dollars, ranked</span></div>
+    <div class="panel-body">${riskTable(r)}</div>
+  </section>
+
+  <section class="panel lens-only">
+    <div class="panel-head"><h3>Evidence Request Register</h3>
+      <span class="note">Disposition drives Provisional — it is derived, not asserted</span></div>
+    <div class="panel-body">${evidenceLedger(r)}</div>
+  </section>
+
+  <section class="panel lens-only">
+    <div class="panel-head"><h3>Item ledger — every score, every citation</h3>
+      <span class="note">${r.itemCount} items · ${r.prov} provisional · ${r.defaulted} defaulted to level 1</span></div>
+    <div class="panel-body">${itemLedger(r)}</div>
+  </section>
+
+  ${r.nominations.length?`<section class="panel lens-only">
+    <div class="panel-head"><h3>Risk nominations the engine requires</h3>
+      <span class="note">Ref-Doc v2 §6</span></div>
+    <div class="panel-body"><ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7">
+      ${[...new Set(r.nominations)].map(n=>`<li>${esc(n)}</li>`).join("")}</ul></div>
+  </section>`:""}`;
+}
+
+
+/* ── markdown ─────────────────────────────────────────────────────── */
+function inline(t){
+  return esc(t)
+    .replace(/`([^`]+)`/g,"<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g,"<b>$1</b>")
+    .replace(/(^|[\s(])\*([^*\n]+)\*/g,"$1<em>$2</em>")
+    .replace(/(^|[\s(])_([^_\n]+)_/g,"$1<em>$2</em>");
+}
+function md2html(src){
+  const L = src.replace(/\r/g,"").split("\n");
+  const out = []; let i = 0;
+  const flushTable = () => {
+    const rows = [];
+    while(i<L.length && /^\s*\|/.test(L[i])) rows.push(L[i++]);
+    if(rows.length<2) return rows.forEach(r=>out.push("<p>"+inline(r)+"</p>"));
+    const cells = r => r.trim().replace(/^\||\|$/g,"").split("|").map(c=>c.trim());
+    const head = cells(rows[0]);
+    const body = rows.slice(2).map(cells);
+    out.push('<div class="tbl-wrap"><table><thead><tr>'+
+      head.map(h=>"<th>"+inline(h)+"</th>").join("")+"</tr></thead><tbody>"+
+      body.map(r=>"<tr>"+r.map(c=>"<td>"+inline(c)+"</td>").join("")+"</tr>").join("")+
+      "</tbody></table></div>");
+  };
+  while(i<L.length){
+    const l = L[i];
+    if(/^\s*$/.test(l)){ i++; continue; }
+    if(/^\s*\|/.test(l)){ flushTable(); continue; }
+    const h = l.match(/^(#{1,4})\s+(.*)$/);
+    if(h){ const n=h[1].length; out.push(`<h${n}>${inline(h[2])}</h${n}>`); i++; continue; }
+    if(/^(-{3,}|\*{3,})\s*$/.test(l)){ out.push("<hr>"); i++; continue; }
+    if(/^>\s?/.test(l)){
+      const buf=[]; while(i<L.length && /^>\s?/.test(L[i])) buf.push(L[i++].replace(/^>\s?/,""));
+      out.push("<blockquote>"+md2html(buf.join("\n"))+"</blockquote>"); continue;
+    }
+    if(/^\s*[-*]\s+/.test(l)){
+      const buf=[]; while(i<L.length && /^\s*[-*]\s+/.test(L[i])) buf.push(L[i++].replace(/^\s*[-*]\s+/,""));
+      out.push("<ul>"+buf.map(b=>"<li>"+inline(b)+"</li>").join("")+"</ul>"); continue;
+    }
+    const buf=[];
+    while(i<L.length && !/^\s*$/.test(L[i]) && !/^\s*\|/.test(L[i]) && !/^#{1,4}\s/.test(L[i])
+          && !/^>\s?/.test(L[i]) && !/^\s*[-*]\s+/.test(L[i]) && !/^(-{3,})\s*$/.test(L[i]))
+      buf.push(L[i++]);
+    out.push("<p>"+inline(buf.join(" "))+"</p>");
+  }
+  return out.join("\n");
+}
+
+/* ── evidence room ────────────────────────────────────────────────── */
+function viewLibrary(){
+  const lib = DATA.library[S.co] || [];
+  if(!lib.length) return '<section><p>No documents for this company.</p></section>';
+  if(!lib.find(d=>d.id===S.doc)) S.doc = lib[0].id;
+  const cur = lib.find(d=>d.id===S.doc);
+  const groups = ["Brief","Evidence","Report"];
+  const list = groups.map(g=>{
+    const items = lib.filter(d=>d.group===g);
+    if(!items.length) return "";
+    return `<div class="lib-group">${g==="Brief"?"The company":g==="Evidence"?"What the client gave us":"What the instrument produced"}</div>` +
+      items.map(d=>`<button class="doc-btn" data-doc="${esc(d.id)}" aria-current="${d.id===S.doc}">
+        ${esc(d.label)}${d.snap?`<span class="sn">${esc(d.snap)}</span>`:""}</button>`).join("");
+  }).join("");
+  const c = co(S.co);
+  return `
+  <section>
+    <div class="eyebrow">Evidence room · ${esc(c.code)} ${esc(c.name)}</div>
+    <h2 style="font-size:22px;margin:5px 0 8px">Everything the score was built from</h2>
+    <p style="max-width:66ch;color:var(--ink-2);margin:0 0 18px">
+      The questionnaire the founder filled in, the interview transcripts, the data room with a
+      disposition on every one of the 23 evidence rows, and the scorecard the engine produced at
+      each evidence level. Open any of them mid-demo — every score on this dashboard traces back
+      to one of these pages.
+    </p>
+  </section>
+  <section class="panel lib">
+    <div class="lib-list">${list}</div>
+    <div>
+      <div class="doc-meta">
+        <span><b>${esc(cur.label)}</b></span>
+        <span>${esc(cur.group)}</span>
+        ${cur.snap?`<span class="mono">arrives at ${esc(cur.snap)}</span>`:""}
+        <span style="margin-left:auto" class="mono">SYNTHETIC</span>
+      </div>
+      <div class="doc">${md2html(cur.md)}</div>
+    </div>
+  </section>`;
+}
+
+/* ── taxonomy ─────────────────────────────────────────────────────── */
+function viewTaxonomy(){
+  const live = new Set();
+  Object.values(DATA.runs).forEach(co=>Object.values(co).forEach(r=>r.risks.forEach(v=>live.add(v.id))));
+  const inThis = new Set(run(S.co,S.snap).risks.map(v=>v.id));
+  const groups = {};
+  DATA.taxonomy.forEach(m=>{(groups[m.fc]=groups[m.fc]||{name:m.fcName,items:[]}).items.push(m);});
+  return `
+  <section>
+    <div class="eyebrow">Failure taxonomy · 100 component-level mechanisms across 20 failure causes</div>
+    <h2 style="font-size:22px;margin:5px 0 8px">Which mechanisms are live in the sandbox</h2>
+    <p style="max-width:66ch;color:var(--ink-2);margin:0 0 14px">
+      Every risk in every register links to a mechanism in the taxonomy — not to a free-text
+      description invented during the engagement. <b>${live.size}</b> of ${DATA.taxonomy.length} are
+      exercised across the four sim companies; ${inThis.size} appear in ${esc(co(S.co).name)}'s register
+      at ${esc(S.snap)}. Highlighted chips are the ones in play.
+    </p>
+  </section>
+  ${Object.entries(groups).map(([fc,g])=>`
+    <div class="fc-group">
+      <div class="fc-title"><span class="fc">${esc(fc)}</span><span>${esc(g.name)}</span>
+        <span class="dim" style="margin-left:auto;font-weight:400;font-size:11px">${g.items.filter(m=>live.has(m.id)).length} of ${g.items.length} live</span></div>
+      <div class="mech-grid">${g.items.map(m=>`
+        <div class="mech-chip ${live.has(m.id)?"live":""}">
+          <span class="id">${esc(m.id)}</span> ${esc(m.name)}
+        </div>`).join("")}</div>
+    </div>`).join("")}`;
+}
+
+/* ── wiring ───────────────────────────────────────────────────────── */
+function render(){
+  document.body.dataset.lens = S.lens;
+  document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected", b.dataset.view===S.view));
+  document.querySelectorAll("#lensSeg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lens===S.lens));
+  const tn=document.querySelector("#topNote"); if(tn) tn.textContent = "Synthetic data · engine "+DATA.meta.engine+" · framework "+DATA.meta.framework;
+  renderRail();
+  $("#main").innerHTML = S.view==="portfolio" ? viewPortfolio()
+                       : S.view==="taxonomy"  ? viewTaxonomy()
+                       : S.view==="library"   ? viewLibrary()
+                       : viewCompany();
+  window.scrollTo({top:0});
+}
+
+document.addEventListener("click", e=>{
+  const tab = e.target.closest(".tab");
+  if(tab){ S.view = tab.dataset.view; return render(); }
+  const lens = e.target.closest("#lensSeg button");
+  if(lens){ S.lens = lens.dataset.lens; return render(); }
+  const c = e.target.closest("[data-co]");
+  if(c){ S.co = c.dataset.co; S.doc = null; if(S.view!=="library") S.view="company"; return render(); }
+  const g = e.target.closest("[data-goto]");
+  if(g){ S.co = g.dataset.goto; S.doc = null; S.view="company"; return render(); }
+  const d = e.target.closest("[data-doc]");
+  if(d){ S.doc = d.dataset.doc; return render(); }
+  const st = e.target.closest("[data-snap]");
+  if(st){ S.snap = st.dataset.snap; return render(); }
+});
+
+function boot(d){
+  DATA = d;
+  S.co = DATA.companies[0].code;
+  document.querySelector(".shell").style.display = "";
+  render();
+}
+
+/* The hosted build ships its payload in data.js, AES-GCM encrypted. GitHub Pages
+   has no server-side auth, so the passphrase is not a curtain over readable data —
+   without it the payload does not decrypt. Synthetic data only, either way. */
+async function unlock(pass, enc){
+  if(!window.isSecureContext || !(window.crypto && window.crypto.subtle)){
+    const e = new Error("insecure-context"); e.code = "insecure-context"; throw e;
+  }
+  const b = s => Uint8Array.from(atob(s), c=>c.charCodeAt(0));
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pass),
+                                             "PBKDF2", false, ["deriveKey"]);
+  const key = await crypto.subtle.deriveKey(
+    {name:"PBKDF2", salt:b(enc.salt), iterations:enc.iters, hash:"SHA-256"},
+    base, {name:"AES-GCM", length:256}, false, ["decrypt"]);
+  const plain = await crypto.subtle.decrypt({name:"AES-GCM", iv:b(enc.iv)}, key, b(enc.ct));
+  return JSON.parse(new TextDecoder().decode(plain));
+}
+
+function initGate(enc){
+  const shell = document.querySelector(".shell");
+  shell.style.display = "none";
+  const wrap = document.createElement("div");
+  wrap.className = "gate-screen";
+  wrap.innerHTML = `<div class="gate-card">
+    <h1>BAIC Sandbox</h1>
+    <div class="sub">Vertical Architecture Intensive · demo</div>
+    <p>A demonstration environment built on four synthetic companies. Nothing here is a client.
+       Enter the passphrase to open it.</p>
+    <input id="pw" type="password" autocomplete="off" autofocus placeholder="Passphrase">
+    <p id="ctxNote" style="display:none;margin:12px 0 0;font-size:11.5px;color:var(--flag)"></p>
+    <button class="go" id="goBtn">Open the sandbox</button>
+    <div class="gate-err" id="gerr"></div>
+  </div>`;
+  document.body.appendChild(wrap);
+  const go = async () => {
+    const btn = document.querySelector("#goBtn"), err = document.querySelector("#gerr");
+    btn.disabled = true; err.textContent = "";
+    try{
+      const d = await unlock(document.querySelector("#pw").value, enc);
+      wrap.remove(); boot(d);
+    }catch(e){
+      err.innerHTML = e && e.code === "insecure-context"
+        ? "This page decrypts in the browser, which needs a secure context. Opening the file "
+          + "straight off disk (<code>file://</code>) will not work no matter what you type. "
+          + "Serve it over <b>https</b> \u2014 or locally with "
+          + "<code>python3 -m http.server</code> and open <code>localhost:8000</code>."
+        : "That passphrase does not open this file. Check it and try again.";
+      btn.disabled = false; document.querySelector("#pw").select();
+    }
+  };
+  if(!window.isSecureContext || !(window.crypto && window.crypto.subtle)){
+    const n = document.querySelector("#ctxNote");
+    n.style.display = "block";
+    n.innerHTML = "Heads up: this page is not running in a secure context, so the browser's "
+      + "decryption API is unavailable and no passphrase will open it. Serve it over https, "
+      + "or locally with <code>python3 -m http.server</code>.";
+  }
+  document.querySelector("#goBtn").addEventListener("click", go);
+  document.querySelector("#pw").addEventListener("keydown", e=>{ if(e.key==="Enter") go(); });
+}
+
+if(EMBEDDED) boot(EMBEDDED);
+else if(window.__BAIC_ENC) initGate(window.__BAIC_ENC);
+else document.querySelector(".shell").innerHTML =
+  '<p style="padding:40px">No data payload found. Expected an inlined build or data.js alongside this page.</p>';
+</script>
+
+</body>
+</html>
