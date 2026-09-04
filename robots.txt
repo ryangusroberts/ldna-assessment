@@ -6,6 +6,9 @@ Allow: /
 # Block raw query strings (form posts, debug)
 Disallow: /*?
 
+# Private demo environment (synthetic data, passphrase-gated)
+Disallow: /baicdemo/
+
 # AI crawlers: explicitly allowed for citation in answer engines
 User-agent: GPTBot
 Allow: /
