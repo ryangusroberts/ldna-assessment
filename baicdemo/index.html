@@ -260,6 +260,45 @@ body[data-lens="practitioner"] .deliverable-only{display:none}
 .footnote{font-size:11.5px;color:var(--ink-3);line-height:1.55;margin-top:10px}
 
 
+
+/* ── 90-day projection ───────────────────────────────────────────── */
+.proj{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:0}
+.proj-chart{padding:18px 20px;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:12px}
+.proj-legend{display:flex;gap:16px;font-size:11px;color:var(--ink-2)}
+.proj-legend i{display:inline-block;width:16px;height:0;border-top:2px solid;vertical-align:middle;margin-right:5px}
+.proj-headline{width:100%;border-top:1px solid var(--line-soft);padding-top:12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.proj-headline .k{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.proj-headline .now{font-family:"IBM Plex Mono",monospace;font-size:22px;font-weight:500}
+.proj-headline .arrow{color:var(--ink-3)}
+.proj-headline .to{font-family:"IBM Plex Mono",monospace;font-size:22px;font-weight:600;color:var(--accent)}
+.proj-headline .delta{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--accent)}
+.proj-stamp{display:inline-block;padding:2px 7px;border:1px solid var(--accent-line);color:var(--accent);
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;border-radius:2px}
+.proj-list{padding:14px 18px;display:flex;flex-direction:column;gap:4px;max-height:640px;overflow-y:auto}
+.presets{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.presets button{padding:4px 10px;font-size:11.5px;border:1px solid var(--line);border-radius:3px;color:var(--ink-2);background:var(--surface)}
+.presets button:hover{border-color:var(--accent-line);color:var(--ink)}
+.tier-head{font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:600;margin:10px 0 3px;display:flex;gap:8px;align-items:baseline}
+.tier-head .n{color:var(--ink-3);font-weight:400;letter-spacing:0;text-transform:none;font-size:11px}
+.t-crit{color:var(--critical)} .t-hi{color:var(--developing)}
+.t-med{color:var(--ink-2)} .t-lo{color:var(--ink-3)}
+.fix{display:grid;grid-template-columns:18px minmax(0,1fr) auto;gap:10px;align-items:start;
+  width:100%;text-align:left;padding:9px 10px;border:1px solid var(--line-soft);border-radius:3px;
+  background:var(--surface);transition:border-color .12s,background .12s}
+.fix:hover{border-color:var(--accent-line)}
+.fix[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent-line)}
+.fix .box{width:14px;height:14px;border:1.5px solid var(--ink-3);border-radius:2px;margin-top:2px;
+  display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;color:var(--surface)}
+.fix[aria-pressed="true"] .box{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.fix .ttl{font-size:12.5px;font-weight:500;line-height:1.35}
+.fix .meta{font-size:10.5px;color:var(--ink-3);margin-top:3px;font-family:"IBM Plex Mono",monospace}
+.fix .desc{font-size:11.5px;color:var(--ink-2);margin-top:5px;line-height:1.45}
+.fix .gate{font-size:11px;color:var(--ink-2);margin-top:5px;padding-left:9px;border-left:2px solid var(--accent-line)}
+.fix .lift{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--accent);white-space:nowrap;padding-top:1px}
+.proj-foot{padding:13px 18px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-2);line-height:1.55}
+@media (max-width:940px){.proj{grid-template-columns:1fr}.proj-chart{border-right:none;border-bottom:1px solid var(--line)}}
+
 /* ── evidence room ───────────────────────────────────────────────── */
 .lib{display:grid;grid-template-columns:250px minmax(0,1fr);gap:0}
 .lib-list{border-right:1px solid var(--line);padding:8px 0;background:var(--surface)}
@@ -345,7 +384,8 @@ body[data-lens="practitioner"] .deliverable-only{display:none}
 <script>
 const EMBEDDED = null;
 let DATA = null;
-const S = {view:"portfolio", co:null, snap:"T2", doc:null, lens:"deliverable"};
+const S = {view:"portfolio", co:null, snap:"T2", doc:null, lens:"deliverable",
+           fixes:new Set()};
 const BANDS = ["critical","developing","established","strong"];
 const $ = (s,r=document)=>r.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -443,7 +483,7 @@ function viewPortfolio(){
   </section>
 
   <section class="panel lens-only">
-    <div class="panel-head"><h3>Open methodological finding this sandbox surfaces</h3>
+    <div class="panel-head"><h3>Reading a register that sums above enterprise value</h3>
       <span class="note">Practitioner lens</span></div>
     <div class="panel-body">
       <div class="tbl-wrap"><table>
@@ -455,12 +495,23 @@ function viewPortfolio(){
             <td>${ratio>1?"Summed expected loss exceeds the whole business":"Within enterprise value"}</td></tr>`;
         }).join("")}</tbody></table></div>
         <p class="footnote">
-          Summing Criticality across a register whose mechanisms overlap double-counts
-          (<code>BAIC_DoubleCounting_Map.md</code>), and the band edges — Existential at $2M — were
-          calibrated for smaller firms than three of these four
-          (<code>BAIC_Criticality_Band_Scaling_PROPOSAL.md</code>). Both are open proposals, not
-          defects in these runs. The dashboard reports the figure the engine produces and flags it
-          rather than smoothing it away.
+          The ratio is not an error signal and the total is not a valuation. §6 scores most risks as
+          <b>flow losses</b> — expected annual cost against revenue, recurring for as long as the
+          mechanism is live — and terminal risks as <b>stock losses</b>, against enterprise value and
+          capped there. Summing the two gives the expected annual cost of carrying this risk position.
+          A company with several live mechanisms and poor observability can easily carry an annual
+          expected loss larger than its sale price; that is the finding, not an artifact of the
+          arithmetic.
+        </p>
+        <p class="footnote">
+          Summing is also the right default. Each mechanism is a separate event with a separate cause,
+          detectability and mitigation, and the ranking of those is the output — pooling them would
+          hide which one to fix first. Overlap between mechanisms is handled where it belongs, in the
+          cascade relationships (<code>BAIC_Cascade_Map.md</code>,
+          <code>BAIC_DoubleCounting_Map.md</code>), not by capping the total.
+          The one open question the spread here does raise is band scaling: Existential at $2M was
+          set for smaller firms than most of these
+          (<code>BAIC_Criticality_Band_Scaling_PROPOSAL.md</code>).
         </p>
     </div>
   </section>`;
@@ -557,8 +608,22 @@ function riskTable(r){
     <p class="footnote">
       Criticality = Probability × Impact($) × Observability (Ref-Doc v2 §6). Total portfolio exposure
       <b>${money(r.exposure)}</b> across ${r.risks.length} scored risks, against an enterprise value of
-      ${money(ev)} — <b class="${ratio>1?"t-critical":""}">${ratio.toFixed(2)}×</b>.
-      ${ratio>1?"A summed register exceeding enterprise value is a known open issue (overlapping mechanisms, and band edges calibrated for smaller firms), not a result of this run.":""}
+      ${money(ev)} — <b>${ratio.toFixed(2)}×</b>.
+      ${ratio>1?`A register that sums above enterprise value is expected, and correct. The two figures
+      are different quantities. <b>Operational risks are flow losses</b> — expected annual cost, scored
+      against revenue, recurring every year the mechanism stays live. <b>Terminal risks are stock
+      losses</b> — scored against enterprise value and capped there, because that is all there is to
+      lose. Adding them gives the expected annual cost of the current risk position, which has no
+      reason to sit below the sale price of the company. A business can lose more than it is worth,
+      more than once, and keep trading.`:`On this company the register sits inside enterprise value —
+      fewer mechanisms live, and better observability on the ones that are.`}
+    </p>
+    <p class="footnote lens-only">
+      Summing is the right default because each mechanism is scored as a separate event with its own
+      cause, its own detectability and its own mitigation. Pooling them would hide which one to fix
+      first, and that ranking is the output. Where two mechanisms describe the same underlying
+      failure, the cascade map governs the relationship — that is what prevents double counting,
+      not a cap on the total.
     </p>`;
 }
 
@@ -647,6 +712,8 @@ function viewCompany(){
       <p class="footnote">${esc(c.story)}</p></div>
   </section>
 
+  ${r.fixes && r.fixes.length ? viewProjection(r) : ""}
+
   <section class="panel">
     <div class="panel-head"><h3>Risk register — VMOCA</h3>
       <span class="note">Expected loss in dollars, ranked</span></div>
@@ -719,6 +786,176 @@ function md2html(src){
     out.push("<p>"+inline(buf.join(" "))+"</p>");
   }
   return out.join("\n");
+}
+
+
+/* ── 90-day projection ────────────────────────────────────────────── */
+const SHORT = {strategy:"Strategy", systems:"Systems", structure_people:"Structure",
+  financial_control:"Financial", gtm_engine:"GTM", data_dashboards:"Data",
+  leadership_capacity:"Leadership", risk_compliance:"Risk"};
+const bandOf = v => v < 40 ? "critical" : v < 60 ? "developing" : v < 80 ? "established" : "strong";
+const bandLabel = v => ({critical:"Critical",developing:"Developing",
+  established:"Established",strong:"Strong"})[bandOf(v)];
+
+/* The engine computes every score in this dashboard. This one function is the
+   exception, because toggling has to be instant and the engine is Python. It
+   reimplements Ref-Doc v2 §2/§3 arithmetic ONLY — subdomain mean x 20, weighted
+   to domain, weighted to composite — using the weights the engine emitted, not
+   assumed ones. It never touches §5 (tier) or §6 (Criticality). The build ships
+   engine-computed checkpoints and verify_projection.mjs fails if this disagrees. */
+function projectRun(r, active){
+  const targets = {};
+  r.fixes.forEach(f => { if(active.has(f.fix_id))
+    for(const k in f.impacts) targets[k] = Math.max(targets[k]||0, f.impacts[k]); });
+  let ami = 0;
+  const domains = r.domains.map(d => {
+    let ds = 0;
+    d.subs.forEach(s => {
+      let sum = 0;
+      s.items.forEach(i => sum += Math.max(i.s, targets[i.id] || 0));
+      ds += (sum / s.items.length) * 20 * s.w;
+    });
+    ami += ds * d.w;
+    return {id:d.id, name:d.name, cp:d.cp, now:d.raw, proj:ds};
+  });
+  return {domains, ami};
+}
+
+function radarSVG(doms, size){
+  const cx = size/2, cy = size/2, R = size*0.33, n = doms.length;
+  const pt = (i, v) => {
+    const a = -Math.PI/2 + i*2*Math.PI/n, rr = R*Math.max(0, Math.min(100, v))/100;
+    return [cx + rr*Math.cos(a), cy + rr*Math.sin(a)];
+  };
+  const poly = vals => vals.map((v,i)=>pt(i,v).map(x=>x.toFixed(1)).join(",")).join(" ");
+  const ring = v => `<polygon points="${poly(doms.map(()=>v))}" fill="none"
+      stroke="var(--line)" stroke-width="1"${v<100?' stroke-dasharray="2 3"':''}/>`;
+  const axes = doms.map((d,i)=>{
+    const [x,y] = pt(i,100);
+    return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}"
+            stroke="var(--line)" stroke-width="1"/>`;
+  }).join("");
+  const labels = doms.map((d,i)=>{
+    const a = -Math.PI/2 + i*2*Math.PI/n;
+    const lx = cx + (R+22)*Math.cos(a), ly = cy + (R+22)*Math.sin(a);
+    const anchor = Math.abs(Math.cos(a)) < 0.3 ? "middle" : (Math.cos(a) > 0 ? "start" : "end");
+    return `<text x="${lx.toFixed(1)}" y="${(ly+4).toFixed(1)}" text-anchor="${anchor}"
+      font-size="10.5" font-weight="${d.cp?600:400}"
+      fill="${d.cp?'var(--ink)':'var(--ink-3)'}">${esc(SHORT[d.id]||d.name)}${d.cp?" ●":""}</text>`;
+  }).join("");
+  const moved = doms.some(d => Math.abs(d.proj - d.now) > 0.05);
+  return `<svg viewBox="0 0 ${size} ${size}" width="100%" style="max-width:${size}px;overflow:visible"
+      role="img" aria-label="Domain scores, evidenced and projected">
+    ${[40,60,80,100].map(ring).join("")}${axes}
+    <polygon points="${poly(doms.map(d=>d.now))}" fill="var(--ink-3)" fill-opacity=".14"
+      stroke="var(--ink-2)" stroke-width="1.5"/>
+    ${moved ? `<polygon points="${poly(doms.map(d=>d.proj))}" fill="var(--accent)" fill-opacity=".16"
+      stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 3"/>` : ""}
+    ${doms.map((d,i)=>{const [x,y]=pt(i,d.proj);
+      return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6"
+        fill="${Math.abs(d.proj-d.now)>0.05?'var(--accent)':'var(--ink-2)'}"/>`;}).join("")}
+    ${labels}
+  </svg>`;
+}
+
+function tierMeta(t){
+  return {critical:{cls:"t-crit",label:"Critical"}, high:{cls:"t-hi",label:"High"},
+          medium:{cls:"t-med",label:"Medium"}, low:{cls:"t-lo",label:"Low"}}[t];
+}
+
+function viewProjection(r){
+  const p = projectRun(r, S.fixes);
+  const base = projectRun(r, new Set());
+  const amiNow = Math.round(base.ami), amiProj = Math.round(p.ami);
+  const nOn = S.fixes.size;
+
+  const rows = ["critical","high","medium","low"].map(t=>{
+    const list = r.fixes.filter(f=>f.tier===t);
+    if(!list.length) return "";
+    const m = tierMeta(t);
+    return `<div class="tier-head ${m.cls}">${m.label}
+        <span class="n">${list.length} action${list.length>1?"s":""}</span></div>` +
+      list.map(f=>{
+        const on = S.fixes.has(f.fix_id);
+        const solo = r.projection.byFix[f.fix_id];
+        const lift = Math.round(solo.ami) - amiNow;
+        return `<button class="fix" data-fix="${esc(f.fix_id)}" aria-pressed="${on}">
+          <span class="box">${on?"✓":""}</span>
+          <span>
+            <span class="ttl">${esc(f.title)}</span>
+            <span class="meta">${esc(f.fix_id)} · sprint ${f.sprint} · ${esc(f.owner)} ·
+              retires ${esc(f.risk_ref)}</span>
+            <span class="desc">${esc(f.description)}</span>
+            <span class="gate lens-only"><b>Gate:</b> ${esc(f.gate)}</span>
+          </span>
+          <span class="lift">${lift>0?"+"+lift:"—"}</span>
+        </button>`;
+      }).join("");
+  }).join("");
+
+  // What would actually move the tier — and what would not.
+  let moves;
+  if(r.gateRunway){
+    const cash = r.fixes.find(f=>f.tier==="critical" && /burn|runway|cash/i.test(f.title));
+    moves = `The binding reason here is the <b>runway gate</b>, and no domain score moves it —
+      only cash does. ${cash?`<b>${esc(cash.fix_id)} ${esc(cash.title)}</b> is the one action in this
+      register that would, and its gate is written to say so.`:""}
+      Everything else on this list improves the architecture underneath a company that still has
+      ${r.runway.toFixed(1)} months of runway.`;
+  } else {
+    const cp = p.domains.filter(d=>d.cp);
+    const changed = cp.filter(d=>bandOf(d.proj)!==bandOf(d.now));
+    const weakestNow = cp.slice().sort((a,b)=>a.now-b.now)[0];
+    moves = changed.length
+      ? `Fully evidenced, this would move ${changed.map(d=>`<b>${esc(d.name)}</b> from
+         ${bandLabel(d.now)} to ${bandLabel(d.proj)}`).join(", and ")} — which is what the tier
+         turns on. It does not move today: a projection is not evidence, and the gate column is
+         what would have to be true.`
+      : `This lifts the shape without changing the band of any critical-path domain.
+         ${esc(weakestNow.name)} stays ${bandLabel(weakestNow.proj)}, so the tier holds even on
+         the full register.`;
+  }
+
+  return `
+  <section class="panel">
+    <div class="panel-head"><h3>90-Day Action Architecture</h3>
+      <span class="note">Click an action to project it. ${nOn} of ${r.fixes.length} selected.</span></div>
+    <div class="panel-body proj" style="padding:0">
+      <div class="proj-chart">
+        ${radarSVG(p.domains, 340)}
+        <div class="proj-legend">
+          <span><i style="border-color:var(--ink-2)"></i>Evidenced today</span>
+          <span><i style="border-color:var(--accent);border-top-style:dashed"></i>Projected</span>
+        </div>
+        <div class="proj-headline">
+          <span class="k">Total AMI</span>
+          <span class="now">${amiNow}</span>
+          <span class="arrow">→</span>
+          <span class="to">${amiProj}</span>
+          <span class="delta">${amiProj-amiNow>0?"+"+(amiProj-amiNow):"no change"}</span>
+          <span class="proj-stamp" style="margin-left:auto">Projected</span>
+        </div>
+      </div>
+      <div class="proj-list">
+        <div class="presets">
+          <button data-fixset="none">Clear</button>
+          <button data-fixset="critical">Critical only</button>
+          <button data-fixset="high">Critical + High</button>
+          <button data-fixset="all">Everything</button>
+        </div>
+        ${rows}
+      </div>
+    </div>
+    <div class="proj-foot">
+      <p style="margin:0 0 8px">${moves}</p>
+      <p style="margin:0;font-size:11.5px;color:var(--ink-3)">
+        Projections apply each action's target scores to the AMI items it lifts and recompute
+        domain scores with the engine's own weights. They never lower a score, they never move
+        the tier or the Criticality figures, and they are labelled projected everywhere they
+        appear. A score requires evidence in hand; this is a forecast of what the score becomes
+        once the gate is met.</p>
+    </div>
+  </section>`;
 }
 
 /* ── evidence room ────────────────────────────────────────────────── */
@@ -810,13 +1047,24 @@ document.addEventListener("click", e=>{
   const lens = e.target.closest("#lensSeg button");
   if(lens){ S.lens = lens.dataset.lens; return render(); }
   const c = e.target.closest("[data-co]");
-  if(c){ S.co = c.dataset.co; S.doc = null; if(S.view!=="library") S.view="company"; return render(); }
+  if(c){ S.co = c.dataset.co; S.doc = null; S.fixes = new Set(); if(S.view!=="library") S.view="company"; return render(); }
   const g = e.target.closest("[data-goto]");
-  if(g){ S.co = g.dataset.goto; S.doc = null; S.view="company"; return render(); }
+  if(g){ S.co = g.dataset.goto; S.doc = null; S.fixes = new Set(); S.view="company"; return render(); }
   const d = e.target.closest("[data-doc]");
   if(d){ S.doc = d.dataset.doc; return render(); }
+  const fx = e.target.closest("[data-fix]");
+  if(fx){ const id = fx.dataset.fix;
+    S.fixes.has(id) ? S.fixes.delete(id) : S.fixes.add(id); return render(); }
+  const ps = e.target.closest("[data-fixset]");
+  if(ps){
+    const all = run(S.co, S.snap).fixes || [];
+    const keep = {none:[], critical:["critical"], high:["critical","high"],
+                  all:["critical","high","medium","low"]}[ps.dataset.fixset];
+    S.fixes = new Set(all.filter(f=>keep.includes(f.tier)).map(f=>f.fix_id));
+    return render();
+  }
   const st = e.target.closest("[data-snap]");
-  if(st){ S.snap = st.dataset.snap; return render(); }
+  if(st){ S.snap = st.dataset.snap; S.fixes = new Set(); return render(); }
 });
 
 function boot(d){
