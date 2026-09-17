@@ -189,6 +189,13 @@ section{margin-bottom:26px}
 .scale-legend .marks{position:relative;height:14px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--ink-3)}
 .scale-legend .marks span{position:absolute;transform:translateX(-50%)}
 
+/* sample report links */
+a.samp{color:var(--accent);text-decoration:none;font-weight:600}
+a.samp:hover{text-decoration:underline}
+a.samp::after{content:" ↗";font-weight:400;color:var(--ink-3)}
+td.lede{color:var(--ink-2)}
+span.dim{color:var(--ink-3);font-weight:400}
+
 /* tables */
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
@@ -475,6 +482,7 @@ table.heat tr.grouprow td{border-top:2px solid var(--line);background:var(--surf
         <button class="tab" role="tab" data-view="units" id="unitsTab">Locations</button>
         <button class="tab" role="tab" data-view="library">Evidence room</button>
         <button class="tab" role="tab" data-view="taxonomy">Failure taxonomy</button>
+        <button class="tab" role="tab" data-view="samples">Sample reports</button>
       </div>
       <div class="topbar-spacer" id="topNote"></div>
     </div>
@@ -1739,6 +1747,104 @@ function viewLibrary(){
   </section>`;
 }
 
+/* ── sample reports ───────────────────────────────────────────────────
+   LDNA output, sitting behind the same gate as the demo. Static PDFs in
+   ./samples/ — deliberately not in the encrypted payload, because they are
+   documents to hand a prospect, not data the dashboard scores from.
+   The individual profiles are real assessments with the name replaced; the
+   team reports were built on fictional names from the start. Both sets are
+   watermarked SAMPLE on every page.                                      */
+const SAMPLES = {
+  individual: [
+    ["Devin_Marchetti_Expert",      "Devin Marchetti",  "Expert",     "Delivery",
+     "Depth and reliability in a defined craft.", "low", "minimal"],
+    ["Omar_Farouk_Challenger",      "Omar Farouk",      "Challenger", "Flow",
+     "Pressure-tests the decisions nobody else will question.", "medium", "low"],
+    ["Dara_Fitzgibbon_Designer",    "Dara Fitzgibbon",  "Designer",   "Flow",
+     "Shapes how the work should be put together.", "medium", "minimal"],
+    ["Nadia_Rostova_Pathfinder",    "Nadia Rostova",    "Pathfinder", "Flow",
+     "Finds the route through, then maps it for others.", "medium", "minimal"],
+    ["Yusuf_Demirci_Pathfinder",    "Yusuf Demirci",    "Pathfinder", "Flow",
+     "Same archetype, heavier role demand — read against Nadia.", "heavy", "moderate"],
+    ["Camille_Beaumont_Ambassador", "Camille Beaumont", "Ambassador", "Flow",
+     "Holds relationships and carries work across boundaries.", "medium", "low"],
+    ["Rosalind_Keane_Ambassador",   "Rosalind Keane",   "Ambassador", "Flow",
+     "All seven dimensions shift under the role. The clearest work mask in the set.",
+     "heavy", "minimal"],
+  ],
+  team: [
+    ["Founders_4people",  "Founders team",  "4 people", "Delivery, Vision",
+     "Strongest in structure, drive and creative energy. Nobody occupies Flow."],
+    ["Executive_5people", "Executive team", "5 people", "Vision, Flow, Delivery",
+     "All three regions covered. What a complete bench looks like."],
+    ["Strategy_6people",  "Strategy team",  "6 people", "Vision, Flow",
+     "Nobody occupies Delivery. A team that decides well and ships late."],
+  ],
+};
+
+function viewSamples(){
+  const ind = SAMPLES.individual.map(([f, name, arch, region, line, load, strain]) => `
+    <tr>
+      <td><a class="samp" href="samples/SAMPLE_LDNA_Individual_${f}.pdf" target="_blank"
+             rel="noopener">${esc(name)}</a></td>
+      <td><b>${esc(arch)}</b><span class="dim"> · ${esc(region)}</span></td>
+      <td class="lede">${esc(line)}</td>
+      <td class="num">${esc(load)}</td>
+      <td class="num">${esc(strain)}</td>
+      <td class="num">9</td>
+    </tr>`).join("");
+
+  const team = SAMPLES.team.map(([f, name, size, regions, line]) => `
+    <tr>
+      <td><a class="samp" href="samples/SAMPLE_LDNA_Team_${f}.pdf" target="_blank"
+             rel="noopener">${esc(name)}</a></td>
+      <td>${esc(size)}</td>
+      <td class="lede">${esc(line)}</td>
+      <td>${esc(regions)}</td>
+      <td class="num">10</td>
+    </tr>`).join("");
+
+  return `
+  <section>
+    <div class="eyebrow">Sample reports · LDNA</div>
+    <h2 style="font-size:22px;margin:5px 0 8px">The deliverable, front to back</h2>
+    <p style="max-width:70ch;color:var(--ink-2);margin:0 0 6px">
+      Ten complete reports, every page. Open one mid-demo when a prospect asks what they
+      actually receive. These are the leadership instrument, not the business diagnostic —
+      the BAIC output is the dashboard you are already looking at.
+    </p>
+    <p style="max-width:70ch;color:var(--ink-3);font-size:12.5px;margin:0 0 18px">
+      The individual profiles are genuine assessments with the name replaced by a fictional
+      one; they carry no employer, role, email or date. The team reports were built on
+      fictional names from the start. Every page of all ten is watermarked SAMPLE.
+    </p>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head"><h3>Individual profiles</h3>
+      <span class="note">Seven people, six archetypes · 9 pages each</span></div>
+    <div class="panel-body" style="padding:0">
+      <table>
+        <thead><tr><th>Report</th><th>Archetype</th><th>What it shows</th>
+          <th class="num">Adaptation</th><th class="num">Strain</th><th class="num">pp</th></tr></thead>
+        <tbody>${ind}</tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel" style="margin-top:22px">
+    <div class="panel-head"><h3>Leadership team reads</h3>
+      <span class="note">Three teams · 10 pages each</span></div>
+    <div class="panel-body" style="padding:0">
+      <table>
+        <thead><tr><th>Report</th><th>Size</th><th>What it shows</th>
+          <th>Regions covered</th><th class="num">pp</th></tr></thead>
+        <tbody>${team}</tbody>
+      </table>
+    </div>
+  </section>`;
+}
+
 /* ── taxonomy ─────────────────────────────────────────────────────── */
 function viewTaxonomy(){
   const live = new Set();
@@ -1790,6 +1896,7 @@ function render(keepScroll){
                        : S.view==="units"     ? viewUnits()
                        : S.view==="taxonomy"  ? viewTaxonomy()
                        : S.view==="library"   ? viewLibrary()
+                       : S.view==="samples"   ? viewSamples()
                        : viewCompany();
   if(keepScroll) window.scrollTo({top:y}); else window.scrollTo({top:0});
 }
