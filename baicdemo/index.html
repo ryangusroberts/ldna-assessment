@@ -168,7 +168,9 @@ section{margin-bottom:26px}
 
 /* domain bars */
 .bars{display:flex;flex-direction:column;gap:1px}
-.bar-row{display:grid;grid-template-columns:22px minmax(150px,1.1fr) minmax(0,3fr) 62px;align-items:center;gap:12px;padding:6px 0}
+.bar-row{width:100%;text-align:left;border:1px solid transparent;border-radius:3px;transition:background .12s,border-color .12s;display:grid;grid-template-columns:22px minmax(150px,1.1fr) minmax(0,3fr) 62px;align-items:center;gap:12px;padding:6px 0}
+.bar-row:hover{background:var(--surface-2);border-color:var(--line)}
+.bar-row[aria-pressed="true"]{background:var(--surface-2);border-color:var(--accent-line)}
 .cp-dot{font-size:15px;line-height:1;text-align:center;color:var(--accent)}
 .bar-name{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bar-name .ns{display:block;font-size:10.5px;color:var(--ink-3);font-weight:400;font-style:italic}
@@ -260,6 +262,38 @@ body[data-lens="practitioner"] .deliverable-only{display:none}
 .footnote{font-size:11.5px;color:var(--ink-3);line-height:1.55;margin-top:10px}
 
 
+
+
+
+/* ── multi-unit ──────────────────────────────────────────────────────── */
+.unit-tile[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent-line)}
+.rank{font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--established);border:1px solid var(--established);
+  border-radius:2px;padding:1px 5px;vertical-align:middle}
+.rank.worst{color:var(--critical);border-color:var(--critical)}
+.unit-spark{display:flex;gap:3px;align-items:flex-end;height:34px;margin-bottom:4px}
+.us{flex:1;height:100%;background:var(--sunken);border-radius:1px;display:flex;align-items:flex-end}
+.us-fill{width:100%;border-radius:1px}
+table.heat td.cell{color:var(--surface);font-weight:600;text-align:center;
+  border-right:1px solid var(--surface)}
+table.heat td.cell.corp{opacity:.45}
+table.heat tr.grouprow td{border-top:2px solid var(--line);background:var(--surface-2)}
+
+/* ── tooltips ────────────────────────────────────────────────────────── */
+.tip{position:relative;display:inline-flex;align-items:center;justify-content:center;
+  width:15px;height:15px;border:1px solid var(--line);border-radius:50%;
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;
+  color:var(--ink-3);cursor:help;flex:none;vertical-align:middle}
+.tip:hover,.tip:focus-visible{border-color:var(--accent);color:var(--accent)}
+.tip::after{
+  content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);right:-6px;
+  width:max-content;max-width:320px;padding:9px 11px;border-radius:4px;
+  background:var(--ink);color:var(--ground);font-family:"IBM Plex Sans",sans-serif;
+  font-size:11.5px;font-weight:400;line-height:1.5;letter-spacing:0;text-align:left;
+  white-space:normal;box-shadow:0 4px 14px rgba(0,0,0,.28);
+  opacity:0;visibility:hidden;transition:opacity .12s;z-index:60;pointer-events:none}
+.tip:hover::after,.tip:focus-visible::after{opacity:1;visibility:visible}
+.tip.left::after{right:auto;left:-6px}
 
 /* ── 90-day projection ───────────────────────────────────────────── */
 .proj{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:0}
@@ -364,10 +398,11 @@ body[data-lens="practitioner"] .deliverable-only{display:none}
       <div class="tabs" role="tablist">
         <button class="tab" role="tab" data-view="portfolio">Portfolio</button>
         <button class="tab" role="tab" data-view="company">Engagement</button>
+        <button class="tab" role="tab" data-view="units" id="unitsTab">Locations</button>
         <button class="tab" role="tab" data-view="library">Evidence room</button>
         <button class="tab" role="tab" data-view="taxonomy">Failure taxonomy</button>
       </div>
-      <div class="seg-wrap">
+      <div class="seg-wrap" id="lensWrap" hidden>
         <span class="seg-label">Lens</span>
         <div class="seg" id="lensSeg">
           <button data-lens="deliverable">Client deliverable</button>
@@ -383,9 +418,15 @@ body[data-lens="practitioner"] .deliverable-only{display:none}
 <script src="./data.js"></script>
 <script>
 const EMBEDDED = null;
+
+/* The practitioner lens — item-level scores, every citation, the evidence
+   register and the full arithmetic — is an ADMIN capability. It is not part of
+   a client build, and it is held out of the demo. The code stays: flip this to
+   true to get it back. */
+const SHOW_PRACTITIONER = false;
 let DATA = null;
 const S = {view:"portfolio", co:null, snap:"T2", doc:null, lens:"deliverable",
-           fixes:new Set()};
+           fixes:new Set(), domain:null, unit:null};
 const BANDS = ["critical","developing","established","strong"];
 const $ = (s,r=document)=>r.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -413,7 +454,9 @@ function renderRail(){
   $("#railFoot").innerHTML =
     `Engine <code>${esc(DATA.meta.engine)}</code> · framework <code>${esc(DATA.meta.framework)}</code><br>
      Generated ${esc(DATA.meta.generated)}<br><br>
-     Every score above item level is computed by <code>baic_scoring_v2.py</code>, unmodified.`;
+     Every score above item level is computed by the scoring engine, unmodified.
+     <br><br><b>Practitioner view</b> — item-level scores, every citation and the full
+     arithmetic — is an admin capability. It is not part of a client build.`;
 }
 
 /* ── portfolio ────────────────────────────────────────────────────── */
@@ -461,7 +504,7 @@ function viewPortfolio(){
 
   <section class="panel">
     <div class="panel-head"><h3>How the tier rule resolved, company by company</h3>
-      <span class="note">Ref-Doc v2 §5 — two-step gate. The composite never decides.</span></div>
+      <span class="note">The two-step tier rule. The composite never decides.</span></div>
     <div class="panel-body tbl-wrap">
       <table>
         <thead><tr><th>Company</th><th>Step 1 — runway gate</th><th>Step 2 — weakest critical path</th><th>Scale Track blockers</th><th class="num">AMI</th><th>Tier</th></tr></thead>
@@ -495,7 +538,7 @@ function viewPortfolio(){
             <td>${ratio>1?"Summed expected loss exceeds the whole business":"Within enterprise value"}</td></tr>`;
         }).join("")}</tbody></table></div>
         <p class="footnote">
-          The ratio is not an error signal and the total is not a valuation. §6 scores most risks as
+          The ratio is not an error signal and the total is not a valuation. The method scores most risks as
           <b>flow losses</b> — expected annual cost against revenue, recurring for as long as the
           mechanism is live — and terminal risks as <b>stock losses</b>, against enterprise value and
           capped there. Summing the two gives the expected annual cost of carrying this risk position.
@@ -540,7 +583,7 @@ function gateBanner(r){
   if(!blocks.length) return `<div class="gate ok"><span class="icon">Gate · clear</span><div>
     <h4>Report releasable</h4>
     <p>Request coverage 100%. Provisional ${pct(r.provPct)}, within the 20% gate.
-    ${r.secondAssessor.length?`Second assessor required on the tier-driving domain: <b>${r.secondAssessor.map(x=>esc(x)).join(", ")}</b>.`:""}</p></div></div>`;
+    ${r.secondAssessor.length?`A second assessor is required on the domain that set the tier: <b>${r.secondAssessor.map(id=>esc((r.domains.find(d=>d.id===id)||{name:id}).name)).join(", ")}</b>.`:""}</p></div></div>`;
   return `<div class="gate"><span class="icon">Gate · held</span><div>
     <h4>This report may not ship on the current evidence</h4>${blocks.join("")}</div></div>`;
 }
@@ -548,12 +591,12 @@ function gateBanner(r){
 function domainBars(r){
   const ticks = [40,60,80].map(v=>`<span class="tick" style="left:${v}%"></span>`).join("");
   const rows = [...r.domains].sort((a,b)=>a.score-b.score).map(d=>`
-    <div class="bar-row">
+    <button class="bar-row" data-domain="${esc(d.id)}" aria-pressed="${S.domain===d.id}">
       <span class="cp-dot" title="${d.cp?"Critical path — governs the tier":""}">${d.cp?"●":""}</span>
       <span class="bar-name">${esc(d.name)}<span class="ns">${esc(d.northStar||"")}</span></span>
       <span class="track"><span class="fill b-${d.band}" style="width:${d.score}%"></span>${ticks}</span>
       <span class="bar-score t-${d.band}">${d.score}</span>
-    </div>`).join("");
+    </button>`).join("");
   return `<div class="bars">${rows}</div>
     <div class="scale-legend"><span></span><span></span>
       <span class="marks"><span style="left:0">0</span><span style="left:40%">40 Developing</span>
@@ -606,17 +649,12 @@ function riskTable(r){
       <th class="num">Criticality</th><th>Band</th><th class="deliverable-only">Action</th></tr></thead>
     <tbody>${rows}</tbody></table></div>
     <p class="footnote">
-      Criticality = Probability × Impact($) × Observability (Ref-Doc v2 §6). Total portfolio exposure
+      Criticality = Probability × Impact($) × Observability. Total portfolio exposure
       <b>${money(r.exposure)}</b> across ${r.risks.length} scored risks, against an enterprise value of
-      ${money(ev)} — <b>${ratio.toFixed(2)}×</b>.
-      ${ratio>1?`A register that sums above enterprise value is expected, and correct. The two figures
-      are different quantities. <b>Operational risks are flow losses</b> — expected annual cost, scored
-      against revenue, recurring every year the mechanism stays live. <b>Terminal risks are stock
-      losses</b> — scored against enterprise value and capped there, because that is all there is to
-      lose. Adding them gives the expected annual cost of the current risk position, which has no
-      reason to sit below the sale price of the company. A business can lose more than it is worth,
-      more than once, and keep trading.`:`On this company the register sits inside enterprise value —
-      fewer mechanisms live, and better observability on the ones that are.`}
+      ${money(ev)} — <b>${ratio.toFixed(2)}×</b>
+      <span class="tip left" tabindex="0" data-tip="${esc(ratio>1
+        ? "A register that sums above enterprise value is expected, and correct. Operational risks are flow losses \u2014 expected annual cost against revenue, recurring every year the mechanism stays live. Terminal risks are stock losses \u2014 against enterprise value and capped there. Adding them gives the expected annual cost of the current risk position, which has no reason to sit below the sale price of the company."
+        : "This register sits inside enterprise value \u2014 fewer mechanisms live, and better observability on the ones that are.")}">i</span>
     </p>
     <p class="footnote lens-only">
       Summing is the right default because each mechanism is scored as a separate event with its own
@@ -642,7 +680,7 @@ function evidenceLedger(r){
         const eff = c==="N" ? "Not scorable. Request coverage below 100% — tiering not permitted."
                   : c==="A" ? "Scored, flagged Provisional. Self-report is the floor, not the ceiling."
                   : c==="R-S"? "Scored from the artifact, flagged Provisional — outside its recency window."
-                  : c==="X" ? "Scores 1 under §2 rule 5. A finding, routed to the 90-Day plan."
+                  : c==="X" ? "Scores 1 — absence is evidence. A finding, routed to the 90-Day plan."
                   : "Scores 1. Untested absence — escalate the request or convert to X in writing.";
         return `<tr><td class="mono">${esc(sid)}</td><td>${esc(sub?sub.name:"")}</td>
           <td><b class="mono">${esc(c)}</b> ${esc(DISP[c])}</td><td class="dim">${esc(eff)}</td></tr>`;
@@ -692,7 +730,7 @@ function viewCompany(){
       <div class="stat"><span class="k">Monthly net burn</span><span class="v">${r.fin.monthly_net_burn<0?"−":""}${money(Math.abs(r.fin.monthly_net_burn))}</span></div>
       <div class="stat"><span class="k">Portfolio exposure</span><span class="v">${money(r.exposure)}</span></div>
       <p class="footnote deliverable-only" style="margin-top:2px">
-        The composite is reported for context and never sets the tier (§5).</p>
+        The composite is reported for context and never sets the tier.</p>
       <p class="footnote lens-only" style="margin-top:2px">${esc(r.fin.note||"")}</p>
     </div>
   </section>
@@ -701,9 +739,11 @@ function viewCompany(){
 
   <section class="panel">
     <div class="panel-head"><h3>Architecture Maturity Index — by domain</h3>
-      <span class="note">● critical path · equal weights · bands change at 40 / 60 / 80</span></div>
+      <span class="note">Click a domain to open it · ● critical path · bands change at 40 / 60 / 80</span></div>
     <div class="panel-body">${domainBars(r)}</div>
   </section>
+
+  ${S.domain ? viewDomainDetail(r, S.domain) : ""}
 
   <section class="panel">
     <div class="panel-head"><h3>What changed as the evidence arrived</h3>
@@ -734,7 +774,7 @@ function viewCompany(){
 
   ${r.nominations.length?`<section class="panel lens-only">
     <div class="panel-head"><h3>Risk nominations the engine requires</h3>
-      <span class="note">Ref-Doc v2 §6</span></div>
+      <span class="note">Required before the report ships</span></div>
     <div class="panel-body"><ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7">
       ${[...new Set(r.nominations)].map(n=>`<li>${esc(n)}</li>`).join("")}</ul></div>
   </section>`:""}`;
@@ -851,9 +891,11 @@ function radarSVG(doms, size){
       stroke="var(--ink-2)" stroke-width="1.5"/>
     ${moved ? `<polygon points="${poly(doms.map(d=>d.proj))}" fill="var(--accent)" fill-opacity=".16"
       stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 3"/>` : ""}
-    ${doms.map((d,i)=>{const [x,y]=pt(i,d.proj);
-      return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6"
-        fill="${Math.abs(d.proj-d.now)>0.05?'var(--accent)':'var(--ink-2)'}"/>`;}).join("")}
+    ${doms.map((d,i)=>{const [x,y]=pt(i,d.proj); const [ax,ay]=pt(i,100);
+      return (d.focus?`<line x1="${cx}" y1="${cy}" x2="${ax.toFixed(1)}" y2="${ay.toFixed(1)}"
+                stroke="var(--accent)" stroke-width="1.5" opacity=".5"/>`:"")
+        + `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${d.focus?4.2:2.6}"
+        fill="${d.focus?'var(--accent)':Math.abs(d.proj-d.now)>0.05?'var(--accent)':'var(--ink-2)'}"/>`;}).join("")}
     ${labels}
   </svg>`;
 }
@@ -879,14 +921,15 @@ function viewProjection(r){
         const on = S.fixes.has(f.fix_id);
         const solo = r.projection.byFix[f.fix_id];
         const lift = Math.round(solo.ami) - amiNow;
+        const tip = `${f.fix_id} · sprint ${f.sprint} (days ${(f.sprint-1)*30+1}\u2013${f.sprint*30})`
+                  + ` · owner ${f.owner} · retires ${f.risk_ref}`
+                  + `  —  Done when: ${f.gate}`;
         return `<button class="fix" data-fix="${esc(f.fix_id)}" aria-pressed="${on}">
           <span class="box">${on?"✓":""}</span>
           <span>
-            <span class="ttl">${esc(f.title)}</span>
-            <span class="meta">${esc(f.fix_id)} · sprint ${f.sprint} · ${esc(f.owner)} ·
-              retires ${esc(f.risk_ref)}</span>
+            <span class="ttl">${esc(f.title)}
+              <span class="tip" tabindex="0" data-tip="${esc(tip)}">i</span></span>
             <span class="desc">${esc(f.description)}</span>
-            <span class="gate lens-only"><b>Gate:</b> ${esc(f.gate)}</span>
           </span>
           <span class="lift">${lift>0?"+"+lift:"—"}</span>
         </button>`;
@@ -957,6 +1000,248 @@ function viewProjection(r){
     </div>
   </section>`;
 }
+
+
+
+/* ── multi-unit portfolio ─────────────────────────────────────────────── */
+const unitsOf = code => (DATA.units && DATA.units[code]) || [];
+const tierPill = t => t==="stabilize_sprint" ? "critical" : t==="build_then_scale" ? "high" : "scale";
+
+function unitTile(u, best, worst){
+  const weak = u.domains.find(d => d.id === u.weakestCP);
+  return `<button class="pf-card unit-tile" data-unit="${esc(u.id)}"
+      aria-pressed="${S.unit===u.id}">
+    <div class="pf-head">
+      <div class="mono dim" style="font-size:10.5px">${esc(u.unit.gm_tenure_months)} months
+        with this GM · ${money(u.fin.annual_revenue)} revenue</div>
+      <div style="font-family:Archivo;font-weight:700;font-size:17px;margin:2px 0 8px">
+        ${esc(u.name)}${u.id===best?' <span class="rank">best</span>':''}${u.id===worst?' <span class="rank worst">weakest</span>':''}</div>
+      <span class="tier-chip tier-${u.tier}">${esc(u.tierLabel)}</span>
+    </div>
+    <div class="pf-body">
+      <div class="unit-spark">${u.domains.map(d=>`
+        <span class="us" title="${esc(d.name)} ${d.score}">
+          <span class="us-fill b-${d.band}" style="height:${Math.max(4,d.score)}%"></span></span>`).join("")}</div>
+      <div class="stat"><span class="k">Overall</span><span class="v">${u.ami} <small>± ${u.amiBand}</small></span></div>
+      <div class="stat"><span class="k">Weakest load-bearing</span>
+        <span class="v" style="font-size:13px">${esc(weak?SHORT[weak.id]||weak.name:"—")}
+          <span class="t-${weak?weak.band:''}">${weak?weak.score:""}</span></span></div>
+      <div class="pf-demo">${esc(u.unit.note)}</div>
+    </div>
+  </button>`;
+}
+
+function viewUnits(){
+  const us = unitsOf(S.co);
+  if(!us.length) return "";
+  const c   = co(S.co);
+  const cfg = (DATA.multiUnit||{})[S.co] || {label:"locations", noun:"location", intro:""};
+  const parent = run(S.co, "T2");
+  const sorted = [...us].sort((a,b)=>b.ami-a.ami);
+  const best = sorted[0].id, worst = sorted[sorted.length-1].id;
+  const doms = us[0].domains;
+
+  // every location against every domain
+  const heat = `<div class="tbl-wrap"><table class="heat">
+    <thead><tr><th>${esc(cfg.noun[0].toUpperCase()+cfg.noun.slice(1))}</th>
+      ${doms.map(d=>`<th class="num" title="${esc(d.name)}">${esc(SHORT[d.id]||d.name)}${d.cp?" ●":""}</th>`).join("")}
+      <th class="num">Overall</th></tr></thead>
+    <tbody>${sorted.map(u=>`<tr>
+      <td><b>${esc(u.name)}</b></td>
+      ${u.domains.map(d=>`<td class="num cell b-${d.band}${d.corp?" corp":""}"
+         title="${esc(d.name)} ${d.score}${d.corp?" — group-level, inherited":""}">${d.score}</td>`).join("")}
+      <td class="num"><b>${u.ami}</b></td></tr>`).join("")}
+      <tr class="grouprow"><td><b>${esc(c.name)}</b> <span class="dim">group</span></td>
+      ${parent.domains.map(d=>`<td class="num cell b-${d.band}">${d.score}</td>`).join("")}
+      <td class="num"><b>${parent.ami}</b></td></tr>
+    </tbody></table></div>`;
+
+  // the correlation the operations lead asserted in interview
+  const withGm = sorted.filter(u => u.unit.gm_tenure_months > 0);
+  const tenureLine = withGm.length > 1
+    ? `Ranked by overall score, the ${cfg.label} also rank by how long their general
+       manager has been in post — ${sorted.map(u=>`${esc(u.name)} (${u.unit.gm_tenure_months})`).join(", ")}.
+       The operations lead said unit performance tracks GM tenure. Across seven ${cfg.label}
+       scored on the same rubric, it does.`
+    : "";
+
+  return `
+  <section>
+    <div class="eyebrow">${esc(c.code)} · ${esc(c.name)} · ${us.length} ${esc(cfg.label)}</div>
+    <h2 style="font-size:22px;margin:5px 0 8px">One client. ${us.length} ${esc(cfg.label)}. One instrument.</h2>
+    <p style="max-width:70ch;color:var(--ink-2);margin:0 0 14px">${esc(cfg.intro)}</p>
+    <p style="max-width:70ch;color:var(--ink-2);margin:0 0 18px">
+      Two ${esc(cfg.label)} come back <b>Scale Track</b> while the group as a whole does not.
+      That is not a contradiction — it is the finding. The group is held back by things
+      no single ${esc(cfg.noun)} can fix, and two of them are already running well enough
+      to grow on.</p>
+    <div class="pf-grid">${sorted.map(u=>unitTile(u,best,worst)).join("")}</div>
+  </section>
+
+  ${S.unit ? viewUnitDetail(us.find(u=>u.id===S.unit), c, cfg) : ""}
+
+  <section class="panel">
+    <div class="panel-head"><h3>Every ${esc(cfg.noun)}, every domain</h3>
+      <span class="note">Shaded columns are scored once at group level and inherited · ● critical path</span></div>
+    <div class="panel-body">${heat}
+      <p class="footnote">${tenureLine}</p>
+      <p class="footnote">
+        Strategy, Financial Control and Leadership are identical down every column because
+        they are scored once for the client. A general manager cannot fix the group's cash
+        discipline and is not judged for it. Everything that varies is something a
+        ${esc(cfg.noun)} actually controls.</p>
+    </div>
+  </section>`;
+}
+
+function viewUnitDetail(u, c, cfg){
+  if(!u) return "";
+  const ticks = [40,60,80].map(v=>`<span class="tick" style="left:${v}%"></span>`).join("");
+  const bars = [...u.domains].sort((a,b)=>a.score-b.score).map(d=>`
+    <div class="bar-row" style="cursor:default">
+      <span class="cp-dot">${d.cp?"●":""}</span>
+      <span class="bar-name">${esc(d.name)}
+        <span class="ns">${d.corp?"group-level — inherited, not scored here"
+                                 :esc(d.northStar||"")}</span></span>
+      <span class="track"><span class="fill b-${d.band}" style="width:${d.score}%;
+        ${d.corp?"opacity:.45":""}"></span>${ticks}</span>
+      <span class="bar-score t-${d.band}">${d.score}</span>
+    </div>`).join("");
+  const own = u.domains.filter(d=>!d.corp).sort((a,b)=>a.score-b.score);
+  return `
+  <section class="panel" id="unitDetail">
+    <div class="panel-head">
+      <h3>${esc(u.name)}</h3>
+      <span class="note">${esc(u.unit.gm)} · opened ${u.unit.opened} ·
+        ${(u.share*100).toFixed(0)}% of group revenue</span></div>
+    <div class="hero">
+      <div class="hero-main">
+        <div style="margin-bottom:14px"><span class="tier-chip tier-${u.tier}">${esc(u.tierLabel)}</span></div>
+        <div class="binding"><b>Binding reason:</b> ${esc(u.binding)}</div>
+        <div class="tier-action">${esc(u.action)}</div>
+        <p class="headline">${esc(u.unit.note)}</p>
+        <p class="footnote" style="margin-top:14px">
+          The runway gate is not evaluated at ${esc(cfg.noun)} level. Liquidity is a group
+          property — a ${esc(cfg.noun)} cannot be default-dead on its own money because it
+          does not hold its own money. The tier here comes from the weakest load-bearing
+          function.</p>
+      </div>
+      <div class="hero-side">
+        <div class="stat"><span class="k">Overall</span><span class="v">${u.ami} <small>± ${u.amiBand} · ${esc(u.amiBandLabel)}</small></span></div>
+        <div class="stat"><span class="k">Revenue</span><span class="v">${money(u.fin.annual_revenue)}</span></div>
+        <div class="stat"><span class="k">GM tenure</span><span class="v">${u.unit.gm_tenure_months} <small>months</small></span></div>
+        <div class="stat"><span class="k">Its weakest own domain</span>
+          <span class="v" style="font-size:13px">${esc(SHORT[own[0].id]||own[0].name)}
+            <span class="t-${own[0].band}">${own[0].score}</span></span></div>
+      </div>
+    </div>
+    <div class="panel-body">${bars}
+      <p class="footnote">Faded bars are group-level domains, identical at every
+        ${esc(cfg.noun)}. The solid bars are this ${esc(cfg.noun)}'s own.</p>
+    </div>
+  </section>`;
+}
+
+/* ── domain drill-down ────────────────────────────────────────────────── */
+function viewDomainDetail(r, id){
+  const d = r.domains.find(x => x.id === id);
+  if(!d) return "";
+  const p    = projectRun(r, S.fixes);
+  const pd   = p.domains.find(x => x.id === id);
+  const mine = (r.fixes || []).filter(f => f.domain === id);
+  const risks= r.risks.filter(v => v.domain === id);
+
+  // what this domain contributes to the composite, and what it could
+  const contribNow  = d.raw * d.w;
+  const contribProj = pd.proj * d.w;
+
+  const subs = d.subs.map(s => {
+    const absent = s.items.filter(i => i.s === 1);
+    return `<tr>
+      <td class="mono">${esc(s.id)}</td>
+      <td>${esc(s.name)}</td>
+      <td class="num t-${s.band}"><b>${s.score}</b></td>
+      <td>${esc(s.bandLabel)}</td>
+      <td class="dim">${absent.length
+        ? absent.length + " item" + (absent.length>1?"s":"") + " scoring 1 — " +
+          absent.map(i=>esc(i.name)).join(", ")
+        : "no items at level 1"}</td>
+    </tr>`;
+  }).join("");
+
+  const actions = mine.length ? mine.map(f => {
+    const on = S.fixes.has(f.fix_id);
+    const solo = r.projection.byFix[f.fix_id];
+    const soloD = solo.domains[id];
+    const m = tierMeta(f.tier);
+    const tip = `${f.fix_id} · sprint ${f.sprint} (days ${(f.sprint-1)*30+1}–${f.sprint*30})`
+              + ` · owner ${f.owner} · retires ${f.risk_ref}  —  Done when: ${f.gate}`;
+    return `<button class="fix" data-fix="${esc(f.fix_id)}" aria-pressed="${on}">
+      <span class="box">${on?"✓":""}</span>
+      <span>
+        <span class="ttl">${esc(f.title)}
+          <span class="tip" tabindex="0" data-tip="${esc(tip)}">i</span></span>
+        <span class="desc"><span class="${m.cls}" style="font-weight:600">${m.label}</span>
+          · ${esc(f.description)}</span>
+      </span>
+      <span class="lift">${soloD > d.raw ? "+" + Math.round(soloD - d.raw) : "—"}</span>
+    </button>`;
+  }).join("") : `<p class="footnote">No 90-day action targets this domain directly.
+      It moves when the domains feeding it move.</p>`;
+
+  return `
+  <section class="panel" id="domainDetail">
+    <div class="panel-head">
+      <h3>${d.cp ? "● " : ""}${esc(d.name)}</h3>
+      <span class="note">${d.cp ? "Critical path — this domain can set the tier"
+                                : "Not critical path — cannot set the tier on its own"}</span>
+    </div>
+    <div class="panel-body proj" style="padding:0">
+      <div class="proj-chart">
+        ${radarSVG(p.domains.map(x => ({...x, focus: x.id === id})), 300)}
+        <div class="proj-legend"><span>${esc(SHORT[id] || d.name)} highlighted</span></div>
+        <div class="proj-headline">
+          <span class="k">Domain score</span>
+          <span class="now t-${d.band}">${d.score}</span>
+          ${Math.round(pd.proj) !== d.score
+            ? `<span class="arrow">→</span><span class="to">${Math.round(pd.proj)}</span>` : ""}
+          <span class="delta">${esc(bandLabel(pd.proj))}</span>
+        </div>
+        <div class="proj-headline" style="border-top:none;padding-top:0">
+          <span class="k">Adds to the overall score</span>
+          <span class="now" style="font-size:15px">${contribNow.toFixed(1)}</span>
+          ${contribProj - contribNow > 0.05
+            ? `<span class="arrow">→</span>
+               <span class="to" style="font-size:15px">${contribProj.toFixed(1)}</span>` : ""}
+        </div>
+      </div>
+      <div class="proj-list">
+        <div class="tier-head">The question this domain answers
+          <span class="n">${esc(d.northStar || "")}</span></div>
+        <div class="tbl-wrap"><table>
+          <thead><tr><th></th><th>Subdomain</th><th class="num">Score</th><th>Band</th>
+            <th>What is holding it</th></tr></thead>
+          <tbody>${subs}</tbody></table></div>
+        <div class="tier-head" style="margin-top:16px">90-day actions on this domain
+          <span class="n">${mine.length} of ${(r.fixes||[]).length}</span></div>
+        ${actions}
+        ${risks.length ? `<div class="tier-head" style="margin-top:16px">Scored risks here
+          <span class="n">${risks.length}</span></div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>Mechanism</th><th>Risk</th><th class="num">Criticality</th><th>Band</th></tr></thead>
+            <tbody>${risks.map(v=>`<tr>
+              <td><span class="mech">${esc(v.id)}</span></td>
+              <td>${esc(v.desc)}</td>
+              <td class="num"><b>${money(v.c)}</b></td>
+              <td><span class="pill p-${v.level}">${esc(v.level)}</span></td>
+            </tr>`).join("")}</tbody></table></div>` : ""}
+        ${id === "leadership_capacity" ? ldnaPanel(r) : ""}
+      </div>
+    </div>
+  </section>`;
+}
+
+function ldnaPanel(){ return ""; }   /* filled in by the LDNA layer */
 
 /* ── evidence room ────────────────────────────────────────────────── */
 function viewLibrary(){
@@ -1030,12 +1315,20 @@ function viewTaxonomy(){
 /* ── wiring ───────────────────────────────────────────────────────── */
 function render(keepScroll){
   const y = window.scrollY;
+  if(!SHOW_PRACTITIONER) S.lens = "deliverable";
+  const lw = document.querySelector("#lensWrap"); if(lw) lw.hidden = !SHOW_PRACTITIONER;
   document.body.dataset.lens = S.lens;
   document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected", b.dataset.view===S.view));
   document.querySelectorAll("#lensSeg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lens===S.lens));
   const tn=document.querySelector("#topNote"); if(tn) tn.textContent = "Synthetic data · engine "+DATA.meta.engine+" · framework "+DATA.meta.framework;
   renderRail();
+  const ut = document.querySelector("#unitsTab");
+  if(ut){ ut.hidden = !unitsOf(S.co).length;
+          ut.textContent = unitsOf(S.co).length ? (((DATA.multiUnit||{})[S.co]||{}).label||"Locations")
+              .replace(/^./,ch=>ch.toUpperCase()) : "Locations"; }
+  if(S.view==="units" && !unitsOf(S.co).length) S.view = "company";
   $("#main").innerHTML = S.view==="portfolio" ? viewPortfolio()
+                       : S.view==="units"     ? viewUnits()
                        : S.view==="taxonomy"  ? viewTaxonomy()
                        : S.view==="library"   ? viewLibrary()
                        : viewCompany();
@@ -1048,11 +1341,16 @@ document.addEventListener("click", e=>{
   const lens = e.target.closest("#lensSeg button");
   if(lens){ S.lens = lens.dataset.lens; return render(true); }
   const c = e.target.closest("[data-co]");
-  if(c){ S.co = c.dataset.co; S.doc = null; S.fixes = new Set(); if(S.view!=="library") S.view="company"; return render(); }
+  if(c){ S.co = c.dataset.co; S.doc = null; S.fixes = new Set(); S.domain = null; S.unit = null; if(S.view!=="library") S.view="company"; return render(); }
   const g = e.target.closest("[data-goto]");
-  if(g){ S.co = g.dataset.goto; S.doc = null; S.fixes = new Set(); S.view="company"; return render(); }
+  if(g){ S.co = g.dataset.goto; S.doc = null; S.fixes = new Set(); S.domain = null; S.unit = null; S.view="company"; return render(); }
   const d = e.target.closest("[data-doc]");
   if(d){ S.doc = d.dataset.doc; return render(true); }
+  const un = e.target.closest("[data-unit]");
+  if(un){ S.unit = (S.unit === un.dataset.unit) ? null : un.dataset.unit; return render(true); }
+  const dm = e.target.closest("[data-domain]");
+  if(dm){ S.domain = (S.domain === dm.dataset.domain) ? null : dm.dataset.domain;
+    return render(true); }
   const fx = e.target.closest("[data-fix]");
   if(fx){ const id = fx.dataset.fix;
     S.fixes.has(id) ? S.fixes.delete(id) : S.fixes.add(id); return render(true); }
@@ -1065,7 +1363,7 @@ document.addEventListener("click", e=>{
     return render(true);
   }
   const st = e.target.closest("[data-snap]");
-  if(st){ S.snap = st.dataset.snap; S.fixes = new Set(); return render(); }
+  if(st){ S.snap = st.dataset.snap; S.fixes = new Set(); S.domain = null; return render(); }
 });
 
 function boot(d){
