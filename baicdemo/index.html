@@ -189,12 +189,74 @@ section{margin-bottom:26px}
 .scale-legend .marks{position:relative;height:14px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--ink-3)}
 .scale-legend .marks span{position:absolute;transform:translateX(-50%)}
 
-/* sample report links */
-a.samp{color:var(--accent);text-decoration:none;font-weight:600}
-a.samp:hover{text-decoration:underline}
-a.samp::after{content:" ↗";font-weight:400;color:var(--ink-3)}
-td.lede{color:var(--ink-2)}
-span.dim{color:var(--ink-3);font-weight:400}
+/* ── elevation and motion ──────────────────────────────────────────
+   Depth is a three-step scale, not a decoration. Motion is short and
+   ease-out: content settles into place rather than sliding around.
+   Everything here is disabled wholesale by the reduced-motion rule
+   further up, which is why nothing below re-declares it.             */
+:root{
+  --e1:0 1px 2px rgba(0,0,0,.05), 0 2px 6px rgba(0,0,0,.04);
+  --e2:0 2px 4px rgba(0,0,0,.06), 0 12px 28px rgba(0,0,0,.09);
+  --e3:0 4px 10px rgba(0,0,0,.08), 0 24px 56px rgba(0,0,0,.14);
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+@keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+main>section{animation:rise .36s var(--ease) both}
+main>section:nth-child(2){animation-delay:.05s}
+main>section:nth-child(3){animation-delay:.10s}
+main>section:nth-child(4){animation-delay:.15s}
+
+.panel{box-shadow:var(--e1);transition:box-shadow .26s var(--ease)}
+.tab{position:relative;transition:color .18s var(--ease),background .18s var(--ease)}
+.tab::after{
+  content:"";position:absolute;left:11px;right:11px;bottom:-1px;height:2px;
+  background:var(--accent);transform:scaleX(0);transform-origin:left;
+  transition:transform .26s var(--ease);
+}
+.tab[aria-selected="true"]::after{transform:scaleX(1)}
+.fill{transition:width .55s var(--ease)}
+.co{transition:background .16s var(--ease),border-left-color .16s var(--ease)}
+
+/* ── the sample library ────────────────────────────────────────────
+   Cover-led rather than a list: a prospect recognises a document by
+   how it looks before they read its name.                            */
+.samp-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));
+  gap:22px 18px;padding:20px 18px 22px;
+}
+.samp-card{
+  display:flex;flex-direction:column;text-decoration:none;color:inherit;
+  background:var(--surface);border:1px solid var(--line);border-radius:4px;
+  overflow:hidden;box-shadow:var(--e1);
+  transition:box-shadow .28s var(--ease),transform .28s var(--ease),border-color .28s var(--ease);
+}
+.samp-card:hover{transform:translateY(-4px);box-shadow:var(--e3);border-color:var(--accent-line)}
+.samp-cover{position:relative;background:var(--sunken);padding:14px 14px 0;overflow:hidden}
+.samp-cover img{
+  display:block;width:100%;height:168px;object-fit:cover;object-position:top center;
+  border:1px solid var(--line);border-bottom:0;background:#fff;
+  transition:transform .4s var(--ease);
+}
+.samp-card:hover .samp-cover img{transform:scale(1.03)}
+.samp-flag{
+  position:absolute;top:21px;right:21px;font-family:"IBM Plex Mono",monospace;
+  font-size:8.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--surface);background:var(--accent);padding:3px 7px;border-radius:2px;
+}
+.samp-body{padding:14px 15px 15px;display:flex;flex-direction:column;flex:1}
+.samp-arch{
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+}
+.samp-name{font-family:Archivo,sans-serif;font-weight:600;font-size:16px;margin:6px 0 0;letter-spacing:-.012em}
+.samp-line{font-size:12px;line-height:1.5;color:var(--ink-2);margin:7px 0 0}
+.samp-meta{
+  margin-top:auto;padding-top:11px;border-top:1px solid var(--line-soft);
+  display:flex;flex-wrap:wrap;gap:3px 12px;
+  font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink-3);
+}
+.samp-open{margin-top:10px;font-size:11.5px;font-weight:600;color:var(--ink-2);transition:color .2s var(--ease)}
+.samp-card:hover .samp-open{color:var(--accent)}
 
 /* tables */
 .tbl-wrap{overflow-x:auto}
@@ -479,10 +541,10 @@ table.heat tr.grouprow td{border-top:2px solid var(--line);background:var(--surf
         <button class="tab" role="tab" data-view="portfolio">Portfolio</button>
         <button class="tab" role="tab" data-view="company">Engagement</button>
         <button class="tab" role="tab" data-view="team" id="teamTab">Leadership team</button>
+        <button class="tab" role="tab" data-view="samples">Sample LDNA reports</button>
         <button class="tab" role="tab" data-view="units" id="unitsTab">Locations</button>
         <button class="tab" role="tab" data-view="library">Evidence room</button>
         <button class="tab" role="tab" data-view="taxonomy">Failure taxonomy</button>
-        <button class="tab" role="tab" data-view="samples">Sample reports</button>
       </div>
       <div class="topbar-spacer" id="topNote"></div>
     </div>
@@ -1782,66 +1844,58 @@ const SAMPLES = {
   ],
 };
 
-function viewSamples(){
-  const ind = SAMPLES.individual.map(([f, name, arch, region, line, load, strain]) => `
-    <tr>
-      <td><a class="samp" href="samples/SAMPLE_LDNA_Individual_${f}.pdf" target="_blank"
-             rel="noopener">${esc(name)}</a></td>
-      <td><b>${esc(arch)}</b><span class="dim"> · ${esc(region)}</span></td>
-      <td class="lede">${esc(line)}</td>
-      <td class="num">${esc(load)}</td>
-      <td class="num">${esc(strain)}</td>
-      <td class="num">9</td>
-    </tr>`).join("");
+function sampCard(file, kind, over, name, line, meta){
+  return `
+  <a class="samp-card" href="samples/${file}.pdf" target="_blank" rel="noopener">
+    <div class="samp-cover">
+      <img loading="lazy" src="samples/thumbs/${file}.png" alt="Cover page of ${esc(name)}">
+      <span class="samp-flag">Sample</span>
+    </div>
+    <div class="samp-body">
+      <div class="samp-arch">${esc(over)}</div>
+      <div class="samp-name">${esc(name)}</div>
+      <p class="samp-line">${esc(line)}</p>
+      <div class="samp-meta">${meta.map(m=>`<span>${esc(m)}</span>`).join("")}</div>
+      <div class="samp-open">Open the report →</div>
+    </div>
+  </a>`;
+}
 
-  const team = SAMPLES.team.map(([f, name, size, regions, line]) => `
-    <tr>
-      <td><a class="samp" href="samples/SAMPLE_LDNA_Team_${f}.pdf" target="_blank"
-             rel="noopener">${esc(name)}</a></td>
-      <td>${esc(size)}</td>
-      <td class="lede">${esc(line)}</td>
-      <td>${esc(regions)}</td>
-      <td class="num">10</td>
-    </tr>`).join("");
+function viewSamples(){
+  const ind = SAMPLES.individual.map(([f, name, arch, region, line, load, strain]) =>
+    sampCard(`SAMPLE_LDNA_Individual_${f}`, "individual", `${arch} · ${region}`, name, line,
+             [`adaptation ${load}`, `strain ${strain}`, "9 pp"])).join("");
+
+  const team = SAMPLES.team.map(([f, name, size, regions, line]) =>
+    sampCard(`SAMPLE_LDNA_Team_${f}`, "team", size, name, line,
+             [regions, "10 pp"])).join("");
 
   return `
   <section>
-    <div class="eyebrow">Sample reports · LDNA</div>
-    <h2 style="font-size:22px;margin:5px 0 8px">The deliverable, front to back</h2>
-    <p style="max-width:70ch;color:var(--ink-2);margin:0 0 6px">
+    <div class="eyebrow">Sample LDNA reports</div>
+    <h2 style="font-size:24px;margin:6px 0 9px;letter-spacing:-.018em">The deliverable, front to back</h2>
+    <p style="max-width:68ch;color:var(--ink-2);margin:0 0 7px;font-size:14.5px">
       Ten complete reports, every page. Open one mid-demo when a prospect asks what they
-      actually receive. These are the leadership instrument, not the business diagnostic —
-      the BAIC output is the dashboard you are already looking at.
+      actually receive. This is the leadership instrument — the business diagnostic is the
+      dashboard around it.
     </p>
-    <p style="max-width:70ch;color:var(--ink-3);font-size:12.5px;margin:0 0 18px">
-      The individual profiles are genuine assessments with the name replaced by a fictional
-      one; they carry no employer, role, email or date. The team reports were built on
-      fictional names from the start. Every page of all ten is watermarked SAMPLE.
+    <p style="max-width:68ch;color:var(--ink-3);font-size:12px;margin:0">
+      The individual profiles are genuine assessments with the name replaced by a fictional one;
+      they carry no employer, role, email or date. The team reports were built on fictional
+      names from the start. Every page of all ten is watermarked SAMPLE.
     </p>
   </section>
 
   <section class="panel">
     <div class="panel-head"><h3>Individual profiles</h3>
-      <span class="note">Seven people, six archetypes · 9 pages each</span></div>
-    <div class="panel-body" style="padding:0">
-      <table>
-        <thead><tr><th>Report</th><th>Archetype</th><th>What it shows</th>
-          <th class="num">Adaptation</th><th class="num">Strain</th><th class="num">pp</th></tr></thead>
-        <tbody>${ind}</tbody>
-      </table>
-    </div>
+      <span class="note">Seven leaders, six archetypes · 9 pages each</span></div>
+    <div class="samp-grid">${ind}</div>
   </section>
 
-  <section class="panel" style="margin-top:22px">
+  <section class="panel">
     <div class="panel-head"><h3>Leadership team reads</h3>
       <span class="note">Three teams · 10 pages each</span></div>
-    <div class="panel-body" style="padding:0">
-      <table>
-        <thead><tr><th>Report</th><th>Size</th><th>What it shows</th>
-          <th>Regions covered</th><th class="num">pp</th></tr></thead>
-        <tbody>${team}</tbody>
-      </table>
-    </div>
+    <div class="samp-grid">${team}</div>
   </section>`;
 }
 
