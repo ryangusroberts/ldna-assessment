@@ -171,6 +171,9 @@ section{margin-bottom:26px}
 .bar-row{width:100%;text-align:left;border:1px solid transparent;border-radius:3px;transition:background .12s,border-color .12s;display:grid;grid-template-columns:22px minmax(150px,1.1fr) minmax(0,3fr) 62px;align-items:center;gap:12px;padding:6px 0}
 .bar-row:hover{background:var(--surface-2);border-color:var(--line)}
 .bar-row[aria-pressed="true"]{background:var(--surface-2);border-color:var(--accent-line)}
+.has-more{display:inline-block;margin-left:6px;padding:1px 6px;border:1px solid var(--accent-line);
+  border-radius:2px;font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--accent);vertical-align:middle}
 .cp-dot{font-size:15px;line-height:1;text-align:center;color:var(--accent)}
 .bar-name{font-size:12.5px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bar-name .ns{display:block;font-size:10.5px;color:var(--ink-3);font-weight:400;font-style:italic}
@@ -450,6 +453,7 @@ table.heat tr.grouprow td{border-top:2px solid var(--line);background:var(--surf
       <div class="tabs" role="tablist">
         <button class="tab" role="tab" data-view="portfolio">Portfolio</button>
         <button class="tab" role="tab" data-view="company">Engagement</button>
+        <button class="tab" role="tab" data-view="team" id="teamTab">Leadership team</button>
         <button class="tab" role="tab" data-view="units" id="unitsTab">Locations</button>
         <button class="tab" role="tab" data-view="library">Evidence room</button>
         <button class="tab" role="tab" data-view="taxonomy">Failure taxonomy</button>
@@ -639,7 +643,8 @@ function domainBars(r){
   const rows = [...r.domains].sort((a,b)=>a.score-b.score).map(d=>`
     <button class="bar-row" data-domain="${esc(d.id)}" aria-pressed="${S.domain===d.id}">
       <span class="cp-dot" title="${d.cp?"Critical path — governs the tier":""}">${d.cp?"●":""}</span>
-      <span class="bar-name">${esc(d.name)}<span class="ns">${esc(d.northStar||"")}</span></span>
+      <span class="bar-name">${esc(d.name)}${d.id==="leadership_capacity" && r.elt
+        ? ' <span class="has-more">team read</span>' : ""}<span class="ns">${esc(d.northStar||"")}</span></span>
       <span class="track"><span class="fill b-${d.band}" style="width:${d.score}%"></span>${ticks}</span>
       <span class="bar-score t-${d.band}">${d.score}</span>
     </button>`).join("");
@@ -1438,6 +1443,30 @@ function storyline(r, c){
   </section>`;
 }
 
+function viewTeam(){
+  const r = run(S.co, "T2"), c = co(S.co);
+  if(!r || !r.elt) return "";
+  const lead = r.domains.find(d => d.id === "leadership_capacity");
+  return `
+  <section>
+    <div class="eyebrow">${esc(c.code)} · ${esc(c.name)} · leadership team</div>
+    <h2 style="font-size:22px;margin:5px 0 8px">Two instruments, stacked</h2>
+    <p style="max-width:70ch;color:var(--ink-2);margin:0 0 6px">
+      The assessment scores <b>Leadership Capacity &amp; Recovery</b> at
+      <b class="t-${lead.band}">${lead.score}</b> — ${esc(lead.bandLabel)} — from documentary
+      evidence about the business: succession plans, delegation maps, cover arrangements.
+      That tells you the function is load-bearing and how well it is built.
+    </p>
+    <p style="max-width:70ch;color:var(--ink-2);margin:0 0 18px">
+      It does not tell you <i>who</i>, or <i>why</i>. The ELT Diagnostic reads the people —
+      how each leader is wired, what their seat actually demands of them, and where the team
+      shares a blind spot instead of covering one. The two never blend into a single number.
+      They answer different questions, and a client needs both answers.
+    </p>
+  </section>
+  ${eltPanel(r)}`;
+}
+
 /* ── the ELT Diagnostic ───────────────────────────────────────────────── */
 const eltBandCls = b => b === "high risk" ? "critical" : b === "watch" ? "developing" : "established";
 
@@ -1637,12 +1666,16 @@ function render(keepScroll){
   document.querySelectorAll("#lensSeg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lens===S.lens));
   const tn=document.querySelector("#topNote"); if(tn) tn.textContent = "Synthetic data · engine "+DATA.meta.engine+" · framework "+DATA.meta.framework;
   renderRail();
+  const tt = document.querySelector("#teamTab");
+  if(tt) tt.hidden = !(run(S.co, "T2") || {}).elt;
+  if(S.view==="team" && !(run(S.co, "T2") || {}).elt) S.view = "company";
   const ut = document.querySelector("#unitsTab");
   if(ut){ ut.hidden = !unitsOf(S.co).length;
           ut.textContent = unitsOf(S.co).length ? (((DATA.multiUnit||{})[S.co]||{}).label||"Locations")
               .replace(/^./,ch=>ch.toUpperCase()) : "Locations"; }
   if(S.view==="units" && !unitsOf(S.co).length) S.view = "company";
   $("#main").innerHTML = S.view==="portfolio" ? viewPortfolio()
+                       : S.view==="team"      ? viewTeam()
                        : S.view==="units"     ? viewUnits()
                        : S.view==="taxonomy"  ? viewTaxonomy()
                        : S.view==="library"   ? viewLibrary()
