@@ -215,7 +215,9 @@ td.num,th.num{text-align:right;font-family:"IBM Plex Mono",monospace;font-varian
 
 /* accrual timeline */
 .accrual{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.acc-card{border:1px solid var(--line);border-radius:3px;padding:14px;background:var(--surface)}
+.acc-card{border:1px solid var(--line);border-radius:3px;padding:14px;background:var(--surface);
+  width:100%;text-align:left;transition:border-color .12s,background .12s}
+.acc-card:hover{border-color:var(--accent-line);background:var(--surface-2)}
 .acc-card.now{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent-line)}
 .acc-card .t{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.06em}
 .acc-card .l{font-size:12.5px;font-weight:600;margin:2px 0 10px}
@@ -264,6 +266,56 @@ body[data-lens="practitioner"] .deliverable-only{display:none}
 
 
 
+
+
+
+.story-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.story-k{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);
+  font-weight:600;margin-bottom:6px}
+.story-grid p{margin:0;font-size:13px;line-height:1.6;color:var(--ink-2)}
+.story-grid b{color:var(--ink)}
+
+/* ── ELT Diagnostic ──────────────────────────────────────────────────── */
+.elt-top{display:grid;grid-template-columns:170px minmax(0,1fr);gap:22px;align-items:start}
+.elt-overall{text-align:center;padding:16px 12px;border:1px solid var(--line);border-radius:4px;background:var(--surface-2)}
+.elt-overall .k{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.elt-overall .v{font-family:"IBM Plex Mono",monospace;font-size:38px;font-weight:500;line-height:1.1;margin:4px 0}
+.elt-overall .b{font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+.elt-dims{display:flex;flex-direction:column;gap:11px}
+.elt-dim-head{display:flex;align-items:baseline;gap:9px}
+.elt-key{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--accent)}
+.elt-name{font-size:12.5px;font-weight:500}
+.elt-w{font-size:10.5px;color:var(--ink-3)}
+.elt-score{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:14px;font-weight:600}
+.elt-track{position:relative;height:7px;background:var(--sunken);border-radius:2px;overflow:hidden;margin:4px 0 3px}
+.elt-track .fill{position:absolute;left:0;top:0;bottom:0;border-radius:2px}
+.elt-why{font-size:11.5px;color:var(--ink-3);line-height:1.45}
+.elt-findings{margin-top:18px;padding:14px 16px;border:1px solid var(--accent-line);border-radius:4px;background:var(--accent-soft)}
+.elt-findings ul{margin:6px 0 0;padding-left:18px}
+.elt-findings li{font-size:12.5px;line-height:1.55;margin-bottom:6px}
+.ldna-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));margin-top:8px}
+.ldna-member{border:1px solid var(--line);border-radius:4px;padding:14px;background:var(--surface)}
+.ldna-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.ldna-name{font-family:Archivo,sans-serif;font-weight:600;font-size:14px}
+.ldna-role{font-size:11.5px;color:var(--ink-3);margin-top:1px}
+.ldna-arch{text-align:right}
+.arch-chip{display:inline-block;padding:2px 8px;border:1px solid var(--accent-line);color:var(--accent);
+  border-radius:2px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600}
+.ldna-note{font-size:11.5px;color:var(--ink-2);font-style:italic;margin:8px 0 10px;line-height:1.45}
+.ldna-dims{display:flex;flex-direction:column;gap:3px;margin-bottom:9px}
+.ldna-row{display:grid;grid-template-columns:22px minmax(0,1fr) 62px;gap:8px;align-items:center}
+.ldna-code{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink-3);font-weight:600}
+.ldna-track{position:relative;height:9px;background:var(--sunken);border-radius:2px}
+.ldna-nat{position:absolute;top:1px;width:3px;height:7px;background:var(--ink-2);border-radius:1px;transform:translateX(-1.5px)}
+.ldna-adp{position:absolute;top:1px;width:3px;height:7px;background:var(--accent);border-radius:1px;transform:translateX(-1.5px)}
+.ldna-link{position:absolute;top:4px;height:1px;background:var(--accent-line)}
+.ldna-val{font-size:10px;color:var(--ink-3);text-align:right}
+.ldna-flags{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+.flag{font-size:11px;line-height:1.4;padding:4px 8px;border-radius:2px;border-left:2px solid}
+.flag.crit{background:var(--critical-bg);border-color:var(--critical);color:var(--critical)}
+.flag.warn{background:var(--developing-bg);border-color:var(--developing);color:var(--developing)}
+.ldna-vf{font-size:11px;color:var(--ink-3);line-height:1.5;border-top:1px solid var(--line-soft);padding-top:8px}
+@media (max-width:940px){.elt-top{grid-template-columns:1fr}}
 
 /* ── multi-unit ──────────────────────────────────────────────────────── */
 .unit-tile[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent-line)}
@@ -402,27 +454,21 @@ table.heat tr.grouprow td{border-top:2px solid var(--line);background:var(--surf
         <button class="tab" role="tab" data-view="library">Evidence room</button>
         <button class="tab" role="tab" data-view="taxonomy">Failure taxonomy</button>
       </div>
-      <div class="seg-wrap" id="lensWrap" hidden>
-        <span class="seg-label">Lens</span>
-        <div class="seg" id="lensSeg">
-          <button data-lens="deliverable">Client deliverable</button>
-          <button data-lens="practitioner">Practitioner</button>
-        </div>
-      </div>
       <div class="topbar-spacer" id="topNote"></div>
     </div>
     <main id="main"></main>
   </div>
 </div>
 
-<script src="./data.js?v=1175c5bc47ff"></script>
+<script src="./data.js?v=fef88193bc56"></script>
 <script>
 const EMBEDDED = null;
 
-/* The practitioner lens — item-level scores, every citation, the evidence
-   register and the full arithmetic — is an ADMIN capability. It is not part of
-   a client build, and it is held out of the demo. The code stays: flip this to
-   true to get it back. */
+/* The practitioner view — item-level scores, every citation, the evidence
+   register and the full arithmetic — is not part of a client build and is not
+   in this one. A training build is a separate replication of this page with far
+   more context, not a toggle on the client's copy. The `.lens-only` blocks stay
+   in the source so that build has somewhere to start. */
 const SHOW_PRACTITIONER = false;
 let DATA = null;
 const S = {view:"portfolio", co:null, snap:"T2", doc:null, lens:"deliverable",
@@ -455,8 +501,8 @@ function renderRail(){
     `Engine <code>${esc(DATA.meta.engine)}</code> · framework <code>${esc(DATA.meta.framework)}</code><br>
      Generated ${esc(DATA.meta.generated)}<br><br>
      Every score above item level is computed by the scoring engine, unmodified.
-     <br><br><b>Practitioner view</b> — item-level scores, every citation and the full
-     arithmetic — is an admin capability. It is not part of a client build.`;
+     <br><br>A practitioner build — item-level scores, every citation and the full
+     arithmetic — is produced separately. It is not part of a client's copy.`;
 }
 
 /* ── portfolio ────────────────────────────────────────────────────── */
@@ -607,7 +653,8 @@ function domainBars(r){
 function accrual(){
   return `<div class="accrual">${DATA.snapshots.map(s=>{
     const r = run(S.co,s.id);
-    return `<div class="acc-card ${s.id===S.snap?"now":""}">
+    return `<button class="acc-card ${s.id===S.snap?"now":""}" data-snap="${esc(s.id)}"
+        aria-pressed="${s.id===S.snap}">
       <div class="t">${esc(s.id)}</div>
       <div class="l">${esc(s.label)}</div>
       <div class="acc-row"><span class="k">Tier</span><span class="v t-${r.tier==="stabilize_sprint"?"critical":r.tier==="build_then_scale"?"developing":"established"}">${esc(r.tierLabel)}</span></div>
@@ -618,7 +665,7 @@ function accrual(){
       <div class="acc-verdict">${r.releasable
         ? '<span class="t-established"><b>Releasable.</b></span> '
         : '<span class="t-critical"><b>Withheld.</b></span> '}${esc(r.snapshot.note)}</div>
-    </div>`;}).join("")}</div>`;
+    </button>`;}).join("")}</div>`;
 }
 
 function riskTable(r){
@@ -735,6 +782,8 @@ function viewCompany(){
     </div>
   </section>
 
+  ${r.fixes && r.fixes.length ? storyline(r, c) : ""}
+
   <section>${gateBanner(r)}</section>
 
   <section class="panel">
@@ -744,10 +793,11 @@ function viewCompany(){
   </section>
 
   ${S.domain ? viewDomainDetail(r, S.domain) : ""}
+  ${S.domain === "leadership_capacity" ? eltPanel(r) : ""}
 
   <section class="panel">
     <div class="panel-head"><h3>What changed as the evidence arrived</h3>
-      <span class="note">Same company, same reality, three evidence levels</span></div>
+      <span class="note">Click a stage to move to it · same company, same reality, three evidence levels</span></div>
     <div class="panel-body">${accrual()}
       <p class="footnote">${esc(c.story)}</p></div>
   </section>
@@ -1003,6 +1053,73 @@ function viewProjection(r){
 
 
 
+
+/* ── best practice already in the building ────────────────────────────── */
+function transferPanel(us, cfg){
+  const own = us[0].domains.filter(d => !d.corp).map(d => d.id);
+  const rows = own.map(id => {
+    const ranked = [...us].sort((a,b) =>
+      b.domains.find(d=>d.id===id).raw - a.domains.find(d=>d.id===id).raw);
+    const best = ranked[0], worst = ranked[ranked.length-1];
+    const bD = best.domains.find(d=>d.id===id), wD = worst.domains.find(d=>d.id===id);
+    const gap = bD.score - wD.score;
+
+    // the subdomain carrying most of the gap, and the items inside it
+    let topSub = null, topGap = -1;
+    bD.subs.forEach(bs => {
+      const ws = wD.subs.find(x=>x.id===bs.id);
+      if(ws && bs.score - ws.score > topGap){ topGap = bs.score - ws.score; topSub = {bs, ws}; }
+    });
+    const items = topSub ? topSub.bs.items
+      .map(bi => ({bi, wi: topSub.ws.items.find(x=>x.id===bi.id)}))
+      .filter(p => p.wi && p.bi.s - p.wi.s >= 2)
+      .map(p => `${esc(p.bi.name)} (${p.wi.s} → ${p.bi.s})`) : [];
+
+    return {id, name: bD.name, best, worst, gap, bD, wD, topSub, topGap, items};
+  }).sort((a,b) => b.gap - a.gap);
+
+  return `
+  <section class="panel">
+    <div class="panel-head"><h3>The answer is already in the building</h3>
+      <span class="note">Where one ${esc(cfg.noun)} has solved what another has not</span></div>
+    <div class="panel-body">
+      <p class="footnote" style="margin:0 0 14px">
+        Every domain below is scored at the ${esc(cfg.noun)}, on the same rubric, in the same
+        week. Where the spread is wide, the gap is not a knowledge problem — somebody in this
+        business already does it well. That makes it a transfer job, and transfer is faster and
+        cheaper than anything bought in.
+      </p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Domain</th><th>Best</th><th>Weakest</th><th class="num">Spread</th>
+          <th>What to move, and from where</th></tr></thead>
+        <tbody>${rows.map(r => `<tr>
+          <td><b>${esc(r.name)}</b>${r.bD.cp ? ' <span class="cp-dot">●</span>' : ''}</td>
+          <td>${esc(r.best.name)} <span class="t-${r.bD.band}">${r.bD.score}</span></td>
+          <td>${esc(r.worst.name)} <span class="t-${r.wD.band}">${r.wD.score}</span></td>
+          <td class="num"><b class="${r.gap >= 20 ? 't-critical' : ''}">${r.gap}</b></td>
+          <td>${r.topSub && r.topGap > 0
+              ? `<b>${esc(r.topSub.bs.name)}</b> — ${esc(r.best.name)} ${r.topSub.bs.score},
+                 ${esc(r.worst.name)} ${r.topSub.ws.score}.
+                 ${r.items.length
+                   ? `Specifically: ${r.items.join("; ")}.`
+                   : "The gap is spread evenly across the items rather than sitting in one practice."}`
+              : `<span class="dim">No meaningful spread — every ${esc(cfg.noun)} is in the same place.</span>`}</td>
+        </tr>`).join("")}</tbody></table></div>
+      <p class="footnote">
+        ${(() => {
+          const w = rows[0];
+          return w && w.gap >= 15
+            ? `The widest gap is <b>${esc(w.name)}</b> — ${w.gap} points between
+               ${esc(w.best.name)} and ${esc(w.worst.name)}. That is the first transfer to run,
+               and ${esc(w.best.name)} is where the working version lives.`
+            : `No domain shows a wide enough spread to make transfer the first move — these
+               ${esc(cfg.label)} are consistent, and the gaps that remain are group-level.`;
+        })()}
+      </p>
+    </div>
+  </section>`;
+}
+
 /* ── multi-unit portfolio ─────────────────────────────────────────────── */
 const unitsOf = code => (DATA.units && DATA.units[code]) || [];
 const tierPill = t => t==="stabilize_sprint" ? "critical" : t==="build_then_scale" ? "high" : "scale";
@@ -1079,6 +1196,8 @@ function viewUnits(){
   </section>
 
   ${S.unit ? viewUnitDetail(us.find(u=>u.id===S.unit), c, cfg) : ""}
+
+  ${transferPanel(sorted, cfg)}
 
   <section class="panel">
     <div class="panel-head"><h3>Every ${esc(cfg.noun)}, every domain</h3>
@@ -1235,13 +1354,210 @@ function viewDomainDetail(r, id){
               <td class="num"><b>${money(v.c)}</b></td>
               <td><span class="pill p-${v.level}">${esc(v.level)}</span></td>
             </tr>`).join("")}</tbody></table></div>` : ""}
-        ${id === "leadership_capacity" ? ldnaPanel(r) : ""}
+        
       </div>
     </div>
   </section>`;
 }
 
-function ldnaPanel(){ return ""; }   /* filled in by the LDNA layer */
+
+/* ── the storyline ────────────────────────────────────────────────────── */
+/* Composed from the run's own figures rather than written per company, so it
+   stays true when the data changes and works for any company minted later. */
+function storyline(r, c){
+  const weak  = r.domains.find(d => d.id === r.weakestCP)
+             || [...r.domains].filter(d=>d.cp).sort((a,b)=>a.score-b.score)[0];
+  const worst = [...r.domains].sort((a,b)=>a.score-b.score)[0];
+  const top   = r.risks[0];
+  const e     = r.elt;
+  const fixes = r.fixes || [];
+  const crit  = fixes.filter(f=>f.tier==="critical");
+  const s1    = fixes.filter(f=>f.sprint===1);
+  const all   = fixes.length ? projectRun(r, new Set(fixes.map(f=>f.fix_id))) : null;
+  const base  = projectRun(r, new Set());
+  const units = unitsOf(S.co);
+
+  const money0 = n => n >= 1e6 ? "$" + (n/1e6).toFixed(1) + "M" : "$" + Math.round(n/1e3) + "k";
+  const runway = r.cfPositive ? "cash-flow positive"
+               : r.runway == null ? "no runway figure" : r.runway.toFixed(1) + " months of runway";
+
+  const state = `${esc(c.name)} turns over ${money0(r.fin.annual_revenue)} with ${runway}.
+    The assessment scores ${r.itemCount} items against documentary evidence and returns
+    <b>${esc(r.tierLabel)}</b> — and the reason is specific: ${esc(r.binding)}.
+    ${weak && !r.gateRunway
+      ? `${esc(weak.name)} is the weakest load-bearing function at ${weak.score}.`
+      : ""}
+    ${worst.id !== (weak||{}).id
+      ? `The lowest score anywhere is ${esc(worst.name)} at ${worst.score}${worst.cp ? "" : ", which cannot set the tier on its own but blocks the track above"}.`
+      : ""}
+    ${top ? `The largest single exposure is ${esc(top.desc.toLowerCase())}, at ${money(top.c)} of
+      expected annual cost.` : ""}
+    ${units.length ? `Scored across ${units.length} ${esc(((DATA.multiUnit||{})[S.co]||{}).label||"locations")},
+      the spread runs from ${Math.max(...units.map(u=>u.ami))} down to
+      ${Math.min(...units.map(u=>u.ami))}.` : ""}`;
+
+  const team = e ? `The leadership team reads <b>${e.overall} — ${esc(e.overallBand)}</b>.
+    ${e.solo.length
+      ? `${e.solo.map(x=>esc(x.name)).join(" and ")} ${e.solo.length>1?"hold":"holds"} work nobody
+         else can do${e.solo.length===1 && e.solo[0].what.length>1
+           ? ` — ${e.solo[0].what.length} separate functions in one seat` : ""}.`
+      : "No single function depends on one person."}
+    ${e.uncovered.length ? ` Nobody leans ${e.uncovered.map(x=>esc(x)).join(" or ")}.` : ""}
+    ${e.drivers.length <= 1 ? ` Directional judgment sits in one seat.` : ""}
+    This is a second instrument; it explains the leadership score rather than
+    contributing to it.`
+    : "No team read has been run for this company.";
+
+  const plan = fixes.length ? `The plan is ${fixes.length} actions —
+    ${crit.length} critical, ${s1.length} inside the first thirty days — each with a named owner
+    and a gate that has to be evidenced before it counts as done.
+    Fully evidenced, the whole register moves the composite from ${Math.round(base.ami)} to
+    ${Math.round(all.ami)}.
+    ${r.gateRunway
+      ? `None of it moves the tier, because the binding reason here is cash, not architecture.
+         ${crit.length ? esc(crit[0].title) + " is the action that would." : ""}`
+      : `${(() => {
+          const changed = all.domains.filter(d => d.cp &&
+            bandOf(d.proj) !== bandOf(d.now));
+          return changed.length
+            ? `That would lift ${changed.map(d=>esc(d.name)).join(" and ")} into a higher band —
+               which is what the tier turns on.`
+            : `That lifts the shape without moving any load-bearing function into a higher band.`;
+        })()}`}`
+    : "No 90-day plan has been produced at this evidence level.";
+
+  return `
+  <section class="panel story">
+    <div class="panel-head"><h3>The short version</h3>
+      <span class="note">Composed from this engagement's own figures</span></div>
+    <div class="panel-body story-grid">
+      <div><div class="story-k">Where the business stands</div><p>${state}</p></div>
+      <div><div class="story-k">What the team read adds</div><p>${team}</p></div>
+      <div><div class="story-k">The next ninety days</div><p>${plan}</p></div>
+    </div>
+  </section>`;
+}
+
+/* ── the ELT Diagnostic ───────────────────────────────────────────────── */
+const eltBandCls = b => b === "high risk" ? "critical" : b === "watch" ? "developing" : "established";
+
+function dimBar(code, natural, adapted){
+  const n = natural[code], a = adapted[code], moved = Math.abs(a - n) >= 0.5;
+  return `<div class="ldna-row">
+    <span class="ldna-code">${esc(code)}</span>
+    <span class="ldna-track">
+      <span class="ldna-nat" style="left:${n*10}%"></span>
+      ${moved ? `<span class="ldna-link" style="left:${Math.min(n,a)*10}%;
+        width:${Math.abs(a-n)*10}%"></span>
+        <span class="ldna-adp" style="left:${a*10}%"></span>` : ""}
+    </span>
+    <span class="ldna-val mono">${n.toFixed(1)}${moved ? ` → ${a.toFixed(1)}` : ""}</span>
+  </div>`;
+}
+
+function memberCard(m){
+  const a = m.adaptation;
+  const strainLabel = a.strain === "overextension"
+      ? "Overextension — running wired, not depleted"
+      : a.strain === "depletion" ? "Depletion — pulled below their own baseline" : null;
+  return `<div class="ldna-member">
+    <div class="ldna-head">
+      <div>
+        <div class="ldna-name">${esc(m.name)}</div>
+        <div class="ldna-role">${esc(m.role)} · ${m.tenure} yr${m.tenure===1?"":"s"}</div>
+      </div>
+      <div class="ldna-arch">
+        <span class="arch-chip">${esc(m.arch)}</span>
+        <div class="dim">${esc(m.region)} region</div>
+      </div>
+    </div>
+    <div class="ldna-note">${esc(m.note)}</div>
+    <div class="ldna-dims">${DATA.eltDims.map(d=>dimBar(d.code, m.natural, m.adapted)).join("")}</div>
+    <div class="ldna-flags">
+      ${m.critical_solo ? `<span class="flag crit">Only person who can:
+        ${m.critical_solo.map(x=>esc(x)).join(", ")}</span>` : ""}
+      ${m.region !== m.demands ? `<span class="flag warn">Leans ${esc(m.region)},
+        the seat demands ${esc(m.demands)}</span>` : ""}
+      ${strainLabel ? `<span class="flag warn">${esc(strainLabel)}</span>` : ""}
+      ${a.caged.length ? `<span class="flag warn">Caged strength:
+        ${a.caged.map(c=>`${esc(c.dim)} ${c.natural} held down to ${c.adapted}`).join(", ")}</span>` : ""}
+      ${m.flight_risk ? `<span class="flag crit">Actively being recruited</span>` : ""}
+      ${m.unheeded ? `<span class="flag warn">Analytical voice without authority</span>` : ""}
+    </div>
+    <div class="ldna-vf"><b>Multiplies:</b> ${esc(m.value)}
+      <br><b>Grinds on:</b> ${esc(m.friction)}</div>
+  </div>`;
+}
+
+function eltPanel(r){
+  const e = r.elt;
+  if(!e) return "";
+  const dims = e.dimensions.map(d=>`
+    <div class="elt-dim">
+      <div class="elt-dim-head">
+        <span class="elt-key">${esc(d.key)}</span>
+        <span class="elt-name">${esc(d.name)}</span>
+        <span class="elt-w mono">${Math.round(d.weight*100)}%</span>
+        <span class="elt-score t-${eltBandCls(d.band)}">${d.score}</span>
+      </div>
+      <div class="elt-track"><span class="fill b-${eltBandCls(d.band)}"
+        style="width:${d.score}%"></span>
+        <span class="tick" style="left:50%"></span><span class="tick" style="left:75%"></span></div>
+      <div class="elt-why">${esc(d.why)}</div>
+    </div>`).join("");
+
+  const findings = [];
+  if(e.solo.length) findings.push(`<b>${e.solo.map(s=>esc(s.name)).join(" and ")}</b>
+    ${e.solo.length>1?"each hold":"holds"} work nobody else can do —
+    ${e.solo.map(s=>s.what.map(w=>esc(w)).join(", ")).join("; ")}.`);
+  if(e.uncovered.length) findings.push(`Nobody on this team leans
+    <b>${e.uncovered.map(x=>esc(x)).join(" or ")}</b>. A region the work needs and the bench
+    does not cover is a gap that shows up at exactly the wrong moment.`);
+  if(e.drivers.length <= 1) findings.push(`Directional judgment sits with
+    <b>${e.drivers.length ? esc(e.drivers[0]) : "nobody"}</b> alone. Everything queues behind
+    one seat.`);
+  if(e.flight && e.flight.length) findings.push(`<b>${e.flight.map(f=>esc(f.name)).join(" and ")}</b>
+    ${e.flight.length>1?"are":"is"} being recruited away — the clock on everything above.`);
+  if(e.unheeded && e.unheeded.length) findings.push(`<b>${e.unheeded.map(u=>esc(u.name)).join(", ")}</b>
+    holds the analytical read and not the authority to act on it.`);
+
+  return `
+  <section class="panel" style="margin-top:22px">
+    <div class="panel-head">
+      <h3>ELT Diagnostic — the leadership team</h3>
+      <span class="note">A second instrument. It does not feed the score above.</span>
+    </div>
+    <div class="panel-body">
+      <div class="elt-top">
+        <div class="elt-overall">
+          <div class="k">Team read</div>
+          <div class="v t-${eltBandCls(e.overallBand)}">${e.overall}</div>
+          <div class="b">${esc(e.overallBand)}</div>
+          <div class="dim" style="font-size:11px;margin-top:8px">${esc(e.note)}</div>
+        </div>
+        <div class="elt-dims">${dims}</div>
+      </div>
+      ${findings.length ? `<div class="elt-findings">
+        <div class="tier-head">What the team read says</div>
+        <ul>${findings.map(f=>`<li>${f}</li>`).join("")}</ul></div>` : ""}
+      <div class="tier-head" style="margin-top:18px">The team, leader by leader
+        <span class="n">${e.members.length} synthetic administrations</span></div>
+      <div class="ldna-grid">${e.members.map(memberCard).join("")}</div>
+      <p class="footnote">
+        Marks show each leader's natural profile on the seven dimensions; where a second
+        mark appears, the role is pulling them away from it. A <b>caged strength</b> is a
+        natural strength the seat holds down — the measurable form of being in the wrong
+        chair. <b>Overextension is not depletion</b>: one is running wired, the other is
+        running empty, and they need opposite responses.
+      </p>
+      <p class="footnote">
+        Developmental and compositional. Not clinical, not predictive, and not
+        norm-referenced — an archetype is a lean, not a box. In a real engagement every
+        leader is administered directly; these are synthetic profiles for demonstration.
+      </p>
+    </div>
+  </section>`;
+}
 
 /* ── evidence room ────────────────────────────────────────────────── */
 function viewLibrary(){
@@ -1316,7 +1632,6 @@ function viewTaxonomy(){
 function render(keepScroll){
   const y = window.scrollY;
   if(!SHOW_PRACTITIONER) S.lens = "deliverable";
-  const lw = document.querySelector("#lensWrap"); if(lw) lw.hidden = !SHOW_PRACTITIONER;
   document.body.dataset.lens = S.lens;
   document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected", b.dataset.view===S.view));
   document.querySelectorAll("#lensSeg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lens===S.lens));
