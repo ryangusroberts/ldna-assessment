@@ -10,7 +10,7 @@
 <body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap">
 
 <style>
 :root{
@@ -286,6 +286,126 @@ svg .radar-now,svg .radar-proj{
 svg .radar-proj{animation-delay:.17s}
 svg .radar-dot{animation:dotIn .45s var(--ease) both;animation-delay:.34s}
 
+/* ══ the house style ═══════════════════════════════════════════════════
+   What made this read as a tool rather than a firm's work was not a lack
+   of shadow. It was three things: everything set at the same weight, a
+   compressed type scale, and a visible box around every element. This
+   block fixes those, in that order.
+
+   1. TYPE — the website's serif (Source Serif 4) carries anything that
+      speaks: headings, the company name, the composite, the pull quote.
+      The sans stays for interface furniture and the mono for figures.
+      That division is what separates an advisory document from a admin
+      panel, and it costs one extra font file.
+   2. SPACE — padding roughly doubles and moves onto an 8px rhythm.
+      Confidence reads as room; density reads as cheap.
+   3. SURFACE — panels lose their hairline border and carry one soft
+      shadow instead. Fewer visible edges, and the elevation then means
+      something because only elevated things have it.
+   ═════════════════════════════════════════════════════════════════════ */
+:root{--display:"Source Serif 4",Georgia,"Times New Roman",serif}
+
+/* 1 · type */
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;letter-spacing:-.016em}
+.panel-head h3{font-size:17px;letter-spacing:-.014em}
+.co-title{font-family:var(--display);font-size:31px;font-weight:600;letter-spacing:-.022em;line-height:1.1}
+.ami-hero .n{font-family:var(--display);font-size:68px;font-weight:600;letter-spacing:-.032em}
+.headline{font-family:var(--display);font-size:16.5px;line-height:1.55}
+.binding{font-size:14.5px}
+.eyebrow,.rail-label,.stat .k,.seg-label{letter-spacing:.2em;font-size:9.5px}
+.bar-score,.stat .v,.samp-meta{font-variant-numeric:tabular-nums}
+.co .nm{font-family:var(--display);font-size:15.5px;font-weight:600;letter-spacing:-.012em}
+
+/* 2 · space */
+main{padding:40px 44px 96px}
+section{margin-bottom:38px}
+.panel-head{padding:20px 26px 17px}
+.panel-body{padding:26px}
+.hero-main{padding:32px 34px}
+.hero-side{padding:32px 34px;gap:16px}
+.samp-grid{padding:26px}
+.step{padding:15px 19px}
+.gate{padding:20px 24px;gap:16px}
+.shell{grid-template-columns:288px minmax(0,1fr)}
+.brand{padding:26px 22px 20px}
+.rail-label{padding:24px 22px 8px}
+.co{padding:15px 22px;border-left:0}
+.rail-foot{padding:22px}
+.tab{padding:7px 15px}
+.topbar{padding:14px 44px}
+
+/* 3 · surface — one soft elevation, no hairline boxes */
+.panel{border:0;border-radius:6px;box-shadow:var(--e2)}
+.panel-head{border-bottom:1px solid var(--line-soft)}
+.hero-main{border-right:1px solid var(--line-soft)}
+.stepper{border:0;border-radius:6px;box-shadow:var(--e1)}
+.step{border-right:1px solid var(--line-soft)}
+.gate{border-radius:6px}
+.rail{border-right:1px solid var(--line-soft)}
+.co{border-bottom:1px solid var(--line-soft)}
+.co[aria-current="true"]{box-shadow:inset 3px 0 0 var(--accent)}
+
+/* 4 · the tier is a statement, not a badge.
+   A coloured rule and the firm's serif carry more authority than a
+   filled pill, and it stops the page looking like a status dashboard. */
+.tier-chip{
+  display:inline-block;padding:1px 0 1px 14px;border:0!important;background:none!important;
+  border-left:3px solid currentColor!important;border-radius:0;
+  font-family:var(--display);font-weight:600;font-size:20px;letter-spacing:-.014em;
+}
+.tier-stabilize_sprint{color:var(--critical)}
+.tier-build_then_scale{color:var(--developing)}
+.tier-scale_track{color:var(--established)}
+
+/* ══ 5 · the brand ═════════════════════════════════════════════════════
+   The rail goes to the firm's navy and the logo reverses out of it. This
+   is the single change that stops the page reading as a generic admin
+   surface: the client sees whose instrument this is before they see a
+   number, and the brass accent finally has a ground dark enough to earn
+   its keep. Navy and brass are the website's own tokens, so the demo and
+   the site now look like one practice rather than two projects.        */
+:root{--navy:#0E1F3D;--navy-line:rgba(255,255,255,.13);--brass:#C9A24B}
+.rail{
+  background:var(--navy);border-right:0;color:rgba(255,255,255,.72);
+  box-shadow:1px 0 0 rgba(0,0,0,.18), 6px 0 28px rgba(0,0,0,.10);
+}
+.brand{padding:28px 22px 22px;border-bottom:1px solid var(--navy-line)}
+.brand-mark{display:block;height:30px;width:auto;margin-bottom:18px;opacity:.96}
+.brand-word{
+  font-family:var(--display);font-size:16px;font-weight:600;color:#fff;
+  letter-spacing:-.01em;margin-bottom:18px;
+}
+.brand-rule{width:26px;height:2px;background:var(--brass);margin-bottom:15px}
+.brand h1{font-family:var(--display);font-size:19px;font-weight:600;color:#fff;letter-spacing:-.016em}
+.brand .sub{
+  font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-top:5px;
+}
+.stamp{
+  margin-top:14px;border-color:rgba(201,162,75,.45);color:var(--brass);
+  background:rgba(201,162,75,.10);
+}
+.rail-label{color:rgba(255,255,255,.42);padding:26px 22px 8px}
+.co{border-bottom:1px solid var(--navy-line);color:rgba(255,255,255,.72)}
+.co:hover{background:rgba(255,255,255,.05)}
+.co[aria-current="true"]{background:rgba(255,255,255,.08);box-shadow:inset 3px 0 0 var(--brass)}
+.co .code{color:rgba(255,255,255,.42)}
+.co .nm{color:#fff}
+.co .sec{color:rgba(255,255,255,.58)}
+.rail-foot{border-top:1px solid var(--navy-line);color:rgba(255,255,255,.4)}
+/* The tier pill in the rail still has to read as a tier, but the band
+   colours were mixed for a light ground and go muddy on navy. Each keeps
+   its hue as a left rule against a neutral tint instead of a fill. */
+.rail .pill{
+  background:rgba(255,255,255,.09)!important;border:1px solid rgba(255,255,255,.18)!important;
+  color:rgba(255,255,255,.92)!important;padding-left:9px;position:relative;
+}
+.rail .pill::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:2px 0 0 2px}
+.rail .p-critical::before{background:var(--critical)}
+.rail .p-high::before{background:var(--developing)}
+.rail .p-scale::before{background:var(--established)}
+.rail code{background:none;color:rgba(255,255,255,.6)}
+
 /* tables */
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
@@ -554,6 +674,10 @@ table.heat tr.grouprow td{border-top:2px solid var(--line);background:var(--surf
 <div class="shell">
   <aside class="rail">
     <div class="brand">
+      <img class="brand-mark" src="/assets/saunter-logo-light.svg" alt="The Saunter Group"
+           onerror="this.style.display='none';document.getElementById('brandWord').hidden=false">
+      <div id="brandWord" hidden class="brand-word">The Saunter Group</div>
+      <div class="brand-rule"></div>
       <h1>BAIC Sandbox</h1>
       <div class="sub">Vertical Architecture Intensive</div>
       <div class="stamp" id="stamp">Synthetic</div>
