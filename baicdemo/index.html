@@ -434,6 +434,24 @@ table.heat tr.grouprow td{border-top:2px solid var(--line);background:var(--surf
   main{padding:20px 16px 60px}
   .topbar{padding:10px 16px}
 }
+
+/* the value-stream field */
+.field-wrap{margin-top:18px;border:1px solid var(--line);border-radius:6px;
+  background:var(--surface);padding:14px 14px 10px}
+.field-wrap svg{display:block;width:100%;height:auto}
+.field-anchor{fill:none;stroke:var(--line);stroke-width:1.5}
+.field-anchor.used{stroke:var(--accent-line);stroke-width:2}
+.field-alab{fill:var(--ink-3);font-size:9.5px;letter-spacing:.02em}
+.field-alab.used{fill:var(--ink-2)}
+.field-band{fill:var(--sunken);opacity:.55}
+.field-bandlab{fill:var(--ink-3);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase}
+.field-axis{stroke:var(--line);stroke-width:1}
+.field-axlab{fill:var(--ink-3);font-size:10px}
+.field-nat{fill:var(--accent);stroke:var(--surface);stroke-width:1.5}
+.field-adp{fill:var(--surface);stroke:var(--accent);stroke-width:1.5;stroke-dasharray:2.5 2}
+.field-drag{stroke:var(--accent);stroke-width:1.5;opacity:.6}
+.field-mlab{fill:var(--ink);font-size:11px;font-weight:600}
+.field-key{fill:var(--ink-3);font-size:10px}
 </style>
 
 <div class="shell">
@@ -464,7 +482,7 @@ table.heat tr.grouprow td{border-top:2px solid var(--line);background:var(--surf
   </div>
 </div>
 
-<script src="./data.js?v=fef88193bc56"></script>
+<script src="./data.js?v=6975d6b3bd65"></script>
 <script>
 const EMBEDDED = null;
 
@@ -1518,6 +1536,86 @@ function memberCard(m){
   </div>`;
 }
 
+/* The value-stream field. Published archetype coordinates (expert-anchored
+   centroids from the manual), with each leader placed against their own
+   composites and anchored to that centroid. */
+function fieldPlot(e){
+  const A = DATA.eltField;
+  if(!A || !A.length || !e.members.length) return "";
+  const W=900, H=470, L=62, R=26, T=46, B=56;
+  const pw=W-L-R, ph=H-T-B;
+  const X = v => L + (v/3)*pw;
+  const Y = v => T + ((10-v)/10)*ph;
+
+  const used = new Set(e.members.map(m=>m.arch));
+
+  const bands = [["Vision",0,1],["Flow",1,2],["Delivery",2,3]].map(([lab,a,b],i)=>`
+    ${i%2===0 ? `<rect class="field-band" x="${X(a)}" y="${T}" width="${X(b)-X(a)}"
+      height="${ph}"/>` : ""}
+    <text class="field-bandlab" x="${(X(a)+X(b))/2}" y="${T-16}"
+      text-anchor="middle">${lab}</text>`).join("");
+
+  const anchors = A.map(a=>{
+    const u = used.has(a.name);
+    return `<g>
+      <circle class="field-anchor${u?" used":""}" cx="${X(a.x)}" cy="${Y(a.y)}" r="4.5"/>
+      <text class="field-alab${u?" used":""}" x="${X(a.x)}" y="${Y(a.y)+16}"
+        text-anchor="middle">${esc(a.name)}</text>
+    </g>`;}).join("");
+
+  // members. Labels are placed against every label already on the plot —
+  // archetype names included — so a name never lands on top of another.
+  const box = (t, x, y, size) => {
+    const w = t.length * size * 0.56;
+    return {x0:x-w/2, x1:x+w/2, y0:y-size, y1:y+3};
+  };
+  const hits = (b, list) => list.some(o =>
+    b.x0 < o.x1 && o.x0 < b.x1 && b.y0 < o.y1 && o.y0 < b.y1);
+  const taken = A.map(a => box(a.name, X(a.x), Y(a.y)+16, 9.5));
+
+  const people = e.members.map(m=>{
+    const nx=X(m.field.x), ny=Y(m.field.y);
+    const ax=X(m.fieldAdapted.x), ay=Y(m.fieldAdapted.y);
+    const moved = Math.hypot(ax-nx, ay-ny) > 6;
+    let dy = -14, b = box(m.name, nx, ny+dy, 11);
+    for(const cand of [-14,-27,-40,22,35,-53]){
+      dy = cand; b = box(m.name, nx, ny+dy, 11);
+      if(!hits(b, taken)) break;
+    }
+    taken.push(b);
+    return `<g>
+      ${moved ? `<line class="field-drag" x1="${nx}" y1="${ny}" x2="${ax}" y2="${ay}"/>
+        <circle class="field-adp" cx="${ax}" cy="${ay}" r="5"/>` : ""}
+      <circle class="field-nat" cx="${nx}" cy="${ny}" r="6"/>
+      <text class="field-mlab" x="${nx}" y="${ny+dy}" text-anchor="middle">${esc(m.name)}</text>
+    </g>`;}).join("");
+
+  return `<div class="field-wrap">
+    <svg viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="Value-stream field: fifteen archetypes with each leader plotted.">
+      ${bands}
+      <line class="field-axis" x1="${L}" y1="${T}" x2="${L}" y2="${T+ph}"/>
+      <line class="field-axis" x1="${L}" y1="${T+ph}" x2="${L+pw}" y2="${T+ph}"/>
+      ${anchors}
+      ${people}
+      <text class="field-axlab" x="${L+pw}" y="${T+ph+20}" text-anchor="end">
+        generating direction → connecting and coordinating → executing and finishing</text>
+      <text class="field-axlab" transform="translate(${L-14},${T+6}) rotate(-90)"
+        text-anchor="end">structured and analytical</text>
+      <text class="field-axlab" transform="translate(${L-14},${T+ph}) rotate(-90)">
+        adaptive and intuitive</text>
+      <g transform="translate(${L},${H-14})">
+        <circle class="field-nat" cx="6" cy="-4" r="5"/>
+        <text class="field-key" x="17" y="0">natural</text>
+        <circle class="field-adp" cx="68" cy="-4" r="4.5"/>
+        <text class="field-key" x="79" y="0">where the seat pulls them</text>
+        <circle class="field-anchor" cx="228" cy="-4" r="4"/>
+        <text class="field-key" x="239" y="0">archetype</text>
+      </g>
+    </svg>
+  </div>`;
+}
+
 function eltPanel(r){
   const e = r.elt;
   if(!e) return "";
@@ -1569,7 +1667,20 @@ function eltPanel(r){
       ${findings.length ? `<div class="elt-findings">
         <div class="tier-head">What the team read says</div>
         <ul>${findings.map(f=>`<li>${f}</li>`).join("")}</ul></div>` : ""}
-      <div class="tier-head" style="margin-top:18px">The team, leader by leader
+      <div class="tier-head" style="margin-top:20px">Where the team falls
+        <span class="n">the value-stream field</span></div>
+      ${fieldPlot(e)}
+      <p class="footnote">
+        Fifteen archetypes sit on one field. Left to right is what a person contributes to
+        the value stream — generating direction, connecting and coordinating, or executing
+        and finishing. Bottom to top is how they work — adaptive and intuitive, or
+        structured and analytical. Each leader is placed on their own profile and anchored
+        to their archetype; where a second, open mark appears, that is where the seat is
+        pulling them, and the line between the two is the distance they are covering to
+        hold the role. Clustering means a bench that thinks alike. A bare region means work
+        the team has nobody to carry.
+      </p>
+      <div class="tier-head" style="margin-top:20px">The team, leader by leader
         <span class="n">${e.members.length} synthetic administrations</span></div>
       <div class="ldna-grid">${e.members.map(memberCard).join("")}</div>
       <p class="footnote">
