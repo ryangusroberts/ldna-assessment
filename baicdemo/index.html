@@ -406,6 +406,32 @@ section{margin-bottom:38px}
 .rail .p-scale::before{background:var(--established)}
 .rail code{background:none;color:rgba(255,255,255,.6)}
 
+/* ══ 6 · the Examples fence ════════════════════════════════════════════
+   Borrowed from the command dashboard's own nav: a bordered group with the
+   label sitting on the border. It says what kind of thing these are, which
+   a plain tab cannot — the five tabs to the left are the instrument running
+   on a synthetic company, and these two are what a client receives.      */
+.tabs{align-items:center}
+.tabgroup{
+  display:inline-flex;gap:2px;align-items:center;position:relative;margin-left:22px;
+  border:1px solid var(--line);border-radius:8px;padding:4px 7px;
+}
+.tabgroup:has(.tab[aria-selected="true"]){border-color:var(--accent-line)}
+.tglabel{
+  position:absolute;top:-7px;left:10px;background:var(--ground);padding:0 6px;
+  font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-3);white-space:nowrap;
+}
+.tabgroup:has(.tab[aria-selected="true"]) .tglabel{color:var(--accent)}
+a.tab-out{text-decoration:none;display:inline-flex;align-items:center;gap:5px}
+/* overrides the sliding underline: this one leaves the page, so it gets an
+   out-arrow rather than a selection indicator it can never own */
+a.tab-out::after{
+  content:"↗";position:static;transform:none;background:none;
+  width:auto;height:auto;font-size:10px;color:var(--ink-3);
+}
+a.tab-out:hover::after{color:var(--accent)}
+
 /* tables */
 .tbl-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12.5px}
@@ -693,10 +719,18 @@ table.heat tr.grouprow td{border-top:2px solid var(--line);background:var(--surf
         <button class="tab" role="tab" data-view="portfolio">Portfolio</button>
         <button class="tab" role="tab" data-view="company">Engagement</button>
         <button class="tab" role="tab" data-view="team" id="teamTab">Leadership team</button>
-        <button class="tab" role="tab" data-view="samples">Sample LDNA reports</button>
         <button class="tab" role="tab" data-view="units" id="unitsTab">Locations</button>
         <button class="tab" role="tab" data-view="library">Evidence room</button>
         <button class="tab" role="tab" data-view="taxonomy">Failure taxonomy</button>
+        <!-- The sandbox teaches the instrument. These two show what a client
+             actually receives, which is a different claim, so they are fenced
+             off rather than mixed in with the tabs above. -->
+        <span class="tabgroup" role="group" aria-label="Examples">
+          <span class="tglabel">Examples</span>
+          <button class="tab" role="tab" data-view="samples">Sample LDNA reports</button>
+          <a class="tab tab-out" href="command/" target="_blank" rel="noopener"
+             title="A client's operating dashboard, with the diagnostics as one tab inside it">Client dashboard</a>
+        </span>
       </div>
       <div class="topbar-spacer" id="topNote"></div>
     </div>
@@ -2089,7 +2123,7 @@ function render(keepScroll){
   const y = window.scrollY;
   if(!SHOW_PRACTITIONER) S.lens = "deliverable";
   document.body.dataset.lens = S.lens;
-  document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected", b.dataset.view===S.view));
+  document.querySelectorAll(".tab[data-view]").forEach(b=>b.setAttribute("aria-selected", b.dataset.view===S.view));
   document.querySelectorAll("#lensSeg button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.lens===S.lens));
   const tn=document.querySelector("#topNote"); if(tn) tn.textContent = "Synthetic data · engine "+DATA.meta.engine+" · framework "+DATA.meta.framework;
   renderRail();
@@ -2131,7 +2165,9 @@ function countUp(){
 }
 
 document.addEventListener("click", e=>{
-  const tab = e.target.closest(".tab");
+  /* [data-view] only — the Examples group also holds a plain link out to the
+     client dashboard, which must navigate rather than switch the view. */
+  const tab = e.target.closest(".tab[data-view]");
   if(tab){ S.view = tab.dataset.view; return render(); }
   const lens = e.target.closest("#lensSeg button");
   if(lens){ S.lens = lens.dataset.lens; return render(true); }
