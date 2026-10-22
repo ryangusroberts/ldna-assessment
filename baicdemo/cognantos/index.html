@@ -416,7 +416,7 @@ evidence ships in a demo-facing build.</div>
   <button class="btn" id="goBtn">Open the demo</button>
   <div class="err" id="gerr"></div>
 </div></div>
-<script src="./data.js?v=202610221525"></script>
+<script src="./data.js?v=202610221647"></script>
 <script>
 /* The payload is AES-GCM encrypted (PBKDF2-SHA256, 210k). GitHub Pages has no server-side auth, so the passphrase
    is what makes the data unreadable without it. Synthetic data only. */
@@ -1965,7 +1965,9 @@ function advBubble(role, text, sources, help) {
   const d = document.createElement("div"); d.className = "adv-m " + (role === "user" ? "u" : "a");
   d.textContent = text;
   if (sources && sources.length) { const s = document.createElement("div"); s.className = "adv-src"; s.textContent = "Drew on: " + sources.slice(0, 4).map((x) => x.title).join("; "); d.appendChild(s); }
-  if (help) { const s = document.createElement("div"); s.className = "adv-src"; s.textContent = "Your placed CognantOS advisor, Ryan Roberts, is available for hands-on help."; d.appendChild(s); }
+  if (help) { const s = document.createElement("div"); s.className = "adv-src"; s.textContent = P.engagement && P.engagement.placed_advisor
+      ? `Your CognantOS advisor, ${P.engagement.placed_advisor.name} (${P.engagement.placed_advisor.email}), is available for hands-on help.`
+      : "Consider talking with your CognantOS advisor for hands-on help."; d.appendChild(s); }
   advEl("advMsgs").appendChild(d); advEl("advMsgs").scrollTop = advEl("advMsgs").scrollHeight; return d;
 }
 function advRender() {
@@ -2008,7 +2010,7 @@ async function advSend(text, mode) {
     const r = await fetch(ADVISOR_URL, { method: "POST", headers: { "content-type": "application/json", "x-demo-pass": window.__PASS || "" },
       body: JSON.stringify({ leader_id: me.id, message: text, history: history.map(({ role, content }) => ({ role, content })),
         memory: cstore.get(mk("memory"), {}), personal, page: pageContext(), session_mode: mode || null }) });
-    if (r.status === 401) { out.textContent = "The Advisor didn't accept this demo's passphrase. Tell Ryan; the Advisor needs updating."; return; }
+    if (r.status === 401) { out.textContent = "The Advisor didn't accept this demo's passphrase. Contact your CognantOS advisor."; return; }
     if (!r.ok || !r.body) { out.textContent = "The Advisor couldn't answer just now. Try again in a moment."; return; }
     const rd = r.body.getReader(), dec = new TextDecoder(); let buf = "";
     for (;;) {
