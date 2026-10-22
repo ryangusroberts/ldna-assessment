@@ -730,6 +730,8 @@ table.heat tr.grouprow td{border-top:2px solid var(--line);background:var(--surf
           <button class="tab" role="tab" data-view="samples">Sample LDNA reports</button>
           <a class="tab tab-out" href="command/" target="_blank" rel="noopener"
              title="A client's operating dashboard, with the diagnostics as one tab inside it">Client dashboard</a>
+          <a class="tab tab-out" href="cognantos/" target="_blank" rel="noopener"
+             title="Vero &amp; Sons on CognantOS: each leader's own page and the CognantOS Advisor on every tab">CognantOS: Vero &amp; Sons</a>
         </span>
       </div>
       <div class="topbar-spacer" id="topNote"></div>
@@ -1048,6 +1050,7 @@ function viewCompany(){
       <div class="binding"><b>Binding reason:</b> ${esc(r.binding)}</div>
       <div class="tier-action">${esc(r.action)}</div>
       <p class="headline">${esc(c.headline)}</p>
+      ${c.code==="SIM-D4"?`<p style="margin-top:14px"><a class="tab-out" href="cognantos/" target="_blank" rel="noopener"><b>See Vero &amp; Sons run on CognantOS</b>: the operating dashboard, each leader's own page and the CognantOS Advisor</a></p>`:""}
     </div>
     <div class="hero-side">
       <div class="ami-hero">
