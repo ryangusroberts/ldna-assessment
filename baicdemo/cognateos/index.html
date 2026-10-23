@@ -1,0 +1,2179 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>CognateOS · Vero &amp; Sons</title>
+<style>
+:root{
+  /* Tokens carried verbatim from the Saunter Command Center UX spec. */
+  --bg:#0e0f11; --panel:#16181c; --panel2:#1c1f24; --line:#2a2e35;
+  --ink:#ece7df; --soft:#aca79e; --faint:#8b867c;
+  /* Cockpit legend — one job per color, never color alone.
+     accent brass = BRAND + press-here · good green = DONE / on-track
+     warn amber = CAUTION (attention soon) · bad red = ACT NOW / dropped (reserve)
+     info blue = neutral note. At rest the panel is quiet; color marks the exception. */
+  --accent:#c8a96a; --good:#6fbf8b; --warn:#e6a23c; --bad:#e0604f; --info:#7fa8d8;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --fs-display:52px; --fs-h1:26px; --fs-metric:34px; --fs-lead:17px;
+  --fs-body:15px; --fs-meta:13px; --fs-micro:11.5px;
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px;
+  --sp-7:48px; --sp-pad:20px;
+  --track:#2f343c;
+  --wash-bad:rgba(224,96,79,.10); --wash-warn:rgba(230,162,60,.075);
+  --wash-accent:rgba(200,169,106,.08);
+}
+html[data-theme="light"]{
+  --bg:#faf8f4; --panel:#ffffff; --panel2:#f3f0ea; --line:#e0dbd2;
+  /* --faint and --warn darkened from #837c70 / #a56a08, which measured 3.90:1
+     and 4.24:1 against this surface — both below the 4.5:1 body-text floor. */
+  --ink:#1c1a17; --soft:#5d574d; --faint:#6b655c;
+  --accent:#8a6d32; --good:#2f7d50; --warn:#8a5a06; --bad:#b33b2b; --info:#3a6394;
+  --track:#ddd7cc;
+  --wash-bad:rgba(179,59,43,.07); --wash-warn:rgba(138,90,6,.07);
+  --wash-accent:rgba(138,109,50,.07);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:var(--fs-body);line-height:1.5;-webkit-font-smoothing:antialiased}
+/* tabular figures where numbers stack vertically (tables, ticks); proportional
+   on hero and stat-tile values — equal-width digits read loose at display sizes */
+.num{font-variant-numeric:tabular-nums}
+.fig{font-variant-numeric:proportional-nums}
+h1,h2,h3,h4{margin:0;font-weight:600}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+a{color:var(--accent)}
+.micro{font-size:var(--fs-micro);font-weight:600;letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--soft)}
+.meta{font-size:var(--fs-meta);color:var(--soft)}
+.faint{color:var(--faint)}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--sp-5) var(--sp-7)}
+
+/* ---------- banner ---------- */
+#synthetic{display:none;background:var(--wash-warn);border-bottom:2px solid var(--warn);
+  padding:var(--sp-2) var(--sp-5);font-size:var(--fs-meta);color:var(--ink)}
+#synthetic.on{display:block}
+#synthetic b{color:var(--warn)}
+
+/* ---------- header ---------- */
+header{border-bottom:1px solid var(--line);padding:var(--sp-5) 0 var(--sp-4)}
+.hrow{display:flex;align-items:flex-end;justify-content:space-between;gap:var(--sp-4);
+  flex-wrap:wrap}
+.htitle{font-family:var(--serif);font-size:var(--fs-h1);line-height:1.1}
+.hsub{font-size:var(--fs-meta);color:var(--soft);margin-top:var(--sp-1)}
+.selectors{display:flex;gap:var(--sp-3);align-items:flex-end;flex-wrap:wrap}
+.sel label{display:block;font-size:var(--fs-micro);font-weight:600;letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--soft);margin-bottom:var(--sp-1)}
+.sel select,.sel input{background:var(--panel);color:var(--ink);border:1px solid var(--line);
+  border-radius:6px;padding:8px 10px;font-size:var(--fs-meta);min-height:40px;min-width:150px}
+.iconbtn{border:1px solid var(--line);border-radius:6px;padding:0 12px;height:40px;
+  color:var(--soft);font-size:var(--fs-meta)}
+.iconbtn:hover{color:var(--ink);border-color:var(--soft)}
+
+/* ---------- tabs ---------- */
+nav.tabs{display:flex;column-gap:var(--sp-1);row-gap:var(--sp-4);align-items:center;
+  flex-wrap:wrap;padding:var(--sp-5) 0 var(--sp-1)}
+nav.tabs .gap{width:var(--sp-4)}
+
+/* Boxed nav group with a legend on the border — the two lifecycle assessments
+   read as one thing, and the label says what kind of thing they are. */
+.tabgroup{display:inline-flex;gap:var(--sp-1);align-items:center;position:relative;
+  border:1px solid var(--line);border-radius:9px;padding:5px 7px}
+.tabgroup.on{border-color:var(--accent)}
+.tglabel{position:absolute;top:-8px;left:11px;background:var(--bg);padding:0 6px;
+  font-size:var(--fs-micro);font-weight:600;letter-spacing:1.2px;
+  text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.tabgroup.on .tglabel{color:var(--accent)}
+.tab{padding:8px 13px;border-radius:6px;font-size:var(--fs-meta);color:var(--soft);
+  min-height:40px;white-space:nowrap}
+.tab:hover{color:var(--ink);background:var(--panel)}
+.tab.on{color:var(--accent);background:var(--wash-accent);font-weight:600}
+.subnav{display:flex;gap:var(--sp-4);align-items:center;flex-wrap:wrap;
+  margin:var(--sp-5) 0 var(--sp-5);padding-bottom:var(--sp-3);
+  border-bottom:1px solid var(--line)}
+.subnav button{font-size:var(--fs-meta);color:var(--faint);padding:6px 0;min-height:36px}
+.subnav button.on{color:var(--ink);font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
+.subnav .spacer{flex:1}
+.pill{font-size:var(--fs-micro);color:var(--soft);border:1px solid var(--line);
+  border-radius:99px;padding:5px 11px;min-height:32px}
+.pill.on{color:var(--ink);border-color:var(--soft)}
+
+/* ---------- islands ---------- */
+section.island{margin:var(--sp-6) 0}
+.eyebrow{font-size:var(--fs-micro);font-weight:600;letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--soft);margin-bottom:var(--sp-3)}
+.grid{display:grid;gap:var(--sp-4)}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+/* auto-fill, not auto-fit: a severity group holding one card keeps its natural
+   width instead of stretching across the page */
+.g3{grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+
+/* ---------- exception (Tier 2) ---------- */
+.exception{background:var(--wash-bad);border-left:4px solid var(--bad);
+  border-radius:0 8px 8px 0;padding:var(--sp-pad);display:flex;gap:var(--sp-4);
+  align-items:flex-start}
+.exception .glyph{color:var(--bad);font-size:20px;line-height:1.2;flex:none}
+.exception .lead{font-size:var(--fs-lead);font-weight:600}
+.allclear{border-left:4px solid var(--line);padding:var(--sp-3) var(--sp-pad);
+  color:var(--soft);font-size:var(--fs-meta);border-radius:0 8px 8px 0}
+
+/* ---------- must-win (Tier 3) ---------- */
+.mustwin .display{font-family:var(--serif);font-size:var(--fs-display);line-height:1;
+  font-variant-numeric:tabular-nums;color:var(--ink)}
+.mustwin .display .unit{font-size:var(--fs-metric);color:var(--soft)}
+.mustwin .ctx{font-size:var(--fs-meta);color:var(--soft);margin-top:var(--sp-2)}
+
+/* ---------- kpi stat tile ---------- */
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:var(--sp-pad);display:flex;flex-direction:column;gap:var(--sp-2);
+  border-left:3px solid transparent;position:relative}
+.kpi.b-warn{border-left-color:var(--warn)}
+.kpi.b-bad{border-left-color:var(--bad);background:var(--wash-bad)}
+.kpi.b-gap{border-left:3px dashed var(--faint)}
+.kpi.dim{opacity:.72}
+.kpi .lbl{font-size:var(--fs-meta);font-weight:600;color:var(--ink);
+  display:flex;align-items:center;gap:6px}
+.kpi .val{font-family:var(--serif);font-size:var(--fs-metric);line-height:1.05;
+  font-variant-numeric:proportional-nums}
+.kpi .val.empty{color:var(--faint);font-size:var(--fs-lead);font-family:var(--sans)}
+.kpi .def{font-size:var(--fs-meta);color:var(--faint);line-height:1.4;
+  display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.kpi .chip{font-size:var(--fs-micro);color:var(--soft);display:flex;gap:6px;
+  flex-wrap:wrap;align-items:center;border-top:1px solid var(--line);
+  padding-top:var(--sp-2);margin-top:auto}
+.valrow{display:flex;align-items:baseline;gap:var(--sp-3);flex-wrap:wrap}
+
+/* ---------- band-position meter ----------
+   Five segments = the band ladder. The track stays neutral; only the segment the
+   value sits in takes a status tone, so a page of on-band metrics stays quiet. */
+.scale{display:flex;gap:3px;height:8px;margin-top:2px}
+.scale span{flex:1;background:var(--track);border-radius:2px;position:relative}
+.scale span.on{background:var(--soft)}
+.scale span.on.s-bad{background:var(--bad)}
+.scale span.on.s-warn{background:var(--warn)}
+.scale span.tgt::after{content:"";position:absolute;top:-4px;bottom:-4px;
+  left:50%;width:2px;margin-left:-1px;background:var(--accent);border-radius:1px}
+.scalekey{display:flex;justify-content:space-between;font-size:var(--fs-micro);
+  color:var(--faint);margin-top:3px}
+
+/* ---------- sparkline ---------- */
+.spark{display:block;overflow:visible}
+.spark path{fill:none;stroke:var(--soft);stroke-width:1.75;
+  stroke-linecap:round;stroke-linejoin:round}
+.spark circle{fill:var(--ink)}
+.spark.s-bad path{stroke:var(--bad)} .spark.s-bad circle{fill:var(--bad)}
+.spark.s-warn path{stroke:var(--warn)} .spark.s-warn circle{fill:var(--warn)}
+
+/* ---------- delta ---------- */
+.delta{font-size:var(--fs-meta);font-weight:600;color:var(--soft);white-space:nowrap}
+.delta.worse{color:var(--warn)} .delta.better{color:var(--good)}
+
+/* ---------- triage strip ---------- */
+.triage{display:flex;gap:var(--sp-4);align-items:center;flex-wrap:wrap;
+  padding:var(--sp-3) var(--sp-pad);background:var(--panel);
+  border:1px solid var(--line);border-radius:8px}
+.tbar{display:flex;gap:2px;height:10px;flex:1;min-width:200px;border-radius:2px;
+  overflow:hidden}
+.tbar i{display:block;border-radius:2px}
+.tbar i.c1{background:var(--bad)} .tbar i.c2{background:var(--warn)}
+.tbar i.c3{background:var(--warn);opacity:.55} .tbar i.ok{background:var(--soft)}
+.tbar i.none{background:var(--track)}
+.tcount{display:flex;gap:var(--sp-3);flex-wrap:wrap}
+.tcount button{font-size:var(--fs-micro);font-weight:600;letter-spacing:.4px;
+  text-transform:uppercase;color:var(--soft);display:flex;align-items:center;
+  gap:5px;min-height:32px;padding:0 4px;border-radius:4px}
+.tcount button:hover{color:var(--ink);background:var(--panel2)}
+.tcount button.on{color:var(--ink);background:var(--panel2)}
+.tcount .dot{width:8px;height:8px;border-radius:2px;flex:none}
+.tcount .n{font-family:var(--serif);font-size:var(--fs-lead);font-weight:600;
+  text-transform:none;letter-spacing:0}
+.grouptag{font-size:var(--fs-micro);color:var(--faint);letter-spacing:.4px;
+  text-transform:uppercase}
+.kpi .chip .sep{color:var(--faint)}
+.kpi .chip .gap{color:var(--warn);font-weight:600}
+.kpi .chip .miss{color:var(--faint);font-weight:600}
+.bandtag{font-size:var(--fs-micro);font-weight:600;letter-spacing:.6px;
+  text-transform:uppercase;padding:2px 7px;border-radius:4px;border:1px solid currentColor}
+.bt5,.bt4{color:var(--soft)} .bt3{color:var(--warn)} .bt2{color:var(--warn)}
+.bt1{color:var(--bad)}
+.pacemark{font-size:var(--fs-meta);font-weight:600}
+.pacemark.behind{color:var(--warn)} .pacemark.bad{color:var(--bad)}
+.pacemark.ok{color:var(--soft)}
+.info{color:var(--faint);cursor:help;font-size:var(--fs-micro);border:1px solid var(--line);
+  border-radius:99px;width:16px;height:16px;display:inline-flex;align-items:center;
+  justify-content:center;flex:none}
+.warnmark{color:var(--warn);cursor:help;font-weight:700}
+.tip{position:absolute;z-index:40;bottom:calc(100% + 8px);left:0;right:0;
+  background:var(--panel2);border:1px solid var(--line);border-radius:8px;
+  padding:var(--sp-3);font-size:var(--fs-meta);color:var(--ink);line-height:1.45;
+  box-shadow:0 12px 32px rgba(0,0,0,.45);display:none}
+.kpi.tipon .tip{display:block}
+.tip b{color:var(--accent)}
+
+/* ---------- tables ---------- */
+table{width:100%;border-collapse:collapse;font-size:var(--fs-meta)}
+th{text-align:left;font-size:var(--fs-micro);font-weight:600;letter-spacing:1.4px;
+  text-transform:uppercase;color:var(--soft);padding:var(--sp-2) var(--sp-3);
+  border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:var(--sp-3);border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td input,td select{background:var(--panel2);color:var(--ink);border:1px solid var(--line);
+  border-radius:5px;padding:7px 8px;font-size:var(--fs-meta);width:100%;min-height:36px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:var(--sp-pad)}
+/* Method header — names the instrument inside its tab, since the tab itself is
+   labelled by lifecycle stage rather than by the method. */
+.methodhead{border-left:3px solid var(--accent);padding:var(--sp-1) 0 var(--sp-1) var(--sp-4)}
+.methodhead .mname{font-family:var(--serif);font-size:var(--fs-h1);line-height:1.15;
+  margin:var(--sp-2) 0 var(--sp-2)}
+.methodhead .meta{max-width:74ch}
+.card.flush{padding:var(--sp-2) var(--sp-3)}
+
+/* ---------- meters ---------- */
+.meter{height:6px;background:var(--track);border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--soft);border-radius:99px}
+.meter i.warn{background:var(--warn)} .meter i.bad{background:var(--bad)}
+.meter i.accent{background:var(--accent)}
+
+/* ---------- domain bars ---------- */
+.dombar{display:grid;grid-template-columns:200px 1fr 92px;gap:var(--sp-3);
+  align-items:center;padding:var(--sp-2) 0}
+.dombar .nm{font-size:var(--fs-meta);display:flex;align-items:center;gap:6px}
+.dombar .cp{color:var(--accent);font-size:11px}
+.dombar .sc{text-align:right;font-variant-numeric:tabular-nums;font-size:var(--fs-meta)}
+
+/* ---------- tasks ---------- */
+.task{display:flex;gap:var(--sp-3);padding:var(--sp-3);border-radius:6px;
+  border-left:3px solid var(--line);align-items:flex-start;cursor:pointer}
+.task:hover{background:var(--panel2)}
+.task.CRITICAL{border-left-color:var(--bad)}
+.task.HIGH{border-left-color:var(--warn)}
+.task.SUPPORTING{border-left-color:var(--line)}
+.task.done{opacity:.5}
+.task.done .tname{text-decoration:line-through}
+.box{width:20px;height:20px;border:1px solid var(--soft);border-radius:4px;flex:none;
+  display:flex;align-items:center;justify-content:center;font-size:12px;
+  color:var(--good);margin-top:2px}
+.task.done .box{border-color:var(--good)}
+.tname{font-size:var(--fs-body)}
+.tmeta{font-size:var(--fs-micro);color:var(--faint);margin-top:3px}
+.tcrit{font-size:var(--fs-meta);color:var(--soft);margin-top:var(--sp-2);
+  padding-left:var(--sp-3);border-left:1px solid var(--line)}
+
+/* ---------- fixes / simulator ---------- */
+.fix{display:flex;gap:var(--sp-3);padding:var(--sp-3);border-radius:6px;
+  border-left:3px solid var(--line);cursor:pointer;align-items:flex-start}
+.fix:hover{background:var(--panel2)}
+.fix.t0{border-left-color:var(--bad)} .fix.t1{border-left-color:var(--warn)}
+.fix.t2{border-left-color:var(--info)}
+.fix.on{background:var(--wash-accent)}
+.fixbadge{font-size:var(--fs-micro);font-weight:600;padding:2px 6px;border-radius:4px;
+  border:1px solid currentColor;white-space:nowrap}
+.fiximpact{font-size:var(--fs-micro);color:var(--good);margin-top:4px;
+  font-variant-numeric:tabular-nums}
+.gatetag{font-size:var(--fs-micro);color:var(--accent);border:1px solid var(--accent);
+  border-radius:4px;padding:1px 5px;margin-left:6px}
+
+/* ---------- misc ---------- */
+.btn{border:1px solid var(--accent);color:var(--accent);border-radius:6px;
+  padding:0 16px;height:40px;font-size:var(--fs-meta);font-weight:600}
+.btn:hover{background:var(--wash-accent)}
+.btn.quiet{border-color:var(--line);color:var(--soft);font-weight:400}
+.btn.quiet:hover{color:var(--ink);border-color:var(--soft);background:none}
+details{border-top:1px solid var(--line);padding:var(--sp-3) 0}
+summary{cursor:pointer;font-size:var(--fs-meta);color:var(--soft);min-height:32px;
+  display:flex;align-items:center}
+summary:hover{color:var(--ink)}
+.stack{display:flex;flex-direction:column;gap:var(--sp-2)}
+.row{display:flex;gap:var(--sp-3);align-items:center;flex-wrap:wrap}
+.hide{display:none!important}
+footer{border-top:1px solid var(--line);margin-top:var(--sp-7);padding:var(--sp-5) 0;
+  font-size:var(--fs-micro);color:var(--faint);line-height:1.6}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:640px){
+  :root{--fs-display:38px;--fs-metric:28px}
+  .wrap{padding:0 var(--sp-4) var(--sp-6)}
+  .dombar{grid-template-columns:118px 1fr 70px;gap:var(--sp-2)}
+  .exception{flex-wrap:wrap}
+  .exception .btn{width:100%;margin-top:var(--sp-2)}
+  .sel select,.sel input{min-width:0;width:100%}
+  .selectors{width:100%}
+  .selectors .sel{flex:1}
+}
+/* ---------- CognateOS layer ---------- */
+.cos-viewas select{min-width:260px}
+#coWho{color:var(--accent);font-weight:600}
+.cos-lock p{max-width:62ch}
+tr.cos-mine td{background:var(--wash-accent)}
+.cos-who{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--sp-4);flex-wrap:wrap;margin-bottom:var(--sp-4)}
+.cos-name{font-family:var(--serif);font-size:var(--fs-h1);margin-top:var(--sp-1)}
+.cos-private{font-size:var(--fs-micro);font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);
+  border:1px solid var(--accent);border-radius:999px;padding:3px 10px}
+.cos-me input,.cos-me textarea{width:100%;background:var(--panel2);color:var(--ink);border:1px solid var(--line);
+  border-radius:6px;padding:7px 9px;font:inherit;font-size:var(--fs-meta);margin:3px 0}
+.cos-me input[type=checkbox]{width:auto;margin:0 6px 0 0;accent-color:var(--accent)}
+.cos-wk{display:flex;gap:var(--sp-3);margin:var(--sp-3) 0}
+.cos-n{font-family:var(--serif);font-size:22px;color:var(--accent);width:18px}
+.cos-f{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:0 var(--sp-2)}
+.cos-f input:first-child{grid-column:1/-1}
+.cos-out{display:flex;align-items:center}
+.cos-chips{display:flex;flex-wrap:wrap;gap:6px}
+.cos-chip{border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:var(--fs-meta);color:var(--soft)}
+.cos-chip.on{border-color:var(--accent);color:var(--accent);background:var(--wash-accent)}
+
+/* Advisor dock: a column on the right on wide screens, a sheet on small ones */
+.adv-fab{position:fixed;right:20px;bottom:20px;z-index:40;background:var(--accent);color:#1b1608;font-weight:700;
+  border-radius:999px;padding:12px 18px;box-shadow:0 6px 24px rgba(0,0,0,.35)}
+body.adv-open .adv-fab{display:none}
+.adv{position:fixed;top:0;right:0;bottom:0;width:400px;max-width:100vw;z-index:50;background:var(--panel);
+  border-left:1px solid var(--line);display:none;flex-direction:column}
+body.adv-open .adv{display:flex}
+@media (min-width:1100px){ body.adv-open{padding-right:400px} }
+.adv-head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--sp-3);padding:var(--sp-4);border-bottom:1px solid var(--line)}
+.adv-head .iconbtn{height:32px}
+.adv-ctx{padding:var(--sp-2) var(--sp-4) 0}
+.adv-sessions,.adv-prompts{display:flex;flex-wrap:wrap;gap:6px;padding:var(--sp-2) var(--sp-4)}
+.adv-chip{border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:var(--fs-micro);color:var(--soft);text-align:left}
+.adv-chip:hover{border-color:var(--accent);color:var(--ink)}
+.adv-msgs{flex:1;overflow-y:auto;padding:var(--sp-3) var(--sp-4);display:flex;flex-direction:column;gap:var(--sp-3)}
+.adv-m{white-space:pre-wrap;font-size:var(--fs-meta);line-height:1.55;padding:var(--sp-3);border-radius:8px;max-width:94%}
+.adv-m.a{background:var(--panel2);align-self:flex-start}
+.adv-m.u{background:var(--wash-accent);border:1px solid var(--accent);align-self:flex-end}
+.adv-src{margin-top:var(--sp-2);font-size:var(--fs-micro);color:var(--faint)}
+.adv-composer{display:flex;gap:var(--sp-2);padding:var(--sp-3) var(--sp-4) var(--sp-4);border-top:1px solid var(--line)}
+.adv-composer textarea{flex:1;background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:6px;
+  padding:8px;font:inherit;font-size:var(--fs-meta);resize:vertical}
+.adv-foot{display:flex;justify-content:space-between;padding:0 var(--sp-4) var(--sp-3)}
+
+/* Gate */
+.cos-gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.cos-gate .card{max-width:440px;width:100%}
+.cos-gate h1{font-family:var(--serif);font-size:30px}
+.cos-gate input{width:100%;background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:10px;font:inherit;margin:12px 0}
+.cos-gate .err{color:var(--bad);font-size:var(--fs-meta);min-height:1.2em;margin-top:8px}
+
+.cos-adj{border:1px solid var(--accent);background:var(--wash-accent);border-radius:8px;padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-4)}
+.cos-adj-t{font-family:var(--serif);font-size:20px;margin:4px 0}
+.cos-step{margin:var(--sp-4) 0 var(--sp-2)}
+.cos-count{float:right;font-size:var(--fs-meta);color:var(--soft)}
+.cos-count.win{color:var(--good);font-weight:700}
+.cos-days{display:flex;align-items:center;gap:5px;margin-top:var(--sp-3)}
+.cos-days i{width:10px;height:10px;border-radius:50%;border:1px solid var(--line);display:inline-block}
+.cos-days i.a{border-color:var(--soft)} .cos-days i.w{background:var(--good);border-color:var(--good)}
+.cos-days .meta{margin-left:6px}
+.cos-link{color:var(--accent);text-decoration:underline;font-size:var(--fs-micro)}
+.cos-pattern{margin-top:var(--sp-3);padding:var(--sp-3);border-radius:8px;background:var(--panel2)}
+
+</style>
+</head>
+<body>
+
+<div id="shell" hidden>
+<div id="synthetic"><b>SYNTHETIC DATA</b> — this payload is not a real company. No client
+evidence ships in a demo-facing build.</div>
+
+<div class="wrap">
+<header>
+  <div class="hrow">
+    <div>
+      <h1 class="htitle" id="coName">—</h1>
+      <div class="hsub" id="coWho"></div>
+      <div class="hsub" id="coSub">—</div>
+      <div class="hsub" id="coBlurb" style="max-width:66ch;margin-top:4px"></div>
+    </div>
+    <div class="selectors">
+      <div class="sel cos-viewas"><label for="selViewAs">View as</label>
+        <select id="selViewAs"></select></div>
+      <div class="sel"><label>&nbsp;</label>
+        <button class="iconbtn" id="btnTheme" title="Toggle light / dark">Light</button></div>
+    </div>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+
+<main id="main"></main>
+
+<footer>
+  <b>CognateOS</b> demo on a synthetic company · the Business Command Dashboard, its metric library,
+  BAIC and LDNA are IP of <b>Vertical Consulting LLC</b>. The CognateOS Advisor runs on the Cognate engine.
+  BAIC v2 · AMI reported as a whole number ± band · tier governed by the weakest
+  critical-path domain plus the runway gate.<br>
+  Band edges classed <b>S</b> are traceable to a named document; <b>J-named</b> is a
+  convention with a named originator; <b>J</b> is judgment with no source. A band is not
+  evidence unless it says <b>S</b>.
+</footer>
+</div>
+
+<aside id="adv" class="adv" aria-label="CognateOS Advisor">
+  <div class="adv-head"><div><div class="eyebrow" style="margin:0">CognateOS Advisor</div><div class="meta" id="advSub"></div></div>
+    <button class="iconbtn" id="advClose">Close</button></div>
+  <div class="adv-ctx meta faint" id="advCtx"></div>
+  <div class="adv-sessions" id="advSessions"></div>
+  <div class="adv-msgs" id="advMsgs"></div>
+  <div class="adv-prompts" id="advPrompts"></div>
+  <div class="adv-composer"><textarea id="advInput" rows="2" placeholder="Ask your advisor…"></textarea><button class="btn" id="advSend">Send</button></div>
+  <div class="adv-foot meta faint"><span>Conversations stay in this browser.</span><button class="adv-chip" id="advReset">Reset this leader</button></div>
+</aside>
+<button class="adv-fab" id="advBtn" aria-expanded="false">Advisor</button>
+</div>
+<div id="gate" class="cos-gate"><div class="card">
+  <div class="eyebrow">CognateOS · demo</div>
+  <h1>Vero &amp; Sons</h1>
+  <p class="meta">A synthetic restaurant group from the BAIC Sandbox, run on CognateOS: the operating dashboard, each leader's
+  own page, and the CognateOS Advisor. Nothing here is a real company. Enter the sandbox passphrase to open it.</p>
+  <input id="pw" type="password" autocomplete="off" placeholder="Passphrase" autofocus>
+  <button class="btn" id="goBtn">Open the demo</button>
+  <div class="err" id="gerr"></div>
+</div></div>
+<script src="./data.js?v=202610231206"></script>
+<script>
+/* The payload is AES-GCM encrypted (PBKDF2-SHA256, 210k). GitHub Pages has no server-side auth, so the passphrase
+   is what makes the data unreadable without it. Synthetic data only. */
+async function unlock(pass, enc){
+  if(!window.isSecureContext || !(window.crypto && window.crypto.subtle)) throw Object.assign(new Error("ctx"), {code:"ctx"});
+  const b = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(pass), "PBKDF2", false, ["deriveKey"]);
+  const key = await crypto.subtle.deriveKey({name:"PBKDF2", salt:b(enc.salt), iterations:enc.iters, hash:"SHA-256"},
+    base, {name:"AES-GCM", length:256}, false, ["decrypt"]);
+  return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name:"AES-GCM", iv:b(enc.iv)}, key, b(enc.ct))));
+}
+function startApp(P, pass){
+  window.__P = P; window.__PASS = pass;
+  try{ sessionStorage.setItem("cos-pass", pass); }catch(e){}
+  document.getElementById("gate").remove(); document.getElementById("shell").hidden = false;
+  const s = document.createElement("script"); s.textContent = document.getElementById("app-src").textContent;
+  document.body.appendChild(s);
+}
+(function(){
+  const go = async (pass) => {
+    const err = document.getElementById("gerr"); err.textContent = "";
+    try{ startApp(window.__COS_PLAIN || await unlock(pass, window.__COS_ENC), pass); }
+    catch(e){ err.textContent = e && e.code === "ctx" ? "This page decrypts in the browser and needs https (or localhost)."
+                                                       : "That passphrase doesn't open this demo. Check it and try again."; }
+  };
+  document.getElementById("goBtn").onclick = () => go(document.getElementById("pw").value);
+  document.getElementById("pw").onkeydown = e => { if(e.key === "Enter") go(e.target.value); };
+  let saved = ""; try{ saved = sessionStorage.getItem("cos-pass") || ""; }catch(e){}
+  if(saved && window.__COS_ENC) unlock(saved, window.__COS_ENC).then(P => startApp(P, saved)).catch(() => {});
+})();
+</script>
+<script type="text/x-cognateos-app" id="app-src">
+/* ============================================================ SEED */
+const P = window.__P;
+const CONFIG = P.config;
+const OVERLAYS = {restaurants: P.overlay};
+const SEED_DATA = P.company;
+/* Per-industry demo companies. In demo mode the industry selector swaps the
+   whole company, not just the band edges — a SaaS read should not show a
+   footwear returns crisis. A real deployment ships one company and no DEMOS,
+   and the selector then changes bands only. */
+const DEMOS = /*__DEMOS__*/null;
+
+/* ============================================================ STATE */
+const LS = "cos.bcd." + P.version;
+let D = null;                       // live company data
+let ui = { tab:"me", sub:"dashboard", industry:"restaurants", stage:"M",
+           theme:"dark", filter:"", raising:false, sim:new Set(), tasksDone:new Set() };
+
+function loadUI(){
+  try{ const s = JSON.parse(localStorage.getItem(LS+".ui")||"{}");
+    Object.assign(ui, s, { sim:new Set(s.sim||[]), tasksDone:new Set(s.tasksDone||[]) });
+  }catch(e){}
+}
+function saveUI(){
+  try{ localStorage.setItem(LS+".ui", JSON.stringify({
+    ...ui, sim:[...ui.sim], tasksDone:[...ui.tasksDone] })); }catch(e){}
+}
+const demoFor = ind => (DEMOS && DEMOS.companies && DEMOS.companies[ind]) || null;
+const isDemo  = () => !!(DEMOS && DEMOS.companies);
+// Edits are stored per industry in demo mode, so switching sectors and coming
+// back does not hand you the previous company's numbers.
+const dataKey = () => isDemo() ? LS+".data."+ui.industry : LS+".data";
+const fresh   = o => JSON.parse(JSON.stringify(o));
+
+function loadData(){
+  try{ const s = localStorage.getItem(dataKey()); if(s) return JSON.parse(s); }catch(e){}
+  return null;
+}
+function saveData(){ try{ localStorage.setItem(dataKey(), JSON.stringify(D)); }catch(e){} }
+
+// Load the company for an industry: the viewer's saved edits if any, else a
+// clean copy of that sector's demo company.
+function loadIndustry(ind){
+  ui.industry = ind;
+  const d = loadData() || (demoFor(ind) && fresh(demoFor(ind)));
+  if(d){ D = d; if(D.company && D.company.stage) ui.stage = D.company.stage;
+         ui.filter=""; ui.sim=new Set(); }
+}
+
+/* ============================================================ HELPERS */
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?"":s).replace(/[&<>"]/g,
+  c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const byId = (a,k) => Object.fromEntries(a.map(x=>[x[k],x]));
+
+const MET = byId(CONFIG.metrics,"id");
+const DOM = byId(CONFIG.domains,"key");
+const OWNERS = () => byId(D.owners||[],"id");
+const SOURCES = () => byId(D.sources||[],"id");
+
+function overlay(){ return OVERLAYS[ui.industry] || OVERLAYS.generic; }
+
+function fmt(v, unit){
+  if(v==null || v==="") return null;
+  const n = Number(v);
+  if(!isFinite(n)) return String(v);
+  switch(unit){
+    case "currency": return (n<0?"-":"")+"$"+Math.abs(n).toLocaleString(undefined,
+      {maximumFractionDigits: Math.abs(n)>=1000?0:2});
+    case "percent":  return n.toLocaleString(undefined,{maximumFractionDigits:1})+"%";
+    case "months":   return n.toLocaleString(undefined,{maximumFractionDigits:1})+" mo";
+    case "days":     return n.toLocaleString(undefined,{maximumFractionDigits:0})+" d";
+    case "weeks":    return n.toLocaleString(undefined,{maximumFractionDigits:1})+" wk";
+    case "hours":    return n.toLocaleString(undefined,{maximumFractionDigits:1})+" h";
+    case "ratio":    return n.toLocaleString(undefined,{maximumFractionDigits:2})+"x";
+    case "binary":   return n ? "Yes" : "No";
+    default:         return n.toLocaleString(undefined,{maximumFractionDigits:1});
+  }
+}
+
+/* --------- band resolution, respecting the active overlay --------- */
+function bandsFor(id){
+  const ov = overlay(), o = ov.bandOverrides && ov.bandOverrides[id];
+  if(o){ return { bands:o.bands, note:o.note, basis:"overlay:"+ov.id }; }
+  return { bands: MET[id] ? MET[id].bands : null, note:null, basis:"generic" };
+}
+function suppressed(id){ return (overlay().suppress||[]).includes(id)
+  || (typeof me!=="undefined" && me && !me.senior && MET[id] && LOCKED.includes(MET[id].tab)); }
+function suppressReason(id){ return (overlay().suppressReason||{})[id] || null; }
+function isLead(id){ return (overlay().leadMetrics||[]).includes(id); }
+
+function bandOf(id, value){
+  if(value==null || value==="") return null;
+  const {bands} = bandsFor(id); if(!bands) return null;
+  const v = Number(value); if(!isFinite(v)) return null;
+  const t = bands.t;
+  if(bands.type==="up")   return v>=t[0]?5 : v>=t[1]?4 : v>=t[2]?3 : v>=t[3]?2 : 1;
+  if(bands.type==="down") return v<=t[0]?5 : v<=t[1]?4 : v<=t[2]?3 : v<=t[3]?2 : 1;
+  if(bands.type==="opt"){
+    const [lo,hi]=t; if(v>=lo&&v<=hi) return 5;
+    const d = v<lo ? (lo-v)/lo : (v-hi)/hi;
+    return d<=.1?4 : d<=.25?3 : d<=.5?2 : 1;
+  }
+  return null;
+}
+function bandText(id){
+  const {bands} = bandsFor(id); if(!bands) return "not banded";
+  const t=bands.t, u=MET[id].unit;
+  const f=x=>fmt(x,u)||x;
+  if(bands.type==="up")   return `>=${f(t[0])} / ${f(t[1])} / ${f(t[2])} / ${f(t[3])} / below`;
+  if(bands.type==="down") return `<=${f(t[0])} / ${f(t[1])} / ${f(t[2])} / ${f(t[3])} / above`;
+  if(bands.type==="opt")  return `optimal ${f(t[0])}–${f(t[1])}`;
+  return "not banded";
+}
+
+/* --------- metric visibility: stage + industry --------- */
+function visibleMetrics(tab){
+  return CONFIG.metrics.filter(m =>
+    m.tab===tab && !suppressed(m.id));
+}
+function material(m){ return m.stages.includes(ui.stage); }
+
+/* --------- latest value --------- */
+function latest(id){
+  const k = (D.kpis||{})[id]; if(!k) return {};
+  if(k.series && k.series.length){
+    const s = k.series[k.series.length-1];
+    return { value:s.value, period:s.period, note:s.note };
+  }
+  return { value:k.value, period:k.period };
+}
+function kpiMeta(id){ return (D.kpis||{})[id] || {}; }
+
+/* --------- freshness --------- */
+const CAD_DAYS = {daily:1, weekly:7, monthly:31, quarterly:92, annual:366};
+function freshness(m){
+  const k = kpiMeta(m.id), src = SOURCES()[k.sourceId];
+  if(!k.sourceId || !src) return {state:"nosource"};
+  if(src.type==="manual") return {state:"manual", label:src.label};
+  if(!src.lastVerified) return {state:"unverified", label:src.label};
+  const age = Math.floor((Date.now()-new Date(src.lastVerified))/86400000);
+  const lim = CAD_DAYS[src.cadence||m.cadence] || 31;
+  return { state: age>lim ? "stale" : "live", label:src.label, age, lim, url:src.url };
+}
+function ageText(a){ return a<=0?"today" : a===1?"1d ago" : a+"d ago"; }
+
+/* ============================================================ SCORING */
+function amiBand(score){
+  for(const b of CONFIG.amiBands) if(score>=b.min && score<=b.max) return b.key;
+  return "critical";
+}
+const BAND_ORDER = ["critical","emerging","developing","established","optimized"];
+
+/* Domain scores 0-100. Base from data.ami, plus any simulator fixes applied. */
+function domainScores(){
+  const base = {}, ami = D.ami || {domains:{}};
+  CONFIG.domains.forEach(d => base[d.key] = (ami.domains[d.key]||{}).score ?? null);
+  // Data & Dashboards is COMPUTED, not entered. The spec says how completely
+  // this dashboard is instrumented IS that domain's score, so deriving it is
+  // what closes the loop — and stops the Setup tab and the BAIC tab from
+  // reporting two different numbers for the same thing.
+  const I = instrumentation();
+  if(I.applicable.length && !(D.ami && D.ami.engine)) base.data = I.score;
+  const out = {...base};
+  (D.fixes||[]).forEach((f,i) => {
+    if(!ui.sim.has(i)) return;
+    (f.impacts||[]).forEach(im => {
+      if(out[im.domain]==null) return;
+      out[im.domain] = Math.max(out[im.domain], im.to);
+    });
+  });
+  return {base, out};
+}
+
+/* D2 ruling — P4 option O3, the SLM Gate.
+   A sector lead metric in its Critical band caps the Financial Control BAND at
+   Developing. Downward only. The score is reported unchanged, annotated. */
+function slmGate(){
+  const reds = (overlay().leadMetrics||[]).filter(id=>{
+    const m=MET[id]; if(!m) return false;
+    const v=latest(id).value; return bandOf(id,v)===1;
+  });
+  return { gated: reds.length>0, reds };
+}
+
+function computeAMI(){
+  if(D.ami && D.ami.engine) return engineAMI();
+  const {base, out} = domainScores();
+  const vals = CONFIG.domains.map(d=>out[d.key]).filter(v=>v!=null);
+  const total = vals.length ? Math.round(vals.reduce((a,b)=>a+b,0)/vals.length) : null;
+  const plusMinus = (D.ami && D.ami.plusMinus) || 3;
+
+  // per-domain bands, with the SLM gate applied to Financial Control only
+  const gate = slmGate();
+  const bands = {};
+  CONFIG.domains.forEach(d=>{
+    if(out[d.key]==null){ bands[d.key]=null; return; }
+    let b = amiBand(out[d.key]);
+    if(d.key==="financial" && gate.gated){
+      const cap = "developing";
+      if(BAND_ORDER.indexOf(b) > BAND_ORDER.indexOf(cap)) b = cap;
+    }
+    bands[d.key] = b;
+  });
+
+  // tier = worst of { runway gate <6mo, weakest critical-path band, total AMI band }
+  const runway = latest("FIN-01").value;
+  const reasons = [];
+  let worst = total==null ? "critical" : amiBand(total);
+  reasons.push({ what:"total AMI band", band:worst,
+                 detail: total==null ? "no AMI" : `AMI ${total}` });
+
+  CONFIG.domains.filter(d=>d.criticalPath).forEach(d=>{
+    if(!bands[d.key]) return;
+    reasons.push({ what:d.label, band:bands[d.key],
+      detail:`${d.label} ${out[d.key]}${d.key==="financial"&&gate.gated?" (gated)":""}` });
+    if(BAND_ORDER.indexOf(bands[d.key]) < BAND_ORDER.indexOf(worst)) worst = bands[d.key];
+  });
+  if(runway!=null && Number(runway)<6){
+    reasons.push({ what:"runway gate", band:"critical",
+                   detail:`${Number(runway).toFixed(1)} months runway` });
+    worst = "critical";
+  }
+  const binding = reasons.filter(r=>r.band===worst);
+
+  const TIER = { optimized:"Scale Track", established:"Scale Track",
+                 developing:"Build-Then-Scale", emerging:"Stabilize",
+                 critical:"Stabilize" };
+  return { base, out, total, plusMinus, bands, band:worst, tier:TIER[worst],
+           binding, gate, runway };
+}
+
+/* Gates, ported from vc-ami-tools and re-expressed on v2 bands. */
+function gateStatus(a){
+  const need = (keys, min) => keys.every(k =>
+    a.bands[k] && BAND_ORDER.indexOf(a.bands[k]) >= BAND_ORDER.indexOf(min));
+  return [
+    { key:"cr", label:"Capital-Ready",
+      met: need(["financial","strategy","leadership"],"developing")
+           && a.runway!=null && Number(a.runway)>=12,
+      req:"Financial Control, Strategy and Leadership all Developing or better, "
+          +"and 12+ months runway." },
+    { key:"gr", label:"Growth-Ready",
+      met: need(["financial","gtm","systems","strategy"],"established"),
+      req:"Financial Control, GTM, Systems and Strategy all Established or better." },
+  ];
+}
+
+/* Instrumentation Health — BAIC domain 6, measured from the dashboard itself. */
+function instrumentation(){
+  const rows = CONFIG.metrics.filter(m => m.tab!=="command" && !suppressed(m.id)
+                                       && material(m));
+  const applicable = rows.filter(m => !(kpiMeta(m.id).naReason));
+  const na = rows.filter(m => kpiMeta(m.id).naReason!=null);
+  const naWithReason = na.filter(m => String(kpiMeta(m.id).naReason||"").trim().length>0);
+  const owned  = applicable.filter(m => kpiMeta(m.id).ownerId);
+  const sourced= applicable.filter(m => { const s=SOURCES()[kpiMeta(m.id).sourceId];
+                                          return s && s.type!=="manual"; });
+  const target = applicable.filter(m => kpiMeta(m.id).target!=null
+                                     || (bandsFor(m.id).bands!=null));
+  const fresh  = applicable.filter(m => freshness(m).state==="live");
+  const pc = (a,b) => b ? Math.round(a/b*100) : 0;
+  const w = CONFIG.instrumentationWeights;
+  const subs = [
+    ["Ownership", pc(owned.length,applicable.length), w.ownership,
+     `${owned.length} of ${applicable.length} applicable KPIs have a named owner`],
+    ["Sourcing", pc(sourced.length,applicable.length), w.sourcing,
+     `${sourced.length} of ${applicable.length} have a linked source (manual does not count)`],
+    ["Targeting", pc(target.length,applicable.length), w.targeting,
+     `${target.length} of ${applicable.length} have a target or a band basis`],
+    ["Freshness", pc(fresh.length,applicable.length), w.freshness,
+     `${fresh.length} of ${applicable.length} were verified within their cadence`],
+    ["Disposition", na.length?pc(naWithReason.length,na.length):100, w.disposition,
+     na.length ? `${naWithReason.length} of ${na.length} N/A rows carry a reason`
+               : "no rows marked N/A"],
+  ];
+  const score = Math.round(subs.reduce((s,[,v,wt])=>s+v*wt,0)/100);
+  return { score, band:amiBand(score), subs, applicable, owned, sourced, fresh, rows };
+}
+
+/* Attention queue — what feeds Command. */
+function attention(){
+  const off=[], stale=[], unowned=[];
+  CONFIG.metrics.forEach(m=>{
+    if(m.tab==="command" || suppressed(m.id) || !material(m)) return;
+    const k=kpiMeta(m.id); if(k.naReason) return;
+    const v=latest(m.id).value, b=bandOf(m.id,v);
+    if(b!=null && b<=2) off.push({m,b,v});
+    const f=freshness(m);
+    if(f.state==="stale") stale.push({m,f});
+    if(!k.ownerId) unowned.push({m});
+  });
+  off.sort((a,b)=>a.b-b.b || (b.m.loadBearing?1:0)-(a.m.loadBearing?1:0));
+  return {off, stale, unowned};
+}
+
+/* The single Exception — ranked across every source of act-now. */
+function exception(){
+  const cands=[];
+  const risks=riskRows().filter(r=>r.status==="Materialized");
+  risks.forEach(r=>cands.push({rank:0,
+    text:`Risk materialized — ${r.title}`,
+    sub:`${r.id} · owner ${r.owner||"unassigned"} · exposure ${fmt(r.criticality,"currency")}`,
+    verb:"Open the register"}));
+
+  const a=attention();
+  a.off.filter(x=>x.b===1).forEach(x=>cands.push({rank:1,
+    text:`${x.m.label} is Critical — ${fmt(x.v,x.m.unit)}`,
+    sub:`${x.m.id} · ${DOM[x.m.domain]?DOM[x.m.domain].label:x.m.domain} · `
+       +`owner ${OWNERS()[kpiMeta(x.m.id).ownerId]?.name || "unassigned"}`,
+    verb:"Go to "+x.m.tab}));
+
+  riskRows().filter(r=>r.reviewDue && new Date(r.reviewDue)<new Date()
+                          && r.status!=="Closed")
+    .forEach(r=>cands.push({rank:2,
+      text:`Risk review overdue — ${r.title}`,
+      sub:`${r.id} · due ${r.reviewDue} · owner ${r.owner||"unassigned"}`,
+      verb:"Open the register"}));
+
+  a.stale.forEach(x=>cands.push({rank:3,
+    text:`${x.m.label} source is stale`,
+    sub:`${x.f.label} · last verified ${ageText(x.f.age)} · cadence allows ${x.f.lim}d`,
+    verb:"Go to setup"}));
+
+  cands.sort((x,y)=>x.rank-y.rank);
+  return {top:cands[0]||null, more:Math.max(0,cands.length-1)};
+}
+
+/* ============================================================ GLANCE PARTS */
+
+/* Tone for a band. Amber and red are reserved; 4 and 5 stay ambient, because a
+   page where everything glows signals nothing (UX spec P1/P6). */
+function tone(b){ return b===1?"s-bad" : (b===2||b===3)?"s-warn" : ""; }
+
+/* Sparkline — thin mark, recessive, endpoint dot. No axis, no labels: it carries
+   direction and shape, and the value beside it carries magnitude. */
+function sparkline(series, t){
+  const pts=series.filter(p=>p.value!=null && isFinite(Number(p.value)))
+                  .map(p=>Number(p.value));
+  if(pts.length<2) return "";
+  const W=64,H=20,P=2;
+  const mn=Math.min(...pts), mx=Math.max(...pts), rng=(mx-mn)||1;
+  const xy=pts.map((v,i)=>[P+i*(W-2*P)/(pts.length-1),
+                           H-P-((v-mn)/rng)*(H-2*P)]);
+  const d=xy.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ");
+  const last=xy[xy.length-1];
+  return `<svg class="spark ${t}" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}"
+    aria-hidden="true"><path d="${d}"/>
+    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2.2"/></svg>`;
+}
+
+/* Period-over-period change, signed by whether the direction is GOOD for this
+   metric — a falling return rate is an improvement, a falling runway is not. */
+function deltaOf(m, series){
+  const pts=series.filter(p=>p.value!=null && isFinite(Number(p.value)));
+  if(pts.length<2) return null;
+  const a=Number(pts[pts.length-2].value), b=Number(pts[pts.length-1].value);
+  if(!a) return null;
+  const pct=(b-a)/Math.abs(a)*100;
+  if(Math.abs(pct)<0.5) return {pct:0, cls:"", txt:"flat"};
+  const rising=pct>0;
+  const bands=bandsFor(m.id).bands;
+  const goodUp = bands ? bands.type!=="down" : null;   // unknown for unbanded rows
+  const cls = goodUp==null ? "" : (rising===goodUp ? "better" : "worse");
+  return { pct, cls,
+    txt:`${rising?"▲":"▼"} ${Math.abs(pct).toFixed(Math.abs(pct)<10?1:0)}%` };
+}
+
+/* Band-position meter. Five segments = the ladder, left (Critical) to right
+   (Strong). Only the occupied segment takes a tone; the target gets an accent
+   tick. This is the component that makes a banded metric readable without
+   reading any numbers. */
+function bandScale(m, value, target){
+  const bands=bandsFor(m.id).bands;
+  // An unbanded row still occupies the slot, and says why it has no ladder.
+  // Silence here would read as "we forgot", not as "there is no honest threshold".
+  if(!bands) return `<div class="scalekey" style="margin-top:6px">
+    <span>no band — read against own baseline</span>
+    ${target!=null?`<span>target ${esc(fmt(target,m.unit))}</span>`:""}</div>`;
+  const b=bandOf(m.id,value); if(b==null) return "";
+  const tb = target!=null ? bandOf(m.id,target) : null;
+  const t=tone(b);
+  // segment 1 is always Critical on the left, 5 Strong on the right
+  const segs=[1,2,3,4,5].map(i=>
+    `<span class="${i===b?"on "+t:""} ${i===tb?"tgt":""}"></span>`).join("");
+  const labs = bands.type==="opt"
+    ? ["off","optimal","off"]
+    : ["Critical","Strong"];
+  return `<div>
+    <div class="scale" role="img" aria-label="Band ${b} of 5, ${esc(CONFIG.bandLabels[b])}">${segs}</div>
+    <div class="scalekey"><span>${esc(labs[0])}</span>
+      ${target!=null?`<span>target ${esc(fmt(target,m.unit))}</span>`:""}
+      <span>${esc(labs[labs.length-1])}</span></div></div>`;
+}
+
+/* Severity rank for sorting and triage. Lower sorts first. */
+function severity(m){
+  const k=kpiMeta(m.id);
+  if(k.naReason!=null) return 9;
+  const v=latest(m.id).value;
+  if(v==null) return 8;                       // not entered
+  const b=bandOf(m.id,v);
+  if(b!=null) return b;                       // 1 critical … 5 strong
+  return 6;                                   // has a value, not banded
+}
+const SEV = {
+  1:{label:"Critical", cls:"c1"}, 2:{label:"Weak", cls:"c2"},
+  3:{label:"Watch", cls:"c3"},    4:{label:"On band", cls:"ok"},
+  5:{label:"On band", cls:"ok"},  6:{label:"Tracked", cls:"ok"},
+  8:{label:"Not entered", cls:"none"}, 9:{label:"N/A", cls:"none"},
+};
+
+/* Triage strip — the 5-second answer for a tab, before any card is read. */
+function triage(list){
+  const buckets={1:0,2:0,3:0,ok:0,none:0};
+  list.forEach(m=>{ const s=severity(m);
+    if(s<=3) buckets[s]++; else if(s<=6) buckets.ok++; else buckets.none++; });
+  const total=list.length||1;
+  const seg=(n,cls)=> n? `<i class="${cls}" style="flex:${n}"></i>` : "";
+  const btn=(key,label,n,cls)=> n? `<button data-filter="${key}"
+      class="${ui.filter===key?"on":""}">
+      <span class="dot ${cls}"></span><span class="n">${n}</span> ${esc(label)}</button>` : "";
+  return `<section class="island"><div class="triage">
+    <div class="tcount">
+      ${btn("1","Critical",buckets[1],"c1")}
+      ${btn("2","Weak",buckets[2],"c2")}
+      ${btn("3","Watch",buckets[3],"c3")}
+      ${btn("ok","On band",buckets.ok,"ok")}
+      ${btn("none","Not entered",buckets.none,"none")}
+      ${ui.filter?`<button data-filter="">clear filter</button>`:""}
+    </div>
+    <div class="tbar" role="img" aria-label="${buckets[1]} critical, ${buckets[2]} weak,
+      ${buckets[3]} watch, ${buckets.ok} on band, ${buckets.none} not entered">
+      ${seg(buckets[1],"c1")}${seg(buckets[2],"c2")}${seg(buckets[3],"c3")}
+      ${seg(buckets.ok,"ok")}${seg(buckets.none,"none")}</div>
+  </div></section>`;
+}
+function passesFilter(m){
+  if(!ui.filter) return true;
+  const s=severity(m);
+  if(ui.filter==="ok")   return s>=4 && s<=6;
+  if(ui.filter==="none") return s>=8;
+  return String(s)===ui.filter;
+}
+
+/* ============================================================ RENDER: parts */
+function kpiCard(m){
+  const k=kpiMeta(m.id), L=latest(m.id), v=L.value;
+  const b=bandOf(m.id,v), f=freshness(m), own=OWNERS()[k.ownerId];
+  const bi=bandsFor(m.id);
+  const na=k.naReason;
+
+  let cls="kpi";
+  if(na) cls+=" b-gap";
+  else if(b===1) cls+=" b-bad";
+  else if(b===2||b===3) cls+=" b-warn";
+  if(!k.ownerId || f.state==="nosource") cls+=" b-gap";
+
+  // pace mark — redundant coding: color + glyph + word, never color alone
+  let pace="";
+  if(b!=null){
+    if(b===1) pace=`<span class="pacemark bad">&#9632; critical</span>`;
+    else if(b===2) pace=`<span class="pacemark behind">&#9660; weak</span>`;
+    else if(b===3) pace=`<span class="pacemark behind">&#9679; watch</span>`;
+    else pace=`<span class="pacemark ok">&#9679; on band</span>`;
+  }
+  const series=(k.series||[]);
+  const dl=deltaOf(m,series);
+  const spark=sparkline(series, tone(b));
+
+  const chips=[];
+  chips.push(own ? esc(own.name)+(own.role?` · ${esc(own.role)}`:"")
+                 : `<span class="miss">&#9888; no owner</span>`);
+  if(f.state==="nosource") chips.push(`<span class="miss">&#9888; no source</span>`);
+  else if(f.state==="manual") chips.push(`manual · ${esc(f.label)}`);
+  else if(f.state==="stale")  chips.push(`<span class="gap">&#9660; stale</span> ${esc(f.label)} · ${ageText(f.age)}`);
+  else if(f.state==="unverified") chips.push(`${esc(f.label)} · <span class="gap">never verified</span>`);
+  else chips.push(`${esc(f.label)} · ${ageText(f.age)}`);
+  if(k.target!=null) chips.push(`target ${esc(fmt(k.target,m.unit))}`);
+
+  const prov = m.provenance==="none" ? "" :
+    `<span class="bandtag bt${b||5}">${esc(m.provenance)}</span>`;
+
+  const tipParts=[
+    `<b>Basis.</b> ${esc(m.basis)}`,
+    `<b>Bands (${esc(bi.basis)}).</b> ${esc(bandText(m.id))} — 5 Strong / 4 Healthy / 3 Watch / 2 Weak / 1 Critical.`,
+    `<b>Provenance ${esc(m.provenance)}.</b> ` + (
+      m.provenance==="S" ? "Traceable to a named document."
+      : m.provenance==="J-named" ? "Convention with a named originator. Not evidence."
+      : m.provenance==="J" ? "Judgment. No source. Do not present as evidence."
+      : "No default band proposed — read as trend against own baseline."),
+  ];
+  if(bi.note) tipParts.push(`<b>Overlay note.</b> ${esc(bi.note)}`);
+  if(m.caveat) tipParts.push(`<b>&#9888; Caveat.</b> ${esc(m.caveat)}`);
+  if(isLead(m.id)) tipParts.push(`<b>Sector lead metric.</b> Under the SLM gate, a Critical `
+    +`band here caps Financial Control at Developing.`);
+
+  return `<div class="${cls}" data-mid="${esc(m.id)}">
+    <div class="tip">${tipParts.join("<br><br>")}</div>
+    <div class="lbl">${esc(m.label)}
+      ${m.hasCaveat?`<span class="warnmark" title="Carries a provenance caveat">&#9888;</span>`:""}
+      ${isLead(m.id)?`<span class="bandtag bt4" title="Sector lead metric">LEAD</span>`:""}
+      <span class="info" role="button" tabindex="0" title="Basis, bands and provenance">i</span>
+    </div>
+    ${na!=null
+      ? `<div class="val empty">N/A</div>
+         <div class="def">${na?esc(na):`<span style="color:var(--warn)">&#9888;
+           no reason given — this counts as a gap</span>`}</div>`
+      : v==null
+      ? `<div class="val empty">not entered</div>
+         <div class="def">${esc(m.definition)}</div>`
+      : `<div class="valrow">
+           <span class="val">${esc(fmt(v,m.unit))}</span>
+           ${dl?`<span class="delta ${dl.cls}">${dl.txt}</span>`:""}
+           <span style="margin-left:auto">${spark}</span>
+         </div>
+         ${bandScale(m,v,k.target)}
+         <div class="row" style="gap:var(--sp-3)">${pace} ${prov}
+           <span class="grouptag" style="margin-left:auto">${esc(m.group)}</span></div>
+         <div class="def">${esc(m.definition)}</div>`}
+    <div class="chip">${chips.join('<span class="sep">·</span>')}</div>
+  </div>`;
+}
+
+function meterRow(label, pct, detail, tone){
+  return `<div style="margin:var(--sp-3) 0">
+    <div class="row" style="justify-content:space-between;margin-bottom:6px">
+      <span class="meta">${esc(label)}</span>
+      <span class="meta num">${pct}%</span></div>
+    <div class="meter"><i class="${tone||""}" style="width:${Math.max(0,Math.min(100,pct))}%"></i></div>
+    <div class="meta faint" style="margin-top:5px">${esc(detail)}</div></div>`;
+}
+
+/* ============================================================ RENDER: tabs */
+function viewCommand(){
+  const a=attention(), ex=exception(), A=computeAMI(), inst=instrumentation();
+  const mw=D.mustWin||{};
+  const pct = mw.target ? Math.round((mw.value||0)/mw.target*100) : null;
+
+  // pace strip: runway + stage lead + industry killer
+  const stageLead = {S:"FIN-27", E:"REV-13", G:"REV-01", M:"FIN-25"}[ui.stage];
+  const ovLead = (overlay().leadMetrics||[]).find(id=>id!=="FIN-01");
+  const pace=["FIN-01", stageLead, ovLead].filter((x,i,arr)=>x&&MET[x]&&arr.indexOf(x)===i&&!suppressed(x)&&!kpiMeta(x).naReason);
+
+  let h="";
+  h+=`<section class="island">`;
+  if(ex.top){
+    h+=`<div class="exception">
+      <div class="glyph">&#9888;</div>
+      <div style="flex:1">
+        <div class="lead">${esc(ex.top.text)}</div>
+        <div class="meta" style="margin-top:4px">${ex.top.sub}</div>
+      </div>
+      <button class="btn">${esc(ex.top.verb)}</button></div>`;
+    if(ex.more) h+=`<div class="meta faint" style="margin-top:var(--sp-2)">+${ex.more} more ranked below</div>`;
+  } else {
+    h+=`<div class="allclear">&#9679; All clear — nothing dropped, nothing overdue, no source stale.</div>`;
+  }
+  h+=`</section>`;
+
+  // Must-win meter: a single ratio against a limit, with the floor and target
+  // marked on the track so "how far short" is readable without arithmetic.
+  let mwMeter="";
+  if(mw.value!=null && mw.target!=null){
+    const hi=Math.max(mw.target, mw.value)*1.08;
+    const p=x=>Math.max(0,Math.min(100, x/hi*100));
+    const short=mw.floor!=null && mw.value<mw.floor;
+    mwMeter=`<div style="max-width:560px;margin-top:var(--sp-4);position:relative">
+      <div class="meter" style="height:10px">
+        <i class="${short?"warn":"accent"}" style="width:${p(mw.value)}%"></i></div>
+      ${mw.floor!=null?`<div style="position:absolute;top:-4px;height:18px;width:2px;
+        background:var(--soft);left:${p(mw.floor)}%"></div>`:""}
+      <div style="position:absolute;top:-4px;height:18px;width:2px;
+        background:var(--accent);left:${p(mw.target)}%"></div>
+      <div class="meta faint" style="margin-top:var(--sp-3);display:flex;gap:var(--sp-4)">
+        ${mw.floor!=null?`<span>&#9474; floor ${esc(fmt(mw.floor,mw.unit||"currency"))}</span>`:""}
+        <span style="color:var(--accent)">&#9474; target ${esc(fmt(mw.target,mw.unit||"currency"))}</span>
+        ${short?`<span style="color:var(--warn)">&#9660; below floor</span>`:""}
+      </div></div>`;
+  }
+  if(isSenior()) h+=`<section class="island mustwin">
+    <div class="eyebrow">The one that pays</div>
+    <div class="display fig">${mw.value!=null?esc(fmt(mw.value,mw.unit||"currency")):"—"}</div>
+    <div class="ctx">${esc(mw.label||"No must-win set — define it in Setup")}
+      ${mw.period?` · ${esc(mw.period)}`:""}</div>
+    ${mwMeter}
+  </section>`;
+
+  h+=`<section class="island">
+    <div class="eyebrow">Pace</div>
+    <div class="grid g3">${pace.map(id=>kpiCard(MET[id])).join("")}</div>
+  </section>`;
+
+  // Compact architecture strip — eight small multiples, so the shape of the
+  // company is legible from Command without opening the BAIC tab.
+  const strip=CONFIG.domains.map(d=>{
+    const sc=A.out[d.key], b=A.bands[d.key];
+    const t=(b==="critical"||b==="emerging")?"bad"
+           :(b==="developing"&&d.criticalPath)?"warn":"";
+    return `<div style="flex:1;min-width:64px">
+      <div class="meta faint" style="font-size:var(--fs-micro);display:flex;
+        justify-content:space-between">
+        <span ${d.criticalPath?'style="color:var(--accent)"':""}>${esc(d.short)}</span>
+        <span class="num">${sc??"—"}</span></div>
+      <div class="meter" style="height:5px;margin-top:4px">
+        <i class="${t}" style="width:${sc||0}%"></i></div></div>`;}).join("");
+
+  h+=`<section class="island">
+    <div class="eyebrow">Architecture</div>
+    <div class="card">
+      <div style="font-size:var(--fs-lead);font-weight:600">
+        ${A.total!=null?`AMI ${A.total} &#177;${A.plusMinus} · ${esc(A.tier)}`:"AMI not scored"}</div>
+      <div class="meta" style="margin-top:var(--sp-2)">
+        ${A.binding.length
+          ? "Bound by "+A.binding.map(b=>esc(b.detail)).join(" and ")+"."
+          : "No binding constraint identified."}
+        ${A.gate.gated?` <span style="color:var(--warn)">Financial Control band
+          capped at Developing by the SLM gate (${A.gate.reds.map(esc).join(", ")}).</span>`:""}
+      </div>
+      <div class="row" style="margin-top:var(--sp-4);gap:var(--sp-3);align-items:flex-end">
+        ${strip}</div>
+      <div class="meta faint" style="margin-top:var(--sp-3);font-size:var(--fs-micro)">
+        <span style="color:var(--accent)">&#9679;</span> critical path ·
+        red at Emerging or below · amber where a critical-path domain is Developing</div>
+    </div>
+  </section>`;
+
+  h+=`<section class="island">
+    <div class="eyebrow">Needs you</div>
+    <div class="card">
+      <div class="row" style="gap:var(--sp-5)">
+        <div><div class="fig" style="font-family:var(--serif);font-size:var(--fs-metric)">${a.off.length}</div>
+          <div class="meta">KPIs off band</div></div>
+        <div><div class="fig" style="font-family:var(--serif);font-size:var(--fs-metric)">${a.unowned.length}</div>
+          <div class="meta">unowned</div></div>
+        <div><div class="fig" style="font-family:var(--serif);font-size:var(--fs-metric)">${a.stale.length}</div>
+          <div class="meta">sources stale</div></div>
+        <div><div class="fig" style="font-family:var(--serif);font-size:var(--fs-metric)">${inst.score}</div>
+          <div class="meta">instrumentation health</div></div>
+      </div>
+      ${a.off.length?`<details open><summary>Off-band KPIs, ranked</summary>
+        <table><tbody>${a.off.slice(0,12).map(x=>`<tr>
+          <td><b>${esc(x.m.label)}</b> <span class="meta faint">${esc(x.m.id)}</span></td>
+          <td class="num">${esc(fmt(x.v,x.m.unit))}</td>
+          <td><span class="bandtag bt${x.b}">${esc(CONFIG.bandLabels[x.b])}</span></td>
+          <td class="meta">${esc(OWNERS()[kpiMeta(x.m.id).ownerId]?.name||"unassigned")}</td>
+        </tr>`).join("")}</tbody></table></details>`:""}
+    </div>
+  </section>`;
+  h+=unitsSection();
+  return h;
+}
+
+function viewMetricTab(tab){
+  const all = CONFIG.metrics.filter(m=>m.tab===tab);
+  const shown = all.filter(m=>!suppressed(m.id));
+  const hidden = all.filter(m=>suppressed(m.id));
+  const mat = shown.filter(material), imm = shown.filter(m=>!material(m));
+
+  if(ui.sub==="targets")  return viewTargets(mat.concat(imm));
+  if(ui.sub==="entry")    return viewEntry(mat.concat(imm));
+  if(ui.sub==="history")  return viewHistory(mat.concat(imm));
+
+  let h = triage(mat);
+
+  // Ordered by severity, not by config order. The worst thing on the tab is the
+  // first thing read; the group is carried as a tag on each card so the section
+  // it belongs to is never lost.
+  const ranked = mat.filter(passesFilter)
+    .map((m,i)=>({m,i,s:severity(m)}))
+    .sort((a,b)=> a.s-b.s
+                || (b.m.loadBearing?1:0)-(a.m.loadBearing?1:0)
+                || a.i-b.i);
+
+  const CUTS=[[1,"Act now"],[2,"Behind"],[3,"Watch"],[4,"On band"],
+              [8,"Not entered"],[9,"Marked not applicable"]];
+  let cut=-1;
+  ranked.forEach(({m,s})=>{
+    const band = s<=3?s : s<=6?4 : s;
+    if(band!==cut){
+      if(cut!==-1) h+=`</div></section>`;
+      const lab=(CUTS.find(c=>c[0]===band)||[0,""])[1];
+      const n=ranked.filter(r=>(r.s<=3?r.s:r.s<=6?4:r.s)===band).length;
+      h+=`<section class="island"><div class="eyebrow">${esc(lab)}
+        <span class="faint" style="letter-spacing:0;text-transform:none">
+        · ${n}</span></div><div class="grid g3">`;
+      cut=band;
+    }
+    h+=kpiCard(m);
+  });
+  if(cut!==-1) h+=`</div></section>`;
+  if(!ranked.length) h+=`<section class="island"><div class="card">
+    <div class="meta">Nothing in this filter.</div></div></section>`;
+
+  if(imm.length){
+    h+=`<details><summary>${imm.length} metric${imm.length>1?"s":""} not material at
+      ${esc(CONFIG.stages.find(s=>s.key===ui.stage).label)} — shown unbanded</summary>
+      <div class="grid g3" style="margin-top:var(--sp-4)">${imm.map(kpiCard).join("")}</div>
+      </details>`;
+  }
+  if(hidden.length){
+    h+=`<details><summary>${hidden.length} metric${hidden.length>1?"s":""} suppressed by the
+      ${esc(overlay().label)} overlay</summary>
+      <table style="margin-top:var(--sp-3)"><tbody>${hidden.map(m=>`<tr>
+        <td><b>${esc(m.label)}</b> <span class="meta faint">${esc(m.id)}</span></td>
+        <td class="meta">${esc(suppressReason(m.id)||"Not applicable in this sector.")}</td>
+      </tr>`).join("")}</tbody></table></details>`;
+  }
+  return h;
+}
+
+function viewEntry(list){
+  return `<section class="island"><div class="eyebrow">Enter data</div>
+  <div class="card flush"><table>
+    <thead><tr><th>Metric</th><th style="width:150px">Value</th>
+      <th style="width:130px">Period</th><th style="width:220px">N/A reason</th></tr></thead>
+    <tbody>${list.map(m=>{
+      const k=kpiMeta(m.id), L=latest(m.id);
+      return `<tr>
+        <td><b>${esc(m.label)}</b> <span class="meta faint">${esc(m.id)}</span>
+          <div class="meta faint">${esc(m.basis)}</div></td>
+        <td><input data-edit="value" data-mid="${esc(m.id)}" value="${esc(L.value??"")}"
+          placeholder="${esc(m.unit)}"></td>
+        <td><input data-edit="period" data-mid="${esc(m.id)}" value="${esc(L.period??"")}"
+          placeholder="2026-09"></td>
+        <td><input data-edit="naReason" data-mid="${esc(m.id)}" value="${esc(k.naReason??"")}"
+          placeholder="why not applicable"></td></tr>`;
+    }).join("")}</tbody></table></div>
+  <div class="meta faint" style="margin-top:var(--sp-3)">An N/A with no reason renders as a
+    gap and counts against Instrumentation Health. Not applicable is an assessed answer,
+    not a skipped one.</div></section>`;
+}
+
+function viewTargets(list){
+  const owners=D.owners||[], sources=D.sources||[];
+  return `<section class="island"><div class="eyebrow">Targets, owners and sources</div>
+  <div class="card flush"><table>
+    <thead><tr><th>Metric</th><th style="width:130px">Target</th>
+      <th style="width:180px">Owner</th><th style="width:210px">Source</th>
+      <th style="width:190px">Bands</th></tr></thead>
+    <tbody>${list.map(m=>{
+      const k=kpiMeta(m.id), bi=bandsFor(m.id);
+      return `<tr>
+        <td><b>${esc(m.label)}</b> <span class="meta faint">${esc(m.id)}</span></td>
+        <td><input data-edit="target" data-mid="${esc(m.id)}" value="${esc(k.target??"")}"></td>
+        <td><select data-edit="ownerId" data-mid="${esc(m.id)}">
+          <option value="">— unassigned —</option>
+          ${owners.map(o=>`<option value="${esc(o.id)}" ${k.ownerId===o.id?"selected":""}>
+            ${esc(o.name)}${o.role?" · "+esc(o.role):""}</option>`).join("")}</select></td>
+        <td><select data-edit="sourceId" data-mid="${esc(m.id)}">
+          <option value="">— no source —</option>
+          ${sources.map(s=>`<option value="${esc(s.id)}" ${k.sourceId===s.id?"selected":""}>
+            ${esc(s.label)}</option>`).join("")}</select></td>
+        <td class="meta">${esc(bandText(m.id))}
+          <div class="faint">${esc(bi.basis)} · ${esc(m.provenance)}</div></td></tr>`;
+    }).join("")}</tbody></table></div></section>`;
+}
+
+function viewHistory(list){
+  const withSeries = list.filter(m=>{
+    const k=kpiMeta(m.id); return k.series && k.series.length>1; });
+  if(!withSeries.length) return `<section class="island"><div class="card">
+    <div class="meta">No metric on this tab has more than one recorded period yet.
+    History appears once a second period is entered.</div></section>`;
+  return `<section class="island"><div class="eyebrow">History</div>
+  <div class="card flush"><table>
+    <thead><tr><th>Metric</th><th>Series</th><th style="width:110px">Latest</th>
+      <th style="width:90px">Band</th></tr></thead>
+    <tbody>${withSeries.map(m=>{
+      const k=kpiMeta(m.id), s=k.series;
+      return `<tr><td><b>${esc(m.label)}</b></td>
+        <td class="meta num">${s.map(p=>`${esc(p.period)}: ${esc(fmt(p.value,m.unit))}`).join(" &nbsp;·&nbsp; ")}</td>
+        <td class="num">${esc(fmt(s[s.length-1].value,m.unit))}</td>
+        <td>${(()=>{const b=bandOf(m.id,s[s.length-1].value);
+          return b?`<span class="bandtag bt${b}">${esc(CONFIG.bandLabels[b])}</span>`:"—";})()}</td>
+      </tr>`;}).join("")}</tbody></table></div></section>`;
+}
+
+/* ---------------- Startup tab ---------------- */
+function viewStartup(){
+  // The funding track only exists for a founder who intends to raise. Showing it
+  // by default would imply every business should, which is not true and is not
+  // what this framework argues.
+  const S=CONFIG.taskStages;
+  const T=CONFIG.tasks.filter(t=>t.track==="core" || ui.raising);
+  const done=ui.tasksDone;
+  // Display position is assigned over the VISIBLE list, so the checklist always
+  // reads 1..N with no gaps. `id` stays frozen underneath as the stable key -
+  // a task keeps its identity when the sequence is edited or the funding track
+  // is toggled, but the reader never sees the internal numbering.
+  const POS=new Map(T.map((t,i)=>[t.id,i+1]));
+  const pct=Math.round(done.size/T.length*100);
+  const crit=T.filter(t=>t.tier==="CRITICAL");
+  const critDone=crit.filter(t=>done.has(t.id)).length;
+  const stagePct=S.map(s=>{const r=T.filter(t=>t.stage===s.key);
+    return Math.round(r.filter(t=>done.has(t.id)).length/r.length*100);});
+  const next=T.find(t=>t.tier==="CRITICAL"&&!done.has(t.id))
+          || T.find(t=>!done.has(t.id));
+
+  // radar
+  const cx=170,cy=160,R=110,n=S.length;
+  const pt=(r,i)=>{const a=-Math.PI/2+i*2*Math.PI/n;
+    return [cx+r*Math.cos(a), cy+r*Math.sin(a)];};
+  const poly=r=>S.map((_,i)=>pt(r,i).join(",")).join(" ");
+  let svg=`<svg viewBox="0 0 340 330" width="100%" style="max-width:340px">`;
+  [25,50,75,100].forEach(v=>svg+=`<polygon points="${poly(R*v/100)}" fill="none"
+    stroke="var(--line)" stroke-width="1"/>`);
+  S.forEach((s,i)=>{const [x,y]=pt(R,i);
+    svg+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)"/>`;
+    const [lx,ly]=pt(R+26,i);
+    svg+=`<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle"
+      font-size="11" font-weight="600" fill="var(--soft)">${esc(s.short)}</text>`;
+    svg+=`<text x="${lx}" y="${ly+13}" text-anchor="middle" font-size="10"
+      fill="var(--faint)">${stagePct[i]}%</text>`;});
+  svg+=`<polygon points="${S.map((_,i)=>pt(R*stagePct[i]/100,i).join(",")).join(" ")}"
+    fill="var(--accent)" fill-opacity=".16" stroke="var(--accent)" stroke-width="2"/>`;
+  svg+=`<text x="${cx}" y="${cy+4}" text-anchor="middle" font-family="var(--serif)"
+    font-size="30" fill="var(--ink)">${pct}%</text></svg>`;
+
+  let h=`<section class="island">
+    <div class="methodhead">
+      <div class="eyebrow" style="margin:0">Diagnostics · pre-scale</div>
+      <h2 class="mname">The Founder Task Architecture</h2>
+      <div class="meta">${T.length} tasks across six stages, tiered by what actually kills
+        early companies. Done means the evidence exists — not that the box is ticked.
+        This is the read for a business that has not yet earned the right to scale.</div>
+      <div class="row" style="margin-top:var(--sp-4)">
+        <button class="pill ${ui.raising?"on":""}" id="btnRaising">
+          ${ui.raising?"&#10003; ":""}Raising outside capital</button>
+        <span class="meta faint">${ui.raising
+          ? "Funding track shown — 5 tasks."
+          : "Bootstrap path. Turn this on to add the 5-task funding track."}</span>
+      </div>
+    </div></section>
+    <section class="island">
+    <div class="grid g2">
+      <div class="card">
+        <div class="eyebrow">Progress by stage</div>${svg}</div>
+      <div class="card">
+        <div class="eyebrow">Next critical task</div>
+        ${next ? `<div style="font-size:var(--fs-lead);font-weight:600">
+            #${POS.get(next.id)} ${esc(next.name)}</div>
+          <div class="meta" style="margin-top:var(--sp-2)">
+            ${esc(next.tier)} · ${esc(DOM[next.domain]?DOM[next.domain].label:next.domain)}</div>
+          <div class="tcrit" style="margin-top:var(--sp-3)"><b>Done means:</b>
+            ${esc(next.criterion)}</div>`
+        : `<div style="font-size:var(--fs-lead)">All 40 tasks complete.</div>`}
+        <div class="row" style="margin-top:var(--sp-5);gap:var(--sp-5)">
+          <div><div style="font-family:var(--serif);font-size:var(--fs-metric)"
+            class="num">${done.size}<span class="faint" style="font-size:var(--fs-meta)">/${T.length}</span></div>
+            <div class="meta">tasks done</div></div>
+          <div><div style="font-family:var(--serif);font-size:var(--fs-metric)"
+            class="num">${critDone}<span class="faint" style="font-size:var(--fs-meta)">/${crit.length}</span></div>
+            <div class="meta">critical done</div></div>
+        </div>
+      </div>
+    </div></section>`;
+
+  S.forEach((s,i)=>{
+    const rows=T.filter(t=>t.stage===s.key);
+    h+=`<section class="island">
+      <div class="eyebrow">${esc(s.name)} <span class="faint">·
+        ${rows.filter(t=>done.has(t.id)).length}/${rows.length}</span></div>
+      <div class="card flush stack">${rows.map(t=>{
+        const d=done.has(t.id), ev=(D.taskEvidence||{})[t.id];
+        return `<div class="task ${esc(t.tier)} ${d?"done":""}" data-task="${t.id}">
+          <div class="box">${d?"&#10003;":""}</div>
+          <div style="flex:1">
+            <div class="tname">${POS.get(t.id)}. ${esc(t.name)}</div>
+            <div class="tmeta">${esc(t.tier)} · ${esc(DOM[t.domain]?DOM[t.domain].label:t.domain)}${t.track==="raising"?" · <span style=\"color:var(--accent)\">funding track</span>":""}
+              ${ev?` · evidence: ${esc(ev)}`:` · <span style="color:var(--warn)">no evidence linked</span>`}</div>
+            <div class="tcrit">${esc(t.criterion)}</div>
+          </div></div>`;}).join("")}</div></section>`;
+  });
+
+  h+=`<section class="island"><div class="meta faint">
+    Tiers are labelled heuristic, not validated math. The 40-task Founder Task Architecture
+    is original work, written clean-room. It shares no wording with any licensed third-party task list.
+    <b>Done</b> means the evidence exists at the linked location — not that the box is ticked.
+  </div></section>`;
+  return h;
+}
+
+/* ---------------- BAIC tab ---------------- */
+function viewBAIC(){
+  const A=computeAMI(), gates=gateStatus(A);
+  const S=CONFIG.domains, n=S.length;
+  const cx=200,cy=190,R=130;
+  const pt=(r,i)=>{const a=-Math.PI/2+i*2*Math.PI/n;
+    return [cx+r*Math.cos(a), cy+r*Math.sin(a)];};
+  const poly=r=>S.map((_,i)=>pt(r,i).join(",")).join(" ");
+  let svg=`<svg viewBox="0 0 400 390" width="100%" style="max-width:400px">`;
+  [25,50,75,100].forEach(v=>svg+=`<polygon points="${poly(R*v/100)}" fill="none"
+    stroke="var(--line)"/>`);
+  S.forEach((d,i)=>{const [x,y]=pt(R,i);
+    svg+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)"/>`;
+    const [lx,ly]=pt(R+28,i);
+    svg+=`<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle"
+      font-size="11" font-weight="600"
+      fill="${d.criticalPath?"var(--accent)":"var(--soft)"}">${esc(d.short)}</text>`;
+    svg+=`<text x="${lx}" y="${ly+12}" text-anchor="middle" font-size="10"
+      fill="var(--faint)">${A.out[d.key]??"—"}</text>`;});
+  // base (dashed) vs simulated (solid)
+  if(ui.sim.size){
+    svg+=`<polygon points="${S.map((d,i)=>pt(R*(A.base[d.key]||0)/100,i).join(",")).join(" ")}"
+      fill="none" stroke="var(--soft)" stroke-width="1.5" stroke-dasharray="4 4"/>`;
+  }
+  svg+=`<polygon points="${S.map((d,i)=>pt(R*(A.out[d.key]||0)/100,i).join(",")).join(" ")}"
+    fill="var(--accent)" fill-opacity=".15" stroke="var(--accent)" stroke-width="2.5"/>`;
+  svg+=`<text x="${cx}" y="${cy}" text-anchor="middle" font-family="var(--serif)"
+    font-size="34" fill="var(--ink)">${A.total??"—"}</text>`;
+  svg+=`<text x="${cx}" y="${cy+18}" text-anchor="middle" font-size="10"
+    fill="var(--faint)">AMI &#177;${A.plusMinus}</text></svg>`;
+
+  let h=`<section class="island">
+    <div class="methodhead">
+      <div class="eyebrow" style="margin:0">Diagnostics · scaling and established</div>
+      <h2 class="mname">BAIC — the Business Architecture &amp; Intelligence Cycle</h2>
+      <div class="meta">Eight domains, four of them load-bearing. The classification is set
+        by the weakest load-bearing domain plus the runway gate, so one strong area can
+        never paper over a failing one. This is the read for a business past product-market
+        fit that has to survive its own growth.</div>
+    </div></section>
+    <section class="island"><div class="grid g2">
+    <div class="card"><div class="eyebrow">Architecture Maturity Index</div>${svg}
+      ${ui.sim.size?`<div class="row" style="gap:var(--sp-4);margin-top:var(--sp-2)">
+        <span class="meta"><svg width="22" height="8" style="vertical-align:middle">
+          <line x1="1" y1="4" x2="21" y2="4" stroke="var(--soft)" stroke-width="1.5"
+          stroke-dasharray="4 4"/></svg> current</span>
+        <span class="meta"><svg width="22" height="8" style="vertical-align:middle">
+          <line x1="1" y1="4" x2="21" y2="4" stroke="var(--accent)" stroke-width="2.5"/>
+          </svg> with ${ui.sim.size} selected fix${ui.sim.size>1?"es":""}</span></div>`:""}
+      <div class="meta faint" style="margin-top:var(--sp-2)">${D.ami&&D.ami.engine?"Scored from the data room by the BAIC engine. Not entered here, and not re-derived."
+        :"Equal weights. AMI reported as a whole number &#177; band."}</div>
+    </div>
+    <div class="card">
+      <div class="eyebrow">Classification</div>
+      <div style="font-family:var(--serif);font-size:var(--fs-metric)">${esc(A.tier)}</div>
+      <div class="meta" style="margin-top:var(--sp-2)">
+        ${A.binding.length?"Bound by "+A.binding.map(b=>esc(b.detail)).join(" and ")+".":"—"}</div>
+      ${A.gate.gated?`<div class="meta" style="margin-top:var(--sp-3);color:var(--warn)">
+        &#9888; SLM gate active. ${A.gate.reds.map(id=>esc(MET[id].label)).join(", ")}
+        ${A.gate.reds.length>1?"are":"is"} in the Critical band, so the Financial Control
+        <i>band</i> is capped at Developing. The score is unchanged.</div>`:""}
+      <div style="margin-top:var(--sp-5)">
+        ${S.map(d=>{
+          const sc=A.out[d.key], base=A.base[d.key], moved=ui.sim.size&&sc!==base;
+          const b=A.bands[d.key];
+          // Amber is reserved. A domain only earns color when it is actually
+          // load-bearing on the classification: red when it sits at or below
+          // Emerging, amber only when a CRITICAL-PATH domain is Developing.
+          // Everything else stays ambient - being merely imperfect is not an alarm.
+          const binds = A.binding.some(x=>x.what===d.label);
+          const tone = (b==="critical"||b==="emerging") ? "bad"
+                     : (b==="developing" && d.criticalPath) ? "warn" : "";
+          const gated = d.key==="financial" && A.gate.gated;
+          return `<div class="dombar">
+            <div class="nm">${d.criticalPath?`<span class="cp" title="Critical path">&#9679;</span>`:""}
+              ${esc(d.label)}
+              ${d.key==="data"&&!(D.ami&&D.ami.engine)?`<span class="bandtag bt4"
+                title="Computed from Instrumentation Health, not entered">AUTO</span>`:""}
+              ${binds?`<span class="bandtag bt1" title="This is what sets the tier">BINDS</span>`:""}</div>
+            <div class="meter"><i class="${tone}" style="width:${sc||0}%"></i></div>
+            <div class="sc">${sc??"—"}${moved?` <span style="color:var(--good)">&#9650;${sc-base}</span>`:""}
+              <div class="meta faint" style="font-size:var(--fs-micro)">${esc(b||"")}${
+                gated?` <span style="color:var(--warn)">gated</span>`:""}</div></div>
+          </div>`;}).join("")}
+      </div>
+      <div style="margin-top:var(--sp-4)">
+        ${gates.map(g=>`<div class="row" style="margin:6px 0">
+          <span style="color:${g.met?"var(--good)":"var(--faint)"}">${g.met?"&#10003;":"&#9675;"}</span>
+          <b class="meta">${esc(g.label)}</b>
+          <span class="meta faint">${esc(g.req)}</span></div>`).join("")}
+      </div>
+    </div></div></section>`;
+
+  // 90-day simulator (or, when BAIC set the plan, the plan itself)
+  const fixes=D.fixes||[];
+  if(D.ami && D.ami.engine){ h+=planSection(); }
+  else if(fixes.length){
+    const TIERS=[["t0","Critical","Sprint 1 — stop the bleeding"],
+                 ["t1","High","Sprint 1–2 — structural repair"],
+                 ["t2","Foundational","Sprint 2–3 — build the architecture"]];
+    h+=`<section class="island">
+      <div class="row" style="justify-content:space-between">
+        <div class="eyebrow" style="margin:0">90-day action architecture — simulator</div>
+        <button class="btn quiet" id="simReset">Reset</button></div>
+      <div class="card stack">`;
+    TIERS.forEach(([cls,name,tag],ti)=>{
+      const rows=fixes.map((f,i)=>({f,i})).filter(x=>x.f.tier===ti);
+      if(!rows.length) return;
+      h+=`<div class="row" style="margin-top:var(--sp-3)">
+        <span style="color:var(--${ti===0?"bad":ti===1?"warn":"info"})">&#9679;</span>
+        <b class="meta">${esc(name)}</b><span class="meta faint">${esc(tag)}</span></div>`;
+      rows.forEach(({f,i})=>{
+        const on=ui.sim.has(i);
+        const deltas=(f.impacts||[]).map(im=>{
+          const b=A.base[im.domain]; if(b==null||im.to<=b) return null;
+          return `${esc(DOM[im.domain].short)} ${b}&rarr;${im.to}`;
+        }).filter(Boolean).join(" · ");
+        h+=`<div class="fix ${cls} ${on?"on":""}" data-fix="${i}">
+          <div class="box">${on?"&#10003;":""}</div>
+          <div style="flex:1">
+            <div class="row">
+              ${f.riskId?`<span class="fixbadge" style="color:var(--${ti===0?"bad":ti===1?"warn":"info"})">
+                ${esc(f.riskId)} C=${esc(fmt(f.criticality,"currency"))}</span>`:""}
+              <span>${esc(f.desc)}</span>
+              ${f.gate?`<span class="gatetag">${f.gate==="cr"?"Capital-Ready req":"Growth-Ready req"}</span>`:""}
+            </div>
+            ${deltas?`<div class="fiximpact">${deltas}</div>`:""}
+            ${f.owner?`<div class="tmeta">owner ${esc(f.owner)}</div>`
+                     :`<div class="tmeta" style="color:var(--warn)">no owner assigned</div>`}
+          </div></div>`;
+      });
+    });
+    h+=`</div>
+    <div class="meta faint" style="margin-top:var(--sp-3)">
+      Ported from the AMI tool to v2 math: equal weights, band edges from the active
+      overlay, AMI as a whole number ± band, tier from the weakest critical-path domain
+      plus the runway gate. Sprint 1 attacks the tier's binding reason; a risk's dollar
+      criticality governs the size of action it earns; a sprint may not exceed its tier's
+      licence.</div></section>`;
+  }
+
+  // VMOCA register
+  const risks=riskRows();
+  if(risks.length){
+    h+=`<section class="island"><div class="eyebrow">Risk register — VMOCA</div>
+    <div class="card flush"><table>
+      <thead><tr><th>ID</th><th>Risk</th><th>Domain</th><th class="num">Criticality</th>
+        <th>Status</th><th>Owner</th><th>Review due</th></tr></thead>
+      <tbody>${risks.slice().sort((a,b)=>(b.criticality||0)-(a.criticality||0))
+        .map(r=>{
+          const over=r.reviewDue&&new Date(r.reviewDue)<new Date()&&r.status!=="Closed";
+          return `<tr>
+          <td class="meta">${esc(r.id)}</td>
+          <td><b>${esc(r.title)}</b>${r.trigger?`<div class="meta faint">trigger: ${esc(r.trigger)}</div>`:""}</td>
+          <td class="meta">${esc(DOM[r.domain]?DOM[r.domain].label:r.domain||"—")}</td>
+          <td class="num">${esc(fmt(r.criticality,"currency"))}</td>
+          <td><span class="bandtag ${r.status==="Materialized"?"bt1":r.status==="Closed"?"bt5":"bt3"}">
+            ${esc(r.status)}</span></td>
+          <td class="meta">${esc(r.owner||"unassigned")}</td>
+          <td class="meta ${over?"":"faint"}" ${over?'style="color:var(--warn)"':""}>
+            ${esc(r.reviewDue||"—")}${over?" &#9660; overdue":""}</td></tr>`;}).join("")}
+      </tbody></table></div>
+    <div class="meta faint" style="margin-top:var(--sp-3)">
+      Criticality = Probability × Impact($) × Observability factor, capped at value-at-risk.
+      Review cadence is read off the criticality-by-observability matrix — tightest for
+      blind-but-critical rows. Most rows are flow losses (expected annual cost while the mechanism stays
+      live) and terminal rows are capped at enterprise value, so the total can exceed what the company is worth.
+      That is expected: rank the rows, don't add them up.</div></section>`;
+  }
+  return h;
+}
+
+/* ---------------- Setup tab ---------------- */
+function viewSetup(){
+  const I=instrumentation();
+  const owners=D.owners||[], sources=D.sources||[];
+  const mw=D.mustWin||{};
+
+  let h=`<section class="island"><div class="grid g2">
+    <div class="card">
+      <div class="eyebrow">Instrumentation health</div>
+      <div style="font-family:var(--serif);font-size:var(--fs-display);line-height:1"
+        class="fig">${I.score}</div>
+      <div class="meta" style="margin-top:var(--sp-2)">${esc(I.band)} · this <i>is</i> the
+        Data &amp; Dashboards domain score — the BAIC tab reads it from here rather than
+        taking an entered value. Nothing else in the framework closes this loop.</div>
+      <div style="margin-top:var(--sp-4)">
+        ${I.subs.map(([n,v,w,d])=>meterRow(`${n} (${w}%)`, v, d,
+          v<40?"bad":v<70?"warn":"")).join("")}</div>
+    </div>
+    <div class="card">
+      <div class="eyebrow">The must-win</div>
+      <div class="stack">
+        <div><label class="meta">What pays this quarter</label>
+          <input data-mw="label" value="${esc(mw.label||"")}" style="width:100%"></div>
+        <div class="row">
+          <div style="flex:1"><label class="meta">Current</label>
+            <input data-mw="value" value="${esc(mw.value??"")}" style="width:100%"></div>
+          <div style="flex:1"><label class="meta">Floor</label>
+            <input data-mw="floor" value="${esc(mw.floor??"")}" style="width:100%"></div>
+          <div style="flex:1"><label class="meta">Target</label>
+            <input data-mw="target" value="${esc(mw.target??"")}" style="width:100%"></div>
+        </div>
+        <div><label class="meta">Period</label>
+          <input data-mw="period" value="${esc(mw.period||"")}" style="width:100%"></div>
+      </div>
+      <div class="row" style="margin-top:var(--sp-5)">
+        <button class="btn" id="btnExport">Export JSON</button>
+        <button class="btn quiet" id="btnImport">Import JSON</button>
+        <button class="btn quiet" id="btnReseed">Reset to seed</button>
+      </div>
+      <div class="meta faint" style="margin-top:var(--sp-3)">
+        The export is an engagement artifact and a row in the calibration dataset. Its shape
+        is a superset of the BAIC engagement data-capture schema.</div>
+    </div></div></section>`;
+
+  h+=`<section class="island"><div class="eyebrow">Owner roster</div>
+  <div class="card flush"><table>
+    <thead><tr><th>Name</th><th>Role</th><th>Email</th><th class="num">KPIs owned</th></tr></thead>
+    <tbody>${owners.map(o=>{
+      const c=CONFIG.metrics.filter(m=>kpiMeta(m.id).ownerId===o.id && !suppressed(m.id)).length;
+      return `<tr><td><b>${esc(o.name)}</b></td><td class="meta">${esc(o.role||"—")}</td>
+        <td class="meta faint">${esc(o.email||"—")}</td>
+        <td class="num">${c}${c===0?` <span style="color:var(--warn)">&#9888;</span>`:""}</td></tr>`;
+    }).join("")}</tbody></table></div>
+  <div class="meta faint" style="margin-top:var(--sp-3)">
+    PPL-01 — roles with a documented KPI and a named owner — is computed from this roster.
+    The instrument measures itself.</div></section>`;
+
+  h+=`<section class="island"><div class="eyebrow">Source registry — the data room</div>
+  <div class="card flush"><table>
+    <thead><tr><th>Source</th><th>Type</th><th>Cadence</th><th>Last verified</th>
+      <th class="num">KPIs fed</th></tr></thead>
+    <tbody>${sources.map(s=>{
+      const c=CONFIG.metrics.filter(m=>kpiMeta(m.id).sourceId===s.id && !suppressed(m.id)).length;
+      const age=s.lastVerified?Math.floor((Date.now()-new Date(s.lastVerified))/86400000):null;
+      const lim=CAD_DAYS[s.cadence]||31, stale=age!=null&&age>lim;
+      return `<tr>
+        <td><b>${s.url?`<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a>`:esc(s.label)}</b></td>
+        <td class="meta">${esc(s.type)}</td><td class="meta">${esc(s.cadence||"—")}</td>
+        <td class="meta" ${stale?'style="color:var(--warn)"':""}>
+          ${s.lastVerified?esc(s.lastVerified):"never"}${stale?" &#9660; stale":""}</td>
+        <td class="num">${c}</td></tr>`;}).join("")}</tbody></table></div>
+  <div class="meta faint" style="margin-top:var(--sp-3)">
+    A source of type <b>manual</b> does not count toward the Sourcing sub-score. That is
+    deliberate: a number somebody types each month is not a linked data room.</div></section>`;
+
+  h+=`<section class="island"><div class="eyebrow">Active overlay</div>
+  <div class="card">
+    <div style="font-size:var(--fs-lead);font-weight:600">${esc(overlay().label)}</div>
+    <div class="meta" style="margin-top:var(--sp-2)">${esc(overlay().failurePhysics)}</div>
+    <div class="meta" style="margin-top:var(--sp-3)"><b>Lead metrics:</b>
+      ${(overlay().leadMetrics||[]).map(id=>esc(MET[id]?MET[id].label:id)).join(" · ")}</div>
+    ${overlay().macroSnapshot?`<div class="meta faint" style="margin-top:var(--sp-3)">
+      <b>Macro, as of ${esc(overlay().macroSnapshot.asOf)}:</b>
+      ${esc(overlay().macroSnapshot.note)}</div>`:""}
+    <details><summary>The SLM gate — what this overlay's lead metrics can do to the score</summary>
+      <div class="meta" style="padding:var(--sp-3) 0">
+        ${esc(CONFIG.meta.rulings.D2)}</div></details>
+  </div></section>`;
+  return h;
+}
+
+/* ============================================================ SHELL */
+function render(){
+  document.documentElement.setAttribute("data-theme", ui.theme);
+  $("#btnTheme").textContent = ui.theme==="dark" ? "Light" : "Dark";
+  // keep the selects honest — state can change from anywhere, not just the control
+  const si=$("#selIndustry"), ss=$("#selStage");
+  if(si && si.value!==ui.industry) si.value = ui.industry;
+  if(ss && ss.value!==ui.stage)    ss.value = ui.stage;
+  $("#synthetic").className = (D.meta&&D.meta.dataClass==="SYNTHETIC") ? "on" : "";
+
+  const co=D.company||{};
+  $("#coName").textContent = co.name || "Unnamed company";
+  const inst=instrumentation();
+  $("#coSub").textContent =
+    `${overlay().label} · ${CONFIG.stages.find(s=>s.key===ui.stage).label}` +
+    ` · ${inst.applicable.length} applicable metrics · instrumentation ${inst.score}`;
+  const blurbEl = $("#coBlurb");
+  if(blurbEl){ blurbEl.textContent = (co.blurb || ""); 
+               blurbEl.style.display = co.blurb ? "block" : "none"; }
+
+  // Nav clusters. The diagnostics pair is boxed and labelled, because "Startup"
+  // and "Growth" only make sense once you know they are two assessments of the
+  // same thing at different stages.
+  const tabBtn = k => {
+    const t=CONFIG.tabs.find(t=>t.key===k);
+    return `<button class="tab ${ui.tab===k?"on":""}" data-tab="${k}"
+      title="${esc(t.question)}">${esc(t.label)}</button>`;
+  };
+  $("#tabs").innerHTML = CONFIG.nav.map((c,i)=>{
+    const inner = c.tabs.map(tabBtn).join("");
+    if(!c.boxed) return (i?`<span class="gap"></span>`:"") + inner;
+    const active = c.tabs.includes(ui.tab);
+    return `<span class="gap"></span>
+      <span class="tabgroup ${active?"on":""}" role="group"
+        aria-label="${esc(c.label)}">
+        <span class="tglabel">${esc(c.label)}</span>${inner}</span>
+      <span class="gap"></span>`;
+  }).join("");
+
+  const tabDef=CONFIG.tabs.find(t=>t.key===ui.tab);
+  const isMetricTab=["financial","revenue","customer","operations","people","risk","strategy"]
+    .includes(ui.tab);
+
+  let sub="";
+  if(isMetricTab){
+    sub=`<div class="subnav">
+      ${["dashboard","entry","history","targets"].map(s=>
+        `<button data-sub="${s}" class="${ui.sub===s?"on":""}">${
+          s==="entry"?"Enter data":s[0].toUpperCase()+s.slice(1)}</button>`).join("")}
+      <span class="spacer"></span>
+      <span class="meta faint">${esc(tabDef.question)}</span></div>`;
+  } else {
+    sub=`<div class="subnav"><span class="meta faint">${esc(tabDef.question)}</span></div>`;
+  }
+
+  let body="";
+  if(ui.tab==="me")           body=viewMe();
+  else if(locked(ui.tab))     body=viewLocked();
+  else if(ui.tab==="command") body=viewCommand();
+  else if(ui.tab==="startup") body=viewStartup();
+  else if(ui.tab==="baic")    body=viewBAIC();
+  else if(ui.tab==="setup")   body=viewSetup();
+  else                        body=viewMetricTab(ui.tab);
+
+  $("#main").innerHTML = (ui.tab==="me"||locked(ui.tab) ? "" : sub) + body;
+  afterRender();
+  saveUI();
+}
+
+/* ============================================================ EVENTS */
+function bind(){
+  document.addEventListener("click", e=>{
+    const tab=e.target.closest("[data-tab]");
+    if(tab){ ui.tab=tab.dataset.tab; ui.sub="dashboard"; ui.filter=""; render(); return; }
+    const sb=e.target.closest("[data-sub]");
+    if(sb){ ui.sub=sb.dataset.sub; render(); return; }
+    const fl=e.target.closest("[data-filter]");
+    if(fl){ const f=fl.dataset.filter;
+      ui.filter = (ui.filter===f) ? "" : f; render(); return; }
+    const tk=e.target.closest("[data-task]");
+    if(tk){ const id=+tk.dataset.task;
+      ui.tasksDone.has(id)?ui.tasksDone.delete(id):ui.tasksDone.add(id); render(); return; }
+    const fx=e.target.closest("[data-fix]");
+    if(fx){ const i=+fx.dataset.fix;
+      ui.sim.has(i)?ui.sim.delete(i):ui.sim.add(i); render(); return; }
+    if(e.target.id==="simReset"){ ui.sim.clear(); render(); return; }
+    if(e.target.id==="btnRaising"){ ui.raising=!ui.raising; render(); return; }
+    if(e.target.id==="btnTheme"){ ui.theme=ui.theme==="dark"?"light":"dark"; render(); return; }
+    if(e.target.id==="btnExport"){ doExport(); return; }
+    if(e.target.id==="btnImport"){ doImport(); return; }
+    if(e.target.id==="btnReseed"){ D=fresh(demoFor(ui.industry)||SEED_DATA);
+      saveData(); render(); return; }
+    // info chip -> toggle the tooltip (tap-friendly, not hover-only)
+    if(e.target.classList.contains("info")){
+      const c=e.target.closest(".kpi");
+      document.querySelectorAll(".kpi.tipon").forEach(k=>{ if(k!==c) k.classList.remove("tipon"); });
+      c.classList.toggle("tipon"); return;
+    }
+    document.querySelectorAll(".kpi.tipon").forEach(k=>k.classList.remove("tipon"));
+  });
+
+  document.addEventListener("keydown", e=>{
+    if(e.key==="Enter" && e.target.classList.contains("info")) e.target.click();
+    if(e.key==="Escape") document.querySelectorAll(".kpi.tipon")
+      .forEach(k=>k.classList.remove("tipon"));
+  });
+
+  document.addEventListener("change", e=>{
+    const t=e.target;
+    if(t.id==="selIndustry"){ loadIndustry(t.value); render(); return; }
+    if(t.id==="selStage"){ ui.stage=t.value; render(); return; }
+    if(t.dataset.edit){
+      const id=t.dataset.mid, f=t.dataset.edit;
+      D.kpis=D.kpis||{}; D.kpis[id]=D.kpis[id]||{};
+      const k=D.kpis[id];
+      let v=t.value.trim();
+      if(f==="value"||f==="target") v = v===""?null:(isNaN(Number(v))?v:Number(v));
+      if(f==="naReason") v = v===""?null:v;
+      if(f==="ownerId"||f==="sourceId") v = v===""?null:v;
+      if(f==="value"){
+        const per=(k.series&&k.series.length?k.series[k.series.length-1].period:null)
+                  || k.period || "current";
+        k.series=k.series||[];
+        const last=k.series[k.series.length-1];
+        if(last && last.period===per) last.value=v;
+        else k.series.push({period:per, value:v});
+      } else if(f==="period"){
+        k.series=k.series||[]; if(!k.series.length) k.series.push({period:v, value:null});
+        else k.series[k.series.length-1].period=v;
+      } else k[f]=v;
+      saveData(); render(); return;
+    }
+    if(t.dataset.mw){
+      D.mustWin=D.mustWin||{};
+      let v=t.value.trim();
+      if(["value","floor","target"].includes(t.dataset.mw)) v = v===""?null:Number(v);
+      D.mustWin[t.dataset.mw]=v; saveData(); render(); return;
+    }
+  });
+}
+
+function doExport(){
+  const payload={...D, _export:{at:new Date().toISOString(),
+    industry:ui.industry, stage:ui.stage,
+    tasksDone:[...ui.tasksDone], instrumentation:instrumentation().score,
+    ami:computeAMI().total, schemaVersion:CONFIG.meta.schemaVersion}};
+  const blob=new Blob([JSON.stringify(payload,null,1)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=`bcd-${(D.company&&D.company.name||"company").toLowerCase()
+    .replace(/[^a-z0-9]+/g,"-")}-${new Date().toISOString().slice(0,10)}.json`;
+  a.click(); URL.revokeObjectURL(a.href);
+}
+function doImport(){
+  const i=document.createElement("input"); i.type="file"; i.accept="application/json";
+  i.onchange=()=>{ const f=i.files[0]; if(!f) return;
+    const r=new FileReader();
+    r.onload=()=>{ try{
+      const p=JSON.parse(r.result); D=p;
+      if(p._export){ ui.industry=p._export.industry||ui.industry;
+        ui.stage=p._export.stage||ui.stage;
+        ui.tasksDone=new Set(p._export.tasksDone||[]); }
+      saveData(); render();
+    }catch(err){ alert("That file is not a valid dashboard export."); } };
+    r.readAsText(f); };
+  i.click();
+}
+
+/* ============================================================ COGNATEOS LAYER
+   Added to the Business Command Dashboard for the CognateOS demo: "View as" any leader,
+   a private My page, seat-based fencing, the engine's BAIC result, Vero's restaurants, and
+   the CognateOS Advisor docked on every tab, aware of the page the leader is looking at. */
+const LEADERS = P.leaders;
+const ADVISOR_URL = P.advisorUrl || "";
+const cstore = { get(k, d) { try { const v = localStorage.getItem("cos:" + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+                 set(k, v) { try { localStorage.setItem("cos:" + k, JSON.stringify(v)); } catch (e) {} } };
+let me = null;
+const TODAY = new Date().toISOString().slice(0, 10);
+const LOCKED = ["financial", "risk", "setup"];
+const isSenior = () => !!(me && me.senior);
+const locked = (tab) => !isSenior() && LOCKED.includes(tab);
+const riskRows = () => isSenior() ? (D.risks || []) : [];
+const mk = (k) => `${me.id}:${k}`;
+const money = (v) => v == null ? "—" : "$" + Math.round(v).toLocaleString("en-US");
+const strip = (s) => String(s || "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+
+function viewLocked() {
+  const t = CONFIG.tabs.find((x) => x.key === ui.tab);
+  return `<section class="island"><div class="card cos-lock">
+    <div class="eyebrow">Held by the senior team</div>
+    <p>${esc(t.label)} ${ui.tab === "setup" ? "holds the dashboard's owners, sources and the company's must-win" : ui.tab === "risk" ? "holds the company's risk register and its exposure" : "holds company-level finance and the lender position"}.
+    In CognateOS those sit with the senior team. You see your own restaurant on Command and on My page, and your Advisor knows your seat.</p>
+    <button class="btn" data-tab="me">Go to My page</button></div></section>`;
+}
+
+function engineAMI() {
+  const { base, out } = domainScores(), E = D.ami.engine, bands = {};
+  CONFIG.domains.forEach((d) => bands[d.key] = out[d.key] == null ? null : amiBand(out[d.key]));
+  return { base, out, total: E.ami, plusMinus: D.ami.plusMinus || 3, bands, band: null, tier: E.tier,
+    binding: [{ what: "engine", band: null, detail: `the BAIC engine's tier rule, run on the data room for the quarter ending ${E.as_of}` }],
+    gate: { gated: false, reds: [] }, runway: null };
+}
+
+function planSection() {
+  const fx = D.fixes || []; if (!fx.length) return "";
+  const mine = (f) => me && f.owner === me.name;
+  return `<section class="island"><div class="eyebrow">90-day plan, set by BAIC</div>
+    <div class="card flush"><table><thead><tr><th>Item</th><th>Done when (evidence gate)</th><th>Owner</th></tr></thead><tbody>
+    ${fx.map((f) => `<tr class="${mine(f) ? "cos-mine" : ""}"><td><b>${esc(f.desc)}</b></td><td class="meta">${esc(f.evidenceGate || "")}</td>
+      <td class="meta">${esc(f.owner || "unassigned")}${mine(f) ? " · you" : ""}</td></tr>`).join("")}
+    </tbody></table></div>
+    <div class="meta faint" style="margin-top:var(--sp-3)">Items and gates come from the BAIC engine's run. An item is done when
+    the artifact exists and would pass the evidence register, not when someone says it is done.</div></section>`;
+}
+
+function unitsSection() {
+  const all = D.units || [];
+  const list = isSenior() ? all : all.filter((u) => u.id === me.unit);
+  if (!list.length) return "";
+  const d = (a, b, inv, unit) => {
+    if (a == null || b == null || a === b) return "";
+    const good = inv ? a < b : a > b;
+    return ` <span style="color:var(--${good ? "good" : "warn"});font-size:var(--fs-micro)">${a > b ? "&#9650;" : "&#9660;"}${unit === "%" ? Math.abs(a - b).toFixed(1) : ""}</span>`;
+  };
+  return `<section class="island"><div class="eyebrow">${isSenior() ? "Restaurants, last quarter" : "Your restaurant, last quarter"}</div>
+    <div class="card flush"><table><thead><tr><th>Restaurant</th><th class="num">Sales</th><th class="num">Four-wall margin</th>
+    <th class="num">Prime cost</th><th class="num">Food cost</th><th class="num">Covers</th><th class="num">Separations</th><th class="num">Health</th></tr></thead><tbody>
+    ${list.map((u) => { const p = u.prior || {}; const pc = u.prime_cost_pct;
+      return `<tr><td><b>${esc(u.name)}</b></td><td class="num">${money(u.sales)}</td>
+      <td class="num">${u.four_wall_margin_pct}%${d(u.four_wall_margin_pct, p.four_wall_margin_pct, false, "%")}</td>
+      <td class="num" ${pc > 65 ? 'style="color:var(--bad)"' : pc > 62 ? 'style="color:var(--warn)"' : ""}>${pc}%${d(pc, p.prime_cost_pct, true, "%")}</td>
+      <td class="num">${u.food_cost_pct}%</td><td class="num">${(u.covers || 0).toLocaleString("en-US")}</td>
+      <td class="num">${u.separations}</td><td class="num">${u.health_score}</td></tr>`; }).join("")}
+    </tbody></table></div>
+    <div class="meta faint" style="margin-top:var(--sp-3)">From the unit P&amp;L and KPI report in the data room. Prime cost target 62%; amber above 62, red above 65.</div></section>`;
+}
+
+/* ---------------------------------------------------------------- My page */
+const GLIMMERS = ["Movement or stillness", "Connection", "Freedom moment", "Curiosity or growth"];
+const dayKey = (d) => mk("day:" + d);
+function dayState(d = TODAY) {
+  const x = cstore.get(dayKey(d), null) || {};
+  return { outputs: x.outputs || [0, 1, 2, 3].map(() => ({ text: "", done: false })), glimmers: x.glimmers || [],
+           alive: x.alive || "", adjust: x.adjust || "" };
+}
+function weekState() {
+  const wk = cstore.get(mk("week"), (me.week_seed || []).map((x) => ({ ...x })));
+  while (wk.length < 3) wk.push({ outcome: "", measure: "", lead: "", block: "" });
+  return wk.slice(0, 3);
+}
+const isoDay = (offset) => { const t = new Date(); t.setDate(t.getDate() + offset); return t.toISOString().slice(0, 10); };
+function lastAdjustment() {
+  const refs = cstore.get(mk("reflections"), []).filter((r) => r.date < TODAY && (r.adjust || "").trim());
+  return refs.length ? refs[refs.length - 1] : null;
+}
+function suggestions() {
+  const out = [];
+  weekState().forEach((w) => { const t = (w.lead || w.outcome || "").trim(); if (t) out.push(t); });
+  const wkText = weekState().map((w) => (w.outcome || "").toLowerCase()).join(" ");
+  (me.plan_items || []).filter((p) => !wkText.includes(p.name.toLowerCase()))
+    .forEach((p) => out.push(`Move ${p.item} ${p.name} toward its gate: ${p.gate}`));
+  return out;
+}
+function viewMe() {
+  const wk = weekState(), dy = dayState(), adj = lastAdjustment();
+  const done = dy.outputs.filter((o) => o.done).length;
+  const week = [-6, -5, -4, -3, -2, -1, 0].map((o) => { const d = isoDay(o), x = dayState(d);
+    const n = x.outputs.filter((y) => y.done).length; return { d, n, win: n >= 3, any: x.outputs.some((y) => y.text) }; });
+  const weak = (me.baic_items || []).filter((i) => i.score != null && i.score <= 2);
+  const fmtK = (v, u) => v == null ? "—" : u === "$" ? money(v) : u === "%" ? v + "%" : u === "x" ? v + "x" : u === "h" ? v + " h" : String(v);
+  const pat = cstore.get(mk("pattern"), null);
+  return `<section class="island cos-me">
+    <div class="cos-who"><div><div class="eyebrow" style="margin:0">My page</div>
+      <h2 class="cos-name">${esc(me.name)}</h2>
+      <div class="meta">${esc(me.role)}${me.unit_name ? ", " + esc(me.unit_name) : ""} · ${me.tenure_months} months in the seat${me.reports_to_name ? " · reports to " + esc(me.reports_to_name) : ""}</div></div>
+      <div class="cos-private">Only you see this page</div></div>
+    ${adj ? `<div class="cos-adj"><div class="eyebrow" style="margin:0">Your adjustment for today</div>
+      <div class="cos-adj-t">${esc(adj.adjust)}</div><div class="meta faint">From your reflection on ${esc(adj.date)}</div></div>` : ""}
+    <div class="grid g2">
+      <div class="card"><div class="row" style="justify-content:space-between"><div class="eyebrow" style="margin:0">Today · the OneDay Code</div>
+        <span class="meta faint">a few minutes</span></div>
+        <div class="cos-step"><b>1 · Four outputs.</b> <span class="meta">Three done is a win.</span>
+          <span class="cos-count ${done >= 3 ? "win" : ""}" id="cosOutCount">${done} of 4${done >= 3 ? " · win" : ""}</span></div>
+        ${dy.outputs.map((o, i) => `<div class="cos-out"><input type="checkbox" data-out="${i}" ${o.done ? "checked" : ""} aria-label="Done">
+          <input data-outt="${i}" placeholder="Output ${i + 1}" value="${esc(o.text)}"></div>`).join("")}
+        <div class="row" style="gap:6px;margin-top:6px">
+          <button class="cos-chip" id="cosSuggest">Fill from my week</button>
+          <button class="cos-chip" data-p="Suggest four strategic outputs for today, each one tied to an outcome on my week. One line each, nothing else.">Ask my Advisor</button></div>
+        <div class="cos-days" title="Last seven days: filled dot = a win (three or more done)">${week.map((w) => `<i class="${w.win ? "w" : w.any ? "a" : ""}" title="${w.d}: ${w.n} of 4"></i>`).join("")}<span class="meta faint">last 7 days</span></div>
+
+        <div class="cos-step"><b>2 · Two or three glimmers.</b> <span class="meta">Short, deliberate resets break the reactive pace and let your system settle. Tap one when you take it.</span></div>
+        <div class="cos-chips">${GLIMMERS.map((g) => { const n = dy.glimmers.filter((x) => x.type === g).length;
+          return `<button class="cos-chip ${n ? "on" : ""}" data-gl="${esc(g)}">${esc(g)}${n ? ` · ${n}` : ""}</button>`; }).join("")}</div>
+        <div class="meta faint" style="margin-top:4px">${dy.glimmers.length ? `${dy.glimmers.length} today: ${dy.glimmers.map((x) => x.time).join(", ")}` : "None yet today."}${dy.glimmers.length ? ` <button class="cos-link" id="cosGlUndo">undo last</button>` : ""}</div>
+
+        <div class="cos-step"><b>3 · Two-minute close.</b> <span class="meta">Saves as you type.</span> <span class="meta faint" id="cosRefSaved"></span></div>
+        <input id="cosAlive" placeholder="What made me feel alive today?" value="${esc(dy.alive)}">
+        <input id="cosAdjust" placeholder="One adjustment for tomorrow" value="${esc(dy.adjust)}">
+        <div class="cos-pattern" id="cosPattern">${pat && pat.text ? `<div class="eyebrow" style="margin:0">What makes you feel alive</div><div>${esc(pat.text)}</div><div class="meta faint">From ${pat.count} reflections</div>`
+          : `<span class="meta faint">After three evenings, your pattern shows up here.</span>`}</div>
+      </div>
+      <div class="card"><div class="eyebrow">This week</div>
+        <p class="meta">Three outcomes at most. Each with a measure, the lead action you control and the time block that produces it. Your outputs each day come from these.</p>
+        ${wk.map((w, i) => `<div class="cos-wk"><div class="cos-n">${i + 1}</div><div class="cos-f">
+          <input data-wk="${i}" data-f="outcome" placeholder="Outcome: move X from A to B by Friday" value="${esc(w.outcome)}">
+          <input data-wk="${i}" data-f="measure" placeholder="Measure" value="${esc(w.measure)}">
+          <input data-wk="${i}" data-f="lead" placeholder="Lead action you control" value="${esc(w.lead)}">
+          <input data-wk="${i}" data-f="block" placeholder="Time block" value="${esc(w.block)}"></div></div>`).join("")}
+        <label class="meta">If the week compresses, this gives:</label>
+        <input id="cosGives" value="${esc(cstore.get(mk("gives"), ""))}">
+      </div>
+    </div></section>
+    <section class="island"><div class="eyebrow">My seat</div>
+      <div class="card"><p class="meta">${esc((me.responsibilities || []).join(" · "))}</p>
+      <table><thead><tr><th>KPI</th><th class="num">This quarter</th><th class="num">Prior quarter</th><th>Target</th></tr></thead><tbody>
+      ${(me.kpis || []).map((k) => `<tr><td>${esc(k.name)}</td><td class="num">${fmtK(k.now, k.unit)}</td><td class="num">${fmtK(k.before, k.unit)}</td><td class="meta">${esc(k.target || "")}</td></tr>`).join("")}
+      </tbody></table></div></section>
+    <section class="island"><div class="grid g2">
+      <div class="card"><div class="eyebrow">BAIC items I act on, scoring 1 or 2 of 5</div>
+        ${weak.length ? `<table><tbody>${weak.map((i) => `<tr><td>${esc(i.item)} ${esc(i.name)}</td><td class="meta">${esc(i.domain)}</td><td class="num"><span class="bandtag bt${i.score}">${i.score} / 5</span></td></tr>`).join("")}</tbody></table>`
+                     : `<p class="meta">None of your items score below 3.</p>`}
+        <div class="meta faint">Scored by the BAIC engine from the company's evidence.</div></div>
+      <div class="card"><div class="eyebrow">Risks in my scope</div>
+        ${(me.baic_risks || []).length ? `<table><tbody>${me.baic_risks.map((r) => `<tr><td>${esc(r.description)}</td><td class="meta">${esc(r.band)}</td><td class="num">${money(r.criticality_usd)}</td></tr>`).join("")}</tbody></table>`
+                                      : `<p class="meta">No risks nominated in your scope this quarter.</p>`}
+        ${(me.plan_items || []).length ? `<div class="eyebrow" style="margin-top:var(--sp-4)">My 90-day plan items</div><table><tbody>${me.plan_items.map((p) => `<tr><td>${esc(p.item)} ${esc(p.name)}</td><td class="meta">${esc(p.gate)}</td></tr>`).join("")}</tbody></table>` : ""}
+      </div></div></section>`;
+}
+let refTimer = null;
+function bindMe() {
+  const wk = weekState(), dy = dayState();
+  const saveDay = () => { cstore.set(dayKey(TODAY), dy); const c = document.getElementById("cosOutCount");
+    if (c) { const n = dy.outputs.filter((o) => o.done).length; c.textContent = `${n} of 4${n >= 3 ? " · win" : ""}`; c.classList.toggle("win", n >= 3); } };
+  document.querySelectorAll("[data-wk]").forEach((el) => el.oninput = () => { wk[el.dataset.wk][el.dataset.f] = el.value; cstore.set(mk("week"), wk); });
+  const g = document.getElementById("cosGives"); if (g) g.oninput = () => cstore.set(mk("gives"), g.value);
+  document.querySelectorAll("[data-out]").forEach((el) => el.onchange = () => { dy.outputs[el.dataset.out].done = el.checked; saveDay(); render(); });
+  document.querySelectorAll("[data-outt]").forEach((el) => el.oninput = () => { dy.outputs[el.dataset.outt].text = el.value; saveDay(); });
+  const sg = document.getElementById("cosSuggest");
+  if (sg) sg.onclick = () => { const ideas = suggestions().filter((t) => !dy.outputs.some((o) => o.text === t));
+    dy.outputs.forEach((o) => { if (!o.text && ideas.length) o.text = ideas.shift(); }); saveDay(); render(); };
+  document.querySelectorAll("[data-gl]").forEach((el) => el.onclick = () => {
+    dy.glimmers.push({ type: el.dataset.gl, time: new Date().toTimeString().slice(0, 5) }); saveDay(); render(); });
+  const un = document.getElementById("cosGlUndo"); if (un) un.onclick = () => { dy.glimmers.pop(); saveDay(); render(); };
+  const saveRef = () => {
+    const refs = cstore.get(mk("reflections"), []).filter((r) => r.date !== TODAY);
+    if (dy.alive.trim() || dy.adjust.trim()) refs.push({ date: TODAY, alive: dy.alive, adjust: dy.adjust });
+    cstore.set(mk("reflections"), refs.slice(-60)); saveDay();
+    const sv = document.getElementById("cosRefSaved"); if (sv) sv.textContent = "Saved.";
+    clearTimeout(refTimer); refTimer = setTimeout(refreshPattern, 4000);
+  };
+  const a = document.getElementById("cosAlive"), j = document.getElementById("cosAdjust");
+  if (a) a.oninput = () => { dy.alive = a.value; saveRef(); };
+  if (j) j.oninput = () => { dy.adjust = j.value; saveRef(); };
+  refreshPattern();
+}
+// The pattern in what makes them feel alive: written by the Advisor from their own reflections, refreshed when a new
+// evening is added (three or more). Quiet call: it doesn't go into the chat.
+let patternBusy = false;
+async function refreshPattern() {
+  const refs = cstore.get(mk("reflections"), []).filter((r) => (r.alive || "").trim());
+  const pat = cstore.get(mk("pattern"), null);
+  if (refs.length < 3 || patternBusy || (pat && pat.count === refs.length) || !ADVISOR_URL) return;
+  patternBusy = true;
+  try {
+    const text = await advQuiet("From my evening reflections, tell me in two short sentences what tends to make me feel alive. Plain words, warm, no advice and no question.");
+    if (text) { cstore.set(mk("pattern"), { count: refs.length, text: text.replace(/<coach_read>[\s\S]*?<\/coach_read>/, "").trim() }); if (ui.tab === "me") render(); }
+  } finally { patternBusy = false; }
+}
+async function advQuiet(message) {
+  const dy = dayState();
+  try {
+    const r = await fetch(ADVISOR_URL, { method: "POST", headers: { "content-type": "application/json", "x-demo-pass": window.__PASS || "" },
+      body: JSON.stringify({ leader_id: me.id, message, history: [], memory: {}, page: "",
+        personal: { week: weekState(), today: { outputs: dy.outputs, glimmers: dy.glimmers }, reflections: cstore.get(mk("reflections"), []) } }) });
+    if (!r.ok || !r.body) return "";
+    const rd = r.body.getReader(), dec = new TextDecoder(); let buf = "", ans = "";
+    for (;;) { const { done, value } = await rd.read(); if (done) break; buf += dec.decode(value, { stream: true }); let i;
+      while ((i = buf.indexOf("\n")) >= 0) { const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1);
+        if (!line.startsWith("data:")) continue; let ev; try { ev = JSON.parse(line.slice(5)); } catch (e) { continue; }
+        if (ev.t != null) ans += ev.t; if (ev.done) ans = ev.answer || ans; } }
+    return ans;
+  } catch (e) { return ""; }
+}
+
+/* ---------------------------------------------------------------- what's on screen, for the Advisor */
+function pageContext() {
+  const t = CONFIG.tabs.find((x) => x.key === ui.tab) || {};
+  const L = [`Dashboard tab: ${t.label} ("${t.question}")`];
+  const kline = (m) => { const v = latest(m.id).value; if (v == null || v === "") return null;
+    const b = bandOf(m.id, v), tg = kpiMeta(m.id).target;
+    return `${m.label}: ${fmt(v, m.unit)}${b ? ` (${CONFIG.bandLabels[b]})` : ""}${tg != null ? `, target ${fmt(tg, m.unit)}` : ""}, period ${latest(m.id).period || "?"}`; };
+  if (ui.tab === "me") L.push("The leader is on their own page: this week's outcomes, today's OneDay Code, their seat, BAIC items and risks.");
+  else if (locked(ui.tab)) L.push("This tab is held by the senior team; the leader sees only a notice saying so.");
+  else if (ui.tab === "command") {
+    const ex = exception(), a = attention();
+    if (ex.top) L.push("Top exception: " + strip(ex.top.text) + " (" + strip(ex.top.sub) + ")");
+    a.off.slice(0, 8).forEach((x) => L.push("Off band: " + kline(x.m)));
+    if (isSenior() && D.mustWin) L.push(`Must-win: ${D.mustWin.label}, now ${fmt(D.mustWin.value, D.mustWin.unit)}`);
+    (isSenior() ? D.units || [] : (D.units || []).filter((u) => u.id === me.unit)).forEach((u) =>
+      L.push(`${u.name}: sales ${money(u.sales)}, four-wall ${u.four_wall_margin_pct}%, prime cost ${u.prime_cost_pct}%, food cost ${u.food_cost_pct}%, separations ${u.separations}, health ${u.health_score}`));
+  } else if (ui.tab === "baic") {
+    const A = computeAMI();
+    L.push(`AMI ${A.total}, tier ${A.tier} (BAIC engine)`);
+    CONFIG.domains.forEach((d) => L.push(`${d.label}: ${A.out[d.key]} (${A.bands[d.key]})${d.criticalPath ? ", critical path" : ""}`));
+    (D.fixes || []).forEach((f) => L.push(`Plan: ${f.desc}, owner ${f.owner}, done when ${f.evidenceGate}`));
+    if (isSenior()) riskRows().forEach((r) => L.push(`Risk: ${r.title}, criticality ${money(r.criticality)}, owner ${r.owner}`));
+  } else {
+    const ms = visibleMetrics(ui.tab).filter((m) => material(m));
+    const filled = ms.map(kline).filter(Boolean);
+    filled.forEach((x) => L.push(x));
+    const na = ms.filter((m) => kpiMeta(m.id).naReason).map((m) => `${m.label} (N/A: ${kpiMeta(m.id).naReason})`);
+    if (na.length) L.push("Marked not applicable: " + na.join("; "));
+    L.push(`${ms.length - filled.length - na.length} metrics on this tab are not yet entered.`);
+  }
+  return L.join("\n").slice(0, 3500);
+}
+
+/* ---------------------------------------------------------------- the Advisor, docked on every tab */
+const SESSIONS = [["weekly_review", "Weekly review"], ["call_prep", "Prep a meeting"], ["call_debrief", "Debrief a meeting"], ["decision", "Work a decision"], ["roleplay", "Rehearse a conversation"]];
+const TAB_PROMPTS = {
+  me: null,
+  command: ["What on this page should I act on today?", "Explain what this page is telling me in two minutes"],
+  financial: ["Walk me through our cash and the covenant", "What would get us back above 1.25x?"],
+  operations: ["Where is prime cost hurting us, and what do I do this week?", "Which numbers here should I worry about?"],
+  people: ["Turnover is high. Where do I start?", "What does this page say about our people?"],
+  baic: ["Explain our BAIC result and where my seat fits", "Which plan item matters most, and why?"],
+  setup: ["Why does instrumentation matter for us?"],
+};
+const ROLE_PROMPTS = {
+  "Founder / CEO": ["We failed the coverage covenant. What do I do first?", "Help me plan my week", "I'm working 65+ hours. Where do I start getting time back?"],
+  "Controller": ["What should my first 30 days look like?", "How do I set up a monthly budget-versus-actual review?", "Help me plan my week"],
+  "Director of Operations": ["Prime cost is over 64% in four units. Where do I start?", "How do I get SOPs actually used?", "Help me plan my week"],
+  "Executive Chef": ["Food cost is drifting. What do I look at first?", "How do I make line checks real, not paperwork?", "Help me plan my week"],
+  "General Manager": ["Why is my prime cost where it is, and what do I do this week?", "Help me plan my week", "Prep me for my one-to-one with Lena"],
+};
+const advEl = (id) => document.getElementById(id);
+function advOpen(open) {
+  document.body.classList.toggle("adv-open", open); cstore.set("advOpen", open);
+  advEl("advBtn").setAttribute("aria-expanded", String(open));
+}
+function advBubble(role, text, sources, help) {
+  const d = document.createElement("div"); d.className = "adv-m " + (role === "user" ? "u" : "a");
+  d.textContent = text;
+  if (sources && sources.length) { const s = document.createElement("div"); s.className = "adv-src"; s.textContent = "Drew on: " + sources.slice(0, 4).map((x) => x.title).join("; "); d.appendChild(s); }
+  if (help) { const s = document.createElement("div"); s.className = "adv-src"; s.textContent = P.engagement && P.engagement.placed_advisor
+      ? `Your CognateOS advisor, ${P.engagement.placed_advisor.name} (${P.engagement.placed_advisor.email}), is available for hands-on help.`
+      : "Consider talking with your CognateOS advisor for hands-on help."; d.appendChild(s); }
+  advEl("advMsgs").appendChild(d); advEl("advMsgs").scrollTop = advEl("advMsgs").scrollHeight; return d;
+}
+function advRender() {
+  if (!me) return;
+  advEl("advSub").textContent = `Private to ${me.name.split(" ")[0]} · knows your seat, the data room and how you're wired`;
+  const h = cstore.get(mk("history"), []);
+  advEl("advMsgs").innerHTML = "";
+  if (!h.length) advBubble("assistant", `Hi ${me.name.split(" ")[0]}. I've read the data room, this quarter's BAIC results and your seat, and I can see the page you're on. What's on your mind?`);
+  for (const m of h) advBubble(m.role, m.content, m.sources, m.help);
+  advEl("advSessions").innerHTML = SESSIONS.map(([k, l]) => `<button class="adv-chip" data-mode="${k}">${l}</button>`).join("");
+  advPrompts();
+}
+function advPrompts() {
+  if (!me) return;
+  const t = CONFIG.tabs.find((x) => x.key === ui.tab) || {};
+  advEl("advCtx").textContent = locked(ui.tab) ? "On a senior-team tab" : `Sees: ${t.label === "Growth" ? "Growth (BAIC)" : t.label}`;
+  const list = (!locked(ui.tab) && TAB_PROMPTS[ui.tab]) || ROLE_PROMPTS[me.role] || [];
+  advEl("advPrompts").innerHTML = list.map((p) => `<button class="adv-chip" data-p="${esc(p)}">${esc(p)}</button>`).join("");
+}
+function mergeMemory(m) {
+  if (!m) return;
+  const cur = cstore.get(mk("memory"), {});
+  if (m.summary) cur.summary = m.summary;
+  for (const k of ["commitments", "themes"]) if (Array.isArray(m[k])) cur[k] = m[k];
+  if (m.notes) cur.notes = [...(cur.notes || []), ...(Array.isArray(m.notes) ? m.notes : [m.notes])].slice(-30);
+  cstore.set(mk("memory"), cur);
+}
+async function advSend(text, mode) {
+  text = (text || "").trim(); if (!text && !mode) return;
+  if (!ADVISOR_URL) { advBubble("assistant", "The Advisor isn't connected in this build."); return; }
+  advEl("advInput").value = ""; advEl("advSend").disabled = true;
+  const history = cstore.get(mk("history"), []);
+  advBubble("user", text);
+  const out = advBubble("assistant", "…");
+  const dy = dayState();
+  const personal = { week: weekState(), gives: cstore.get(mk("gives"), ""), today: { outputs: dy.outputs, glimmers: dy.glimmers },
+                     reflections: cstore.get(mk("reflections"), []) };
+  let answer = "", sources = [], help = false;
+  try {
+    const r = await fetch(ADVISOR_URL, { method: "POST", headers: { "content-type": "application/json", "x-demo-pass": window.__PASS || "" },
+      body: JSON.stringify({ leader_id: me.id, message: text, history: history.map(({ role, content }) => ({ role, content })),
+        memory: cstore.get(mk("memory"), {}), personal, page: pageContext(), session_mode: mode || null }) });
+    if (r.status === 401) { out.textContent = "The Advisor didn't accept this demo's passphrase. Contact your CognateOS advisor."; return; }
+    if (!r.ok || !r.body) { out.textContent = "The Advisor couldn't answer just now. Try again in a moment."; return; }
+    const rd = r.body.getReader(), dec = new TextDecoder(); let buf = "";
+    for (;;) {
+      const { done, value } = await rd.read(); if (done) break;
+      buf += dec.decode(value, { stream: true }); let i;
+      while ((i = buf.indexOf("\n")) >= 0) {
+        const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1);
+        if (!line.startsWith("data:")) continue;
+        let ev; try { ev = JSON.parse(line.slice(5)); } catch (e) { continue; }
+        if (ev.sources) sources = ev.sources;
+        if (ev.t != null) { answer += ev.t; out.textContent = answer; advEl("advMsgs").scrollTop = advEl("advMsgs").scrollHeight; }
+        if (ev.done) { answer = ev.answer || answer; help = !!ev.escalate; mergeMemory(ev.memory); }
+      }
+    }
+    out.remove(); advBubble("assistant", answer, sources, help);
+    history.push({ role: "user", content: text }, { role: "assistant", content: answer, sources, help });
+    cstore.set(mk("history"), history.slice(-40));
+  } catch (e) { out.textContent = "The Advisor couldn't be reached. Check your connection and try again."; }
+  finally { advEl("advSend").disabled = false; }
+}
+
+/* ---------------------------------------------------------------- view as */
+function setLeader(id) {
+  me = LEADERS.find((l) => l.id === id) || LEADERS.find((l) => l.id === "ceo");
+  cstore.set("viewAs", me.id);
+  const sel = document.getElementById("selViewAs"); if (sel && sel.value !== me.id) sel.value = me.id;
+  advRender();
+}
+function cosInit() {
+  ui.industry = "restaurants"; ui.stage = "M";
+  if (!CONFIG.tabs.find((t) => t.key === ui.tab)) ui.tab = "me";
+  const sel = document.getElementById("selViewAs");
+  const grp = (label, list) => `<optgroup label="${esc(label)}">${list.map((l) => `<option value="${esc(l.id)}">${esc(l.name)}, ${esc(l.role)}${l.unit_name ? " · " + esc(l.unit_name) : ""}</option>`).join("")}</optgroup>`;
+  sel.innerHTML = grp("Senior team", LEADERS.filter((l) => l.senior)) + grp("General managers", LEADERS.filter((l) => !l.senior));
+  sel.onchange = () => { setLeader(sel.value); render(); };
+  setLeader(cstore.get("viewAs", "ceo"));
+  advEl("advBtn").onclick = () => advOpen(!document.body.classList.contains("adv-open"));
+  advEl("advClose").onclick = () => advOpen(false);
+  advEl("advSend").onclick = () => advSend(advEl("advInput").value);
+  advEl("advInput").onkeydown = (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); advSend(advEl("advInput").value); } };
+  advEl("adv").addEventListener("click", (e) => {
+    const p = e.target.closest("[data-p]"); if (p) return advSend(p.dataset.p);
+    const m = e.target.closest("[data-mode]"); if (m) return advSend(`Let's do a ${m.textContent.toLowerCase()}.`, m.dataset.mode);
+  });
+  document.getElementById("main").addEventListener("click", (e) => { const p = e.target.closest(".cos-me [data-p]"); if (p) { advOpen(true); advSend(p.dataset.p); } });
+  advEl("advReset").onclick = () => { if (!me) return;
+    for (const k of ["history", "memory", "week", "gives", "reflections", "pattern", "day:" + TODAY]) { try { localStorage.removeItem("cos:" + mk(k)); } catch (e) {} }
+    advRender(); render(); };
+  advOpen(cstore.get("advOpen", window.innerWidth >= 1100));
+}
+function afterRender() {
+  const who = document.getElementById("coWho");
+  if (who && me) who.textContent = `Viewing as ${me.name}, ${me.role}${me.unit_name ? " · " + me.unit_name : ""}${isSenior() ? " · senior team" : ""}`;
+  if (ui.tab === "me") bindMe();
+  advPrompts();
+}
+
+/* ============================================================ BOOT */
+function boot(){
+  loadUI();
+  if(isDemo() && !demoFor(ui.industry)) ui.industry = DEMOS.default;
+  D = loadData() || fresh(demoFor(ui.industry) || SEED_DATA);
+  if(D.company && D.company.stage && !loadData()) ui.stage = D.company.stage;
+  if(D.taskState) ui.tasksDone=new Set(D.taskState);
+
+  cosInit();
+
+  bind(); render();
+
+  // Try to pick up external config/data if served over http — the page works
+  // fully without them, from the embedded seed.
+  if(false){
+    fetch("data.json").then(r=>r.ok?r.json():null).then(j=>{
+      if(j && !loadData()){ D=j; render(); }
+    }).catch(()=>{});
+  }
+}
+boot();
+</script>
+</body>
+</html>
