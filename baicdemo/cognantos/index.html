@@ -355,6 +355,18 @@ body.adv-open .adv{display:flex}
 .cos-gate input{width:100%;background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:10px;font:inherit;margin:12px 0}
 .cos-gate .err{color:var(--bad);font-size:var(--fs-meta);min-height:1.2em;margin-top:8px}
 
+.cos-adj{border:1px solid var(--accent);background:var(--wash-accent);border-radius:8px;padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-4)}
+.cos-adj-t{font-family:var(--serif);font-size:20px;margin:4px 0}
+.cos-step{margin:var(--sp-4) 0 var(--sp-2)}
+.cos-count{float:right;font-size:var(--fs-meta);color:var(--soft)}
+.cos-count.win{color:var(--good);font-weight:700}
+.cos-days{display:flex;align-items:center;gap:5px;margin-top:var(--sp-3)}
+.cos-days i{width:10px;height:10px;border-radius:50%;border:1px solid var(--line);display:inline-block}
+.cos-days i.a{border-color:var(--soft)} .cos-days i.w{background:var(--good);border-color:var(--good)}
+.cos-days .meta{margin-left:6px}
+.cos-link{color:var(--accent);text-decoration:underline;font-size:var(--fs-micro)}
+.cos-pattern{margin-top:var(--sp-3);padding:var(--sp-3);border-radius:8px;background:var(--panel2)}
+
 </style>
 </head>
 <body>
@@ -416,7 +428,7 @@ evidence ships in a demo-facing build.</div>
   <button class="btn" id="goBtn">Open the demo</button>
   <div class="err" id="gerr"></div>
 </div></div>
-<script src="./data.js?v=202610221647"></script>
+<script src="./data.js?v=202610231206"></script>
 <script>
 /* The payload is AES-GCM encrypted (PBKDF2-SHA256, 210k). GitHub Pages has no server-side auth, so the passphrase
    is what makes the data unreadable without it. Synthetic data only. */
@@ -1832,25 +1844,71 @@ function unitsSection() {
 }
 
 /* ---------------------------------------------------------------- My page */
-const INPUTS = ["Movement or stillness", "Connection", "Freedom moment", "Curiosity or growth"];
-function dayState() { return cstore.get(mk("day:" + TODAY), { outputs: [0, 1, 2, 3].map(() => ({ text: "", done: false })), inputs: [], alive: "", adjust: "" }); }
+const GLIMMERS = ["Movement or stillness", "Connection", "Freedom moment", "Curiosity or growth"];
+const dayKey = (d) => mk("day:" + d);
+function dayState(d = TODAY) {
+  const x = cstore.get(dayKey(d), null) || {};
+  return { outputs: x.outputs || [0, 1, 2, 3].map(() => ({ text: "", done: false })), glimmers: x.glimmers || [],
+           alive: x.alive || "", adjust: x.adjust || "" };
+}
 function weekState() {
   const wk = cstore.get(mk("week"), (me.week_seed || []).map((x) => ({ ...x })));
   while (wk.length < 3) wk.push({ outcome: "", measure: "", lead: "", block: "" });
   return wk.slice(0, 3);
 }
+const isoDay = (offset) => { const t = new Date(); t.setDate(t.getDate() + offset); return t.toISOString().slice(0, 10); };
+function lastAdjustment() {
+  const refs = cstore.get(mk("reflections"), []).filter((r) => r.date < TODAY && (r.adjust || "").trim());
+  return refs.length ? refs[refs.length - 1] : null;
+}
+function suggestions() {
+  const out = [];
+  weekState().forEach((w) => { const t = (w.lead || w.outcome || "").trim(); if (t) out.push(t); });
+  const wkText = weekState().map((w) => (w.outcome || "").toLowerCase()).join(" ");
+  (me.plan_items || []).filter((p) => !wkText.includes(p.name.toLowerCase()))
+    .forEach((p) => out.push(`Move ${p.item} ${p.name} toward its gate: ${p.gate}`));
+  return out;
+}
 function viewMe() {
-  const wk = weekState(), dy = dayState();
+  const wk = weekState(), dy = dayState(), adj = lastAdjustment();
+  const done = dy.outputs.filter((o) => o.done).length;
+  const week = [-6, -5, -4, -3, -2, -1, 0].map((o) => { const d = isoDay(o), x = dayState(d);
+    const n = x.outputs.filter((y) => y.done).length; return { d, n, win: n >= 3, any: x.outputs.some((y) => y.text) }; });
   const weak = (me.baic_items || []).filter((i) => i.score != null && i.score <= 2);
   const fmtK = (v, u) => v == null ? "—" : u === "$" ? money(v) : u === "%" ? v + "%" : u === "x" ? v + "x" : u === "h" ? v + " h" : String(v);
+  const pat = cstore.get(mk("pattern"), null);
   return `<section class="island cos-me">
     <div class="cos-who"><div><div class="eyebrow" style="margin:0">My page</div>
       <h2 class="cos-name">${esc(me.name)}</h2>
       <div class="meta">${esc(me.role)}${me.unit_name ? ", " + esc(me.unit_name) : ""} · ${me.tenure_months} months in the seat${me.reports_to_name ? " · reports to " + esc(me.reports_to_name) : ""}</div></div>
       <div class="cos-private">Only you see this page</div></div>
+    ${adj ? `<div class="cos-adj"><div class="eyebrow" style="margin:0">Your adjustment for today</div>
+      <div class="cos-adj-t">${esc(adj.adjust)}</div><div class="meta faint">From your reflection on ${esc(adj.date)}</div></div>` : ""}
     <div class="grid g2">
+      <div class="card"><div class="row" style="justify-content:space-between"><div class="eyebrow" style="margin:0">Today · the OneDay Code</div>
+        <span class="meta faint">a few minutes</span></div>
+        <div class="cos-step"><b>1 · Four outputs.</b> <span class="meta">Three done is a win.</span>
+          <span class="cos-count ${done >= 3 ? "win" : ""}" id="cosOutCount">${done} of 4${done >= 3 ? " · win" : ""}</span></div>
+        ${dy.outputs.map((o, i) => `<div class="cos-out"><input type="checkbox" data-out="${i}" ${o.done ? "checked" : ""} aria-label="Done">
+          <input data-outt="${i}" placeholder="Output ${i + 1}" value="${esc(o.text)}"></div>`).join("")}
+        <div class="row" style="gap:6px;margin-top:6px">
+          <button class="cos-chip" id="cosSuggest">Fill from my week</button>
+          <button class="cos-chip" data-p="Suggest four strategic outputs for today, each one tied to an outcome on my week. One line each, nothing else.">Ask my Advisor</button></div>
+        <div class="cos-days" title="Last seven days: filled dot = a win (three or more done)">${week.map((w) => `<i class="${w.win ? "w" : w.any ? "a" : ""}" title="${w.d}: ${w.n} of 4"></i>`).join("")}<span class="meta faint">last 7 days</span></div>
+
+        <div class="cos-step"><b>2 · Two or three glimmers.</b> <span class="meta">Short, deliberate resets break the reactive pace and let your system settle. Tap one when you take it.</span></div>
+        <div class="cos-chips">${GLIMMERS.map((g) => { const n = dy.glimmers.filter((x) => x.type === g).length;
+          return `<button class="cos-chip ${n ? "on" : ""}" data-gl="${esc(g)}">${esc(g)}${n ? ` · ${n}` : ""}</button>`; }).join("")}</div>
+        <div class="meta faint" style="margin-top:4px">${dy.glimmers.length ? `${dy.glimmers.length} today: ${dy.glimmers.map((x) => x.time).join(", ")}` : "None yet today."}${dy.glimmers.length ? ` <button class="cos-link" id="cosGlUndo">undo last</button>` : ""}</div>
+
+        <div class="cos-step"><b>3 · Two-minute close.</b> <span class="meta">Saves as you type.</span> <span class="meta faint" id="cosRefSaved"></span></div>
+        <input id="cosAlive" placeholder="What made me feel alive today?" value="${esc(dy.alive)}">
+        <input id="cosAdjust" placeholder="One adjustment for tomorrow" value="${esc(dy.adjust)}">
+        <div class="cos-pattern" id="cosPattern">${pat && pat.text ? `<div class="eyebrow" style="margin:0">What makes you feel alive</div><div>${esc(pat.text)}</div><div class="meta faint">From ${pat.count} reflections</div>`
+          : `<span class="meta faint">After three evenings, your pattern shows up here.</span>`}</div>
+      </div>
       <div class="card"><div class="eyebrow">This week</div>
-        <p class="meta">Three outcomes at most. Each with a measure, the lead action you control and the time block that produces it.</p>
+        <p class="meta">Three outcomes at most. Each with a measure, the lead action you control and the time block that produces it. Your outputs each day come from these.</p>
         ${wk.map((w, i) => `<div class="cos-wk"><div class="cos-n">${i + 1}</div><div class="cos-f">
           <input data-wk="${i}" data-f="outcome" placeholder="Outcome: move X from A to B by Friday" value="${esc(w.outcome)}">
           <input data-wk="${i}" data-f="measure" placeholder="Measure" value="${esc(w.measure)}">
@@ -1858,17 +1916,6 @@ function viewMe() {
           <input data-wk="${i}" data-f="block" placeholder="Time block" value="${esc(w.block)}"></div></div>`).join("")}
         <label class="meta">If the week compresses, this gives:</label>
         <input id="cosGives" value="${esc(cstore.get(mk("gives"), ""))}">
-      </div>
-      <div class="card"><div class="eyebrow">Today · the OneDay Code</div>
-        <p class="meta">Strategic outputs: choose four; finishing three is a win. <b id="cosOutCount">${dy.outputs.filter((o) => o.done).length} of 4 done</b></p>
-        ${dy.outputs.map((o, i) => `<div class="cos-out"><input type="checkbox" data-out="${i}" ${o.done ? "checked" : ""} aria-label="Done">
-          <input data-outt="${i}" placeholder="Output ${i + 1}" value="${esc(o.text)}"></div>`).join("")}
-        <p class="meta" style="margin-top:var(--sp-4)">Freedom inputs: pick two or three.</p>
-        <div class="cos-chips">${INPUTS.map((x) => `<button class="cos-chip ${dy.inputs.includes(x) ? "on" : ""}" data-in="${esc(x)}">${esc(x)}</button>`).join("")}</div>
-        <p class="meta" style="margin-top:var(--sp-4)">Evening reflection</p>
-        <label class="meta faint">What made me feel alive?</label><textarea id="cosAlive" rows="2">${esc(dy.alive)}</textarea>
-        <label class="meta faint">One adjustment for tomorrow?</label><textarea id="cosAdjust" rows="2">${esc(dy.adjust)}</textarea>
-        <div class="row" style="margin-top:var(--sp-2)"><button class="btn quiet" id="cosSaveRef">Save today's reflection</button><span class="meta" id="cosRefSaved"></span></div>
       </div>
     </div></section>
     <section class="island"><div class="eyebrow">My seat</div>
@@ -1887,22 +1934,60 @@ function viewMe() {
         ${(me.plan_items || []).length ? `<div class="eyebrow" style="margin-top:var(--sp-4)">My 90-day plan items</div><table><tbody>${me.plan_items.map((p) => `<tr><td>${esc(p.item)} ${esc(p.name)}</td><td class="meta">${esc(p.gate)}</td></tr>`).join("")}</tbody></table>` : ""}
       </div></div></section>`;
 }
+let refTimer = null;
 function bindMe() {
   const wk = weekState(), dy = dayState();
-  const saveDay = () => { cstore.set(mk("day:" + TODAY), dy); const c = document.getElementById("cosOutCount"); if (c) c.textContent = `${dy.outputs.filter((o) => o.done).length} of 4 done`; };
+  const saveDay = () => { cstore.set(dayKey(TODAY), dy); const c = document.getElementById("cosOutCount");
+    if (c) { const n = dy.outputs.filter((o) => o.done).length; c.textContent = `${n} of 4${n >= 3 ? " · win" : ""}`; c.classList.toggle("win", n >= 3); } };
   document.querySelectorAll("[data-wk]").forEach((el) => el.oninput = () => { wk[el.dataset.wk][el.dataset.f] = el.value; cstore.set(mk("week"), wk); });
   const g = document.getElementById("cosGives"); if (g) g.oninput = () => cstore.set(mk("gives"), g.value);
-  document.querySelectorAll("[data-out]").forEach((el) => el.onchange = () => { dy.outputs[el.dataset.out].done = el.checked; saveDay(); });
+  document.querySelectorAll("[data-out]").forEach((el) => el.onchange = () => { dy.outputs[el.dataset.out].done = el.checked; saveDay(); render(); });
   document.querySelectorAll("[data-outt]").forEach((el) => el.oninput = () => { dy.outputs[el.dataset.outt].text = el.value; saveDay(); });
-  document.querySelectorAll("[data-in]").forEach((el) => el.onclick = () => { const x = el.dataset.in; dy.inputs = dy.inputs.includes(x) ? dy.inputs.filter((y) => y !== x) : [...dy.inputs, x]; el.classList.toggle("on"); saveDay(); });
-  const a = document.getElementById("cosAlive"), j = document.getElementById("cosAdjust");
-  if (a) a.oninput = () => { dy.alive = a.value; saveDay(); };
-  if (j) j.oninput = () => { dy.adjust = j.value; saveDay(); };
-  const sr = document.getElementById("cosSaveRef");
-  if (sr) sr.onclick = () => { if (!dy.alive && !dy.adjust) return;
+  const sg = document.getElementById("cosSuggest");
+  if (sg) sg.onclick = () => { const ideas = suggestions().filter((t) => !dy.outputs.some((o) => o.text === t));
+    dy.outputs.forEach((o) => { if (!o.text && ideas.length) o.text = ideas.shift(); }); saveDay(); render(); };
+  document.querySelectorAll("[data-gl]").forEach((el) => el.onclick = () => {
+    dy.glimmers.push({ type: el.dataset.gl, time: new Date().toTimeString().slice(0, 5) }); saveDay(); render(); });
+  const un = document.getElementById("cosGlUndo"); if (un) un.onclick = () => { dy.glimmers.pop(); saveDay(); render(); };
+  const saveRef = () => {
     const refs = cstore.get(mk("reflections"), []).filter((r) => r.date !== TODAY);
-    refs.push({ date: TODAY, alive: dy.alive, adjust: dy.adjust }); cstore.set(mk("reflections"), refs.slice(-30));
-    document.getElementById("cosRefSaved").textContent = "Saved. Your Advisor will see the pattern over time."; };
+    if (dy.alive.trim() || dy.adjust.trim()) refs.push({ date: TODAY, alive: dy.alive, adjust: dy.adjust });
+    cstore.set(mk("reflections"), refs.slice(-60)); saveDay();
+    const sv = document.getElementById("cosRefSaved"); if (sv) sv.textContent = "Saved.";
+    clearTimeout(refTimer); refTimer = setTimeout(refreshPattern, 4000);
+  };
+  const a = document.getElementById("cosAlive"), j = document.getElementById("cosAdjust");
+  if (a) a.oninput = () => { dy.alive = a.value; saveRef(); };
+  if (j) j.oninput = () => { dy.adjust = j.value; saveRef(); };
+  refreshPattern();
+}
+// The pattern in what makes them feel alive: written by the Advisor from their own reflections, refreshed when a new
+// evening is added (three or more). Quiet call: it doesn't go into the chat.
+let patternBusy = false;
+async function refreshPattern() {
+  const refs = cstore.get(mk("reflections"), []).filter((r) => (r.alive || "").trim());
+  const pat = cstore.get(mk("pattern"), null);
+  if (refs.length < 3 || patternBusy || (pat && pat.count === refs.length) || !ADVISOR_URL) return;
+  patternBusy = true;
+  try {
+    const text = await advQuiet("From my evening reflections, tell me in two short sentences what tends to make me feel alive. Plain words, warm, no advice and no question.");
+    if (text) { cstore.set(mk("pattern"), { count: refs.length, text: text.replace(/<coach_read>[\s\S]*?<\/coach_read>/, "").trim() }); if (ui.tab === "me") render(); }
+  } finally { patternBusy = false; }
+}
+async function advQuiet(message) {
+  const dy = dayState();
+  try {
+    const r = await fetch(ADVISOR_URL, { method: "POST", headers: { "content-type": "application/json", "x-demo-pass": window.__PASS || "" },
+      body: JSON.stringify({ leader_id: me.id, message, history: [], memory: {}, page: "",
+        personal: { week: weekState(), today: { outputs: dy.outputs, glimmers: dy.glimmers }, reflections: cstore.get(mk("reflections"), []) } }) });
+    if (!r.ok || !r.body) return "";
+    const rd = r.body.getReader(), dec = new TextDecoder(); let buf = "", ans = "";
+    for (;;) { const { done, value } = await rd.read(); if (done) break; buf += dec.decode(value, { stream: true }); let i;
+      while ((i = buf.indexOf("\n")) >= 0) { const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1);
+        if (!line.startsWith("data:")) continue; let ev; try { ev = JSON.parse(line.slice(5)); } catch (e) { continue; }
+        if (ev.t != null) ans += ev.t; if (ev.done) ans = ev.answer || ans; } }
+    return ans;
+  } catch (e) { return ""; }
 }
 
 /* ---------------------------------------------------------------- what's on screen, for the Advisor */
@@ -2003,7 +2088,7 @@ async function advSend(text, mode) {
   advBubble("user", text);
   const out = advBubble("assistant", "…");
   const dy = dayState();
-  const personal = { week: weekState(), gives: cstore.get(mk("gives"), ""), today: { outputs: dy.outputs, inputs: dy.inputs },
+  const personal = { week: weekState(), gives: cstore.get(mk("gives"), ""), today: { outputs: dy.outputs, glimmers: dy.glimmers },
                      reflections: cstore.get(mk("reflections"), []) };
   let answer = "", sources = [], help = false;
   try {
@@ -2055,8 +2140,9 @@ function cosInit() {
     const p = e.target.closest("[data-p]"); if (p) return advSend(p.dataset.p);
     const m = e.target.closest("[data-mode]"); if (m) return advSend(`Let's do a ${m.textContent.toLowerCase()}.`, m.dataset.mode);
   });
+  document.getElementById("main").addEventListener("click", (e) => { const p = e.target.closest(".cos-me [data-p]"); if (p) { advOpen(true); advSend(p.dataset.p); } });
   advEl("advReset").onclick = () => { if (!me) return;
-    for (const k of ["history", "memory", "week", "gives", "reflections", "day:" + TODAY]) { try { localStorage.removeItem("cos:" + mk(k)); } catch (e) {} }
+    for (const k of ["history", "memory", "week", "gives", "reflections", "pattern", "day:" + TODAY]) { try { localStorage.removeItem("cos:" + mk(k)); } catch (e) {} }
     advRender(); render(); };
   advOpen(cstore.get("advOpen", window.innerWidth >= 1100));
 }
